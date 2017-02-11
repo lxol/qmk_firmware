@@ -149,6 +149,11 @@ ifeq ($(strip $(COMBO_ENABLE)), yes)
 	SRC += $(QUANTUM_DIR)/process_keycode/process_combo.c
 endif
 
+ifeq ($(strip $(TMP_LAYER_ENABLE)), yes)
+    OPT_DEFS += -DTMP_LAYER_ENABLE
+	SRC += $(QUANTUM_DIR)/tmp_layer.c
+endif
+
 ifeq ($(strip $(VIRTSER_ENABLE)), yes)
     OPT_DEFS += -DVIRTSER_ENABLE
 endif

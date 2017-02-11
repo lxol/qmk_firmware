@@ -120,6 +120,10 @@ bool process_record_quantum(keyrecord_t *record) {
   keypos_t key = record->event.key;
   uint16_t keycode;
 
+  #ifdef TMP_LAYER_ENABLE
+  process_tmp_layer(record);
+  #endif
+
   #if !defined(NO_ACTION_LAYER) && defined(PREVENT_STUCK_MODIFIERS)
     /* TODO: Use store_or_get_action() or a similar function. */
     if (!disable_action_cache) {
