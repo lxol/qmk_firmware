@@ -39,6 +39,10 @@ enum quantum_keycodes {
     QK_CHORDING           = 0x5600,
     QK_CHORDING_MAX       = 0x56FF,
 #endif
+#ifdef LEFT_RIGHT_ENABLE
+    QK_LEFT_RIGHT         = 0x5700,
+    QK_LEFT_RIGHT_MAX     = 0x57FF,
+#endif
     QK_MOD_TAP            = 0x6000,
     QK_MOD_TAP_MAX        = 0x6FFF,
     QK_TAP_DANCE          = 0x7100,
@@ -293,6 +297,11 @@ enum quantum_keycodes {
 
 // One-shot layer - 256 layer max
 #define OSL(layer) (layer | QK_ONE_SHOT_LAYER)
+
+#ifdef LEFT_RIGHT_ENABLE
+// Left or Right layer - 256 layer max
+#define LOR(layer) (layer | QK_LEFT_RIGHT)
+#endif
 
 // One-shot mod
 #define OSM(mod) (mod | QK_ONE_SHOT_MOD)

@@ -60,19 +60,19 @@ KC_TRNS ,KC_VOLD       ,KC_VOLU ,KC_MUTE ,KC_TRNS  ,KC_TRNS ,KC_PAST ,KC_PSLS ,K
 KC_LSFT ,KC_TRNS       ,KC_TRNS ,KC_TRNS ,KC_TRNS  ,KC_TRNS ,KC_PPLS ,KC_PMNS ,KC_END  ,KC_PGDN ,KC_DOWN ,KC_RSFT ,KC_TRNS , \
 KC_TRNS ,KC_TRNS       ,KC_TRNS ,KC_TRNS ,KC_TRNS),
 
-/*     [_SUBLAYER_LEFT] = KEYMAP( */
-/* SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,\ */
-/* KC_NO   ,KC_NO   ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO   ,SL_NO ,SL_NO  ,SL_NO  ,SL_NO  ,\ */
-/* SL_NO  ,SL_NO  ,KC_LSFT  ,KC_LALT  ,KC_LCTL  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,\ */
-/* SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,\ */
-/* SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO ) */
+    [_SUBLAYER_LEFT] = KEYMAP(
+_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,\
+KC_NO   ,KC_NO   ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______   ,_______ ,_______  ,_______  ,_______  ,\
+_______  ,_______  ,KC_LSFT  ,KC_LALT  ,KC_LCTL  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,\
+_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,\
+_______  ,_______  ,_______  ,_______  ,_______ ),
 
-/*     [_SUBLAYER_RIGHT] = KEYMAP( */
-/* SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,\ */
-/* SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,KC_NO   ,KC_NO   ,\ */
-/* SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,KC_LCTL  ,KC_LALT  ,KC_LSFT ,SL_NO  ,SL_NO  ,SL_NO  ,\ */
-/* SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,\ */
-/* SL_NO  ,SL_NO  ,SL_NO  ,SL_NO  ,SL_NO ) */
+    [_SUBLAYER_RIGHT] = KEYMAP(
+_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,\
+_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,KC_NO   ,KC_NO   ,\
+_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,KC_LCTL  ,KC_LALT  ,KC_LSFT ,_______  ,_______  ,_______  ,\
+_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,_______  ,\
+_______  ,_______  ,_______  ,_______  ,_______ )
 
 };
 
@@ -142,7 +142,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
   case DEBUG:
     if (record->event.pressed) {
-      process_tmp_layer(record);
+      //process_tmp_layer_on_release(record);
     }
     return true;
     break;

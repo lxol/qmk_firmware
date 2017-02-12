@@ -374,6 +374,13 @@ void process_action(keyrecord_t *record, action_t action)
                     event.pressed ? layer_move(action.layer_tap.val) :
                                     layer_clear();
                     break;
+            #ifdef LEFT_RIGHT_ENABLE
+                case OP_LEFT_RIGHT:
+                    if (event.pressed) {
+                      //change left right state of action.layer_tap.val and  (action.layer_tap.val + 1) to 1
+                    }
+                    break;
+            #endif
             #ifndef NO_ACTION_ONESHOT
                 case OP_ONESHOT:
                     // Oneshot modifier

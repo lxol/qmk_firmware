@@ -114,6 +114,13 @@ action_t action_for_key(uint8_t layer, keypos_t key)
             action_layer = keycode & 0xFF;
             action.code = ACTION_LAYER_ONESHOT(action_layer);
             break;
+    #ifdef LEFT_RIGHT_ENABLE
+        case QK_LEFT_RIGHT ... QK_LEFT_RIGHT_MAX: ;
+            // LOL(action_layer) - Left or Right action layer
+            action_layer = keycode & 0xFF;
+            action.code = ACTION_LAYER_LEFT_RIGHT(action_layer);
+            break;
+    #endif
         case QK_ONE_SHOT_MOD ... QK_ONE_SHOT_MOD_MAX: ;
             // OSM(mod) - One-shot mod
             mod = keycode & 0xFF;

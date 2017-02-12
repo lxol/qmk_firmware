@@ -120,8 +120,14 @@ bool process_record_quantum(keyrecord_t *record) {
   keypos_t key = record->event.key;
   uint16_t keycode;
 
-  #ifdef TMP_LAYER_ENABLE
-  process_tmp_layer(record);
+  #ifdef LEFT_RIGHT_ENABLE
+  //if (tmp_layer_state != 0) {
+    if (record->event.pressed) {
+      process_left_or_right_on_press(record);
+    } else {
+      process_left_or_right_on_release(record);
+    }
+    //}
   #endif
 
   #if !defined(NO_ACTION_LAYER) && defined(PREVENT_STUCK_MODIFIERS)
