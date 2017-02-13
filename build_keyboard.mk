@@ -149,8 +149,8 @@ ifeq ($(strip $(COMBO_ENABLE)), yes)
 	SRC += $(QUANTUM_DIR)/process_keycode/process_combo.c
 endif
 
-ifeq ($(strip $(LEFT_RIGHT_ENABLE)), yes)
-	OPT_DEFS += -DLEFT_RIGHT_ENABLE
+ifeq ($(strip $(CANDIDATE_ENABLE)), yes)
+	OPT_DEFS += -DCANDIDATE_ENABLE
 	SRC += $(QUANTUM_DIR)/process_keycode/process_left_right.c
 endif
 

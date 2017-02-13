@@ -114,7 +114,7 @@ action_t action_for_key(uint8_t layer, keypos_t key)
             action_layer = keycode & 0xFF;
             action.code = ACTION_LAYER_ONESHOT(action_layer);
             break;
-    #ifdef LEFT_RIGHT_ENABLE
+    #ifdef CANDIDATE_ENABLE
         case QK_LEFT_RIGHT ... QK_LEFT_RIGHT_MAX: ;
             // LOL(action_layer) - Left or Right action layer
             action_layer = keycode & 0xFF;

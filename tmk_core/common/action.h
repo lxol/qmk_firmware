@@ -83,6 +83,22 @@ typedef  uint32_t   swap_state_row_t;
 void process_hand_swap(keyevent_t *record);
 #endif
 
+/* Left or Right Layer enable. */
+#ifdef CANDIDATE_ENABLE
+extern bool swap_hands;
+
+#if (MATRIX_COLS <= 8)
+typedef  uint8_t candidate_row_t;
+#elif (MATRIX_COLS <= 16)
+typedef  uint16_t candidate_row_t;
+#elif (MATRIX_COLS <= 32)
+typedef  uint32_t candidate_row_t;
+#else
+#error "MATRIX_COLS: invalid value"
+#endif
+// all zeros initialy, every press sets to 1 
+#endif
+
 void process_record_nocache(keyrecord_t *record);
 void process_record(keyrecord_t *record);
 void process_action(keyrecord_t *record, action_t action);

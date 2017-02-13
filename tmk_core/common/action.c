@@ -86,6 +86,79 @@ void process_hand_swap(keyevent_t *event) {
 }
 #endif
 
+#ifdef CANDIDATE_ENABLE
+candidate_row_t candidate_keys[MATRIX_ROWS] = {0};
+uint32_t candidate_requests = 0;
+uint32_t ineligible_candidates = 0;
+
+uint8_t get_clayer(keypos_t key) {
+    //  keycode == keymap_key_to_keycode(0, (keypos_t){ .row = r, .col = c })) {
+    return 1;
+}
+bool has_ckeys(uint8_t clayer) {
+    return true;
+}
+
+void process_candidates(keyevent_t *event) {
+
+    if (ineligible_candidates != 0) {
+        layer_xor(ineligible_candidates);
+        candidate_requests ^= ineligible_candidates;
+        ineligible_candidates = 0L;
+    }
+    if (candidate_requests == 0) {
+        // no requests, nothing to do.
+        return;
+    }
+    keypos_t key = event->key;
+    bool pressed = event->pressed;
+    uint8_t clayer = get_clayer(key);
+    if (clayer == 0 && pressed) {
+        // Key is not on any candidate layer.
+        // Clear requests unless they are active already.
+        candidate_requests &= layer_state;
+        return;
+    }
+    if (clayer == 0 && !pressed) { return;}
+    candidate_row_t col_bit = (candidate_row_t) 1<<key.col;
+    if (clayer != 0 && pressed) {
+        // Pressed key is on one of the candidate layer
+        // Activate the layer,  remove other candidates
+        // and remember the key press.
+        layer_on(clayer);
+        candidate_requests &= layer_state;
+        candidate_keys[key.row] |= col_bit;
+        return;
+    }
+    // ckey is true if the key was pressed 
+    // while clayer was on, and it is not released yet
+    bool ckey = candidate_keys[key.row] & col_bit;
+    if (clayer != 0 && !pressed && !ckey) {
+        //key was pressed while clayer was inactive
+        //switch off clayer. Do not clear the request
+        layer_off(clayer);
+        return;
+    }
+    // ckeys is true if there are at leastt true ckey on clayer
+    bool ckeys = has_ckeys(clayer);
+    if (clayer != 0 && !pressed && ckey && ckeys ) {
+        // ckey was released but there are still unreleased keys
+        // on clayer. Key is no longer a ckey.
+        candidate_keys[key.row] ^= col_bit;
+        return;
+    }
+    if (clayer != 0 && !pressed && ckey && !ckeys ) {
+        // ckey was released and this was the last release 
+        // on clayer.
+        ineligible_candidates = (uint32_t) 1<<clayer;
+        candidate_requests ^= (uint32_t) 1<<clayer;
+        candidate_keys[key.row] ^= col_bit;
+        return;
+    }
+}
+
+#endif
+
 #if !defined(NO_ACTION_LAYER) && defined(PREVENT_STUCK_MODIFIERS)
 bool disable_action_cache = false;
 
@@ -374,10 +447,13 @@ void process_action(keyrecord_t *record, action_t action)
                     event.pressed ? layer_move(action.layer_tap.val) :
                                     layer_clear();
                     break;
-            #ifdef LEFT_RIGHT_ENABLE
+            #ifdef CANDIDATE_ENABLE
                 case OP_LEFT_RIGHT:
                     if (event.pressed) {
-                      //change left right state of action.layer_tap.val and  (action.layer_tap.val + 1) to 1
+                        candidate_requests = 0b11 << (action.layer_tap.val - 1);
+                        for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
+                            candidate_keys[i] = 0;
+                        }
                     }
                     break;
             #endif
