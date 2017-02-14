@@ -151,7 +151,7 @@ endif
 
 ifeq ($(strip $(CANDIDATE_ENABLE)), yes)
 	OPT_DEFS += -DCANDIDATE_ENABLE
-	SRC += $(QUANTUM_DIR)/process_keycode/process_left_right.c
+	SRC += $(QUANTUM_DIR)/process_keycode/process_candidate.c
 endif
 
 ifeq ($(strip $(VIRTSER_ENABLE)), yes)

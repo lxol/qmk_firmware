@@ -84,7 +84,7 @@ void process_hand_swap(keyevent_t *record);
 #endif
 
 /* Left or Right Layer enable. */
-#ifdef CANDIDATE_ENABLE
+#ifdef CANDIDATE_ENABLE1
 extern bool swap_hands;
 
 #if (MATRIX_COLS <= 8)
@@ -96,7 +96,15 @@ typedef  uint32_t candidate_row_t;
 #else
 #error "MATRIX_COLS: invalid value"
 #endif
-// all zeros initialy, every press sets to 1 
+/* maximum number of simulteneously pressed keys */
+#define CANDIDATE_PRESSED_MAX 6
+    
+typedef struct {
+    uint8_t layer;
+    uint8_t row;
+    uint8_t col;
+} candidate_pressed_t;
+
 #endif
 
 void process_record_nocache(keyrecord_t *record);

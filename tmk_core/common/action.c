@@ -86,25 +86,49 @@ void process_hand_swap(keyevent_t *event) {
 }
 #endif
 
-#ifdef CANDIDATE_ENABLE
+#ifdef CANDIDATE_ENABLE1
 candidate_row_t candidate_keys[MATRIX_ROWS] = {0};
 uint32_t candidate_requests = 0;
 uint32_t ineligible_candidates = 0;
+candidate_pressed_t pressed[CANDIDATE_PRESSED_MAX] = {0};
 
 uint8_t get_clayer(keypos_t key) {
-    //  keycode == keymap_key_to_keycode(0, (keypos_t){ .row = r, .col = c })) {
-    return 1;
+    for (int8_t i = 31; i >= 0; i--) {
+        if (candidate_requests & (1UL<<i)) {
+            //uint16_t keycode = pgm_read_word(&keymaps[(i)][(key.row)][(key.col)]);
+            uint16_t keycode = keymap_key_to_keycode(i, key);
+            if (keycode != KC_TRNS) {
+                return i;
+            }
+        }
+    }
+    return 0;
 }
+
 bool has_ckeys(uint8_t clayer) {
-    return true;
+    for (int8_t r = MATRIX_ROWS - 1; r >= 0; --r) {
+        for (int8_t c = MATRIX_COLS - 1; c >= 0; --c) {
+            if( matrix_is_on(r, c)) {
+                uint8_t l = get_clayer((keypos_t){ .row = r, .col = c });
+                if (clayer == l) {
+                    return true;
+                }
+            }
+        }
+    }
+  return false;
 }
 
 void process_candidates(keyevent_t *event) {
 
+    //switch off 
+
+
+    
     if (ineligible_candidates != 0) {
         layer_xor(ineligible_candidates);
         candidate_requests ^= ineligible_candidates;
-        ineligible_candidates = 0L;
+        ineligible_candidates = 0UL;
     }
     if (candidate_requests == 0) {
         // no requests, nothing to do.
@@ -120,7 +144,7 @@ void process_candidates(keyevent_t *event) {
         return;
     }
     if (clayer == 0 && !pressed) { return;}
-    candidate_row_t col_bit = (candidate_row_t) 1<<key.col;
+    candidate_row_t col_bit = (candidate_row_t) 1UL<<key.col;
     if (clayer != 0 && pressed) {
         // Pressed key is on one of the candidate layer
         // Activate the layer,  remove other candidates
@@ -150,8 +174,8 @@ void process_candidates(keyevent_t *event) {
     if (clayer != 0 && !pressed && ckey && !ckeys ) {
         // ckey was released and this was the last release 
         // on clayer.
-        ineligible_candidates = (uint32_t) 1<<clayer;
-        candidate_requests ^= (uint32_t) 1<<clayer;
+        ineligible_candidates = (uint32_t) 1UL<<clayer;
+        candidate_requests ^= (uint32_t) 1UL<<clayer;
         candidate_keys[key.row] ^= col_bit;
         return;
     }
@@ -450,10 +474,8 @@ void process_action(keyrecord_t *record, action_t action)
             #ifdef CANDIDATE_ENABLE
                 case OP_LEFT_RIGHT:
                     if (event.pressed) {
-                        candidate_requests = 0b11 << (action.layer_tap.val - 1);
-                        for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
-                            candidate_keys[i] = 0;
-                        }
+                        set_candidate(action.layer_tap.val);
+                        set_candidate(action.layer_tap.val - 1);
                     }
                     break;
             #endif
