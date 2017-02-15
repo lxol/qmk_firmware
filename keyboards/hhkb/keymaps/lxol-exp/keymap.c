@@ -15,8 +15,9 @@ enum hhkb_layers {
   BASE,
   HHKB,
   MOUSE,
+  _SUBLAYER_LEFT,
   _SUBLAYER_RIGHT,
-  _SUBLAYER_LEFT
+
 };
 
 
@@ -27,7 +28,8 @@ enum hhkb_layers {
 
 enum my_keycodes {
   QWERTY = SAFE_RANGE,
-  SP_START
+  SP_START,
+  CAND_FOO
 };
 
 
@@ -40,7 +42,7 @@ ALT_T(KC_TAB)  ,/**/KC_Q        ,KC_W ,KC_E ,KC_R ,KC_T ,KC_Y ,KC_U ,KC_I    ,KC
 CTL_T(KC_SCLN) ,KC_A        ,KC_S ,KC_D ,KC_F ,KC_G ,KC_H ,KC_J ,KC_K    ,KC_L   ,CTL_ESC      ,KC_QUOT , ALT_T(KC_ENT) , \
 //CTL_T(KC_SCLN) ,KC_A        ,KC_S ,KC_D ,KC_F ,KC_G ,KC_H ,KC_J ,KC_K    ,KC_L   ,MY_MOD_R       ,CTL_ESC,ALT_T(KC_ENT) ,
 KC_LSFT        ,KC_Z        ,KC_X ,KC_C ,KC_V ,KC_B ,KC_N ,KC_M ,KC_COMM ,KC_DOT ,KC_SLSH        ,KC_RSFT   ,MO(HHKB)      , \
-/*             ,*/KC_RALT ,OSL_LEFT/* ,     , */  , KC_SPC /* ,     ,     ,*/      ,_______ ,DEBUG) ,
+/*             ,*/KC_RALT ,OSL_LEFT/* ,     , */  , KC_SPC /* ,     ,     ,*/      , CAND_FOO ,DEBUG) ,
 
 
   [MOUSE] = KEYMAP(
@@ -95,7 +97,6 @@ void matrix_init_user(void) {
     set_unicode_input_mode(UC_LNX);
     //sublayer_left = _SUBLAYER_LEFT;
     //sublayer_right = _SUBLAYER_RIGHT;
-    uint64_t foo = 1ULL<<(3<<1);
 }
 
 
@@ -146,7 +147,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
     break;
+
+  case CAND_FOO:
+    if (record->event.pressed) {
+        dprintf("sublayers sets\n");
+        set_candidate(_SUBLAYER_RIGHT, record->event.key);
+        set_candidate(_SUBLAYER_LEFT, record->event.key);
+    }
+    return true;
+    break;
   }
+
   //sh  bool is_left = leftp(record->event.key);
   return true;
 }

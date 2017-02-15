@@ -139,7 +139,9 @@ bool process_record_quantum(keyrecord_t *record) {
     uint16_t cand_keycode =  process_candidate(record);
     if (cand_keycode != 0) {
         keycode = cand_keycode;
+
     }
+    dprintf("keycode after process: %d\n", keycode);
   #endif
 
     // This is how you use actions here

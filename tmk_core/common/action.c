@@ -33,6 +33,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "nodebug.h"
 #endif
 
+#ifdef CANDIDATE_ENABLE
+#include "process_candidate.h"
+#endif
 
 void action_exec(keyevent_t event)
 {
@@ -474,8 +477,9 @@ void process_action(keyrecord_t *record, action_t action)
             #ifdef CANDIDATE_ENABLE
                 case OP_LEFT_RIGHT:
                     if (event.pressed) {
-                        set_candidate(action.layer_tap.val);
-                        set_candidate(action.layer_tap.val - 1);
+                        dprintln("LOR pressed");
+                        set_candidate,(action.layer_tap.val, event.key);
+                        set_candidate(action.layer_tap.val + 1, event.key);
                     }
                     break;
             #endif

@@ -11,7 +11,7 @@ typedef struct {
     keypos_t key;
 } cand_pressed_key_t;
 
-void set_candidate(uint8_t layer);
+void set_candidate(uint8_t layer, keypos_t key);
 uint16_t process_candidate( keyrecord_t *record);
 
 

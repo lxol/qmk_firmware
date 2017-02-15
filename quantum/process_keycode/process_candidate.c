@@ -2,10 +2,13 @@
 
 uint32_t cand_request_state = 0;
 cand_pressed_key_t pressed[CAND_PRESSED_KEY_MAX];
+keypos_t requestor = (keypos_t) {.row = 0xFF, .col = 0xFF };
+    
 
-void set_candidate(uint8_t layer)
+void set_candidate(uint8_t layer, keypos_t key)
 {
     cand_request_state |= 1UL << layer;
+    requestor = key;
 }
 
 uint8_t get_cand_layer(keypos_t key) {
@@ -20,9 +23,12 @@ uint8_t get_cand_layer(keypos_t key) {
 
 uint16_t process_candidate(keyrecord_t *record)
 {
+    dprintf("process_candidate start\n");
     if (cand_request_state == 0) {
         return 0;
     }
+
+    dprintf("requests not empty\n");
     keypos_t key = record->event.key;
     bool key_pressed = record->event.pressed;
     uint8_t cand_layer = get_cand_layer(key);
@@ -50,8 +56,11 @@ uint16_t process_candidate(keyrecord_t *record)
             pressed_layers |= 1UL << pressed[i].layer;
         }
     }
-
-    cand_request_state = pressed_layers;
-
+    if (key.row == requestor.row && key.col == requestor.col) {
+        requestor = (keypos_t) {.row = 0xFF, .col = 0xFF };
+    } else {
+        cand_request_state = pressed_layers;
+    }
+    dprintf("keycode returned %d\n", keycode);
     return keycode;
 }

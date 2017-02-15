@@ -117,6 +117,7 @@ action_t action_for_key(uint8_t layer, keypos_t key)
     #ifdef CANDIDATE_ENABLE
         case QK_LEFT_RIGHT ... QK_LEFT_RIGHT_MAX: ;
             // LOL(action_layer) - Left or Right action layer
+            dprintf("keymap: %d\n", keycode);
             action_layer = keycode & 0xFF;
             action.code = ACTION_LAYER_LEFT_RIGHT(action_layer);
             break;
