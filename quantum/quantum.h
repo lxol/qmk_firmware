@@ -25,7 +25,9 @@
 #include "action_util.h"
 #include <stdlib.h>
 #include "print.h"
-
+#ifdef CANDIDATE_ENABLE
+    #include "process_candidate.h"
+#endif
 
 extern uint32_t default_layer_state;
 
