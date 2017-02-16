@@ -151,8 +151,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   case CAND_FOO:
     if (record->event.pressed) {
         dprintf("sublayers sets\n");
-        set_candidate(_SUBLAYER_RIGHT, record->event.key);
-        set_candidate(_SUBLAYER_LEFT, record->event.key);
+        set_sublayer(_SUBLAYER_RIGHT, record->event.key);
+        set_sublayer(_SUBLAYER_LEFT, record->event.key);
     }
     return true;
     break;

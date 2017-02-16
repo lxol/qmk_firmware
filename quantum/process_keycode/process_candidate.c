@@ -1,18 +1,18 @@
 #include "process_candidate.h"
 
-uint32_t cand_request_state = 0;
+uint32_t sublayer_state = 0;
 cand_pressed_key_t pressed[CAND_PRESSED_KEY_MAX];
 keypos_t requestor = (keypos_t) {.row = 0xFF, .col = 0xFF };
-uint8_t dirty_layer = 0;
-void set_candidate(uint8_t layer, keypos_t key)
+uint8_t dirty_sublayer = 0;
+void set_sublayer(uint8_t layer, keypos_t key)
 {
-    cand_request_state |= 1UL << layer;
+    sublayer_state |= 1UL << layer;
     requestor = key;
 }
 
 uint8_t get_cand_layer(keypos_t key) {
     for (int8_t i = 31; i >= 0; i--) {
-        if (cand_request_state & (1UL<<i)) {
+        if (sublayer_state & (1UL<<i)) {
             uint16_t keycode = keymap_key_to_keycode(i, key);
             if (keycode != KC_TRNS) { return i;}
         }
@@ -24,13 +24,13 @@ void process_candidate(keyrecord_t *record)
 {
     dprintf("process_candidate start\n");
     dprintf("LAYER state:        %08lX(%u)\n", layer_state, biton32(layer_state));
-    if (dirty_layer) {
-        dprintf("DIRTY_LAYER\n");
-        layer_off(dirty_layer);
-        dirty_layer = 0;
+    if (dirty_sublayer) {
+        dprintf("DIRTY_SUBLAYER\n");
+        layer_off(dirty_sublayer);
+        dirty_sublayer = 0;
     }
   
-    if (!cand_request_state) {
+    if (!sublayer_state) {
             dprintf("no requests\n");
             return;
         }
@@ -40,11 +40,11 @@ void process_candidate(keyrecord_t *record)
     dprintf("layer Pressed %d\n", cand_layer);
 
     // switch off all requested layer first
-    layer_and(~cand_request_state);
+    layer_and(~sublayer_state);
     dprintf("clear LAYER state:        %08lX(%u)\n", layer_state, biton32(layer_state));
-    dprintf("cand request state before: %08lX(%u)\n", cand_request_state, biton32(cand_request_state));
+    dprintf("cand request state before: %08lX(%u)\n", sublayer_state, biton32(sublayer_state));
     if (!(requestor.col == key.col && requestor.row == key.row)) {
-        cand_request_state = 0;
+        sublayer_state = 0;
     } else if (!pressed)  {
         requestor = (keypos_t) {.row = 0xFF, .col = 0xFF };
     }
@@ -59,7 +59,7 @@ void process_candidate(keyrecord_t *record)
         if (key_pressed && cand_layer != 0 && zerolayer && !stored) {
             pressed[i].layer = cand_layer;
             pressed[i].key = key;
-            cand_request_state |= 1UL << cand_layer;
+            sublayer_state |= 1UL << cand_layer;
             stored = true;
             count++;
             layer_on(cand_layer);
@@ -84,20 +84,20 @@ void process_candidate(keyrecord_t *record)
             if (samelayer) {
                 count++;
             } else {
-                cand_request_state |= 1UL << pressed[i].layer;
+                sublayer_state |= 1UL << pressed[i].layer;
             }
         }
     }
     if (cand_layer !=0 ) {
         if (count >= 0) {
-            cand_request_state |= 1UL << cand_layer;
+            sublayer_state |= 1UL << cand_layer;
             dprintf("set cand layerlayer %d\n", cand_layer);
         }
         else {
             dprintf("remove  cand layer next step %d\n", cand_layer);
-            dirty_layer = cand_layer;}
+            dirty_sublayer = cand_layer;}
     }
     dprintf("layer after state:        %08lX(%u)\n", layer_state, biton32(layer_state));
-    dprintf("cand request state after: %08lX(%u)\n", cand_request_state, biton32(cand_request_state));
+    dprintf("cand request state after: %08lX(%u)\n", sublayer_state, biton32(sublayer_state));
     return;
 }

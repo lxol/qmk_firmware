@@ -478,8 +478,8 @@ void process_action(keyrecord_t *record, action_t action)
                 case OP_LEFT_RIGHT:
                     if (event.pressed) {
                         dprintln("LOR pressed");
-                        set_candidate,(action.layer_tap.val, event.key);
-                        set_candidate(action.layer_tap.val + 1, event.key);
+                        set_sublayer(action.layer_tap.val, event.key);
+                        set_sublayer(action.layer_tap.val + 1, event.key);
                     }
                     break;
             #endif
