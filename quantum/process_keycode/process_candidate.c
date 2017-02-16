@@ -3,7 +3,7 @@
 uint32_t cand_request_state = 0;
 cand_pressed_key_t pressed[CAND_PRESSED_KEY_MAX];
 keypos_t requestor = (keypos_t) {.row = 0xFF, .col = 0xFF };
-uint8_t dirty = 0;
+uint8_t dirty_layer = 0;
 void set_candidate(uint8_t layer, keypos_t key)
 {
     cand_request_state |= 1UL << layer;
@@ -24,10 +24,10 @@ void process_candidate(keyrecord_t *record)
 {
     dprintf("process_candidate start\n");
     dprintf("LAYER state:        %08lX(%u)\n", layer_state, biton32(layer_state));
-    if (dirty) {
-        dprintf("DIRTY\n");
-        layer_off(dirty);
-        dirty = 0;
+    if (dirty_layer) {
+        dprintf("DIRTY_LAYER\n");
+        layer_off(dirty_layer);
+        dirty_layer = 0;
     }
   
     if (!cand_request_state) {
@@ -95,7 +95,7 @@ void process_candidate(keyrecord_t *record)
         }
         else {
             dprintf("remove  cand layer next step %d\n", cand_layer);
-            dirty = cand_layer;}
+            dirty_layer = cand_layer;}
     }
     dprintf("layer after state:        %08lX(%u)\n", layer_state, biton32(layer_state));
     dprintf("cand request state after: %08lX(%u)\n", cand_request_state, biton32(cand_request_state));
