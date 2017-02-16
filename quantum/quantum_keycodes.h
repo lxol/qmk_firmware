@@ -39,7 +39,7 @@ enum quantum_keycodes {
     QK_CHORDING           = 0x5600,
     QK_CHORDING_MAX       = 0x56FF,
 #endif
-#ifdef CANDIDATE_ENABLE
+#ifdef SUBLAYER_ENABLE
     QK_LEFT_RIGHT         = 0x5700,
     QK_LEFT_RIGHT_MAX     = 0x57FF,
 #endif
@@ -298,7 +298,7 @@ enum quantum_keycodes {
 // One-shot layer - 256 layer max
 #define OSL(layer) (layer | QK_ONE_SHOT_LAYER)
 
-#ifdef CANDIDATE_ENABLE
+#ifdef SUBLAYER_ENABLE
 // Left or Right layer - 256 layer max
 #define LOR(layer) (layer | QK_LEFT_RIGHT)
 #endif

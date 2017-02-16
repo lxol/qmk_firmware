@@ -84,7 +84,7 @@ void process_hand_swap(keyevent_t *record);
 #endif
 
 /* Left or Right Layer enable. */
-#ifdef CANDIDATE_ENABLE1
+#ifdef SUBLAYER_ENABLE1
 extern bool swap_hands;
 
 #if (MATRIX_COLS <= 8)

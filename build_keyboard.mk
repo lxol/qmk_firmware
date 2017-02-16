@@ -149,9 +149,9 @@ ifeq ($(strip $(COMBO_ENABLE)), yes)
 	SRC += $(QUANTUM_DIR)/process_keycode/process_combo.c
 endif
 
-ifeq ($(strip $(CANDIDATE_ENABLE)), yes)
-	OPT_DEFS += -DCANDIDATE_ENABLE
-	SRC += $(QUANTUM_DIR)/process_keycode/process_candidate.c
+ifeq ($(strip $(SUBLAYER_ENABLE)), yes)
+	OPT_DEFS += -DSUBLAYER_ENABLE
+	SRC += $(QUANTUM_DIR)/process_keycode/process_sublayer.c
 endif
 
 ifeq ($(strip $(VIRTSER_ENABLE)), yes)

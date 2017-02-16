@@ -119,8 +119,8 @@ bool process_record_quantum(keyrecord_t *record) {
   /* This gets the keycode from the key pressed */
   keypos_t key = record->event.key;
   uint16_t keycode;
-  #ifdef CANDIDATE_ENABLE
-    process_candidate(record);
+  #ifdef SUBLAYER_ENABLE
+    process_sublayer(record);
   #endif
   
   #if !defined(NO_ACTION_LAYER) && defined(PREVENT_STUCK_MODIFIERS)

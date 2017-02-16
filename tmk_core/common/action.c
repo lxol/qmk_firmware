@@ -33,8 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "nodebug.h"
 #endif
 
-#ifdef CANDIDATE_ENABLE
-#include "process_candidate.h"
+#ifdef SUBLAYER_ENABLE
+#include "process_sublayer.h"
 #endif
 
 void action_exec(keyevent_t event)
@@ -89,7 +89,7 @@ void process_hand_swap(keyevent_t *event) {
 }
 #endif
 
-#ifdef CANDIDATE_ENABLE1
+#ifdef SUBLAYER_ENABLE1
 candidate_row_t candidate_keys[MATRIX_ROWS] = {0};
 uint32_t candidate_requests = 0;
 uint32_t ineligible_candidates = 0;
@@ -474,7 +474,7 @@ void process_action(keyrecord_t *record, action_t action)
                     event.pressed ? layer_move(action.layer_tap.val) :
                                     layer_clear();
                     break;
-            #ifdef CANDIDATE_ENABLE
+            #ifdef SUBLAYER_ENABLE
                 case OP_LEFT_RIGHT:
                     if (event.pressed) {
                         dprintln("LOR pressed");
