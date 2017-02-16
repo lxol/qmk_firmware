@@ -42,7 +42,7 @@ ALT_T(KC_TAB)  ,/**/KC_Q        ,KC_W ,KC_E ,KC_R ,KC_T ,KC_Y ,KC_U ,KC_I    ,KC
 CTL_T(KC_SCLN) ,KC_A        ,KC_S ,KC_D ,KC_F ,KC_G ,KC_H ,KC_J ,KC_K    ,KC_L   ,CTL_ESC      ,KC_QUOT , ALT_T(KC_ENT) , \
 //CTL_T(KC_SCLN) ,KC_A        ,KC_S ,KC_D ,KC_F ,KC_G ,KC_H ,KC_J ,KC_K    ,KC_L   ,MY_MOD_R       ,CTL_ESC,ALT_T(KC_ENT) ,
 KC_LSFT        ,KC_Z        ,KC_X ,KC_C ,KC_V ,KC_B ,KC_N ,KC_M ,KC_COMM ,KC_DOT ,KC_SLSH        ,KC_RSFT   ,MO(HHKB)      , \
-/*             ,*/KC_RALT ,OSL_LEFT/* ,     , */  , KC_SPC /* ,     ,     ,*/      , CAND_FOO ,DEBUG) ,
+/*             ,*/KC_RALT ,KC_NO/* ,     , */  , KC_SPC /* ,     ,     ,*/      , CAND_FOO ,DEBUG) ,
 
 
   [MOUSE] = KEYMAP(

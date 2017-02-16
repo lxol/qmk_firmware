@@ -119,7 +119,10 @@ bool process_record_quantum(keyrecord_t *record) {
   /* This gets the keycode from the key pressed */
   keypos_t key = record->event.key;
   uint16_t keycode;
-
+  #ifdef CANDIDATE_ENABLE
+    process_candidate(record);
+  #endif
+  
   #if !defined(NO_ACTION_LAYER) && defined(PREVENT_STUCK_MODIFIERS)
     /* TODO: Use store_or_get_action() or a similar function. */
     if (!disable_action_cache) {
@@ -135,14 +138,6 @@ bool process_record_quantum(keyrecord_t *record) {
     } else
   #endif
     keycode = keymap_key_to_keycode(layer_switch_get_layer(key), key);
-  #ifdef CANDIDATE_ENABLE
-    uint16_t cand_keycode =  process_candidate(record);
-    if (cand_keycode != 0) {
-        keycode = cand_keycode;
-
-    }
-    dprintf("keycode after process: %d\n", keycode);
-  #endif
 
     // This is how you use actions here
     // if (keycode == KC_LEAD) {
