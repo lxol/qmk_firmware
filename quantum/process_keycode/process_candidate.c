@@ -45,7 +45,10 @@ void process_candidate(keyrecord_t *record)
     dprintf("cand request state before: %08lX(%u)\n", cand_request_state, biton32(cand_request_state));
     if (!(requestor.col == key.col && requestor.row == key.row)) {
         cand_request_state = 0;
+    } else if (!pressed)  {
+        requestor = (keypos_t) {.row = 0xFF, .col = 0xFF };
     }
+        
     int8_t count = 0;
     bool stored = false;
     for (int8_t i = 0; i < CAND_PRESSED_KEY_MAX; i++) {
