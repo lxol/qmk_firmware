@@ -12,7 +12,7 @@ typedef struct {
 } sublayer_pressed_key_t;
 
 void set_sublayer(uint8_t layer, keypos_t key);
-void process_candidate(keyrecord_t *record);
+void process_sublayer(keyrecord_t *record);
 
 
 #endif
