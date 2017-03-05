@@ -41,6 +41,9 @@
 #include <stdlib.h>
 #include "print.h"
 
+#ifdef SUBLAYER_ENABLE
+    #include "process_sublayer.h"
+#endif
 
 extern uint32_t default_layer_state;
 

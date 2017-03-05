@@ -1,0 +1,63 @@
+| event      |   |   |
+|------------+---+---|
+|            |   |   |
+| on left    |   |   |
+| off left   |   |   |
+| on left    |   |   |
+| off left   |   |   |
+| on right   |   |   |
+| on notLR   |   |   |
+| off left   |   |   |
+| off right  |   |   |
+| off notLR  |   |   |
+| on LR      |   |   |
+| new on LR  |   |   |
+
+if we place it on a timeline  in a random order 
+the following properties should be maintained
+after enabling left-right layers
+LNTK - left non transparent key 
+Left Layer Request
+- LNTK press enables left layer if Left Layer Request and removed
+  Right Layer Request if exists and right layer is not enabled. It also remember that it was pressed
+  while layer was enabled.
+- LNTK release if no press before disables left layer.
+  
+- LNTK release if there was a press before 
+  - unremember that it was pressed
+  - if no other keys were rememberd then disable left layer and disable request
+  - if some key still in remember then enable left layer
+  
+
+
+Candidate layer can not be zero
+
+candidate layer event:
+| key                       |            |
+| CL = candidate_layer(key) | layer or 0 |
+
+   | candidate(CL) | active?(CL) | pressed?(key) | known?(key) |                                |
+   |             0 |           0 |             0 |           1 | remove all inactive candidates |
+   |             0 |           0 |             1 |           0 |                                |
+   |             0 |           0 |             1 |           1 |                                |
+   |             0 |           1 |             0 |           0 |                                |
+   |             0 |           1 |             0 |           1 |                                |
+   |             0 |           1 |             1 |           0 |                                |
+   |             0 |           1 |             1 |           1 |                                |
+   |             1 |           0 |             0 |           0 |                                |
+   |             1 |           0 |             0 |           1 |                                |
+   |             1 |           0 |             1 |           0 |                                |
+   |             1 |           0 |             1 |           1 |                                |
+   |             1 |           1 |             0 |           0 |                                |
+   |             1 |           1 |             0 |           1 |                                |
+   |             1 |           1 |             1 |           0 |                                |
+   |             1 |           1 |             1 |           1 |                                |
+
+
+
+
+| is_candidate_layer |
+| is_active          |
+  
+
+
