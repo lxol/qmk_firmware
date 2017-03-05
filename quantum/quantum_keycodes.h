@@ -162,6 +162,9 @@ enum quantum_keycodes {
 #ifdef ADAFRUIT_BLE_ENABLE
     OUT_BLE,
 #endif
+#ifdef SUBLAYER_ENABLE
+    SUB_TRNS,
+#endif
 
     // always leave at the end
     SAFE_RANGE
