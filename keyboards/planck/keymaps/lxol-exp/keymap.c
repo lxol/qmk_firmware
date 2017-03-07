@@ -19,7 +19,9 @@ enum planck_layers {
   _QWERTY,
   _LOWER,
   _RAISE,
-  _MOUSE
+  _MOUSE,
+  _SUB_LOWER,
+  _SUB_RAISE
 };
 
 enum planck_keycodes {
@@ -27,7 +29,10 @@ enum planck_keycodes {
   LOWER,
   RAISE,
   BACKLIT,
-  MOUSE
+  MOUSE,
+  SUB_LOWER,
+  SUB_RAISE,
+  SUB_LR
 };
 
 
@@ -37,32 +42,47 @@ enum planck_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = {
-  { KC_ESC ,  KC_Q ,   KC_W ,  KC_E ,    KC_R ,  KC_T ,    KC_Y ,   KC_U ,  KC_I ,    KC_O ,    KC_P ,    KC_BSPC } , 
-  { KC_TAB ,  KC_A ,   KC_S ,  KC_D ,    KC_F ,  KC_G ,    KC_H ,   KC_J ,  KC_K ,    KC_L ,    KC_SCLN , KC_ENT } ,  
-  { KC_LSFT , KC_Z ,   KC_X ,  KC_C ,    KC_V ,  KC_B ,    KC_N ,   KC_M ,  KC_COMM , KC_DOT ,  KC_SLSH , KC_RSFT } , 
-  { KC_F24 ,  KC_F23 , MOUSE , KC_LALT , LOWER , KC_LGUI , KC_SPC , RAISE , KC_RCTL , KC_RALT , _______ , _______ }
- } , 
+  { KC_ESC ,  KC_Q ,    KC_W ,  KC_E ,    KC_R ,   KC_T ,    KC_Y ,   KC_U ,  KC_I ,    KC_O ,    KC_P ,    KC_BSPC } , 
+  { KC_TAB ,  KC_A ,    KC_S ,  KC_D ,    KC_F ,   KC_G ,    KC_H ,   KC_J ,  KC_K ,    KC_L ,    KC_SCLN , KC_ENT } ,  
+  { KC_LSFT , KC_Z ,    KC_X ,  KC_C ,    KC_V ,   KC_B ,    KC_N ,   KC_M ,  KC_COMM , KC_DOT ,  KC_SLSH , KC_RSFT } , 
+  { KC_F24 ,  KC_F23 ,  MOUSE , KC_LALT , LOWER ,  KC_LGUI , KC_SPC , RAISE , KC_RCTL , KC_RALT , SUB_LR ,  _______ }
+ } ,          
 
-[_LOWER] = {
-  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , KC_MINS , KC_EQL ,  KC_BSPC } , 
+[_LOWER] = { 
+  { KC_TILD , KC_EXLM , KC_AT , KC_HASH , KC_DLR , KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , KC_MINS , KC_EQL ,  KC_BSPC } , 
   { KC_DEL ,  _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_BSLS , KC_QUOT , _______ } , 
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
  } ,
 
 [_RAISE] = {
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    KC_BSPC } ,
-  { _______ , KC_LBRC , KC_RBRC , _______ , _______ , _______ , _______ , KC_LPRN , KC_RPRN , _______ , _______ , _______ } ,
-  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_LCBR , KC_RCBR , _______ , _______ , _______ } ,
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    KC_BSPC } , 
+  { _______ , KC_LBRC , KC_RBRC , _______ , _______ , _______ , _______ , KC_LPRN , KC_RPRN , _______ , _______ , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_LCBR , KC_RCBR , _______ , _______ , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
+ } ,          
+
+[_MOUSE] = { 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_WH_D , KC_WH_U , _______ , _______ , KC_BSPC } , 
+  { _______ , _______ , KC_ACL0 , KC_ACL1 , KC_ACL2 , _______ , KC_MS_L , KC_MS_D , KC_MS_U , KC_MS_R , _______ , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_BTN1 , KC_BTN3 , KC_BTN2 , _______ , _______ } , 
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
 } ,
 
-[_MOUSE] = {
-  { _______ , _______ , KC_ACL2 , KC_ACL1 , KC_ACL0 , _______ , _______ , KC_WH_D , KC_WH_U , _______ , _______ , KC_BSPC } ,
-  { _______ , _______ , _______ , _______ , _______ , _______ , KC_MS_L , KC_MS_D , KC_MS_U , KC_MS_R , _______ , _______ } ,
-  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_BTN1 , KC_BTN3 , KC_BTN2 , _______ , _______ } ,
+[_SUB_RAISE] = {
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
+  { _______ , _______ , _______ , KC_LGUI , KC_LSFT , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } 
+ } ,          
+
+[_SUB_LOWER] = {
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_RSFT , KC_LCTL , _______ , _______ , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
- }
+
+    },
 
  };
 
@@ -125,6 +145,40 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
+    case SUB_LOWER:
+      if (record->event.pressed) {
+        //sublayer_keep(true);
+        sublayer_store_press(_LOWER, record->event.key);
+        set_sublayer(_LOWER, record->event.key);
+      } else {
+        //sublayer_keep(false);
+      }
+      return false;
+      break;
+    case SUB_RAISE:
+      if (record->event.pressed) {
+        //sublayer_keep(true);
+        sublayer_store_press(_RAISE, record->event.key);
+        set_sublayer(_RAISE, record->event.key);
+      } else {
+        //sublayer_keep(false);
+      }
+      return false;
+      break;
+
+    case SUB_LR:
+      if (record->event.pressed) {
+        //sublayer_keep(true);
+        //sublayer_store_press(_SUB_RAISE, record->event.key);
+        set_sublayer(_SUB_LOWER, record->event.key);
+        set_sublayer(_SUB_RAISE, record->event.key);
+        set_sublayer(_RAISE, record->event.key);
+      } else {
+        //sublayer_keep(false);
+      }
+      return false;
+      break;
+      
     case BACKLIT:
       if (record->event.pressed) {
         register_code(KC_RSFT);
