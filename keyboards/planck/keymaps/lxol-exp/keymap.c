@@ -37,14 +37,16 @@ enum planck_keycodes {
 
 
 const uint16_t PROGMEM fn_actions[] = {
-  [0] = ACTION_MODS_TAP_KEY(MOD_LCTL, KC_ENT),
-  [1] = ACTION_MODS_TAP_KEY(MOD_LSFT, KC_ESC),
-  [2] = ACTION_LAYER_TAP_KEY(_RAISE, KC_BSPC)
+  [0] = ACTION_MODS_TAP_KEY(MOD_LCTL, KC_BSLS),
+  [1] = ACTION_MODS_TAP_KEY(MOD_LSFT, KC_ENT),
+  [2] = ACTION_LAYER_TAP_KEY(_RAISE, KC_BSPC),
+  [3] = ACTION_MODS_TAP_KEY(MOD_LALT, KC_ENT)
 };
 
-#define CTL_ENT KC_FN0
-#define SFT_ESC KC_FN1
+#define CTL_BSLS KC_FN0
+#define SFT_ENT KC_FN1
 #define RAISE_BSPC KC_FN2
+#define LGUI_ENT KC_FN3 
 
 // Fillers to make layering more clear
 #define _______ KC_TRNS
@@ -52,35 +54,28 @@ const uint16_t PROGMEM fn_actions[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = {
-  { KC_ESC ,  KC_Q ,    KC_W ,    KC_E ,    KC_R ,    KC_T ,    KC_Y ,     KC_U ,       KC_I ,    KC_O ,    KC_P ,    KC_BSLS } ,
-  { KC_TAB ,  KC_A ,    KC_S ,    KC_D ,    KC_F ,    KC_G ,    KC_H ,     KC_J ,       KC_K ,    KC_L ,    KC_SCLN , KC_QUOT } ,
-  { KC_BSLS , KC_Z ,    KC_X ,    KC_C ,    KC_V ,    KC_B ,    KC_N ,     KC_M ,       KC_COMM , KC_DOT ,  KC_SLSH , XXXXXXX } ,
-  { KC_F24 ,  MOUSE ,   KC_LALT , LOWER ,   SFT_ESC , KC_LGUI , KC_SPACE , RAISE_BSPC , CTL_ENT , KC_MINS , KC_EQL ,  XXXXXXX }
- } ,
+  { KC_ESC ,  KC_Q ,    KC_W ,  KC_E ,  KC_R ,    KC_T ,     KC_Y ,     KC_U ,       KC_I ,     KC_O ,    KC_P ,    KC_MINS } , 
+  { KC_TAB ,  KC_A ,    KC_S ,  KC_D ,  KC_F ,    KC_G ,     KC_H ,     KC_J ,       KC_K ,     KC_L ,    KC_SCLN , KC_QUOT } , 
+  { KC_LALT , KC_Z ,    KC_X ,  KC_C ,  KC_V ,    KC_B ,     KC_N ,     KC_M ,       KC_COMM ,  KC_DOT ,  KC_SLSH , KC_EQL } ,  
+  { KC_F24 ,  XXXXXXX , MOUSE , LOWER , SFT_ENT , LGUI_ENT , KC_SPACE , RAISE_BSPC , CTL_BSLS , XXXXXXX , XXXXXXX , XXXXXXX }
+ } , 
 
-[_LOWER] = {
-  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_PGDN , KC_PGUP , _______ ,  _______ , _______ } ,
-  { _______ , _______ , _______ , _______ , _______ , _______ , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , _______ , _______ } ,
-  { _______ , _______ , _______ , _______ , _______ , _______ , KC_UNDS , KC_MINS , _______ , _______ ,  _______ , _______ } ,
-  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ }
- } ,
+[_LOWER] = { 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_PGDN , KC_PGUP , _______ ,  _______ , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , _______ , _______ } , 
+  { KC_F1 ,   KC_F2 ,   KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,   KC_F10 ,   KC_F11 ,  KC_F12 } ,  
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_MNXT , KC_VOLD ,  KC_VOLU , KC_MPLY }
+ } ,          
 
-/* [_RAISE] = { */
-/*   { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    KC_BSPC } ,  */
-/*   { KC_DEL ,  KC_LBRC , KC_RBRC , KC_ENT ,  KC_ENT ,  _______ , _______ , KC_MINS , KC_EQL ,  _______ , KC_BSLS , _______ } ,  */
-/*   { _______ , _______ , _______ , _______ , _______ , KC_BSPC , _______ , KC_QUOT , _______ , _______ , _______ , _______ } ,  */
-/*   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } */
-/*  } ,           */
-
-[_RAISE] = {
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } ,
-  { _______ , KC_LBRC , KC_RBRC , _______ , KC_MINS , KC_LPRN , KC_RPRN , KC_EQL ,  _______ , KC_LCBR , KC_RCBR, _______ } ,
-  { KC_PIPE , _______ , _______ , _______ , _______ , KC_LCBR , KC_RCBR , _______ , _______ , _______ , _______ , _______ } ,
+[_RAISE] = { 
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } , 
+  { _______ , KC_LBRC , KC_RBRC , KC_LCBR , KC_RCBR , _______ , _______ , KC_LPRN , KC_RPRN , _______ , _______ , _______ } , 
+  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , _______ , _______ , _______ } , 
   { _______ , KC_DEL ,  _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
- } ,
+ } ,          
 
-[_MOUSE] = {
-  { _______ ,  _______ , _______ , _______ , _______ , _______ , _______ , KC_WH_D , KC_WH_U , _______ , _______ , KC_BSPC } ,
+[_MOUSE] = { 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_WH_D , KC_WH_U , _______ , _______ , KC_BSPC } ,
   { _______ , _______ , KC_ACL0 , KC_ACL1 , KC_ACL2 , _______ , KC_MS_L , KC_MS_D , KC_MS_U , KC_MS_R , _______ , _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_BTN1 , KC_BTN3 , KC_BTN2 , _______ , _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
