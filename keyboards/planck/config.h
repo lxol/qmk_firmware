@@ -21,10 +21,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config_common.h"
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0x6060
-#define MANUFACTURER    Ortholinear Keyboards
-#define PRODUCT         The Planck Keyboard
+#define VENDOR_ID       0xFEEC
+#define PRODUCT_ID      0x6061
+#define MANUFACTURER    OLKB
+#define PRODUCT         Planck Keyboard
 #define DESCRIPTION     A compact ortholinear keyboard
 
 /* key matrix size */
