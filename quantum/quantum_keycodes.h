@@ -121,6 +121,10 @@ enum quantum_keycodes {
     KC_LEAD,
 #endif
 
+#ifndef DISABLE_BOSS
+    KC_BOSS,
+#endif
+
     // Auto Shift setup
     KC_ASUP,
     KC_ASDN,
