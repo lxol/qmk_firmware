@@ -23,6 +23,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record);
 
 void boss_start(void);
 void boss_end(void);
+void boss_reset(void);
 
 #define SEQ_BOSS_ONE_KEY(key) if (boss_sequence[0] == (key) && boss_sequence[1] == 0 && boss_sequence[2] == 0 && boss_sequence[3] == 0 && boss_sequence[4] == 0)
 #define SEQ_BOSS_TWO_KEYS(key1, key2) if (boss_sequence[0] == (key1) && boss_sequence[1] == (key2) && boss_sequence[2] == 0 && boss_sequence[3] == 0 && boss_sequence[4] == 0)
