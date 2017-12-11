@@ -78,4 +78,12 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
+void boss_reset(void) {
+  boss_sequence_size = 0;
+  boss_sequence[0] = 0;
+  boss_sequence[1] = 0;
+  boss_sequence[2] = 0;
+  boss_sequence[3] = 0;
+  boss_sequence[4] = 0;
+}
 #endif

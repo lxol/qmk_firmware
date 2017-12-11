@@ -177,269 +177,46 @@ void matrix_scan_user(void) {
    
     SEQ_BOSS_ONE_KEY(KC_E) {
       SEND_STRING("{");
+      boss_reset();
       /* bossing = false; */
-      boss_sequence_size = 0;
-      boss_sequence[0] = 0;
-      boss_sequence[1] = 0;
-      boss_sequence[2] = 0;
-      boss_sequence[3] = 0;
-      boss_sequence[4] = 0;
+      /* boss_sequence_size = 0; */
+      /* boss_sequence[0] = 0; */
+      /* boss_sequence[1] = 0; */
+      /* boss_sequence[2] = 0; */
+      /* boss_sequence[3] = 0; */
+      /* boss_sequence[4] = 0; */
       /* boss_end(); */
     }
     SEQ_BOSS_ONE_KEY(KC_R) {
       SEND_STRING("}");
-      /* bossing = false; */
-      boss_sequence_size = 0;
-      boss_sequence[0] = 0;
-      boss_sequence[1] = 0;
-      boss_sequence[2] = 0;
-      boss_sequence[3] = 0;
-      boss_sequence[4] = 0;
-      /* boss_end(); */
+      boss_reset();
     }
 
     SEQ_BOSS_ONE_KEY(KC_D) {
       SEND_STRING("(");
-      /* bossing = false; */
-      boss_sequence_size = 0;
-      boss_sequence[0] = 0;
-      boss_sequence[1] = 0;
-      boss_sequence[2] = 0;
-      boss_sequence[3] = 0;
-      boss_sequence[4] = 0;
-      /* boss_end(); */
+      boss_reset();
     }
     SEQ_BOSS_ONE_KEY(KC_F) {
       SEND_STRING(")");
-      /* bossing = false; */
-      boss_sequence_size = 0;
-      boss_sequence[0] = 0;
-      boss_sequence[1] = 0;
-      boss_sequence[2] = 0;
-      boss_sequence[3] = 0;
-      boss_sequence[4] = 0;
-      /* boss_end(); */
+      boss_reset();
     }
 
     SEQ_BOSS_ONE_KEY(KC_C) {
       SEND_STRING("[");
-      /* bossing = false; */
-      boss_sequence_size = 0;
-      boss_sequence[0] = 0;
-      boss_sequence[1] = 0;
-      boss_sequence[2] = 0;
-      boss_sequence[3] = 0;
-      boss_sequence[4] = 0;
-      /* boss_end(); */
+      boss_reset();
     }
     SEQ_BOSS_ONE_KEY(KC_V) {
       SEND_STRING("]");
-      /* bossing = false; */
-      boss_sequence_size = 0;
-      boss_sequence[0] = 0;
-      boss_sequence[1] = 0;
-      boss_sequence[2] = 0;
-      boss_sequence[3] = 0;
-      boss_sequence[4] = 0;
-      /* boss_end(); */
+      boss_reset();
     }
     SEQ_BOSS_ONE_KEY(KC_S) {
       SEND_STRING("\"");
-      /* bossing = false; */
-      boss_sequence_size = 0;
-      boss_sequence[0] = 0;
-      boss_sequence[1] = 0;
-      boss_sequence[2] = 0;
-      boss_sequence[3] = 0;
-      boss_sequence[4] = 0;
-      /* boss_end(); */
+      boss_reset();
     }
 
     SEQ_BOSS_ONE_KEY(KC_A) {
       SEND_STRING("'");
-      /* bossing = false; */
-      boss_sequence_size = 0;
-      boss_sequence[0] = 0;
-      boss_sequence[1] = 0;
-      boss_sequence[2] = 0;
-      boss_sequence[3] = 0;
-      boss_sequence[4] = 0;
-      /* boss_end(); */
+      boss_reset();
     }
-  }
-  if (leading && timer_elapsed(leader_time) > LEADER_TIMEOUT) {
-      leading = false;
-      leader_end();
-  }
-  if (leading ) {
-  /* LEADER_DICTIONARY() { */
-    /* leading = false; */
-    /* leader_end(); */
-
-    /* SEQ_ONE_KEY(KC_F) { */
-    /*   register_code(KC_S); */
-    /*   unregister_code(KC_S); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    /* SEQ_ONE_KEY(KC_F) { */
-    /*   register_code(KC_LPRN); */
-    /*   unregister_code(KC_LPRN); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    SEQ_ONE_KEY(KC_S) {
-      SEND_STRING("[]");
-      leading = false;
-      leader_end();
-    }
-
-    SEQ_ONE_KEY(KC_D) {
-      SEND_STRING("()");
-      leading = false;
-      leader_end();
-    }
-
-    SEQ_ONE_KEY(KC_F) {
-      SEND_STRING("{}");
-      leading = false;
-      leader_end();
-    }
-
-    /* SEQ_TWO_KEYS(KC_D, KC_D) { */
-    /*   SEND_STRING("("); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    /* SEQ_TWO_KEYS(KC_D, KC_F) { */
-    /*   SEND_STRING("()"); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    /* SEQ_THREE_KEYS(KC_I, KC_D, KC_F) { */
-    /*   SEND_STRING("()"); */
-    /*   register_code(KC_LEFT); */
-    /*   unregister_code(KC_LEFT); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    /* SEQ_ONE_KEY(KC_R) { */
-    /*   SEND_STRING("}"); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    /* SEQ_TWO_KEYS(KC_E, KC_E) { */
-    /*     SEND_STRING("{"); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    /* SEQ_TWO_KEYS(KC_E, KC_R) { */
-    /*     SEND_STRING("{}"); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    /* SEQ_THREE_KEYS(KC_I, KC_E, KC_R) { */
-    /*   SEND_STRING("{}"); */
-    /*   register_code(KC_LEFT); */
-    /*   unregister_code(KC_LEFT); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    /* SEQ_ONE_KEY(KC_V) { */
-    /*   SEND_STRING("]"); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    /* SEQ_TWO_KEYS(KC_C, KC_C) { */
-    /*     SEND_STRING("["); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    /* SEQ_TWO_KEYS(KC_C, KC_V) { */
-    /*     SEND_STRING("[]"); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-    /* SEQ_THREE_KEYS(KC_I, KC_C, KC_V) { */
-    /*   SEND_STRING("[]"); */
-    /*   register_code(KC_LEFT); */
-    /*   unregister_code(KC_LEFT); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    /* SEQ_ONE_KEY(KC_J) { */
-    /*   SEND_STRING("'"); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    /* SEQ_TWO_KEYS(KC_K, KC_J) { */
-    /*     SEND_STRING("''"); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-
-    /* SEQ_THREE_KEYS(KC_L, KC_K, KC_J) { */
-    /*   SEND_STRING("''"); */
-    /*   register_code(KC_LEFT); */
-    /*   unregister_code(KC_LEFT); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-    /* SEQ_TWO_KEYS(KC_A, KC_S) { */
-    /*   register_code(KC_H); */
-    /*   unregister_code(KC_H); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
-    /* SEQ_THREE_KEYS(KC_A, KC_S, KC_D) { */
-    /*   register_code(KC_LGUI); */
-    /*   register_code(KC_S); */
-    /*   unregister_code(KC_S); */
-    /*   unregister_code(KC_LGUI); */
-    /*   leading = false; */
-    /*   leader_end(); */
-    /* } */
   }
 }
-/* void matrix_scan_user(void) { */
-/*   LEADER_DICTIONARY() { */
-/*     leading = false; */
-/*     leader_end(); */
-
-/*     SEQ_ONE_KEY(KC_F) { */
-/*       register_code(KC_S); */
-/*       unregister_code(KC_S); */
-/*     } */
-/*     SEQ_ONE_KEY(KC_1) { */
-/*       register_code(KC_QUOT); */
-/*       unregister_code(KC_QUOT); */
-/*     } */
-/*     SEQ_TWO_KEYS(KC_RPRN, KC_1) { */
-/*       SEND_STRING("''"); */
-/*     } */
-
-/*     SEQ_TWO_KEYS(KC_A, KC_S) { */
-/*       register_code(KC_H); */
-/*       unregister_code(KC_H); */
-/*     } */
-/*     SEQ_THREE_KEYS(KC_A, KC_S, KC_D) { */
-/*       register_code(KC_LGUI); */
-/*       register_code(KC_S); */
-/*       unregister_code(KC_S); */
-/*       unregister_code(KC_LGUI); */
-/*     } */
-/*   } */
-/* } */
