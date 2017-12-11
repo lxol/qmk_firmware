@@ -51,7 +51,10 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       return false;
     }
     if (bossing ) {
-      boss_sequence[boss_sequence_size] = keycode;
+      uint8_t default_layer = biton32(default_layer_state);
+      keypos_t key = record->event.key;
+      uint16_t default_keycode = keymap_key_to_keycode(default_layer, key);
+      boss_sequence[boss_sequence_size] = default_keycode;
       boss_sequence_size++;
       return false;
     }
