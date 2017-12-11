@@ -46,7 +46,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_RAISE ] = { 
   { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } , 
-  { _______ , _______ , KC_RBRC , KC_LPRN , KC_LCBR , KC_BSPC , KC_EQL ,  KC_ENT ,  KC_BOSS , _______ , _______ , _______ } , 
+  { _______ , _______ , KC_RBRC , KC_LPRN , KC_LCBR , KC_BSPC , KC_EQL ,  KC_ENT ,  KC_BOSS1 , _______ , _______ , _______ } , 
   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , _______ , _______ , _______ } , 
   { CALTDEL , KC_DEL ,  _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
  } ,          
@@ -166,26 +166,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-
-LEADER_EXTERNS();
 BOSS_EXTERNS();
-/* boss_layer = _FUN; */
-/* boss_layer = _FU; */
 void matrix_scan_user(void) {
 
-  if (bossing) {
+  if (bossing > 0) {
    
     SEQ_BOSS_ONE_KEY(KC_E) {
       SEND_STRING("{");
       boss_reset();
-      /* bossing = false; */
-      /* boss_sequence_size = 0; */
-      /* boss_sequence[0] = 0; */
-      /* boss_sequence[1] = 0; */
-      /* boss_sequence[2] = 0; */
-      /* boss_sequence[3] = 0; */
-      /* boss_sequence[4] = 0; */
-      /* boss_end(); */
     }
     SEQ_BOSS_ONE_KEY(KC_R) {
       SEND_STRING("}");
