@@ -33,6 +33,7 @@ uint16_t boss_sequence[5] = {0, 0, 0, 0, 0};
 uint8_t boss_sequence_size = 0;
 
 uint8_t boss_layer;
+keypos_t boss_keypos;
 /* layer = biton32(layer_state); */
 bool process_boss(uint16_t keycode, keyrecord_t *record) {
   // Boss key set-up
@@ -49,8 +50,8 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
     }
     if (bossing > 0) {
       uint8_t default_layer = biton32(default_layer_state);
-      keypos_t key = record->event.key;
-      uint16_t default_keycode = keymap_key_to_keycode(default_layer, key);
+      boss_keypos = record->event.key;
+      uint16_t default_keycode = keymap_key_to_keycode(default_layer, boss_keypos);
       boss_sequence[boss_sequence_size] = default_keycode;
       boss_sequence_size++;
       return false;
