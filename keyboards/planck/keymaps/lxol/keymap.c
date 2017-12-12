@@ -13,6 +13,7 @@ enum planck_layers {
   _RAISE,
   _FUN,
   _NUMBERS,
+  _ARROWS,
   _MOUSE
 };
 
@@ -47,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_RAISE ] = { 
   { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,     KC_9 ,     KC_0 ,    _______ } , 
-  { _______ , _______ , KC_RBRC , KC_LPRN , KC_BOSS3 , KC_BSPC , KC_EQL ,  KC_ENT ,  KC_BOSS1 , KC_BOSS2 , _______ , _______ } , 
+  { _______ , KC_LBRC , KC_RBRC , KC_BOSS4 , KC_BOSS3 , KC_BSPC , KC_EQL ,  KC_ENT ,  KC_BOSS1 , KC_BOSS2 , _______ , _______ } , 
   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,  _______ ,  _______ , _______ } , 
   { CALTDEL , KC_DEL ,  _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ ,  _______ , _______ }
  } ,          
@@ -67,10 +68,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,          
 
 [_NUMBERS] = { 
-  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_1 ,    KC_2 ,    KC_3 ,    KC_0 ,    _______ } , 
-  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_4 ,    KC_5 ,    KC_6 ,    _______ , _______ } , 
-  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_7 ,    KC_8 ,    KC_9 ,    _______ , _______ } , 
-  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } 
+  { _______ , _______ , _______ , _______ , _______ , _______ , KC_PLUS ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_LEFT ,  KC_RIGHT } , 
+  { _______ , _______ , _______ , _______ , _______ , KC_BSPC , KC_CIRC ,  KC_4 ,    KC_5 ,    KC_6 ,    KC_COMMA , KC_LPRN } ,  
+  { _______ , _______ , _______ , _______ , _______ , _______ , KC_SLSH ,  KC_7 ,    KC_8 ,    KC_9 ,    KC_DOT ,   KC_RPRN } ,  
+  { _______ , _______ , _______ , _______ , _______ , _______ , KC_SPACE , _______ , _______ , _______ , _______ ,  _______ } 
+ } , 
+
+[_ARROWS] = { 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ , _______ ,  _______ , KC_BSPC } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , KC_LEFT ,  KC_DOWN , KC_UP ,   KC_RIGHT , _______ , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ , _______ ,  _______ , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , KC_SPACE , _______ , _______ , _______ ,  _______ , _______ } 
  } ,          
 
 [_MOUSE] = { 
@@ -225,11 +233,9 @@ void matrix_scan_user(void) {
 
   if (bossing == 3) {
     BOSS_LAYER(_NUMBERS)
-    /* if (boss_sequence[0] != 0 && boss_sequence[1] == 0 && boss_sequence[2] == 0 && boss_sequence[3] == 0 && boss_sequence[4] == 0) { */
-    /*   uint16_t boss_keycode = keymap_key_to_keycode(_NUMBERS, boss_keypos); */
-    /*   register_code(boss_keycode); */
-    /*   unregister_code(boss_keycode); */
-    /*   boss_reset(); */
-    /* } */
+  }
+
+  if (bossing == 4) {
+    BOSS_LAYER(_ARROWS)
   }
 }
