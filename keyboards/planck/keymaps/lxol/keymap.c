@@ -224,11 +224,12 @@ void matrix_scan_user(void) {
   }
 
   if (bossing == 3) {
-    if (boss_sequence[0] != 0 && boss_sequence[1] == 0 && boss_sequence[2] == 0 && boss_sequence[3] == 0 && boss_sequence[4] == 0) {
-      uint16_t boss_keycode = keymap_key_to_keycode(_NUMBERS, boss_keypos);
-      register_code(boss_keycode);
-      unregister_code(boss_keycode);
-      boss_reset();
-    }
+    BOSS_LAYER(_NUMBERS)
+    /* if (boss_sequence[0] != 0 && boss_sequence[1] == 0 && boss_sequence[2] == 0 && boss_sequence[3] == 0 && boss_sequence[4] == 0) { */
+    /*   uint16_t boss_keycode = keymap_key_to_keycode(_NUMBERS, boss_keypos); */
+    /*   register_code(boss_keycode); */
+    /*   unregister_code(boss_keycode); */
+    /*   boss_reset(); */
+    /* } */
   }
 }
