@@ -60,8 +60,8 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
     keypos_t key = record->event.key;
     uint16_t boss_keycode = keymap_key_to_keycode(boss_layer, key);
     if (bossing > 0
-        && boss_keycode >= KC_BOSS1
-        && boss_keycode < (KC_BOSS1 + 10)) {
+        && boss_keycode == (KC_BOSS1 + bossing - 1)) { 
+        /* && boss_keycode < (KC_BOSS1 + 10)) { */
       boss_end();
       bossing = 0;
       return false;
