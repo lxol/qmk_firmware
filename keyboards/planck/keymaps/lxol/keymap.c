@@ -27,6 +27,14 @@ enum planck_keycodes {
   DYNAMIC_MACRO_RANGE
 };
 
+enum planck_moleaders {
+  LD_SYM = KC_BOSS1,
+  LD_FOO,
+  LD_NUMBER,
+  LD_ARROWS,
+  LD_PREFIX1
+};
+
 #include "dynamic_macro.h"
 
 #undef LEADER_TIMEOUT
@@ -47,10 +55,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,          
 
 [_RAISE ] = { 
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,     KC_9 ,     KC_0 ,    _______ } , 
-  { _______ , KC_LBRC , KC_RBRC , KC_BOSS4 , KC_BOSS3 , KC_BSPC , KC_EQL ,  KC_ENT ,  KC_BOSS1 , KC_BOSS2 , _______ , _______ } , 
-  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,  _______ ,  _______ , _______ } , 
-  { CALTDEL , KC_DEL ,  _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ ,  _______ , _______ }
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,     KC_4 ,     KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,     KC_9 ,     KC_0 ,    _______ } , 
+  { _______ , KC_LBRC , KC_RBRC , LD_ARROWS , LD_PREFIX1 , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_SYM , LD_FOO , _______ , _______ } , 
+  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,  KC_DLR ,   KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,  _______ ,  _______ , _______ } , 
+  { CALTDEL , KC_DEL ,  _______ , _______ ,  _______ ,  _______ , _______ , _______ , _______ ,  _______ ,  _______ , _______ }
  } ,          
 
 [_FUN] = { 
@@ -62,12 +70,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_LEFT] = { 
   { _______ , _______ , _______ , KC_LCBR , KC_RCBR , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
-  { _______ , _______ , _______ , KC_LPRN , KC_RPRN , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
+  { _______ , _______ , _______ , KC_LPRN , KC_RPRN , KC_BSPC , _______ , _______ , _______ , _______ , _______ , _______ } , 
   { _______ , _______ , _______ , KC_LBRC , KC_RBRC , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } 
- } ,          
+ } , 
 
-[_NUMBERS] = { 
+[_NUMBERS] = {  
   { _______ , _______ , _______ , _______ , _______ , _______ , KC_PLUS ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_LEFT ,  KC_RIGHT } , 
   { _______ , _______ , _______ , _______ , _______ , KC_BSPC , KC_CIRC ,  KC_4 ,    KC_5 ,    KC_6 ,    KC_COMMA , KC_LPRN } ,  
   { _______ , _______ , _______ , _______ , _______ , _______ , KC_SLSH ,  KC_7 ,    KC_8 ,    KC_9 ,    KC_DOT ,   KC_RPRN } ,  
@@ -185,7 +193,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 BOSS_EXTERNS();
 void matrix_scan_user(void) {
 
-  if (bossing == 1) {
+  if (bossing == (LD_SYM - KC_BOSS1 + 1)) {
    
     SEQ_BOSS_ONE_KEY(KC_E) {
       SEND_STRING("{");
@@ -209,33 +217,61 @@ void matrix_scan_user(void) {
       SEND_STRING("[");
       boss_reset();
     }
-    SEQ_BOSS_ONE_KEY(KC_V) {
+   SEQ_BOSS_ONE_KEY(KC_V) {
+
       SEND_STRING("]");
       boss_reset();
     }
     SEQ_BOSS_ONE_KEY(KC_S) {
       SEND_STRING("\"");
       boss_reset();
+      return;
     }
 
-    SEQ_BOSS_ONE_KEY(KC_A) {
+    SEQ_BOSS_ONE_KEY(KC_W) {
       SEND_STRING("'");
       boss_reset();
+      return;
     }
+
+    SEQ_BOSS_ONE_KEY(KC_G) {
+      register_code(KC_BSPC);
+      unregister_code(KC_BSPC);
+      boss_reset();
+      return;
+    }
+
+    /* BOSS_LAYER(_LEFT); */
   }
 
-  if (bossing == 2) {
+  if (bossing == (LD_FOO - KC_BOSS1 + 1)) {
     SEQ_BOSS_ONE_KEY(KC_E) {
       SEND_STRING("this is the second boss key");
       boss_reset();
     }
   }
 
-  if (bossing == 3) {
+  if (bossing == (LD_NUMBER - KC_BOSS1 + 1)) {
     BOSS_LAYER(_NUMBERS)
   }
 
-  if (bossing == 4) {
+  if (bossing == (LD_ARROWS - KC_BOSS1 + 1)) {
     BOSS_LAYER(_ARROWS)
   }
+
+  if (bossing == (LD_PREFIX1 - KC_BOSS1 + 1)) {
+    SEQ_BOSS_ONE_KEY(KC_K) {
+      register_code(KC_LCTL);
+      register_code(KC_LALT);
+      register_code(KC_LGUI);
+      register_code(KC_K);
+      unregister_code(KC_K);
+      unregister_code(KC_LGUI);
+      unregister_code(KC_LALT);
+      unregister_code(KC_LCTL);
+      boss_reset();
+      return;
+    }
+  }
+
 }
