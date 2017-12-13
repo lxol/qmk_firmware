@@ -193,43 +193,52 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 BOSS_EXTERNS();
 void matrix_scan_user(void) {
 
-  if (bossing == (LD_SYM - KC_BOSS1 + 1)) {
-   
+  if (bossing == (LD_SYM - KC_BOSS1 + 1) ||
+      boss_queue == (LD_SYM - KC_BOSS1 + 1)) {
+    /* if (bossing == 0) {boss_queue = 0;} */
     SEQ_BOSS_ONE_KEY(KC_E) {
       SEND_STRING("{");
+      boss_queue = 0;
       boss_reset();
     }
     SEQ_BOSS_ONE_KEY(KC_R) {
       SEND_STRING("}");
+      boss_queue = 0;
       boss_reset();
     }
 
     SEQ_BOSS_ONE_KEY(KC_D) {
       SEND_STRING("(");
+      boss_queue = 0;
       boss_reset();
     }
     SEQ_BOSS_ONE_KEY(KC_F) {
       SEND_STRING(")");
+      boss_queue = 0;
       boss_reset();
     }
 
     SEQ_BOSS_ONE_KEY(KC_C) {
       SEND_STRING("[");
+      boss_queue = 0;
       boss_reset();
     }
    SEQ_BOSS_ONE_KEY(KC_V) {
 
       SEND_STRING("]");
+      boss_queue = 0;
       boss_reset();
     }
     SEQ_BOSS_ONE_KEY(KC_S) {
       SEND_STRING("\"");
+      boss_queue = 0;
       boss_reset();
       return;
     }
 
     SEQ_BOSS_ONE_KEY(KC_W) {
       SEND_STRING("'");
+      boss_queue = 0;
       boss_reset();
       return;
     }
@@ -237,10 +246,16 @@ void matrix_scan_user(void) {
     SEQ_BOSS_ONE_KEY(KC_G) {
       register_code(KC_BSPC);
       unregister_code(KC_BSPC);
+      boss_queue = 0;
       boss_reset();
       return;
     }
 
+    SEQ_BOSS_ANY_KEY {
+      boss_queue = 0;
+      boss_reset();
+      return;
+    }
     /* BOSS_LAYER(_LEFT); */
   }
 
