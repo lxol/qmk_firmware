@@ -55,10 +55,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,          
 
 [_RAISE ] = { 
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,     KC_4 ,     KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,     KC_9 ,     KC_0 ,    _______ } , 
-  { _______ , KC_LBRC , KC_RBRC , LD_ARROWS , LD_PREFIX1 , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_SYM , LD_FOO , _______ , _______ } , 
-  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,  KC_DLR ,   KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,  _______ ,  _______ , _______ } , 
-  { CALTDEL , KC_DEL ,  _______ , _______ ,  _______ ,  _______ , _______ , _______ , _______ ,  _______ ,  _______ , _______ }
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,      KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } , 
+  { _______ , KC_LBRC , KC_RBRC , LD_ARROWS , LD_NUMBER , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_SYM ,  KC_ESC ,  _______ , _______ } , 
+  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,    KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , _______ , _______ , _______ } , 
+  { CALTDEL , KC_DEL ,  _______ , _______ ,   _______ ,   _______ , _______ , _______ , _______ , _______ , _______ , _______ }
  } ,          
 
 [_FUN] = { 
@@ -73,14 +73,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { _______ , _______ , _______ , KC_LPRN , KC_RPRN , KC_BSPC , _______ , _______ , _______ , _______ , _______ , _______ } , 
   { _______ , _______ , _______ , KC_LBRC , KC_RBRC , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } 
- } , 
+ } ,          
 
 [_NUMBERS] = {  
-  { _______ , _______ , _______ , _______ , _______ , _______ , KC_PLUS ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_LEFT ,  KC_RIGHT } , 
-  { _______ , _______ , _______ , _______ , _______ , KC_BSPC , KC_CIRC ,  KC_4 ,    KC_5 ,    KC_6 ,    KC_COMMA , KC_LPRN } ,  
-  { _______ , _______ , _______ , _______ , _______ , _______ , KC_SLSH ,  KC_7 ,    KC_8 ,    KC_9 ,    KC_DOT ,   KC_RPRN } ,  
-  { _______ , _______ , _______ , _______ , _______ , _______ , KC_SPACE , _______ , _______ , _______ , _______ ,  _______ } 
- } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , KC_1 ,     KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_BSPC } , 
+  { _______ , _______ , _______ , _______ , _______ , KC_BSPC , KC_6 ,     KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  KC_MINS , KC_EQL ,  KC_DOT ,  KC_SLSH , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , KC_SPACE , _______ , _______ , _______ , _______ , _______ } 
+ } ,          
 
 [_ARROWS] = { 
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ , _______ ,  _______ , KC_BSPC } , 
@@ -251,6 +251,21 @@ void matrix_scan_user(void) {
       return;
     }
 
+    SEQ_BOSS_ONE_KEY(KC_SCLN) {
+      register_code(KC_BSLS);
+      unregister_code(KC_BSLS);
+      boss_queue = 0;
+      boss_reset();
+      return;
+    }
+
+    SEQ_BOSS_ONE_KEY(KC_QUOT) {
+      SEND_STRING("|");
+      boss_queue = 0;
+      boss_reset();
+      return;
+    }
+
     SEQ_BOSS_ANY_KEY {
       boss_queue = 0;
       boss_reset();
@@ -262,17 +277,15 @@ void matrix_scan_user(void) {
   if (bossing == (LD_FOO - KC_BOSS1 + 1)) {
     SEQ_BOSS_ONE_KEY(KC_E) {
       SEND_STRING("this is the second boss key");
+      boss_queue = 0;
       boss_reset();
+      return;
     }
   }
 
-  if (bossing == (LD_NUMBER - KC_BOSS1 + 1)) {
-    BOSS_LAYER(_NUMBERS)
-  }
+  BOSS_LAYER(LD_NUMBER, _NUMBERS)
 
-  if (bossing == (LD_ARROWS - KC_BOSS1 + 1)) {
-    BOSS_LAYER(_ARROWS)
-  }
+  BOSS_LAYER(LD_ARROWS, _ARROWS)
 
   if (bossing == (LD_PREFIX1 - KC_BOSS1 + 1)) {
     SEQ_BOSS_ONE_KEY(KC_K) {
@@ -284,6 +297,7 @@ void matrix_scan_user(void) {
       unregister_code(KC_LGUI);
       unregister_code(KC_LALT);
       unregister_code(KC_LCTL);
+      boss_queue = 0;
       boss_reset();
       return;
     }

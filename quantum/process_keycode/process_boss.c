@@ -70,6 +70,9 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       bossing = 0;
       return false;
     }
+    if (bossing > 0) {
+      return  false;
+    }
   }
   return true;
 }
