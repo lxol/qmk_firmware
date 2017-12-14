@@ -196,6 +196,14 @@ void matrix_scan_user(void) {
   if (bossing == (LD_SYM - KC_BOSS1 + 1) ||
       boss_queue == (LD_SYM - KC_BOSS1 + 1)) {
     /* if (bossing == 0) {boss_queue = 0;} */
+    SEQ_BOSS_TWO_KEYS(KC_I, KC_E) {
+      SEND_STRING("{}");
+      register_code(KC_LEFT);
+      unregister_code(KC_LEFT);
+      boss_queue = 0;
+      boss_reset();
+    }
+
     SEQ_BOSS_ONE_KEY(KC_E) {
       SEND_STRING("{");
       boss_queue = 0;
@@ -273,12 +281,13 @@ void matrix_scan_user(void) {
       return;
     }
 
-    SEQ_BOSS_ANY_KEY {
+    /* BOSS_LAYER(_LEFT); */
+    
+    SEQ_BOSS_ANY_TWO_KEY {
       boss_queue = 0;
       boss_reset();
       return;
     }
-    /* BOSS_LAYER(_LEFT); */
   }
 
   if (bossing == (LD_FOO - KC_BOSS1 + 1)) {

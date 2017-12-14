@@ -25,11 +25,40 @@ void boss_start(void);
 void boss_end(void);
 void boss_reset(void);
 
+/* #define BOSS_CHECK() */
+/*   if (bossing == (LD_SYM - KC_BOSS1 + 1) || */
+/*       boss_queue == (LD_SYM - KC_BOSS1 + 1)) { */
+
 #define SEQ_BOSS_ANY_KEY if (boss_sequence[0] != 0 \
                              && boss_sequence[1] == 0 \
                              && boss_sequence[2] == 0 \
                              && boss_sequence[3] == 0 \
                              && boss_sequence[4] == 0)
+
+#define SEQ_BOSS_ANY_TWO_KEY if (boss_sequence[0] != 0 \
+                             && boss_sequence[1] != 0 \
+                             && boss_sequence[2] == 0 \
+                             && boss_sequence[3] == 0 \
+                             && boss_sequence[4] == 0)
+
+#define SEQ_BOSS_ANY_THREE_KEY if (boss_sequence[0] != 0 \
+                             && boss_sequence[1] != 0 \
+                             && boss_sequence[2] != 0 \
+                             && boss_sequence[3] == 0 \
+                             && boss_sequence[4] == 0)
+
+#define SEQ_BOSS_ANY_FOUR_KEY if (boss_sequence[0] != 0 \
+                             && boss_sequence[1] != 0 \
+                             && boss_sequence[2] != 0 \
+                             && boss_sequence[3] != 0 \
+                             && boss_sequence[4] == 0)
+
+#define SEQ_BOSS_ANY_FIVE_KEY if (boss_sequence[0] != 0 \
+                             && boss_sequence[1] != 0 \
+                             && boss_sequence[2] != 0 \
+                             && boss_sequence[3] != 0 \
+                             && boss_sequence[4] != 0)
+
 #define SEQ_BOSS_ONE_KEY(key) if (boss_sequence[0] == (key) \
                                   && boss_sequence[1] == 0 \
                                   && boss_sequence[2] == 0 \
