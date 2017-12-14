@@ -38,6 +38,15 @@ keypos_t boss_keypos;
 uint8_t boss_queue = 0;                /*  */
 /* layer = biton32(layer_state); */
 bool process_boss(uint16_t keycode, keyrecord_t *record) {
+  // ignore modifiers
+  if (keycode == KC_LCTL ||
+      keycode == KC_RCTL ||
+      keycode == KC_LGUI ||
+      keycode == KC_RGUI ||
+      keycode == KC_LALT ||
+      keycode == KC_RALT ) {
+    return false;
+  }
   // Boss key set-up
   if (record->event.pressed) {
     if (bossing == 0
