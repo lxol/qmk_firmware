@@ -25,9 +25,11 @@ void boss_start(void);
 void boss_end(void);
 void boss_reset(void);
 
-/* #define BOSS_CHECK() */
-/*   if (bossing == (LD_SYM - KC_BOSS1 + 1) || */
-/*       boss_queue == (LD_SYM - KC_BOSS1 + 1)) { */
+#define BOSSING_NUM()
+
+  if (bossing == (LD_SYM - KC_BOSS1 + 1) ||
+
+      boss_queue == (LD_SYM - KC_BOSS1 + 1)) {
 
 #define SEQ_BOSS_ANY_KEY if (boss_sequence[0] != 0 \
                              && boss_sequence[1] == 0 \
