@@ -39,6 +39,7 @@ uint8_t boss_queue = 0;                /*  */
 /* layer = biton32(layer_state); */
 bool process_boss(uint16_t keycode, keyrecord_t *record) {
   // ignore modifiers
+  // TODO: make it configurable
   if (keycode == KC_LCTL ||
       keycode == KC_RCTL ||
       keycode == KC_LGUI ||
