@@ -230,7 +230,14 @@ void matrix_scan_user(void) {
       boss_reset();
     }
     SEQ_BOSS_ONE_KEY(KC_S) {
-      SEND_STRING("\"");
+      SEND_STRING("\\");
+      boss_queue = 0;
+      boss_reset();
+      return;
+    }
+
+    SEQ_BOSS_ONE_KEY(KC_A) {
+      SEND_STRING("|");
       boss_queue = 0;
       boss_reset();
       return;

@@ -25,12 +25,36 @@ void boss_start(void);
 void boss_end(void);
 void boss_reset(void);
 
-#define SEQ_BOSS_ANY_KEY if (boss_sequence[0] != 0 && boss_sequence[1] == 0 && boss_sequence[2] == 0 && boss_sequence[3] == 0 && boss_sequence[4] == 0)
-#define SEQ_BOSS_ONE_KEY(key) if (boss_sequence[0] == (key) && boss_sequence[1] == 0 && boss_sequence[2] == 0 && boss_sequence[3] == 0 && boss_sequence[4] == 0)
-#define SEQ_BOSS_TWO_KEYS(key1, key2) if (boss_sequence[0] == (key1) && boss_sequence[1] == (key2) && boss_sequence[2] == 0 && boss_sequence[3] == 0 && boss_sequence[4] == 0)
-#define SEQ_BOSS_THREE_KEYS(key1, key2, key3) if (boss_sequence[0] == (key1) && boss_sequence[1] == (key2) && boss_sequence[2] == (key3) && boss_sequence[3] == 0 && boss_sequence[4] == 0)
-#define SEQ_BOSS_FOUR_KEYS(key1, key2, key3, key4) if (boss_sequence[0] == (key1) && boss_sequence[1] == (key2) && boss_sequence[2] == (key3) && boss_sequence[3] == (key4) && boss_sequence[4] == 0)
-#define SEQ_BOSS_FIVE_KEYS(key1, key2, key3, key4, key5) if (boss_sequence[0] == (key1) && boss_sequence[1] == (key2) && boss_sequence[2] == (key3) && boss_sequence[3] == (key4) && boss_sequence[4] == (key5))
+#define SEQ_BOSS_ANY_KEY if (boss_sequence[0] != 0 \
+                             && boss_sequence[1] == 0 \
+                             && boss_sequence[2] == 0 \
+                             && boss_sequence[3] == 0 \
+                             && boss_sequence[4] == 0)
+#define SEQ_BOSS_ONE_KEY(key) if (boss_sequence[0] == (key) \
+                                  && boss_sequence[1] == 0 \
+                                  && boss_sequence[2] == 0 \
+                                  && boss_sequence[3] == 0 \
+                                  && boss_sequence[4] == 0)
+#define SEQ_BOSS_TWO_KEYS(key1, key2) if (boss_sequence[0] == (key1) \
+                                          && boss_sequence[1] == (key2) \
+                                          && boss_sequence[2] == 0 \
+                                          && boss_sequence[3] == 0 \
+                                          && boss_sequence[4] == 0)
+#define SEQ_BOSS_THREE_KEYS(key1, key2, key3) if (boss_sequence[0] == (key1) \
+                                                  && boss_sequence[1] == (key2) \
+                                                  && boss_sequence[2] == (key3) \
+                                                  && boss_sequence[3] == 0 \
+                                                  && boss_sequence[4] == 0)
+#define SEQ_BOSS_FOUR_KEYS(key1, key2, key3, key4) if (boss_sequence[0] == (key1) \
+                                                       && boss_sequence[1] == (key2) \
+                                                       && boss_sequence[2] == (key3) \
+                                                       && boss_sequence[3] == (key4) \
+                                                       && boss_sequence[4] == 0)
+#define SEQ_BOSS_FIVE_KEYS(key1, key2, key3, key4, key5) if (boss_sequence[0] == (key1) \
+                                                             && boss_sequence[1] == (key2) \
+                                                             && boss_sequence[2] == (key3) \
+                                                             && boss_sequence[3] == (key4) \
+                                                             && boss_sequence[4] == (key5))
 
 #define BOSS_EXTERNS() extern uint8_t bossing;\
   extern uint16_t boss_time; \
