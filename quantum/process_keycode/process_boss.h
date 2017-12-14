@@ -35,25 +35,25 @@ void boss_reset(void);
                              && boss_sequence[3] == 0 \
                              && boss_sequence[4] == 0)
 
-#define SEQ_BOSS_ANY_TWO_KEY if (boss_sequence[0] != 0 \
+#define SEQ_BOSS_ANY_TWO_KEYS if (boss_sequence[0] != 0 \
                              && boss_sequence[1] != 0 \
                              && boss_sequence[2] == 0 \
                              && boss_sequence[3] == 0 \
                              && boss_sequence[4] == 0)
 
-#define SEQ_BOSS_ANY_THREE_KEY if (boss_sequence[0] != 0 \
+#define SEQ_BOSS_ANY_THREE_KEYS if (boss_sequence[0] != 0 \
                              && boss_sequence[1] != 0 \
                              && boss_sequence[2] != 0 \
                              && boss_sequence[3] == 0 \
                              && boss_sequence[4] == 0)
 
-#define SEQ_BOSS_ANY_FOUR_KEY if (boss_sequence[0] != 0 \
+#define SEQ_BOSS_ANY_FOUR_KEYS if (boss_sequence[0] != 0 \
                              && boss_sequence[1] != 0 \
                              && boss_sequence[2] != 0 \
                              && boss_sequence[3] != 0 \
                              && boss_sequence[4] == 0)
 
-#define SEQ_BOSS_ANY_FIVE_KEY if (boss_sequence[0] != 0 \
+#define SEQ_BOSS_ANY_FIVE_KEYS if (boss_sequence[0] != 0 \
                              && boss_sequence[1] != 0 \
                              && boss_sequence[2] != 0 \
                              && boss_sequence[3] != 0 \

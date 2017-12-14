@@ -283,7 +283,7 @@ void matrix_scan_user(void) {
 
     /* BOSS_LAYER(_LEFT); */
     
-    SEQ_BOSS_ANY_TWO_KEY {
+    SEQ_BOSS_ANY_TWO_KEYS {
       boss_queue = 0;
       boss_reset();
       return;
