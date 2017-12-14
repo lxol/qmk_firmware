@@ -38,11 +38,11 @@ keypos_t boss_keypos;
 uint8_t boss_queue = 0;                /*  */
 /* layer = biton32(layer_state); */
 bool process_boss(uint16_t keycode, keyrecord_t *record) {
-  //TODO: control presses and releases
+  //TODO: control presses and releases  -- too complicated
 
   //TODO: add a delay to a potential boss key on the layer
   //      to deal with out of order but almost at the same time
-  //      pressing of the layer and boss keys.
+  //      pressings
 
   // ignore modifiers
   // TODO: make it configurable
@@ -50,6 +50,8 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       keycode == KC_RCTL ||
       keycode == KC_LGUI ||
       keycode == KC_RGUI ||
+      keycode == KC_LSFT ||
+      keycode == KC_RSFT ||
       keycode == KC_LALT ||
       keycode == KC_RALT ) {
     return true;
