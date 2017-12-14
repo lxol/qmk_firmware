@@ -27,11 +27,12 @@ enum planck_keycodes {
   DYNAMIC_MACRO_RANGE
 };
 
-enum planck_moleaders {
+enum planck_leaders {
   LD_SYM = KC_BOSS1,
   LD_FOO,
   LD_NUMBER,
   LD_ARROWS,
+  LD_RAISE,
   LD_PREFIX1
 };
 
@@ -194,6 +195,25 @@ BOSS_EXTERNS();
 void matrix_scan_user(void) {
 
   BOSSING(LD_SYM) {
+
+    SEQ_BOSS_ONE_KEY(KC_Q) {
+      SEND_STRING("ACTION NOW:");
+      action_exec((keyevent_t){
+          .key = (keypos_t){ .row = 1, .col = 2 },
+            .pressed = true,
+               .time = (timer_read() | 1) /* time should not be 0 */
+               });
+
+      SEND_STRING("AFTER ACTION TRUE:");
+      action_exec((keyevent_t){
+          .key = (keypos_t){ .row = 1, .col = 2 },
+            .pressed = false,
+               .time = (timer_read() | 1) /* time should not be 0 */
+               });
+      SEND_STRING("AFTER ACTION FALSE:");
+      boss_queue = 0;
+      boss_reset();
+    }
     
     SEQ_BOSS_TWO_KEYS(KC_I, KC_E) {
       SEND_STRING("{}");
@@ -289,11 +309,15 @@ void matrix_scan_user(void) {
     }
   }
 
+
   BOSSING_LAYER(LD_NUMBER, _NUMBERS)
+
+  BOSSING_LAYER(LD_RAISE, _RAISE)
 
   BOSSING_LAYER(LD_ARROWS, _ARROWS)
 
-  if (bossing == (LD_PREFIX1 - KC_BOSS1 + 1)) {
+  /* if (bossing == (LD_PREFIX1 - KC_BOSS1 + 1)) { */
+  BOSSING(LD_PREFIX1) {
     SEQ_BOSS_ONE_KEY(KC_K) {
       register_code(KC_LCTL);
       register_code(KC_LALT);
