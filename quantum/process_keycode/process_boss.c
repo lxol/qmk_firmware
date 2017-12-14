@@ -46,7 +46,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       keycode == KC_RGUI ||
       keycode == KC_LALT ||
       keycode == KC_RALT ) {
-    return false;
+    return true;
   }
   // Boss key set-up
   if (record->event.pressed) {
