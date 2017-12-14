@@ -193,9 +193,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 BOSS_EXTERNS();
 void matrix_scan_user(void) {
 
-  if (bossing == (LD_SYM - KC_BOSS1 + 1) ||
-      boss_queue == (LD_SYM - KC_BOSS1 + 1)) {
-    /* if (bossing == 0) {boss_queue = 0;} */
+  BOSSING(LD_SYM) {
+    
     SEQ_BOSS_TWO_KEYS(KC_I, KC_E) {
       SEND_STRING("{}");
       register_code(KC_LEFT);
@@ -281,7 +280,7 @@ void matrix_scan_user(void) {
       return;
     }
 
-    /* BOSS_LAYER(_LEFT); */
+    /* BOSSING_LAYER(_LEFT); */
     
     SEQ_BOSS_ANY_TWO_KEYS {
       boss_queue = 0;
@@ -290,18 +289,9 @@ void matrix_scan_user(void) {
     }
   }
 
-  if (bossing == (LD_FOO - KC_BOSS1 + 1)) {
-    SEQ_BOSS_ONE_KEY(KC_E) {
-      SEND_STRING("this is the second boss key");
-      boss_queue = 0;
-      boss_reset();
-      return;
-    }
-  }
+  BOSSING_LAYER(LD_NUMBER, _NUMBERS)
 
-  BOSS_LAYER(LD_NUMBER, _NUMBERS)
-
-  BOSS_LAYER(LD_ARROWS, _ARROWS)
+  BOSSING_LAYER(LD_ARROWS, _ARROWS)
 
   if (bossing == (LD_PREFIX1 - KC_BOSS1 + 1)) {
     SEQ_BOSS_ONE_KEY(KC_K) {

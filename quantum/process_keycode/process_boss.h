@@ -25,11 +25,9 @@ void boss_start(void);
 void boss_end(void);
 void boss_reset(void);
 
-#define BOSSING_NUM()
-
-  if (bossing == (LD_SYM - KC_BOSS1 + 1) ||
-
-      boss_queue == (LD_SYM - KC_BOSS1 + 1)) {
+#define BOSSING(boss_keycode) \
+  if (bossing == (boss_keycode - KC_BOSS1 + 1) \
+  || boss_queue == (boss_keycode - KC_BOSS1 + 1))
 
 #define SEQ_BOSS_ANY_KEY if (boss_sequence[0] != 0 \
                              && boss_sequence[1] == 0 \
@@ -94,7 +92,7 @@ void boss_reset(void);
   extern keypos_t boss_keypos; \
   extern uint8_t boss_queue
 
-#define BOSS_LAYER(boss_keycode, layer )                 \
+#define BOSSING_LAYER(boss_keycode, layer )                 \
   if (bossing == (boss_keycode - KC_BOSS1 + 1) || \
       boss_queue == (boss_keycode - KC_BOSS1 + 1)) { \
     if (boss_sequence[0] != 0 \
