@@ -32,8 +32,29 @@ void boss_reset(void);
 #define SEQ_BOSS_FOUR_KEYS(key1, key2, key3, key4) if (boss_sequence[0] == (key1) && boss_sequence[1] == (key2) && boss_sequence[2] == (key3) && boss_sequence[3] == (key4) && boss_sequence[4] == 0)
 #define SEQ_BOSS_FIVE_KEYS(key1, key2, key3, key4, key5) if (boss_sequence[0] == (key1) && boss_sequence[1] == (key2) && boss_sequence[2] == (key3) && boss_sequence[3] == (key4) && boss_sequence[4] == (key5))
 
-#define BOSS_EXTERNS() extern uint8_t bossing; extern uint16_t boss_time; extern uint16_t boss_sequence[5]; extern uint8_t boss_sequence_size; extern keypos_t boss_keypos; extern uint8_t boss_queue
+#define BOSS_EXTERNS() extern uint8_t bossing;\
+  extern uint16_t boss_time; \
+  extern uint16_t boss_sequence[5]; \
+  extern uint8_t boss_sequence_size; \
+  extern keypos_t boss_keypos; \
+  extern uint8_t boss_queue
 
-#define BOSS_LAYER(layer) if (boss_sequence[0] != 0 && boss_sequence[1] == 0 && boss_sequence[2] == 0 && boss_sequence[3] == 0 && boss_sequence[4] == 0) { uint16_t boss_keycode = keymap_key_to_keycode(layer, boss_keypos); register_code(boss_keycode); unregister_code(boss_keycode); boss_reset();}
+#define BOSS_LAYER(boss_keycode, layer )                 \
+  if (bossing == (boss_keycode - KC_BOSS1 + 1) || \
+      boss_queue == (boss_keycode - KC_BOSS1 + 1)) { \
+    if (boss_sequence[0] != 0 \
+        && boss_sequence[1] == 0 \
+        && boss_sequence[2] == 0 \
+        && boss_sequence[3] == 0 \
+        && boss_sequence[4] == 0) \
+      { \
+        uint16_t keypos_keycode = keymap_key_to_keycode(layer, boss_keypos); \
+        register_code(keypos_keycode); \
+        unregister_code(keypos_keycode);     \
+        boss_queue = 0;  \
+        boss_reset(); \
+        return;  \
+      } \
+  }
 
 #endif
