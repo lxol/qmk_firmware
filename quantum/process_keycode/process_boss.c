@@ -25,7 +25,7 @@ __attribute__ ((weak))
 void boss_end(void) {}
 
 boss_t boss_state;
-keypos_t empty_pos = (keypos_t) {
+keypos_t no_key = (keypos_t) {
   .row = MATRIX_ROWS + 1,
   .col = MATRIX_COLS + 1
 };
@@ -125,10 +125,10 @@ void boss_reset(void) {
 
 void boss_state_reset(void) {
   for (uint8_t i = 0; i < 5; ++i)
-    boss_state.sequence[i] = empty_pos;
+    boss_state.sequence[i] = no_key;
   boss_state.sequence_size = 0;
   boss_state.oneshot = false;
-  boss_state.key = empty_pos;
+  boss_state.key = no_key;
   boss_state.time = timer_read();
 }
 
