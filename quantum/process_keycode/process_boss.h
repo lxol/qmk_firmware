@@ -24,6 +24,8 @@ bool process_boss(uint16_t keycode, keyrecord_t *record);
 void boss_start(void);
 void boss_end(void);
 void boss_reset(void);
+void boss_init(void);
+void boss_state_reset(void);
 
 typedef struct {
   keypos_t sequence[5];

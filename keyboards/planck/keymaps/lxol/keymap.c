@@ -2,7 +2,6 @@
 #include "action_layer.h"
 #include "eeconfig.h"
 
-
 extern keymap_config_t keymap_config;
 
 enum planck_layers {
@@ -198,15 +197,19 @@ void matrix_scan_user(void) {
 
     SEQ_BOSS_ONE_KEY(KC_Q) {
       SEND_STRING("ACTION NOW:");
+      boss_queue = 0;
+      boss_reset();
       action_exec((keyevent_t){
-          .key = (keypos_t){ .row = 1, .col = 2 },
+          .key = (keypos_t){ .row = 0, .col = 3 },
+          /* .key = boss_current_keypos, */
             .pressed = true,
                .time = (timer_read() | 1) /* time should not be 0 */
                });
 
       SEND_STRING("AFTER ACTION TRUE:");
       action_exec((keyevent_t){
-          .key = (keypos_t){ .row = 1, .col = 2 },
+          .key = (keypos_t){ .row = 0, .col = 3 },
+          /* .key = boss_current_keypos, */
             .pressed = false,
                .time = (timer_read() | 1) /* time should not be 0 */
                });
@@ -224,6 +227,7 @@ void matrix_scan_user(void) {
     }
 
     SEQ_BOSS_ONE_KEY(KC_E) {
+      boss_current_keypos = boss_keypos;
       SEND_STRING("{");
       boss_queue = 0;
       boss_reset();
@@ -333,4 +337,8 @@ void matrix_scan_user(void) {
     }
   }
 
+}
+
+void matrix_init_user(void) {
+  debug_enable=true;
 }

@@ -72,7 +72,7 @@ extern uint32_t default_layer_state;
 	#include "process_leader.h"
 #endif
 
-#ifndef DISABLE_BOSS
+#ifdef BOSS_ENABLE
 	#include "process_boss.h"
 #endif
 

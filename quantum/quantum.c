@@ -221,7 +221,7 @@ bool process_record_quantum(keyrecord_t *record) {
   #ifndef DISABLE_LEADER
     process_leader(keycode, record) &&
   #endif
-  #ifndef DISABLE_BOSS
+  #ifdef BOSS_ENABLE
     process_boss(keycode, record) &&
   #endif
   #ifndef DISABLE_CHORDING

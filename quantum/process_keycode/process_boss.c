@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DISABLE_BOSS
+#ifdef BOSS_ENABLE
 
 #include "process_boss.h"
 
@@ -43,6 +43,20 @@ keypos_t boss_keypos;
 keypos_t boss_current_keypos;
 
 uint8_t boss_queue = 0;                /*  */
+
+void boss_init() {
+  boss_state_reset();
+}
+
+void boss_state_print(void) {
+  xprintf("BOSS STATE:\r\n");
+  xprintf("   boss_state.key row:%d, col: %d\r\n", boss_state.key.row, boss_state.key.col);
+  xprintf("   boss_state.oneshot :%d\r\n", boss_state.oneshot);
+  xprintf("   boss_state.sequence_size :%d\r\n", boss_state.sequence_size);
+  for (uint8_t i = 0; i < 5; ++i)
+    xprintf("        boss_state.sequence[%d] row:%d, col: %d\r\n", i, boss_state.sequence[i], boss_state.sequence[i]);
+}
+
 /* layer = biton32(layer_state); */
 bool process_boss(uint16_t keycode, keyrecord_t *record) {
   //TODO: control presses and releases  -- too complicated
@@ -57,6 +71,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
   /* printf("printf process boss, keycode %d \r\n", keycode  ); */
  
   keypos_t foo = record->event.key;
+  boss_state_print();
   xprintf("KEY keycode %d row: %d col: %d pressed: %d \r\n", keycode, foo.row, foo.col, record->event.pressed    );
   xprintf(" INFO bossing %d row: %d col: %d queue: %d, boss_layer: %d \r\n", bossing, boss_keypos.row, boss_keypos.col, boss_queue, boss_layer    );
   if (keycode == KC_LCTL ||
@@ -77,7 +92,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
 
       xprintf("  START BOSSING \r\n"  );
       boss_layer = biton32(layer_state);
-      boss_start();
+      /* boss_start(); */
       bossing = keycode - KC_BOSS1 + 1;
       boss_time = timer_read();
       boss_reset();
@@ -131,6 +146,5 @@ void boss_state_reset(void) {
   boss_state.key = no_key;
   boss_state.time = timer_read();
 }
-
 
 #endif
