@@ -202,9 +202,18 @@ void matrix_init_user(void) {
 
 void matrix_scan_user(void) {
 
-  /* IS_BOSSING(LD_NEW) { */
-  /*   BOSS_SEQ_ONE_KEY() */
-  /* } */
+  IS_BOSSING(LD_NEW) {
+    BOSS_SEQ_ONE_KEY(KC_E) {
+      SEND_STRING("LD_NEW");
+      boss_state_reset();
+      boss_state.oneshot = false;
+    }
+    BOSS_SEQ_ANY_TWO_KEYS {
+      SEND_STRING("LD_NEW ANY KEY");
+      boss_state_reset();
+      boss_state.oneshot = false;
+    }
+  }
 
   BOSSING(LD_SYM) {
 

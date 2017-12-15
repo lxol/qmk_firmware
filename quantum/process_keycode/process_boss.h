@@ -41,7 +41,7 @@ typedef struct {
 } boss_t;
 
 #define IS_BOSSING(boss_keycode) \
-  if (boss_state.keycode == boss_keycode || boss_state.oneshot))
+  if (boss_state.keycode == boss_keycode || boss_state.oneshot)
 
 #define BOSSING(boss_keycode) \
   if (bossing == (boss_keycode - KC_BOSS1 + 1) \
