@@ -121,7 +121,6 @@ void boss_reset(void) {
   boss_sequence[2] = 0;
   boss_sequence[3] = 0;
   boss_sequence[4] = 0;
-
 }
 
 void boss_state_reset(void) {
