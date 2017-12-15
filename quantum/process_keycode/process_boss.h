@@ -27,23 +27,39 @@ void boss_reset(void);
 void boss_init(void);
 void boss_state_reset(void);
 
+/* #ifndef BOSS_REFERENCE_LAYER */
+/* #define BOSS_REFERENCE_LAYER = 0 */
+/* #endif */
+
 typedef struct {
   keypos_t sequence[5];
   uint8_t sequence_size;
+  uint16_t keycode;
   keypos_t key;
   bool oneshot;
   uint16_t time;
 } boss_t;
 
+#define IS_BOSSING(boss_keycode) \
+  if (boss_state.keycode == boss_keycode || boss_state.oneshot))
+
 #define BOSSING(boss_keycode) \
   if (bossing == (boss_keycode - KC_BOSS1 + 1) \
   || boss_queue == (boss_keycode - KC_BOSS1 + 1))
 
-#define SEQ_BOSS_ANY_KEY if (boss_sequence[0] != 0 \
-                             && boss_sequence[1] == 0 \
-                             && boss_sequence[2] == 0 \
-                             && boss_sequence[3] == 0 \
-                             && boss_sequence[4] == 0)
+#define BOSS_SEQ_ONE_KEY(key1) if (KEYEQ(boss_state.sequence[0], key1)  \
+                                && KEYEQ(boss_state.sequence[1], no_key) \
+                                && KEYEQ(boss_state.sequence[2], no_key) \
+                                && KEYEQ(boss_state.sequence[3], no_key) \
+                                && KEYEQ(boss_state.sequence[4], no_key))
+
+#define BOSS_SEQ_ANY_ONE_KEY if (!KEYEQ(boss_state.sequence[0], no_key)  \
+                               && KEYEQ(boss_state.sequence[1], no_key) \
+                               && KEYEQ(boss_state.sequence[2], no_key) \
+                               && KEYEQ(boss_state.sequence[3], no_key) \
+                               && KEYEQ(boss_state.sequence[4], no_key))
+
+
 
 #define SEQ_BOSS_ANY_TWO_KEYS if (boss_sequence[0] != 0 \
                              && boss_sequence[1] != 0 \
@@ -99,6 +115,7 @@ typedef struct {
 #define BOSS_EXTERNS() extern uint8_t bossing;\
   extern uint16_t boss_time; \
   extern boss_t boss_state; \
+  extern uint8_t boss_ref_layer; \
   extern uint16_t boss_sequence[5]; \
   extern uint8_t boss_sequence_size; \
   extern keypos_t boss_keypos; \

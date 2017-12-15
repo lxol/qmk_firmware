@@ -25,6 +25,8 @@ __attribute__ ((weak))
 void boss_end(void) {}
 
 boss_t boss_state;
+uint8_t boss_ref_layer = 0;
+/* uint8_t boss_ref_layer = biton32(default_layer_state); */
 keypos_t no_key = (keypos_t) {
   .row = MATRIX_ROWS + 1,
   .col = MATRIX_COLS + 1
@@ -52,6 +54,7 @@ void boss_state_print(void) {
   xprintf("BOSS STATE:\r\n");
   xprintf("   boss_state.key row:%d, col: %d\r\n", boss_state.key.row, boss_state.key.col);
   xprintf("   boss_state.oneshot :%d\r\n", boss_state.oneshot);
+  xprintf("   boss_state.keycode :%d\r\n", boss_state.keycode);
   xprintf("   boss_state.sequence_size :%d\r\n", boss_state.sequence_size);
   for (uint8_t i = 0; i < 5; ++i)
     xprintf("        boss_state.sequence[%d] row:%d, col: %d\r\n", i, boss_state.sequence[i], boss_state.sequence[i]);
@@ -85,25 +88,31 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
     return true;
   }
   // Boss key set-up
+/* #define KEYEQ(keya, keyb)       ((keya).row == (keyb).row && (keya).col == (keyb).col) */
   if (record->event.pressed) {
     if (bossing == 0
         && keycode >= KC_BOSS1
         && keycode < (KC_BOSS1 + 10)) {
 
       xprintf("  START BOSSING \r\n"  );
+      boss_state_reset();
+      boss_state.keycode = keycode;
+      boss_state.key = record->event.key;
+      boss_state.oneshot = true;
+      boss_state.time = timer_read();
+      
       boss_layer = biton32(layer_state);
       /* boss_start(); */
       bossing = keycode - KC_BOSS1 + 1;
-      boss_time = timer_read();
       boss_reset();
       boss_queue = bossing;
       return false;
     }
     if (bossing > 0 || boss_queue > 0) {
-      /* if (boss_queue > 0) {boss_queue = 0;} */
+      boss_state.sequence[boss_state.sequence_size++] = record->event.key;
+      xprintf("  PRESS non-boss KEY UNDER BOSSING \r\n"  );
       uint8_t default_layer = biton32(default_layer_state);
       boss_keypos = record->event.key;
-      xprintf("  PRESS KEY UNDER BOSSING \r\n"  );
       uint16_t default_keycode = keymap_key_to_keycode(default_layer, boss_keypos);
       boss_sequence[boss_sequence_size] = default_keycode;
       boss_sequence_size++;
@@ -117,6 +126,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
         /* && boss_keycode < (KC_BOSS1 + 10)) { */
       /* boss_end(); */
       xprintf("  RELEASE bossing KEY UNDER BOSSING \r\n"  );
+      boss_state.key = no_key;
       bossing = 0;
       return false;
     }
@@ -144,6 +154,7 @@ void boss_state_reset(void) {
   boss_state.sequence_size = 0;
   boss_state.oneshot = false;
   boss_state.key = no_key;
+  boss_state.keycode = 0;
   boss_state.time = timer_read();
 }
 
