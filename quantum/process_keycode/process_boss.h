@@ -26,6 +26,7 @@ void boss_end(void);
 void boss_reset(void);
 void boss_init(void);
 void boss_state_reset(void);
+void boss_state_clear_sequence(void);
 
 /* #ifndef BOSS_REFERENCE_LAYER */
 /* #define BOSS_REFERENCE_LAYER = 0 */
@@ -37,6 +38,7 @@ typedef struct {
   uint16_t keycode;
   keypos_t key;
   bool oneshot;
+  bool momentary;
   uint16_t time;
 } boss_t;
 

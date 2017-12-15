@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_RAISE ] = { 
   { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,      KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } , 
-  { LD_NEW , KC_LBRC , KC_RBRC , LD_ARROWS , LD_NUMBER , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_SYM ,  KC_ESC ,  _______ , _______ } , 
+  { LD_NEW , KC_LBRC , KC_RBRC , LD_ARROWS , LD_NUMBER , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_NEW ,  KC_ESC ,  _______ , _______ } , 
   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,    KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , _______ , _______ , _______ } , 
   { CALTDEL , KC_DEL ,  _______ , _______ ,   _______ ,   _______ , _______ , _______ , _______ , _______ , _______ , _______ }
  } ,          
@@ -204,13 +204,41 @@ void matrix_scan_user(void) {
 
   IS_BOSSING(LD_NEW) {
     BOSS_SEQ_ONE_KEY(KC_E) {
-      SEND_STRING("LD_NEW");
-      boss_state_reset();
+      SEND_STRING("{");
+      boss_state_clear_sequence();
       boss_state.oneshot = false;
     }
+    BOSS_SEQ_ONE_KEY(KC_R) {
+      SEND_STRING("}");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
+    BOSS_SEQ_ONE_KEY(KC_D) {
+      SEND_STRING("(");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
+    BOSS_SEQ_ONE_KEY(KC_F) {
+      SEND_STRING(")");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
+    
+    BOSS_SEQ_ONE_KEY(KC_C) {
+      SEND_STRING("[");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
+    
+    BOSS_SEQ_ONE_KEY(KC_V) {
+      SEND_STRING("]");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
+
     BOSS_SEQ_ANY_TWO_KEYS {
       SEND_STRING("LD_NEW ANY KEY");
-      boss_state_reset();
+      boss_state_clear_sequence();
       boss_state.oneshot = false;
     }
   }
