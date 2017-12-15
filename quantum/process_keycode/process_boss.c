@@ -24,6 +24,12 @@ void boss_start(void) {}
 __attribute__ ((weak))
 void boss_end(void) {}
 
+boss_t boss_state;
+keypos_t empty_pos = (keypos_t) {
+  .row = MATRIX_ROWS + 1,
+  .col = MATRIX_COLS + 1
+};
+
 // Boss key stuff
 uint8_t bossing = 0;
 uint16_t boss_time = 0;
@@ -34,6 +40,7 @@ uint8_t boss_sequence_size = 0;
 
 uint8_t boss_layer;
 keypos_t boss_keypos;
+keypos_t boss_current_keypos;
 
 uint8_t boss_queue = 0;                /*  */
 /* layer = biton32(layer_state); */
@@ -46,6 +53,12 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
 
   // ignore modifiers
   // TODO: make it configurable
+  /* print("print \r\n" ); */
+  /* printf("printf process boss, keycode %d \r\n", keycode  ); */
+ 
+  keypos_t foo = record->event.key;
+  xprintf("KEY keycode %d row: %d col: %d pressed: %d \r\n", keycode, foo.row, foo.col, record->event.pressed    );
+  xprintf(" INFO bossing %d row: %d col: %d queue: %d, boss_layer: %d \r\n", bossing, boss_keypos.row, boss_keypos.col, boss_queue, boss_layer    );
   if (keycode == KC_LCTL ||
       keycode == KC_RCTL ||
       keycode == KC_LGUI ||
@@ -61,6 +74,8 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
     if (bossing == 0
         && keycode >= KC_BOSS1
         && keycode < (KC_BOSS1 + 10)) {
+
+      xprintf("  START BOSSING \r\n"  );
       boss_layer = biton32(layer_state);
       boss_start();
       bossing = keycode - KC_BOSS1 + 1;
@@ -73,6 +88,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       /* if (boss_queue > 0) {boss_queue = 0;} */
       uint8_t default_layer = biton32(default_layer_state);
       boss_keypos = record->event.key;
+      xprintf("  PRESS KEY UNDER BOSSING \r\n"  );
       uint16_t default_keycode = keymap_key_to_keycode(default_layer, boss_keypos);
       boss_sequence[boss_sequence_size] = default_keycode;
       boss_sequence_size++;
@@ -85,13 +101,16 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
         && boss_keycode == (KC_BOSS1 + bossing - 1)) { 
         /* && boss_keycode < (KC_BOSS1 + 10)) { */
       /* boss_end(); */
+      xprintf("  RELEASE bossing KEY UNDER BOSSING \r\n"  );
       bossing = 0;
       return false;
     }
     if (bossing > 0) {
+      xprintf("  RELEASE non bossing KEY UNDER BOSSING \r\n"  );
       return  false;
     }
   }
+  xprintf("    not affected by bossing \r\n");
   return true;
 }
 
@@ -104,4 +123,15 @@ void boss_reset(void) {
   boss_sequence[4] = 0;
 
 }
+
+void boss_state_reset(void) {
+  for (uint8_t i = 0; i < 5; ++i)
+    boss_state.sequence[i] = empty_pos;
+  boss_state.sequence_size = 0;
+  boss_state.oneshot = false;
+  boss_state.key = empty_pos;
+  boss_state.time = timer_read();
+}
+
+
 #endif

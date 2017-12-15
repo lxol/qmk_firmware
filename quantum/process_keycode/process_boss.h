@@ -25,6 +25,14 @@ void boss_start(void);
 void boss_end(void);
 void boss_reset(void);
 
+typedef struct {
+  keypos_t sequence[5];
+  uint8_t sequence_size;
+  keypos_t key;
+  bool oneshot;
+  uint16_t time;
+} boss_t;
+
 #define BOSSING(boss_keycode) \
   if (bossing == (boss_keycode - KC_BOSS1 + 1) \
   || boss_queue == (boss_keycode - KC_BOSS1 + 1))
@@ -85,11 +93,14 @@ void boss_reset(void);
                                                              && boss_sequence[3] == (key4) \
                                                              && boss_sequence[4] == (key5))
 
+
 #define BOSS_EXTERNS() extern uint8_t bossing;\
   extern uint16_t boss_time; \
+  extern boss_t boss_state; \
   extern uint16_t boss_sequence[5]; \
   extern uint8_t boss_sequence_size; \
   extern keypos_t boss_keypos; \
+  extern keypos_t boss_current_keypos; \
   extern uint8_t boss_queue
 
 #define BOSSING_LAYER(boss_keycode, layer )                 \
