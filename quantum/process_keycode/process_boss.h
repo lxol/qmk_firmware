@@ -32,7 +32,7 @@ void boss_state_reset(void);
 /* #endif */
 
 typedef struct {
-  keypos_t sequence[5];
+  uint16_t sequence[5];
   uint8_t sequence_size;
   uint16_t keycode;
   keypos_t key;
@@ -47,18 +47,24 @@ typedef struct {
   if (bossing == (boss_keycode - KC_BOSS1 + 1) \
   || boss_queue == (boss_keycode - KC_BOSS1 + 1))
 
-#define BOSS_SEQ_ONE_KEY(key1) if (KEYEQ(boss_state.sequence[0], key1)  \
-                                && KEYEQ(boss_state.sequence[1], no_key) \
-                                && KEYEQ(boss_state.sequence[2], no_key) \
-                                && KEYEQ(boss_state.sequence[3], no_key) \
-                                && KEYEQ(boss_state.sequence[4], no_key))
 
-#define BOSS_SEQ_ANY_ONE_KEY if (!KEYEQ(boss_state.sequence[0], no_key)  \
-                               && KEYEQ(boss_state.sequence[1], no_key) \
-                               && KEYEQ(boss_state.sequence[2], no_key) \
-                               && KEYEQ(boss_state.sequence[3], no_key) \
-                               && KEYEQ(boss_state.sequence[4], no_key))
+#define BOSS_SEQ_ONE_KEY(key1) if (boss_state.sequence[0] == key1  \
+                             && boss_state.sequence[1] == 0 \
+                             && boss_state.sequence[2] == 0 \
+                             && boss_state.sequence[3] == 0 \
+                             && boss_state.sequence[4] == 0)
 
+#define BOSS_SEQ_ANY_ONE_KEY if (boss_state.sequence[0] != 0 \
+                             && boss_state.sequence[1] == 0 \
+                             && boss_state.sequence[2] == 0 \
+                             && boss_state.sequence[3] == 0 \
+                             && boss_state.sequence[4] == 0)
+
+#define BOSS_SEQ_ANY_TWO_KEYS if (boss_state.sequence[0] != 0 \
+                             && boss_state.sequence[1] != 0 \
+                             && boss_state.sequence[2] == 0 \
+                             && boss_state.sequence[3] == 0 \
+                             && boss_state.sequence[4] == 0)
 
 
 #define SEQ_BOSS_ANY_TWO_KEYS if (boss_sequence[0] != 0 \

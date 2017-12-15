@@ -57,7 +57,7 @@ void boss_state_print(void) {
   xprintf("   boss_state.keycode :%d\r\n", boss_state.keycode);
   xprintf("   boss_state.sequence_size :%d\r\n", boss_state.sequence_size);
   for (uint8_t i = 0; i < 5; ++i)
-    xprintf("        boss_state.sequence[%d] row:%d, col: %d\r\n", i, boss_state.sequence[i], boss_state.sequence[i]);
+    xprintf("        boss_state.sequence[%d] keycode: %d\r\n", i, boss_state.sequence[i]);
 }
 
 /* layer = biton32(layer_state); */
@@ -109,7 +109,8 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       return false;
     }
     if (bossing > 0 || boss_queue > 0) {
-      boss_state.sequence[boss_state.sequence_size++] = record->event.key;
+      uint16_t boss_ref_keycode = keymap_key_to_keycode(boss_ref_layer, record->event.key);
+      boss_state.sequence[boss_state.sequence_size++] = boss_ref_keycode;
       xprintf("  PRESS non-boss KEY UNDER BOSSING \r\n"  );
       uint8_t default_layer = biton32(default_layer_state);
       boss_keypos = record->event.key;
@@ -150,7 +151,7 @@ void boss_reset(void) {
 
 void boss_state_reset(void) {
   for (uint8_t i = 0; i < 5; ++i)
-    boss_state.sequence[i] = no_key;
+    boss_state.sequence[i] = 0;
   boss_state.sequence_size = 0;
   boss_state.oneshot = false;
   boss_state.key = no_key;
