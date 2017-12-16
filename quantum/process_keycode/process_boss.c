@@ -103,6 +103,11 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       return false;
     }
     if (boss_state.momentary || boss_state.oneshot) {
+      if (boss_state.sequence_size == BOSS_SEQ_MAX) {
+        boss_state_clear_sequence();
+        boss_state.oneshot = false;
+        return false;
+      }
       xprintf("  PRESS non-boss KEY UNDER BOSSING \r\n"  );
       uint16_t boss_ref_keycode = keymap_key_to_keycode(boss_ref_layer, record->event.key);
       boss_state.sequence[boss_state.sequence_size++] = boss_ref_keycode;

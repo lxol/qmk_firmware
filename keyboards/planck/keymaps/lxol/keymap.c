@@ -222,189 +222,118 @@ void matrix_scan_user(void) {
       boss_state_clear_sequence();
       boss_state.oneshot = false;
     }
-    BOSS_SEQ_ONE_KEY(KC_E) {
+    BOSS_SEQ(KC_E, KC_NO) {
       SEND_STRING("{");
       boss_state_clear_sequence();
       boss_state.oneshot = false;
     }
-    BOSS_SEQ_ONE_KEY(KC_R) {
+    BOSS_SEQ(KC_R, KC_NO) {
       SEND_STRING("}");
       boss_state_clear_sequence();
       boss_state.oneshot = false;
     }
-    BOSS_SEQ_ONE_KEY(KC_D) {
+    BOSS_SEQ(KC_D, KC_NO) {
       SEND_STRING("(");
       boss_state_clear_sequence();
       boss_state.oneshot = false;
     }
-    BOSS_SEQ_ONE_KEY(KC_F) {
+    BOSS_SEQ(KC_F, KC_NO) {
       SEND_STRING(")");
       boss_state_clear_sequence();
       boss_state.oneshot = false;
     }
     
-    BOSS_SEQ_ONE_KEY(KC_C) {
+    BOSS_SEQ(KC_C, KC_NO) {
       SEND_STRING("[");
       boss_state_clear_sequence();
       boss_state.oneshot = false;
     }
     
-    BOSS_SEQ_ONE_KEY(KC_V) {
+    BOSS_SEQ(KC_V, KC_NO) {
       SEND_STRING("]");
       boss_state_clear_sequence();
       boss_state.oneshot = false;
     }
 
-    BOSS_SEQ_ANY_TWO_KEYS {
-      SEND_STRING("LD_NEW ANY KEY");
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
-  }
-
-  BOSSING(LD_SYM) {
-
-    SEQ_BOSS_ONE_KEY(KC_Q) {
-      SEND_STRING("ACTION NOW:");
-      boss_queue = 0;
-      boss_reset();
-      action_exec((keyevent_t){
-          .key = (keypos_t){ .row = 0, .col = 3 },
-          /* .key = boss_current_keypos, */
-            .pressed = true,
-               .time = (timer_read() | 1) /* time should not be 0 */
-               });
-
-      SEND_STRING("AFTER ACTION TRUE:");
-      action_exec((keyevent_t){
-          .key = (keypos_t){ .row = 0, .col = 3 },
-          /* .key = boss_current_keypos, */
-            .pressed = false,
-               .time = (timer_read() | 1) /* time should not be 0 */
-               });
-      SEND_STRING("AFTER ACTION FALSE:");
-      boss_queue = 0;
-      boss_reset();
-    }
-    
-    SEQ_BOSS_TWO_KEYS(KC_I, KC_E) {
+    BOSS_SEQ(KC_I, KC_E, KC_NO) {
       SEND_STRING("{}");
       register_code(KC_LEFT);
       unregister_code(KC_LEFT);
-      boss_queue = 0;
-      boss_reset();
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
     }
-
-    SEQ_BOSS_ONE_KEY(KC_E) {
-      boss_current_keypos = boss_keypos;
-      SEND_STRING("{");
-      boss_queue = 0;
-      boss_reset();
-    }
-    SEQ_BOSS_ONE_KEY(KC_R) {
-      SEND_STRING("}");
-      boss_queue = 0;
-      boss_reset();
-    }
-
-    SEQ_BOSS_ONE_KEY(KC_D) {
-      SEND_STRING("(");
-      boss_queue = 0;
-      boss_reset();
-    }
-    SEQ_BOSS_ONE_KEY(KC_F) {
-      SEND_STRING(")");
-      boss_queue = 0;
-      boss_reset();
-    }
-
-    SEQ_BOSS_ONE_KEY(KC_C) {
-      SEND_STRING("[");
-      boss_queue = 0;
-      boss_reset();
-    }
-
-   SEQ_BOSS_ONE_KEY(KC_V) {
-      SEND_STRING("]");
-      boss_queue = 0;
-      boss_reset();
-    }
-
-    SEQ_BOSS_ONE_KEY(KC_S) {
-      SEND_STRING("\\");
-      boss_queue = 0;
-      boss_reset();
-      return;
-    }
-
-    SEQ_BOSS_ONE_KEY(KC_A) {
-      SEND_STRING("|");
-      boss_queue = 0;
-      boss_reset();
-      return;
-    }
-
-    SEQ_BOSS_ONE_KEY(KC_W) {
-      SEND_STRING("'");
-      boss_queue = 0;
-      boss_reset();
-      return;
-    }
-
-    SEQ_BOSS_ONE_KEY(KC_G) {
-      register_code(KC_BSPC);
-      unregister_code(KC_BSPC);
-      boss_queue = 0;
-      boss_reset();
-      return;
-    }
-
-    SEQ_BOSS_ONE_KEY(KC_SCLN) {
-      register_code(KC_BSLS);
-      unregister_code(KC_BSLS);
-      boss_queue = 0;
-      boss_reset();
-      return;
-    }
-
-    SEQ_BOSS_ONE_KEY(KC_QUOT) {
-      SEND_STRING("|");
-      boss_queue = 0;
-      boss_reset();
-      return;
-    }
-
-    /* BOSSING_LAYER(_LEFT); */
     
-    SEQ_BOSS_ANY_TWO_KEYS {
-      boss_queue = 0;
-      boss_reset();
-      return;
+    BOSS_SEQ(KC_I, KC_D, KC_NO) {
+      SEND_STRING("()");
+      register_code(KC_LEFT);
+      unregister_code(KC_LEFT);
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
     }
+    
+    BOSS_SEQ(KC_I, KC_C, KC_NO) {
+      SEND_STRING("[]");
+      register_code(KC_LEFT);
+      unregister_code(KC_LEFT);
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
+    /* BOSS_SEQ_ANY_TWO_KEYS { */
+    /*   SEND_STRING("LD_NEW ANY KEY"); */
+    /*   boss_state_clear_sequence(); */
+    /*   boss_state.oneshot = false; */
+    /* } */
   }
 
+  /* BOSSING(LD_SYM) { */
 
-  BOSSING_LAYER(LD_NUMBER, _NUMBERS)
+  /*   SEQ_BOSS_ONE_KEY(KC_Q) { */
+  /*     SEND_STRING("ACTION NOW:"); */
+  /*     boss_queue = 0; */
+  /*     boss_reset(); */
+  /*     action_exec((keyevent_t){ */
+  /*         .key = (keypos_t){ .row = 0, .col = 3 }, */
+  /*         /\* .key = boss_current_keypos, *\/ */
+  /*           .pressed = true, */
+  /*              .time = (timer_read() | 1) /\* time should not be 0 *\/ */
+  /*              }); */
 
-  BOSSING_LAYER(LD_RAISE, _RAISE)
+  /*     SEND_STRING("AFTER ACTION TRUE:"); */
+  /*     action_exec((keyevent_t){ */
+  /*         .key = (keypos_t){ .row = 0, .col = 3 }, */
+  /*         /\* .key = boss_current_keypos, *\/ */
+  /*           .pressed = false, */
+  /*              .time = (timer_read() | 1) /\* time should not be 0 *\/ */
+  /*              }); */
+  /*     SEND_STRING("AFTER ACTION FALSE:"); */
+  /*     boss_queue = 0; */
+  /*     boss_reset(); */
+  /*   } */
+    
+  /* } */
 
-  BOSSING_LAYER(LD_ARROWS, _ARROWS)
 
-  /* if (bossing == (LD_PREFIX1 - KC_BOSS1 + 1)) { */
-  BOSSING(LD_PREFIX1) {
-    SEQ_BOSS_ONE_KEY(KC_K) {
-      register_code(KC_LCTL);
-      register_code(KC_LALT);
-      register_code(KC_LGUI);
-      register_code(KC_K);
-      unregister_code(KC_K);
-      unregister_code(KC_LGUI);
-      unregister_code(KC_LALT);
-      unregister_code(KC_LCTL);
-      boss_queue = 0;
-      boss_reset();
-      return;
-    }
-  }
+  /* BOSSING_LAYER(LD_NUMBER, _NUMBERS) */
+
+  /* BOSSING_LAYER(LD_RAISE, _RAISE) */
+
+  /* BOSSING_LAYER(LD_ARROWS, _ARROWS) */
+
+  /* /\* if (bossing == (LD_PREFIX1 - KC_BOSS1 + 1)) { *\/ */
+  /* BOSSING(LD_PREFIX1) { */
+  /*   SEQ_BOSS_ONE_KEY(KC_K) { */
+  /*     register_code(KC_LCTL); */
+  /*     register_code(KC_LALT); */
+  /*     register_code(KC_LGUI); */
+  /*     register_code(KC_K); */
+  /*     unregister_code(KC_K); */
+  /*     unregister_code(KC_LGUI); */
+  /*     unregister_code(KC_LALT); */
+  /*     unregister_code(KC_LCTL); */
+  /*     boss_queue = 0; */
+  /*     boss_reset(); */
+  /*     return; */
+  /*   } */
+  /* } */
 
 }

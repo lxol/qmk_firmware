@@ -65,74 +65,74 @@ typedef struct {
   || boss_queue == (boss_keycode - 1 + 1))
 
 
-#define BOSS_SEQ_ONE_KEY(key1) if (boss_state.sequence[0] == key1  \
-                             && boss_state.sequence[1] == 0 \
-                             && boss_state.sequence[2] == 0 \
-                             && boss_state.sequence[3] == 0 \
-                             && boss_state.sequence[4] == 0)
+/* #define BOSS_SEQ_ONE_KEY(key1) if (boss_state.sequence[0] == key1  \ */
+/*                              && boss_state.sequence[1] == 0 \ */
+/*                              && boss_state.sequence[2] == 0 \ */
+/*                              && boss_state.sequence[3] == 0 \ */
+/*                              && boss_state.sequence[4] == 0) */
 
-#define BOSS_SEQ_ANY_ONE_KEY if (boss_state.sequence[0] != 0 \
-                             && boss_state.sequence[1] == 0 \
-                             && boss_state.sequence[2] == 0 \
-                             && boss_state.sequence[3] == 0 \
-                             && boss_state.sequence[4] == 0)
+/* #define BOSS_SEQ_ANY_ONE_KEY if (boss_state.sequence[0] != 0 \ */
+/*                              && boss_state.sequence[1] == 0 \ */
+/*                              && boss_state.sequence[2] == 0 \ */
+/*                              && boss_state.sequence[3] == 0 \ */
+/*                              && boss_state.sequence[4] == 0) */
 
-#define BOSS_SEQ_ANY_TWO_KEYS if (boss_state.sequence[0] != 0 \
-                             && boss_state.sequence[1] != 0 \
-                             && boss_state.sequence[2] == 0 \
-                             && boss_state.sequence[3] == 0 \
-                             && boss_state.sequence[4] == 0)
+/* #define BOSS_SEQ_ANY_TWO_KEYS if (boss_state.sequence[0] != 0 \ */
+/*                              && boss_state.sequence[1] != 0 \ */
+/*                              && boss_state.sequence[2] == 0 \ */
+/*                              && boss_state.sequence[3] == 0 \ */
+/*                              && boss_state.sequence[4] == 0) */
 
 
-#define SEQ_BOSS_ANY_TWO_KEYS if (boss_sequence[0] != 0 \
-                             && boss_sequence[1] != 0 \
-                             && boss_sequence[2] == 0 \
-                             && boss_sequence[3] == 0 \
-                             && boss_sequence[4] == 0)
+/* #define SEQ_BOSS_ANY_TWO_KEYS if (boss_sequence[0] != 0 \ */
+/*                              && boss_sequence[1] != 0 \ */
+/*                              && boss_sequence[2] == 0 \ */
+/*                              && boss_sequence[3] == 0 \ */
+/*                              && boss_sequence[4] == 0) */
 
-#define SEQ_BOSS_ANY_THREE_KEYS if (boss_sequence[0] != 0 \
-                             && boss_sequence[1] != 0 \
-                             && boss_sequence[2] != 0 \
-                             && boss_sequence[3] == 0 \
-                             && boss_sequence[4] == 0)
+/* #define SEQ_BOSS_ANY_THREE_KEYS if (boss_sequence[0] != 0 \ */
+/*                              && boss_sequence[1] != 0 \ */
+/*                              && boss_sequence[2] != 0 \ */
+/*                              && boss_sequence[3] == 0 \ */
+/*                              && boss_sequence[4] == 0) */
 
-#define SEQ_BOSS_ANY_FOUR_KEYS if (boss_sequence[0] != 0 \
-                             && boss_sequence[1] != 0 \
-                             && boss_sequence[2] != 0 \
-                             && boss_sequence[3] != 0 \
-                             && boss_sequence[4] == 0)
+/* #define SEQ_BOSS_ANY_FOUR_KEYS if (boss_sequence[0] != 0 \ */
+/*                              && boss_sequence[1] != 0 \ */
+/*                              && boss_sequence[2] != 0 \ */
+/*                              && boss_sequence[3] != 0 \ */
+/*                              && boss_sequence[4] == 0) */
 
-#define SEQ_BOSS_ANY_FIVE_KEYS if (boss_sequence[0] != 0 \
-                             && boss_sequence[1] != 0 \
-                             && boss_sequence[2] != 0 \
-                             && boss_sequence[3] != 0 \
-                             && boss_sequence[4] != 0)
+/* #define SEQ_BOSS_ANY_FIVE_KEYS if (boss_sequence[0] != 0 \ */
+/*                              && boss_sequence[1] != 0 \ */
+/*                              && boss_sequence[2] != 0 \ */
+/*                              && boss_sequence[3] != 0 \ */
+/*                              && boss_sequence[4] != 0) */
 
-#define SEQ_BOSS_ONE_KEY(key) if (boss_sequence[0] == (key) \
-                                  && boss_sequence[1] == 0 \
-                                  && boss_sequence[2] == 0 \
-                                  && boss_sequence[3] == 0 \
-                                  && boss_sequence[4] == 0)
-#define SEQ_BOSS_TWO_KEYS(key1, key2) if (boss_sequence[0] == (key1) \
-                                          && boss_sequence[1] == (key2) \
-                                          && boss_sequence[2] == 0 \
-                                          && boss_sequence[3] == 0 \
-                                          && boss_sequence[4] == 0)
-#define SEQ_BOSS_THREE_KEYS(key1, key2, key3) if (boss_sequence[0] == (key1) \
-                                                  && boss_sequence[1] == (key2) \
-                                                  && boss_sequence[2] == (key3) \
-                                                  && boss_sequence[3] == 0 \
-                                                  && boss_sequence[4] == 0)
-#define SEQ_BOSS_FOUR_KEYS(key1, key2, key3, key4) if (boss_sequence[0] == (key1) \
-                                                       && boss_sequence[1] == (key2) \
-                                                       && boss_sequence[2] == (key3) \
-                                                       && boss_sequence[3] == (key4) \
-                                                       && boss_sequence[4] == 0)
-#define SEQ_BOSS_FIVE_KEYS(key1, key2, key3, key4, key5) if (boss_sequence[0] == (key1) \
-                                                             && boss_sequence[1] == (key2) \
-                                                             && boss_sequence[2] == (key3) \
-                                                             && boss_sequence[3] == (key4) \
-                                                             && boss_sequence[4] == (key5))
+/* #define SEQ_BOSS_ONE_KEY(key) if (boss_sequence[0] == (key) \ */
+/*                                   && boss_sequence[1] == 0 \ */
+/*                                   && boss_sequence[2] == 0 \ */
+/*                                   && boss_sequence[3] == 0 \ */
+/*                                   && boss_sequence[4] == 0) */
+/* #define SEQ_BOSS_TWO_KEYS(key1, key2) if (boss_sequence[0] == (key1) \ */
+/*                                           && boss_sequence[1] == (key2) \ */
+/*                                           && boss_sequence[2] == 0 \ */
+/*                                           && boss_sequence[3] == 0 \ */
+/*                                           && boss_sequence[4] == 0) */
+/* #define SEQ_BOSS_THREE_KEYS(key1, key2, key3) if (boss_sequence[0] == (key1) \ */
+/*                                                   && boss_sequence[1] == (key2) \ */
+/*                                                   && boss_sequence[2] == (key3) \ */
+/*                                                   && boss_sequence[3] == 0 \ */
+/*                                                   && boss_sequence[4] == 0) */
+/* #define SEQ_BOSS_FOUR_KEYS(key1, key2, key3, key4) if (boss_sequence[0] == (key1) \ */
+/*                                                        && boss_sequence[1] == (key2) \ */
+/*                                                        && boss_sequence[2] == (key3) \ */
+/*                                                        && boss_sequence[3] == (key4) \ */
+/*                                                        && boss_sequence[4] == 0) */
+/* #define SEQ_BOSS_FIVE_KEYS(key1, key2, key3, key4, key5) if (boss_sequence[0] == (key1) \ */
+/*                                                              && boss_sequence[1] == (key2) \ */
+/*                                                              && boss_sequence[2] == (key3) \ */
+/*                                                              && boss_sequence[3] == (key4) \ */
+/*                                                              && boss_sequence[4] == (key5)) */
 
 
 #define BOSS_EXTERNS() extern uint8_t bossing;\
