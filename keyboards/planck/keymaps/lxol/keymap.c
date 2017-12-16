@@ -278,6 +278,26 @@ void matrix_scan_user(void) {
       boss_state_clear_sequence();
       boss_state.oneshot = false;
     }
+    
+    BOSS_SEQ(KC_P, KC_NO) {
+
+      action_exec((keyevent_t){
+          .key = (keypos_t){ .row = 0, .col = 3 },
+            .pressed = true,
+               .time = (timer_read() | 1) /* time should not be 0 */
+               });
+
+      SEND_STRING("AFTER ACTION TRUE:");
+      action_exec((keyevent_t){
+          .key = (keypos_t){ .row = 0, .col = 3 },
+            /* .key = boss_current_keypos, */
+            .pressed = false,
+               .time = (timer_read() | 1) /* time should not be 0 */
+               });
+      /* boss_state_clear_sequence(); */
+      /* boss_state.oneshot = false; */
+
+    }
     /* BOSS_SEQ_ANY_TWO_KEYS { */
     /*   SEND_STRING("LD_NEW ANY KEY"); */
     /*   boss_state_clear_sequence(); */

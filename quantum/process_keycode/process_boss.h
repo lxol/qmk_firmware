@@ -42,6 +42,7 @@ typedef struct {
   uint8_t sequence_size;
   uint16_t keycode;
   keypos_t key;
+  keypos_t seq_key;
   bool oneshot;
   bool momentary;
   uint16_t time;
