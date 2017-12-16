@@ -5,7 +5,7 @@
 
 #define BOSS_ENABLE
 
-
+#define BOSS_SEQ_MAX 5
 
 /* disable debug print */
 //#define NO_DEBUG

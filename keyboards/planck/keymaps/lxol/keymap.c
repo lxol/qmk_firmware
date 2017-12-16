@@ -212,6 +212,16 @@ void matrix_init_user(void) {
 void matrix_scan_user(void) {
 
   IS_BOSSING(LD_NEW) {
+    BOSS_SEQ_HAS(KC_W, KC_NO) {
+      SEND_STRING("VAR MACRO ONE");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
+    BOSS_SEQ_HAS(KC_Q, KC_W, KC_NO) {
+      SEND_STRING("VAR MACRO TWO");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
     BOSS_SEQ_ONE_KEY(KC_E) {
       SEND_STRING("{");
       boss_state_clear_sequence();

@@ -19,6 +19,14 @@
 
 #include "quantum.h"
 
+#ifndef BOSS_SEQ_MAX
+#define BOSS_SEQ_MAX  5
+#endif
+
+#ifndef BOSS_REFERENCE_LAYER
+#define BOSS_REFERENCE_LAYER 0
+#endif
+
 bool process_boss(uint16_t keycode, keyrecord_t *record);
 
 void boss_start(void);
@@ -27,13 +35,12 @@ void boss_reset(void);
 void boss_init(void);
 void boss_state_reset(void);
 void boss_state_clear_sequence(void);
+bool boss_seq_has (uint16_t keycode, ...);
 
-/* #ifndef BOSS_REFERENCE_LAYER */
-/* #define BOSS_REFERENCE_LAYER = 0 */
-/* #endif */
+#define BOSS_SEQ_HAS(...) if (boss_seq_has(__VA_ARGS__))
 
 typedef struct {
-  uint16_t sequence[5];
+  uint16_t sequence[BOSS_SEQ_MAX];
   uint8_t sequence_size;
   uint16_t keycode;
   keypos_t key;
