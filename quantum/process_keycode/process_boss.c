@@ -90,7 +90,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
   // Boss key set-up
 /* #define KEYEQ(keya, keyb)       ((keya).row == (keyb).row && (keya).col == (keyb).col) */
   if (record->event.pressed) {
-    if (keycode >= KC_BOSS1 && keycode < (KC_BOSS1 + 10)) {
+    if (keycode >= KC_BOSS_MO && keycode < (KC_BOSS_MO + 10)) {
       xprintf("  START BOSSING \r\n"  );
       boss_state_reset();
       boss_state.keycode = keycode;

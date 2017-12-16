@@ -30,7 +30,7 @@ enum planck_keycodes {
 };
 
 enum planck_leaders {
-  LD_SYM = KC_BOSS1,
+  LD_SYM = KC_BOSS_MO,
   LD_FOO,
   LD_NUMBER,
   LD_ARROWS,

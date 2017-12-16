@@ -122,7 +122,7 @@ enum quantum_keycodes {
 #endif
 
 #ifdef BOSS_ENABLE
-    KC_BOSS1,
+    KC_BOSS_MO,
     KC_BOSS2,
     KC_BOSS3,
     KC_BOSS4,
