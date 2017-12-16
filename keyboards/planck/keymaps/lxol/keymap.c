@@ -290,7 +290,7 @@ void matrix_scan_user(void) {
   /*   SEQ_BOSS_ONE_KEY(KC_Q) { */
   /*     SEND_STRING("ACTION NOW:"); */
   /*     boss_queue = 0; */
-  /*     boss_reset(); */
+  /*     boss_reset); */
   /*     action_exec((keyevent_t){ */
   /*         .key = (keypos_t){ .row = 0, .col = 3 }, */
   /*         /\* .key = boss_current_keypos, *\/ */

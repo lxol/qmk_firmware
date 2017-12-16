@@ -25,31 +25,17 @@ __attribute__ ((weak))
 void boss_end(void) {}
 
 boss_t boss_state;
-uint8_t boss_ref_layer = 0;
-boss_range_t boss_range = (boss_range_t) {.mo_first = 0, .mo_last = 0, .os_first = 0, .os_last = 0};
-/* uint8_t boss_ref_layer = biton32(default_layer_state); */
-keypos_t no_key = (keypos_t) {
-  .row = MATRIX_ROWS + 1,
-  .col = MATRIX_COLS + 1
-};
 
-// Boss key stuff
-uint8_t bossing = 0;
-uint16_t boss_time = 0;
-/* uint8_t boss_layer = 0; */
+uint8_t boss_ref_layer = BOSS_REFERENCE_LAYER;
 
-uint16_t boss_sequence[5] = {0, 0, 0, 0, 0};
-uint8_t boss_sequence_size = 0;
-
-uint8_t boss_layer;
-keypos_t boss_keypos;
-keypos_t boss_current_keypos;
-
-uint8_t boss_queue = 0;                /*  */
-
-void boss_init() {
-  boss_state_reset();
-}
+boss_range_t boss_range = (boss_range_t) {.mo_first = KC_NO,
+                                          .mo_last = KC_NO,
+                                          .os_first = KC_NO,
+                                          .os_last = KC_NO};
+/* keypos_t no_key = (keypos_t) { */
+/*   .row = MATRIX_ROWS + 1, */
+/*   .col = MATRIX_COLS + 1 */
+/* }; */
 
 void boss_state_print(void) {
   xprintf("BOSS STATE:\r\n");
@@ -57,11 +43,10 @@ void boss_state_print(void) {
   xprintf("   boss_state.oneshot :%d\r\n", boss_state.oneshot);
   xprintf("   boss_state.keycode :%d\r\n", boss_state.keycode);
   xprintf("   boss_state.sequence_size :%d\r\n", boss_state.sequence_size);
-  for (uint8_t i = 0; i < 5; ++i)
+  for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i)
     xprintf("        boss_state.sequence[%d] keycode: %d\r\n", i, boss_state.sequence[i]);
 }
 
-/* layer = biton32(layer_state); */
 bool process_boss(uint16_t keycode, keyrecord_t *record) {
   //TODO: control presses and releases  -- too complicated
 
@@ -71,13 +56,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
 
   // ignore modifiers
   // TODO: make it configurable
-  /* print("print \r\n" ); */
-  /* printf("printf process boss, keycode %d \r\n", keycode  ); */
- 
-  keypos_t foo = record->event.key;
   boss_state_print();
-  xprintf("KEY keycode %d row: %d col: %d pressed: %d \r\n", keycode, foo.row, foo.col, record->event.pressed    );
-  xprintf(" INFO bossing %d row: %d col: %d queue: %d, boss_layer: %d \r\n", bossing, boss_keypos.row, boss_keypos.col, boss_queue, boss_layer    );
   if (keycode == KC_LCTL ||
       keycode == KC_RCTL ||
       keycode == KC_LGUI ||
@@ -89,7 +68,6 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
     return true;
   }
   // Boss key set-up
-/* #define KEYEQ(keya, keyb)       ((keya).row == (keyb).row && (keya).col == (keyb).col) */
   if (record->event.pressed) {
     if (keycode >= boss_range.mo_first && keycode <= boss_range.mo_last ) {
       xprintf("  START BOSSING \r\n"  );
@@ -117,7 +95,6 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
     if (boss_state.momentary && KEYEQ(boss_state.key, record->event.key)) { 
       xprintf("  RELEASE bossing KEY UNDER BOSSING \r\n"  );
       boss_state.momentary = false;
-      /* boss_state_reset(); */
       return false;
     }
     
@@ -130,28 +107,20 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-void boss_reset(void) {
-  boss_sequence_size = 0;
-  boss_sequence[0] = 0;
-  boss_sequence[1] = 0;
-  boss_sequence[2] = 0;
-  boss_sequence[3] = 0;
-  boss_sequence[4] = 0;
-}
 
 void boss_state_clear_sequence(void) {
-  for (uint8_t i = 0; i < 5; ++i)
+  for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i)
     boss_state.sequence[i] = 0;
   boss_state.sequence_size = 0;
 }
 
 void boss_state_reset(void) {
-  for (uint8_t i = 0; i < 5; ++i)
+  for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i)
     boss_state.sequence[i] = 0;
   boss_state.sequence_size = 0;
   boss_state.oneshot = false;
   boss_state.momentary = false;
-  boss_state.key = no_key;
+  /* boss_state.key = no_key; */
   boss_state.keycode = 0;
   boss_state.time = timer_read();
 }
