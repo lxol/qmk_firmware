@@ -26,6 +26,7 @@ void boss_end(void) {}
 
 boss_t boss_state;
 uint8_t boss_ref_layer = 0;
+boss_range_t boss_range = (boss_range_t) {.mo_first = 0, .mo_last = 0, .os_first = 0, .os_last = 0};
 /* uint8_t boss_ref_layer = biton32(default_layer_state); */
 keypos_t no_key = (keypos_t) {
   .row = MATRIX_ROWS + 1,
@@ -90,7 +91,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
   // Boss key set-up
 /* #define KEYEQ(keya, keyb)       ((keya).row == (keyb).row && (keya).col == (keyb).col) */
   if (record->event.pressed) {
-    if (keycode >= KC_BOSS_MO && keycode < (KC_BOSS_MO + 10)) {
+    if (keycode >= boss_range.mo_first && keycode <= boss_range.mo_last ) {
       xprintf("  START BOSSING \r\n"  );
       boss_state_reset();
       boss_state.keycode = keycode;

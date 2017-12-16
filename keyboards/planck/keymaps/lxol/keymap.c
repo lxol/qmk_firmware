@@ -26,11 +26,8 @@ enum planck_keycodes {
   FUN,
   MOUSE,
   BACKLIT,
-  DYNAMIC_MACRO_RANGE
-};
-
-enum planck_leaders {
-  LD_SYM = KC_BOSS_MO,
+  DYNAMIC_MACRO_RANGE,
+  LD_SYM,
   LD_FOO,
   LD_NUMBER,
   LD_ARROWS,
@@ -38,6 +35,16 @@ enum planck_leaders {
   LD_PREFIX1,
   LD_NEW
 };
+
+/* enum planck_leaders { */
+/*   LD_SYM = KC_BOSS_MO, */
+/*   LD_FOO, */
+/*   LD_NUMBER, */
+/*   LD_ARROWS, */
+/*   LD_RAISE, */
+/*   LD_PREFIX1, */
+/*   LD_NEW */
+/* }; */
 
 #include "dynamic_macro.h"
 
@@ -198,6 +205,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 BOSS_EXTERNS();
 void matrix_init_user(void) {
   boss_ref_layer = biton32(default_layer_state);
+  boss_range.mo_first = LD_SYM;
+  boss_range.mo_last = LD_NEW;
 }
 
 void matrix_scan_user(void) {

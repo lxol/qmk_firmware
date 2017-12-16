@@ -42,17 +42,20 @@ typedef struct {
   uint16_t time;
 } boss_t;
 
-#define BOSS_MO_KEYCODES(...)  __VA_ARGS__
-#define BOSS_OS_KEYCODES(...)  __VA_ARGS__
 
-
+typedef struct {
+  uint16_t mo_first;
+  uint16_t mo_last;
+  uint16_t os_first;
+  uint16_t os_last;
+} boss_range_t;
 
 #define IS_BOSSING(boss_keycode) \
   if (boss_state.keycode == boss_keycode || boss_state.oneshot)
 
 #define BOSSING(boss_keycode) \
-  if (bossing == (boss_keycode - KC_BOSS_MO + 1) \
-  || boss_queue == (boss_keycode - KC_BOSS_MO + 1))
+  if (bossing == (boss_keycode - 1 + 1) \
+  || boss_queue == (boss_keycode - 1 + 1))
 
 
 #define BOSS_SEQ_ONE_KEY(key1) if (boss_state.sequence[0] == key1  \
@@ -128,6 +131,7 @@ typedef struct {
 #define BOSS_EXTERNS() extern uint8_t bossing;\
   extern uint16_t boss_time; \
   extern boss_t boss_state; \
+  extern boss_range_t boss_range; \
   extern uint8_t boss_ref_layer; \
   extern uint16_t boss_sequence[5]; \
   extern uint8_t boss_sequence_size; \
@@ -136,8 +140,8 @@ typedef struct {
   extern uint8_t boss_queue
 
 #define BOSSING_LAYER(boss_keycode, layer )                 \
-  if (bossing == (boss_keycode - KC_BOSS_MO + 1) || \
-      boss_queue == (boss_keycode - KC_BOSS_MO + 1)) { \
+  if (bossing == (boss_keycode - 1 + 1) || \
+      boss_queue == (boss_keycode - 1 + 1)) { \
     if (boss_sequence[0] != 0 \
         && boss_sequence[1] == 0 \
         && boss_sequence[2] == 0 \
