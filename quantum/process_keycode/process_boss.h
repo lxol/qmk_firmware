@@ -37,7 +37,7 @@ void boss_state_reset(void);
 void boss_state_clear_sequence(void);
 bool boss_seq_has (uint16_t keycode, ...);
 
-#define BOSS_SEQ_HAS(...) if (boss_seq_has(__VA_ARGS__))
+#define BOSS_SEQ(...) if (boss_seq_has(__VA_ARGS__))
 
 typedef struct {
   uint16_t sequence[BOSS_SEQ_MAX];
