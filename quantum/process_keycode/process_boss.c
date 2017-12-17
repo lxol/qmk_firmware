@@ -72,13 +72,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     if (keycode >= boss_range.mo_first && keycode <= boss_range.mo_last ) {
       xprintf("  START BOSSING keycode: %d\r\n", keycode  );
-      boss_state_reset();
-      boss_state.keycode = keycode;
-      boss_state.key = record->event.key;
-      // TODO: wrap oneshot in #ifdef BOSS_ONESHOT
-      boss_state.oneshot = true;
-      boss_state.momentary = true;
-      boss_state.time = timer_read();
+      boss_state_init(keycode, record->event.key);
       return false;
     }
     if (boss_state.momentary || boss_state.oneshot) {
@@ -116,14 +110,27 @@ void boss_state_clear_sequence(void) {
   boss_state.sequence_size = 0;
 }
 
-void boss_state_reset(void) {
+/* void boss_state_reset(void) { */
+/*   for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i) */
+/*     boss_state.sequence[i] = 0; */
+/*   boss_state.sequence_size = 0; */
+/*   boss_state.oneshot = false; */
+/*   boss_state.momentary = false; */
+/*   /\* boss_state.key = no_key; *\/ */
+/*   boss_state.keycode = 0; */
+/*   boss_state.time = timer_read(); */
+/* } */
+
+void boss_state_init(uint16_t keycode, keypos_t key) {
   for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i)
     boss_state.sequence[i] = 0;
   boss_state.sequence_size = 0;
-  boss_state.oneshot = false;
-  boss_state.momentary = false;
-  /* boss_state.key = no_key; */
-  boss_state.keycode = 0;
+  boss_state.keycode = keycode;
+  boss_state.key = key;
+  // TODO: wrap oneshot in #ifdef BOSS_ONESHOT ???
+  // it it can be manage in user space
+  boss_state.oneshot = true;
+  boss_state.momentary = true;
   boss_state.time = timer_read();
 }
 

@@ -31,7 +31,8 @@ bool process_boss(uint16_t keycode, keyrecord_t *record);
 
 void boss_start(void);
 void boss_end(void);
-void boss_state_reset(void);
+/* void boss_state_reset(void); */
+void boss_state_init(uint16_t keycode, keypos_t key);
 void boss_state_clear_sequence(void);
 bool boss_seq_has (uint16_t keycode, ...);
 
