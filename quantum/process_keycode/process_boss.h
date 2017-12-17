@@ -57,7 +57,7 @@ typedef struct {
 } boss_range_t;
 
 #define IS_BOSSING(boss_keycode) \
-  if (boss_state.keycode == boss_keycode || boss_state.oneshot)
+  if (boss_state.keycode == boss_keycode && (boss_state.momentary || boss_state.oneshot))
 
 #define BOSS_EXTERNS() extern uint8_t bossing;\
   extern boss_t boss_state; \

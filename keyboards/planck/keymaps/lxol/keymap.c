@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_RAISE ] = { 
   { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,      KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } , 
-  { LD_NEW , KC_LBRC , KC_RBRC , LD_ARROWS , LD_NUMBER , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_NEW ,  KC_ESC ,  _______ , _______ } , 
+  { LD_FOO , KC_LBRC , KC_RBRC , LD_ARROWS , LD_NUMBER , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_NEW ,  KC_ESC ,  _______ , _______ } , 
   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,    KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , _______ , _______ , _______ } , 
   { CALTDEL , KC_DEL ,  _______ , _______ ,   _______ ,   _______ , _______ , _______ , _______ , _______ , _______ , _______ }
  } ,          
@@ -81,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,               
 
 [_LEFT] = { 
-  { _______ , _______ , _______ , KC_LCBR , KC_RCBR , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
+  { _______ , _______ , _______ , KC_LCBR , KC_RCBR , _______ , _______ , _______ , _______ , _______ , LD_FOO , _______ } , 
   { _______ , _______ , _______ , KC_LPRN , KC_RPRN , KC_BSPC , _______ , _______ , _______ , _______ , _______ , _______ } , 
   { _______ , _______ , _______ , KC_LBRC , KC_RBRC , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } 
@@ -281,19 +281,22 @@ void matrix_scan_user(void) {
     
     BOSS_SEQ(KC_P, KC_NO) {
 
+      layer_on(_LEFT);
       action_exec((keyevent_t){
-          .key = (keypos_t){ .row = 0, .col = 3 },
+          .key = boss_state.seq_key,
             .pressed = true,
                .time = (timer_read() | 1) /* time should not be 0 */
                });
 
-      SEND_STRING("AFTER ACTION TRUE:");
+      SEND_STRING("key sent:");
       action_exec((keyevent_t){
-          .key = (keypos_t){ .row = 0, .col = 3 },
-            /* .key = boss_current_keypos, */
+          .key = boss_state.seq_key,
+            /* .key = boss_current_k(keypos_t){ .row = 0, .col = 3 },(keypos_t){ .row = 0, .col = 3 },(keypos_t){ .row = 0, .col = 3 },(keypos_t){ .row = 0, .col = 3 },eypos, */
             .pressed = false,
                .time = (timer_read() | 1) /* time should not be 0 */
                });
+      layer_off(_LEFT);
+      SEND_STRING("layer off:");
       /* boss_state_clear_sequence(); */
       /* boss_state.oneshot = false; */
 
@@ -305,6 +308,13 @@ void matrix_scan_user(void) {
     /* } */
   }
 
+  IS_BOSSING(LD_FOO) {
+    BOSS_SEQ(KC_D, KC_NO) {
+      SEND_STRING("LD_FOO");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
+  }
   /* BOSSING(LD_SYM) { */
 
   /*   SEQ_BOSS_ONE_KEY(KC_Q) { */

@@ -40,6 +40,7 @@ boss_range_t boss_range = (boss_range_t) {.mo_first = KC_NO,
 void boss_state_print(void) {
   xprintf("BOSS STATE:\r\n");
   xprintf("   boss_state.key row:%d, col: %d\r\n", boss_state.key.row, boss_state.key.col);
+  xprintf("   boss_state.seq_key row:%d, col: %d\r\n", boss_state.seq_key.row, boss_state.seq_key.col);
   xprintf("   boss_state.oneshot :%d\r\n", boss_state.oneshot);
   xprintf("   boss_state.keycode :%d\r\n", boss_state.keycode);
   xprintf("   boss_state.sequence_size :%d\r\n", boss_state.sequence_size);
@@ -70,7 +71,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
   // Boss key set-up
   if (record->event.pressed) {
     if (keycode >= boss_range.mo_first && keycode <= boss_range.mo_last ) {
-      xprintf("  START BOSSING \r\n"  );
+      xprintf("  START BOSSING keycode: %d\r\n", keycode  );
       boss_state_reset();
       boss_state.keycode = keycode;
       boss_state.key = record->event.key;
