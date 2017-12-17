@@ -34,9 +34,9 @@ void boss_end(void);
 /* void boss_state_reset(void); */
 void boss_state_init(uint16_t keycode, keypos_t key);
 void boss_state_clear_sequence(void);
-bool boss_seq_has (uint16_t keycode, ...);
+bool boss_seq_keycodes_cmp (uint16_t keycode, ...);
 
-#define BOSS_SEQ(...) if (boss_seq_has(__VA_ARGS__))
+#define BOSS_SEQ(...) if (boss_seq_keycodes_cmp(__VA_ARGS__))
 
 typedef struct {
   uint16_t sequence[BOSS_SEQ_MAX];
@@ -60,13 +60,15 @@ typedef struct {
 #define IS_BOSSING(boss_keycode) \
   if (boss_state.keycode == boss_keycode && (boss_state.momentary || boss_state.oneshot))
 
-#define BOSS_EXTERNS() extern uint8_t bossing;\
+#define BOSS_EXTERNS() \
   extern boss_t boss_state; \
   extern boss_range_t boss_range; \
   extern uint8_t boss_ref_layer; \
   extern void boss_state_init(uint16_t keycode, keypos_t key); \
   extern uint16_t boss_sequence[BOSS_SEQ_MAX]; 
 
+
+#define BOSS_SEQ(...) if (boss_seq_keycodes_cmp(__VA_ARGS__))
 /* #define BOSSING_LAYER(boss_keycode, layer )                 \ */
 /*   if (bossing == (boss_keycode - 1 + 1) || \ */
 /*       boss_queue == (boss_keycode - 1 + 1)) { \ */

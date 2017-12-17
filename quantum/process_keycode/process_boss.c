@@ -134,7 +134,7 @@ void boss_state_init(uint16_t keycode, keypos_t key) {
   boss_state.time = timer_read();
 }
 
-bool boss_seq_has (uint16_t keycode, ...) {
+bool boss_seq_keycodes_cmp (uint16_t keycode, ...) {
   bool result = true;
   uint16_t kc = keycode;
   va_list ap;
@@ -147,5 +147,20 @@ bool boss_seq_has (uint16_t keycode, ...) {
   va_end(ap);
   return result;
 }
+
+bool boss_seq_layer_eq (uint16_t keycode, ...) {
+  bool result = true;
+  uint16_t kc = keycode;
+  va_list ap;
+  va_start(ap, keycode);
+  uint8_t i = 0;
+  do {
+    result = result && kc == boss_state.sequence[i++];
+    kc = va_arg(ap, uint16_t);
+  } while (kc != KC_NO );
+  va_end(ap);
+  return result;
+}
+
 
 #endif
