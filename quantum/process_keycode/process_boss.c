@@ -45,7 +45,7 @@ void boss_state_print(void) {
   xprintf("   boss_state.keycode :%d\r\n", boss_state.keycode);
   xprintf("   boss_state.sequence_size :%d\r\n", boss_state.sequence_size);
   for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i)
-    xprintf("        boss_state.sequence[%d] keycode: %d\r\n", i, boss_state.sequence[i]);
+    xprintf("        boss_state.keycode_seq[%d] keycode: %d\r\n", i, boss_state.keycode_seq[i]);
 }
 
 bool process_boss(uint16_t keycode, keyrecord_t *record) {
@@ -83,7 +83,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       }
       xprintf("  PRESS non-boss KEY UNDER BOSSING \r\n"  );
       uint16_t ref_kc = keymap_key_to_keycode(boss_ref_layer, record->event.key);
-      boss_state.sequence[boss_state.sequence_size++] = ref_kc;
+      boss_state.keycode_seq[boss_state.sequence_size++] = ref_kc;
       boss_state.seq_key = record->event.key;
       return false;
     }
@@ -106,7 +106,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
 
 void boss_state_clear_sequence(void) {
   for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i)
-    boss_state.sequence[i] = 0;
+    boss_state.keycode_seq[i] = 0;
   boss_state.sequence_size = 0;
 }
 
@@ -123,7 +123,7 @@ void boss_state_clear_sequence(void) {
 
 void boss_state_init(uint16_t keycode, keypos_t key) {
   for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i)
-    boss_state.sequence[i] = 0;
+    boss_state.keycode_seq[i] = 0;
   boss_state.sequence_size = 0;
   boss_state.keycode = keycode;
   boss_state.key = key;
@@ -141,7 +141,7 @@ bool boss_seq_keycodes_cmp(uint16_t keycode, ...) {
   va_start(ap, keycode);
   uint8_t i = 0;
   do {
-    result = result && kc == boss_state.sequence[i++];
+    result = result && kc == boss_state.keycode_seq[i++];
     kc = va_arg(ap, uint16_t);
   } while (kc != KC_NO );
   va_end(ap);

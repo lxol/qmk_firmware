@@ -39,7 +39,7 @@ bool boss_seq_keycodes_cmp (uint16_t keycode, ...);
 #define BOSS_SEQ(...) if (boss_seq_keycodes_cmp(__VA_ARGS__))
 
 typedef struct {
-  uint16_t sequence[BOSS_SEQ_MAX];
+  uint16_t keycode_seq[BOSS_SEQ_MAX];
   uint8_t sequence_size;
   uint16_t keycode;
   keypos_t key;
