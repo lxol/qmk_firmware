@@ -31,12 +31,12 @@ bool process_boss(uint16_t keycode, keyrecord_t *record);
 
 void boss_start(void);
 void boss_end(void);
-/* void boss_state_reset(void); */
 void boss_state_init(uint16_t keycode, keypos_t key);
 void boss_state_clear_sequence(void);
 bool boss_seq_keycodes_cmp (uint16_t keycode, ...);
 void boss_seq_layer_register(uint8_t layer, ...);
 
+#define BOSS_SEQ1(...) boss_seq_layer_register(__VA_ARGS__);if (boss_seq_keycodes_cmp(__VA_ARGS__))
 #define BOSS_SEQ(...) if (boss_seq_keycodes_cmp(__VA_ARGS__))
 #define BOSS_SEQ_LAYER(...) boss_seq_layer_register(__VA_ARGS__);
 

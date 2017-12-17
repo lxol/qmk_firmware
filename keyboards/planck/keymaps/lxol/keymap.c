@@ -11,6 +11,7 @@ enum planck_layers {
   _RAISEFUN,
   _RAISE,
   _FUN,
+  _SYM,
   _NUMBERS,
   _ARROWS,
   _MOUSE
@@ -68,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_RAISE ] = { 
   { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,      KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } , 
-  { LD_FOO , KC_LBRC , KC_RBRC , LD_ARROWS , LD_NUMBER , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_NEW ,  KC_ESC ,  _______ , _______ } , 
+  { LD_FOO , KC_LBRC , KC_RBRC , LD_ARROWS , LD_NUMBER , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_SYM ,  KC_ESC ,  _______ , _______ } , 
   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,    KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , _______ , _______ , _______ } , 
   { CALTDEL , KC_DEL ,  _______ , _______ ,   _______ ,   _______ , _______ , _______ , _______ , _______ , _______ , _______ }
  } ,          
@@ -80,10 +81,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { AG_NORM ,      AG_SWAP ,         _______ ,         _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ }
  } ,               
 
-[_LEFT] = { 
-  { _______ , _______ , _______ , KC_LCBR , KC_RCBR , _______ , _______ , _______ , _______ , _______ , LD_FOO , _______ } , 
-  { _______ , _______ , _______ , KC_LPRN , KC_RPRN , KC_BSPC , _______ , _______ , _______ , _______ , _______ , _______ } , 
-  { _______ , _______ , _______ , KC_LBRC , KC_RBRC , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
+[_SYM] = { 
+  { _______ , _______ , _______ , KC_LCBR , KC_RCBR , _______ , _______ , _______ , _______ , _______ , _______ , _______ } ,
+  { _______ , _______ , _______ , KC_LPRN , KC_RPRN , _______ , _______ , _______ , _______ , _______ , _______ , _______ } ,
+  { _______ , _______ , _______ , KC_LBRC , KC_RBRC , _______ , _______ , _______ , _______ , _______ , _______ , _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } 
  } ,          
 
@@ -211,49 +212,49 @@ void matrix_init_user(void) {
 
 void matrix_scan_user(void) {
 
-  IS_BOSSING(LD_NEW) {
-    BOSS_SEQ(KC_W, KC_NO) {
-      SEND_STRING("VAR MACRO ONE");
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
-    BOSS_SEQ(KC_Q, KC_W, KC_NO) {
-      SEND_STRING("VAR MACRO TWO");
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
-    BOSS_SEQ(KC_E, KC_NO) {
-      SEND_STRING("{");
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
-    BOSS_SEQ(KC_R, KC_NO) {
-      SEND_STRING("}");
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
-    BOSS_SEQ(KC_D, KC_NO) {
-      SEND_STRING("(");
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
-    BOSS_SEQ(KC_F, KC_NO) {
-      SEND_STRING(")");
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
+  IS_BOSSING(LD_SYM) {
+    /* BOSS_SEQ(KC_W, KC_NO) { */
+    /*   SEND_STRING("VAR MACRO ONE"); */
+    /*   boss_state_clear_sequence(); */
+    /*   boss_state.oneshot = false; */
+    /* } */
+    /* BOSS_SEQ(KC_Q, KC_W, KC_NO) { */
+    /*   SEND_STRING("VAR MACRO TWO"); */
+    /*   boss_state_clear_sequence(); */
+    /*   boss_state.oneshot = false; */
+    /* } */
+    /* BOSS_SEQ(KC_E, KC_NO) { */
+    /*   SEND_STRING("{"); */
+    /*   boss_state_clear_sequence(); */
+    /*   boss_state.oneshot = false; */
+    /* } */
+    /* BOSS_SEQ(KC_R, KC_NO) { */
+    /*   SEND_STRING("}"); */
+    /*   boss_state_clear_sequence(); */
+    /*   boss_state.oneshot = false; */
+    /* } */
+    /* BOSS_SEQ(KC_D, KC_NO) { */
+    /*   SEND_STRING("("); */
+    /*   boss_state_clear_sequence(); */
+    /*   boss_state.oneshot = false; */
+    /* } */
+    /* BOSS_SEQ(KC_F, KC_NO) { */
+    /*   SEND_STRING(")"); */
+    /*   boss_state_clear_sequence(); */
+    /*   boss_state.oneshot = false; */
+    /* } */
     
-    BOSS_SEQ(KC_C, KC_NO) {
-      SEND_STRING("[");
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
+    /* BOSS_SEQ(KC_C, KC_NO) { */
+    /*   SEND_STRING("["); */
+    /*   boss_state_clear_sequence(); */
+    /*   boss_state.oneshot = false; */
+    /* } */
     
-    BOSS_SEQ(KC_V, KC_NO) {
-      SEND_STRING("]");
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
+    /* BOSS_SEQ(KC_V, KC_NO) { */
+    /*   SEND_STRING("]"); */
+    /*   boss_state_clear_sequence(); */
+    /*   boss_state.oneshot = false; */
+    /* } */
 
     BOSS_SEQ(KC_I, KC_E, KC_NO) {
       SEND_STRING("{}");
@@ -280,28 +281,11 @@ void matrix_scan_user(void) {
     }
     
    BOSS_SEQ(KC_P, KC_NO) {
+     boss_state_init(LD_FOO, boss_state.seq_key);
+   }
 
-      boss_state_init(LD_FOO, boss_state.seq_key);
-
-      /* layer_on(_LEFT); */
-      /* action_exec((keyevent_t){ */
-      /*     .key = boss_state.seq_key, */
-      /*       .pressed = true, */
-      /*          .time = (timer_read() | 1) /\* time should not be 0 *\/ */
-      /*          }); */
-
-      /* SEND_STRING("key sent:"); */
-      /* action_exec((keyevent_t){ */
-      /*     .key = boss_state.seq_key, */
-      /*       .pressed = false, */
-      /*          .time = (timer_read() | 1) /\* time should not be 0 *\/ */
-      /*          }); */
-      /* layer_off(_LEFT); */
-      /* SEND_STRING("layer off:"); */
-
-    }
-
-   BOSS_SEQ_LAYER(_NUMBERS, KC_NO)
+   /* BOSS_SEQ_LAYER(_ARROWS, KC_A, KC_NO) */
+   BOSS_SEQ_LAYER(_SYM, KC_NO)
     /* BOSS_SEQ_ANY_TWO_KEYS { */
     /*   SEND_STRING("LD_NEW ANY KEY"); */
     /*   boss_state_clear_sequence(); */

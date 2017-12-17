@@ -184,8 +184,8 @@ void boss_seq_layer_register(uint8_t layer, ...) {
     return;
   }
   kc = keymap_key_to_keycode(layer, boss_state.key_seq[i]);
-  register_code(kc);
-  unregister_code(kc);
+  register_code16(kc);
+  unregister_code16(kc);
   boss_state_clear_sequence();
   boss_state.oneshot = false;
   return;
