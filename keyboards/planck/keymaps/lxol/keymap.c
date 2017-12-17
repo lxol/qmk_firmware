@@ -300,6 +300,8 @@ void matrix_scan_user(void) {
       /* SEND_STRING("layer off:"); */
 
     }
+
+   BOSS_SEQ_LAYER(_NUMBERS, KC_NO)
     /* BOSS_SEQ_ANY_TWO_KEYS { */
     /*   SEND_STRING("LD_NEW ANY KEY"); */
     /*   boss_state_clear_sequence(); */

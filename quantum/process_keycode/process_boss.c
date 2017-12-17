@@ -108,7 +108,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
 
 void boss_state_clear_sequence(void) {
   for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i) {
-    boss_state.keycode_seq[i] = 0;
+    boss_state.keycode_seq[i] = KC_NO;
     boss_state.key_seq[i] = (keypos_t) {
       .row = MATRIX_ROWS + 1,
       .col = MATRIX_COLS + 1};
@@ -165,6 +165,30 @@ bool boss_seq_layers_cmp(uint8_t layer, ...) {
   /* } while (kc != KC_NO ); */
   /* va_end(ap); */
   return result;
+}
+
+void boss_seq_layer_register(uint8_t layer, ...) {
+  va_list ap;
+  uint16_t kc;
+  va_start(ap, layer);
+  kc = va_arg(ap, uint16_t);
+  uint8_t i = 0;
+  while (kc != KC_NO ) {
+    if (kc != boss_state.keycode_seq[i++]) {
+      return;
+    }
+    kc = va_arg(ap, uint16_t);
+  }
+  va_end(ap);
+  if (boss_state.keycode_seq[i] == KC_NO) {
+    return;
+  }
+  kc = keymap_key_to_keycode(layer, boss_state.key_seq[i]);
+  register_code(kc);
+  unregister_code(kc);
+  boss_state_clear_sequence();
+  boss_state.oneshot = false;
+  return;
 }
 
 
