@@ -64,6 +64,7 @@ typedef struct {
   extern boss_t boss_state; \
   extern boss_range_t boss_range; \
   extern uint8_t boss_ref_layer; \
+  extern void boss_state_init(uint16_t keycode, keypos_t key); \
   extern uint16_t boss_sequence[BOSS_SEQ_MAX]; 
 
 /* #define BOSSING_LAYER(boss_keycode, layer )                 \ */

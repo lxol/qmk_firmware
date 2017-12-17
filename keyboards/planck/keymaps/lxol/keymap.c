@@ -281,24 +281,23 @@ void matrix_scan_user(void) {
     
     BOSS_SEQ(KC_P, KC_NO) {
 
-      layer_on(_LEFT);
-      action_exec((keyevent_t){
-          .key = boss_state.seq_key,
-            .pressed = true,
-               .time = (timer_read() | 1) /* time should not be 0 */
-               });
+      boss_state_init(LD_FOO, boss_state.seq_key);
 
-      SEND_STRING("key sent:");
-      action_exec((keyevent_t){
-          .key = boss_state.seq_key,
-            /* .key = boss_current_k(keypos_t){ .row = 0, .col = 3 },(keypos_t){ .row = 0, .col = 3 },(keypos_t){ .row = 0, .col = 3 },(keypos_t){ .row = 0, .col = 3 },eypos, */
-            .pressed = false,
-               .time = (timer_read() | 1) /* time should not be 0 */
-               });
-      layer_off(_LEFT);
-      SEND_STRING("layer off:");
-      /* boss_state_clear_sequence(); */
-      /* boss_state.oneshot = false; */
+      /* layer_on(_LEFT); */
+      /* action_exec((keyevent_t){ */
+      /*     .key = boss_state.seq_key, */
+      /*       .pressed = true, */
+      /*          .time = (timer_read() | 1) /\* time should not be 0 *\/ */
+      /*          }); */
+
+      /* SEND_STRING("key sent:"); */
+      /* action_exec((keyevent_t){ */
+      /*     .key = boss_state.seq_key, */
+      /*       .pressed = false, */
+      /*          .time = (timer_read() | 1) /\* time should not be 0 *\/ */
+      /*          }); */
+      /* layer_off(_LEFT); */
+      /* SEND_STRING("layer off:"); */
 
     }
     /* BOSS_SEQ_ANY_TWO_KEYS { */

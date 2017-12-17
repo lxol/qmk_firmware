@@ -82,8 +82,8 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
         return false;
       }
       xprintf("  PRESS non-boss KEY UNDER BOSSING \r\n"  );
-      uint16_t boss_ref_keycode = keymap_key_to_keycode(boss_ref_layer, record->event.key);
-      boss_state.sequence[boss_state.sequence_size++] = boss_ref_keycode;
+      uint16_t ref_kc = keymap_key_to_keycode(boss_ref_layer, record->event.key);
+      boss_state.sequence[boss_state.sequence_size++] = ref_kc;
       boss_state.seq_key = record->event.key;
       return false;
     }
