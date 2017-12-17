@@ -40,6 +40,7 @@ bool boss_seq_keycodes_cmp (uint16_t keycode, ...);
 
 typedef struct {
   uint16_t keycode_seq[BOSS_SEQ_MAX];
+  keypos_t key_seq[BOSS_SEQ_MAX];
   uint8_t sequence_size;
   uint16_t keycode;
   keypos_t key;

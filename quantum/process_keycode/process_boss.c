@@ -84,6 +84,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       xprintf("  PRESS non-boss KEY UNDER BOSSING \r\n"  );
       uint16_t ref_kc = keymap_key_to_keycode(boss_ref_layer, record->event.key);
       boss_state.keycode_seq[boss_state.sequence_size++] = ref_kc;
+      boss_state.key_seq[boss_state.sequence_size++] = record->event.key;
       boss_state.seq_key = record->event.key;
       return false;
     }
@@ -107,6 +108,10 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
 void boss_state_clear_sequence(void) {
   for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i)
     boss_state.keycode_seq[i] = 0;
+  for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i)
+    boss_state.key_seq[i] = (keypos_t) {
+      .row = MATRIX_ROWS + 1,
+      .col = MATRIX_COLS + 1};
   boss_state.sequence_size = 0;
 }
 
@@ -122,9 +127,14 @@ void boss_state_clear_sequence(void) {
 /* } */
 
 void boss_state_init(uint16_t keycode, keypos_t key) {
-  for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i)
-    boss_state.keycode_seq[i] = 0;
-  boss_state.sequence_size = 0;
+  boss_state_clear_sequence();
+  /* for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i) */
+  /*   boss_state.keycode_seq[i] = 0; */
+  /* for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i) */
+  /*   boss_state.key_seq[i] = (keypos_t) { */
+  /*     .row = MATRIX_ROWS + 1, */
+  /*     .col = MATRIX_COLS + 1}; */
+  /* boss_state.sequence_size = 0; */
   boss_state.keycode = keycode;
   boss_state.key = key;
   // TODO: wrap oneshot in #ifdef BOSS_ONESHOT ???
