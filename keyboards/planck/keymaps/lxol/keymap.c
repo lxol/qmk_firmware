@@ -279,7 +279,7 @@ void matrix_scan_user(void) {
       boss_state.oneshot = false;
     }
     
-    BOSS_SEQ(KC_P, KC_NO) {
+   BOSS_SEQ(KC_P, KC_NO) {
 
       boss_state_init(LD_FOO, boss_state.seq_key);
 
