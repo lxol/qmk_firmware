@@ -32,10 +32,6 @@ boss_range_t boss_range = (boss_range_t) {.mo_first = KC_NO,
                                           .mo_last = KC_NO,
                                           .os_first = KC_NO,
                                           .os_last = KC_NO};
-/* keypos_t no_key = (keypos_t) { */
-/*   .row = MATRIX_ROWS + 1, */
-/*   .col = MATRIX_COLS + 1 */
-/* }; */
 
 void boss_state_print(void) {
   xprintf("BOSS STATE:\r\n");
@@ -95,7 +91,6 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       boss_state.momentary = false;
       return false;
     }
-    
     if (boss_state.momentary || boss_state.oneshot) {
       xprintf("  RELEASE non bossing KEY UNDER BOSSING \r\n"  );
       return  false;
@@ -104,7 +99,6 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
   xprintf("    not affected by bossing \r\n");
   return true;
 }
-
 
 void boss_state_clear_sequence(void) {
   for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i) {
@@ -116,17 +110,6 @@ void boss_state_clear_sequence(void) {
   boss_state.sequence_size = 0;
 }
 
-/* void boss_state_reset(void) { */
-/*   for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i) */
-/*     boss_state.sequence[i] = 0; */
-/*   boss_state.sequence_size = 0; */
-/*   boss_state.oneshot = false; */
-/*   boss_state.momentary = false; */
-/*   /\* boss_state.key = no_key; *\/ */
-/*   boss_state.keycode = 0; */
-/*   boss_state.time = timer_read(); */
-/* } */
-
 void boss_state_init(uint16_t keycode, keypos_t key) {
   boss_state_clear_sequence();
   boss_state.keycode = keycode;
@@ -137,25 +120,6 @@ void boss_state_init(uint16_t keycode, keypos_t key) {
   boss_state.momentary = true;
   boss_state.time = timer_read();
 }
-
-/* bool boss_seq_keycodes_cmp(uint16_t keycode, ...) { */
-/*   if (keycode == KC_NO) { */
-/*     return false; */
-/*   } */
-/*   uint16_t kc = keycode; */
-/*   va_list ap; */
-/*   va_start(ap, keycode); */
-/*   uint8_t i = 0; */
-/*   do { */
-/*     uint16_t seq_kc = boss_state.keycode_seq[i++]; */
-/*     if (kc != seq_kc && kc != KC_TRNS) { */
-/*       return false; */
-/*     }; */
-/*     kc = va_arg(ap, uint16_t); */
-/*   } while (kc != KC_NO ); */
-/*   va_end(ap); */
-/*   return true; */
-/* } */
 
 bool boss_seq_cmp(uint8_t num, ...) {
   if (num > BOSS_SEQ_MAX) {return false;}
@@ -188,7 +152,6 @@ void boss_seq_layer(uint8_t layer, uint8_t num, ...) {
     };
   }
   va_end(ap);
-  
   uint16_t keycode = keymap_key_to_keycode(layer, boss_state.key_seq[num-1]);
   if (keycode == KC_NO || keycode == KC_TRNS) {
     return;
@@ -199,61 +162,5 @@ void boss_seq_layer(uint8_t layer, uint8_t num, ...) {
   boss_state.oneshot = false;
   return ;
 }
-
-/* bool boss_seq_layers_cmp(uint8_t layer, ...) { */
-/*   bool result = true; */
-/*   /\* uint16_t kc = keymap_key_to_keycode(layer, boss_state.key_seq[0]); *\/ */
-/*   /\* va_list ap; *\/ */
-/*   /\* va_start(ap, keycode); *\/ */
-/*   /\* uint8_t i = 0; *\/ */
-/*   /\* do { *\/ */
-/*   /\*   KEYEQ(kc, boss_state.[i]) *\/ */
-/*   /\*   result = result && kc == boss_state.sequence[i++]; *\/ */
-/*   /\*   kc = va_arg(ap, uint16_t); *\/ */
-/*   /\* } while (kc != KC_NO ); *\/ */
-/*   /\* va_end(ap); *\/ */
-/*   return result; */
-/* } */
-
-/* void boss_seq_layer_register(uint8_t layer, ...) { */
-/*   va_list ap; */
-/*   uint16_t kc; */
-/*   va_start(ap, layer); */
-/*   kc = va_arg(ap, uint16_t); */
-/*   uint8_t i = 0; */
-/*   while (kc != KC_NO ) { */
-/*     if (kc != boss_state.keycode_seq[i++]) { */
-/*       return; */
-/*     } */
-/*     kc = va_arg(ap, uint16_t); */
-/*   } */
-/*   va_end(ap); */
-/*   if (boss_state.keycode_seq[i] == KC_NO) { */
-/*     return; */
-/*   } */
-/*   kc = keymap_key_to_keycode(layer, boss_state.key_seq[i]); */
-/*   register_code16(kc); */
-/*   unregister_code16(kc); */
-/*   boss_state_clear_sequence(); */
-/*   boss_state.oneshot = false; */
-/*   return; */
-/* } */
-
-/* uint8_t boss_seq_occurrences(uint16_t keycode, ...) { */
-/*   if (keycode == KC_NO) {return 0;} */
-/*   uint16_t kc = keycode; */
-/*   uint8_t i = 0; */
-/*   va_list ap; */
-/*   va_start(ap, keycode); */
-/*   do { */
-/*     if (kc != boss_state.keycode_seq[i]) { */
-/*       return i; */
-/*     } */
-/*     i++; */
-/*     kc = va_arg(ap, uint16_t); */
-/*   } while (kc != KC_NO ); */
-/*   va_end(ap); */
-/*   return i; */
-/* } */
 
 #endif
