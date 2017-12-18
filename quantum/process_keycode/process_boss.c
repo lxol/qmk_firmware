@@ -33,16 +33,16 @@ boss_range_t boss_range = (boss_range_t) {.mo_first = KC_NO,
                                           .os_first = KC_NO,
                                           .os_last = KC_NO};
 
-void boss_state_print(void) {
-  xprintf("BOSS STATE:\r\n");
-  xprintf("   boss_state.key row:%d, col: %d\r\n", boss_state.key.row, boss_state.key.col);
-  xprintf("   boss_state.seq_key row:%d, col: %d\r\n", boss_state.seq_key.row, boss_state.seq_key.col);
-  xprintf("   boss_state.oneshot :%d\r\n", boss_state.oneshot);
-  xprintf("   boss_state.keycode :%d\r\n", boss_state.keycode);
-  xprintf("   boss_state.sequence_size :%d\r\n", boss_state.sequence_size);
-  for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i)
-    xprintf("        boss_state.keycode_seq[%d] keycode: %d\r\n", i, boss_state.keycode_seq[i]);
-}
+/* void boss_state_print(void) { */
+/*   xprintf("BOSS STATE:\r\n"); */
+/*   xprintf("   boss_state.key row:%d, col: %d\r\n", boss_state.key.row, boss_state.key.col); */
+/*   xprintf("   boss_state.seq_key row:%d, col: %d\r\n", boss_state.seq_key.row, boss_state.seq_key.col); */
+/*   xprintf("   boss_state.oneshot :%d\r\n", boss_state.oneshot); */
+/*   xprintf("   boss_state.keycode :%d\r\n", boss_state.keycode); */
+/*   xprintf("   boss_state.sequence_size :%d\r\n", boss_state.sequence_size); */
+/*   for (uint8_t i = 0; i < BOSS_SEQ_MAX; ++i) */
+/*     xprintf("        boss_state.keycode_seq[%d] keycode: %d\r\n", i, boss_state.keycode_seq[i]); */
+/* } */
 
 bool process_boss(uint16_t keycode, keyrecord_t *record) {
   //TODO: control presses and releases  -- too complicated
@@ -53,7 +53,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
 
   // ignore modifiers
   // TODO: make it configurable
-  boss_state_print();
+  /* boss_state_print(); */
   if (keycode == KC_LCTL ||
       keycode == KC_RCTL ||
       keycode == KC_LGUI ||
@@ -67,13 +67,13 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
   
   if (record->event.pressed) {
     if (keycode >= boss_range.mo_first && keycode <= boss_range.mo_last ) {
-      xprintf("  START BOSSING keycode: %d\r\n", keycode  );
+      /* xprintf("  START BOSSING keycode: %d\r\n", keycode  ); */
       boss_state_init(keycode, record->event.key);
       boss_state.oneshot = false;
       return false;
     }
     if (keycode >= boss_range.os_first && keycode <= boss_range.os_last ) {
-      xprintf("  START BOSSING keycode: %d\r\n", keycode  );
+      /* xprintf("  START BOSSING keycode: %d\r\n", keycode  ); */
       boss_state_init(keycode, record->event.key);
       boss_state.oneshot = true;
       return false;
@@ -84,7 +84,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
         boss_state.oneshot = false;
         return false;
       }
-      xprintf("  PRESS non-boss KEY UNDER BOSSING \r\n"  );
+      /* xprintf("  PRESS non-boss KEY UNDER BOSSING \r\n"  ); */
       uint16_t ref_kc = keymap_key_to_keycode(boss_ref_layer, record->event.key);
       uint8_t i = boss_state.sequence_size++;
       boss_state.keycode_seq[i] = ref_kc;
@@ -94,16 +94,16 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
     }
   } else {
     if (boss_state.momentary && KEYEQ(boss_state.key, record->event.key)) { 
-      xprintf("  RELEASE bossing KEY UNDER BOSSING \r\n"  );
+      /* xprintf("  RELEASE bossing KEY UNDER BOSSING \r\n"  ); */
       boss_state.momentary = false;
       return false;
     }
     if (boss_state.momentary || boss_state.oneshot) {
-      xprintf("  RELEASE non bossing KEY UNDER BOSSING \r\n"  );
+      /* xprintf("  RELEASE non bossing KEY UNDER BOSSING \r\n"  ); */
       return  false;
     }
   }
-  xprintf("    not affected by bossing \r\n");
+  /* xprintf("    not affected by bossing \r\n"); */
   return true;
 }
 
