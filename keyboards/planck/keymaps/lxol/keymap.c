@@ -213,50 +213,50 @@ void matrix_init_user(void) {
 void matrix_scan_user(void) {
 
   IS_BOSSING(LD_SYM) {
-    /* BOSS_SEQ(KC_W, KC_NO) { */
-    /*   SEND_STRING("VAR MACRO ONE"); */
-    /*   boss_state_clear_sequence(); */
-    /*   boss_state.oneshot = false; */
-    /* } */
-    /* BOSS_SEQ(KC_Q, KC_W, KC_NO) { */
-    /*   SEND_STRING("VAR MACRO TWO"); */
-    /*   boss_state_clear_sequence(); */
-    /*   boss_state.oneshot = false; */
-    /* } */
-    /* BOSS_SEQ(KC_E, KC_NO) { */
-    /*   SEND_STRING("{"); */
-    /*   boss_state_clear_sequence(); */
-    /*   boss_state.oneshot = false; */
-    /* } */
-    /* BOSS_SEQ(KC_R, KC_NO) { */
-    /*   SEND_STRING("}"); */
-    /*   boss_state_clear_sequence(); */
-    /*   boss_state.oneshot = false; */
-    /* } */
-    /* BOSS_SEQ(KC_D, KC_NO) { */
-    /*   SEND_STRING("("); */
-    /*   boss_state_clear_sequence(); */
-    /*   boss_state.oneshot = false; */
-    /* } */
-    /* BOSS_SEQ(KC_F, KC_NO) { */
-    /*   SEND_STRING(")"); */
-    /*   boss_state_clear_sequence(); */
-    /*   boss_state.oneshot = false; */
-    /* } */
+    BOSS_SEQ(1, KC_W) {
+      SEND_STRING("VAR MACRO ONE");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
+    BOSS_SEQ(2, KC_Q, KC_W) {
+      SEND_STRING("VAR MACRO TWO");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
+    BOSS_SEQ(1, KC_E) {
+      SEND_STRING("{");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
+    BOSS_SEQ(1, KC_R) {
+      SEND_STRING("}");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
+    BOSS_SEQ(1, KC_D) {
+      SEND_STRING("(");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
+    BOSS_SEQ(1, KC_F) {
+      SEND_STRING(")");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
     
-    /* BOSS_SEQ(KC_C, KC_NO) { */
-    /*   SEND_STRING("["); */
-    /*   boss_state_clear_sequence(); */
-    /*   boss_state.oneshot = false; */
-    /* } */
+    BOSS_SEQ(1, KC_C) {
+      SEND_STRING("[");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
     
-    /* BOSS_SEQ(KC_V, KC_NO) { */
-    /*   SEND_STRING("]"); */
-    /*   boss_state_clear_sequence(); */
-    /*   boss_state.oneshot = false; */
-    /* } */
+    BOSS_SEQ(1, KC_V) {
+      SEND_STRING("]");
+      boss_state_clear_sequence();
+      boss_state.oneshot = false;
+    }
 
-    BOSS_SEQ(KC_I, KC_E, KC_NO) {
+    BOSS_SEQ(2, KC_I, KC_E) {
       SEND_STRING("{}");
       register_code(KC_LEFT);
       unregister_code(KC_LEFT);
@@ -264,7 +264,7 @@ void matrix_scan_user(void) {
       boss_state.oneshot = false;
     }
     
-    BOSS_SEQ(KC_I, KC_D, KC_NO) {
+    BOSS_SEQ(2, KC_I, KC_D) {
       SEND_STRING("()");
       register_code(KC_LEFT);
       unregister_code(KC_LEFT);
@@ -272,7 +272,7 @@ void matrix_scan_user(void) {
       boss_state.oneshot = false;
     }
     
-    BOSS_SEQ(KC_I, KC_C, KC_NO) {
+    BOSS_SEQ(2, KC_I, KC_C) {
       SEND_STRING("[]");
       register_code(KC_LEFT);
       unregister_code(KC_LEFT);
@@ -280,12 +280,12 @@ void matrix_scan_user(void) {
       boss_state.oneshot = false;
     }
     
-   BOSS_SEQ(KC_P, KC_NO) {
+    BOSS_SEQ(1, KC_P) {
      boss_state_init(LD_FOO, boss_state.seq_key);
-   }
+    }
 
-   /* BOSS_SEQ_LAYER(_ARROWS, KC_A, KC_NO) */
-   BOSS_SEQ_LAYER(_SYM, KC_NO)
+   /* BOSS_SEQ_LAYER(_SYM, KC_NO) */
+   
     /* BOSS_SEQ_ANY_TWO_KEYS { */
     /*   SEND_STRING("LD_NEW ANY KEY"); */
     /*   boss_state_clear_sequence(); */

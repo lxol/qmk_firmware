@@ -138,18 +138,39 @@ void boss_state_init(uint16_t keycode, keypos_t key) {
   boss_state.time = timer_read();
 }
 
-bool boss_seq_keycodes_cmp(uint16_t keycode, ...) {
-  bool result = true;
-  uint16_t kc = keycode;
+/* bool boss_seq_keycodes_cmp(uint16_t keycode, ...) { */
+/*   if (keycode == KC_NO) { */
+/*     return false; */
+/*   } */
+/*   uint16_t kc = keycode; */
+/*   va_list ap; */
+/*   va_start(ap, keycode); */
+/*   uint8_t i = 0; */
+/*   do { */
+/*     uint16_t seq_kc = boss_state.keycode_seq[i++]; */
+/*     if (kc != seq_kc && kc != KC_TRNS) { */
+/*       return false; */
+/*     }; */
+/*     kc = va_arg(ap, uint16_t); */
+/*   } while (kc != KC_NO ); */
+/*   va_end(ap); */
+/*   return true; */
+/* } */
+
+bool boss_seq_cmp(uint8_t num, ...) {
+  if (num > BOSS_SEQ_MAX) {return false;}
   va_list ap;
-  va_start(ap, keycode);
-  uint8_t i = 0;
-  do {
-    result = result && kc == boss_state.keycode_seq[i++];
+  va_start(ap, num);
+  uint16_t kc, seq_kc;
+  for (uint8_t i = 0; i < num; i++) {
     kc = va_arg(ap, uint16_t);
-  } while (kc != KC_NO );
+    seq_kc = boss_state.keycode_seq[i];
+    if (kc != seq_kc && kc != KC_TRNS) {
+      return false;
+    };
+  }
   va_end(ap);
-  return result;
+  return true;
 }
 
 bool boss_seq_layers_cmp(uint8_t layer, ...) {
@@ -167,29 +188,45 @@ bool boss_seq_layers_cmp(uint8_t layer, ...) {
   return result;
 }
 
-void boss_seq_layer_register(uint8_t layer, ...) {
-  va_list ap;
-  uint16_t kc;
-  va_start(ap, layer);
-  kc = va_arg(ap, uint16_t);
-  uint8_t i = 0;
-  while (kc != KC_NO ) {
-    if (kc != boss_state.keycode_seq[i++]) {
-      return;
-    }
-    kc = va_arg(ap, uint16_t);
-  }
-  va_end(ap);
-  if (boss_state.keycode_seq[i] == KC_NO) {
-    return;
-  }
-  kc = keymap_key_to_keycode(layer, boss_state.key_seq[i]);
-  register_code16(kc);
-  unregister_code16(kc);
-  boss_state_clear_sequence();
-  boss_state.oneshot = false;
-  return;
-}
+/* void boss_seq_layer_register(uint8_t layer, ...) { */
+/*   va_list ap; */
+/*   uint16_t kc; */
+/*   va_start(ap, layer); */
+/*   kc = va_arg(ap, uint16_t); */
+/*   uint8_t i = 0; */
+/*   while (kc != KC_NO ) { */
+/*     if (kc != boss_state.keycode_seq[i++]) { */
+/*       return; */
+/*     } */
+/*     kc = va_arg(ap, uint16_t); */
+/*   } */
+/*   va_end(ap); */
+/*   if (boss_state.keycode_seq[i] == KC_NO) { */
+/*     return; */
+/*   } */
+/*   kc = keymap_key_to_keycode(layer, boss_state.key_seq[i]); */
+/*   register_code16(kc); */
+/*   unregister_code16(kc); */
+/*   boss_state_clear_sequence(); */
+/*   boss_state.oneshot = false; */
+/*   return; */
+/* } */
 
+/* uint8_t boss_seq_occurrences(uint16_t keycode, ...) { */
+/*   if (keycode == KC_NO) {return 0;} */
+/*   uint16_t kc = keycode; */
+/*   uint8_t i = 0; */
+/*   va_list ap; */
+/*   va_start(ap, keycode); */
+/*   do { */
+/*     if (kc != boss_state.keycode_seq[i]) { */
+/*       return i; */
+/*     } */
+/*     i++; */
+/*     kc = va_arg(ap, uint16_t); */
+/*   } while (kc != KC_NO ); */
+/*   va_end(ap); */
+/*   return i; */
+/* } */
 
 #endif
