@@ -12,6 +12,7 @@ enum planck_layers {
   _RAISE,
   _FUN,
   _SYM,
+  _NUM,
   _NUMBERS,
   _ARROWS,
   _MOUSE
@@ -28,24 +29,13 @@ enum planck_keycodes {
   MOUSE,
   BACKLIT,
   DYNAMIC_MACRO_RANGE,
-  LD_SYM,
-  LD_FOO,
-  LD_NUMBER,
-  LD_ARROWS,
-  LD_RAISE,
-  LD_PREFIX1,
-  LD_NEW
+  LD_OS_SYM,
+  LD_OS_NUM,
+  LD_OS_NUMBER,
+  LD_OS_ARROWS,
+  LD_MO_SYM
 };
 
-/* enum planck_leaders { */
-/*   LD_SYM = KC_BOSS_MO, */
-/*   LD_FOO, */
-/*   LD_NUMBER, */
-/*   LD_ARROWS, */
-/*   LD_RAISE, */
-/*   LD_PREFIX1, */
-/*   LD_NEW */
-/* }; */
 
 #include "dynamic_macro.h"
 
@@ -63,13 +53,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = {
   { KC_ESC ,  KC_Q ,  KC_W , KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,  KC_I ,    KC_O ,   KC_P ,    KC_MINS } ,
   { KC_TAB ,  KC_A ,  KC_S , KC_D ,    KC_F ,    KC_G ,    KC_H ,   KC_J ,  KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } ,
-  { LD_NEW , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,  KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } ,
+  { _______ , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,  KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } ,
   { XXXXXXX , MOUSE , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , RAISE , KC_LCTL , LEFT ,   KC_BSPC , KC_ENT }
  } ,
 
 [_RAISE ] = {
   { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,      KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } ,
-  { LD_FOO , KC_LBRC , KC_RBRC , LD_ARROWS , LD_NUMBER , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_SYM ,  KC_ESC ,  _______ , _______ } ,
+  { _______ , KC_LBRC , KC_RBRC , LD_OS_ARROWS , LD_OS_NUMBER , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_OS_SYM ,  KC_ESC ,  _______ , _______ } ,
   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,    KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , _______ , _______ , _______ } ,
   { CALTDEL , KC_DEL ,  _______ , _______ ,   _______ ,   _______ , _______ , _______ , _______ , _______ , _______ , _______ }
  } ,
@@ -83,13 +73,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_SYM] = {
   { _______ , _______ , KC_DQT , KC_LCBR , KC_RCBR , _______ , _______ , _______ , _______ , _______ , _______ , _______ } ,
-  { _______ , _______ , KC_QUOT , KC_LPRN , KC_RPRN , _______ , _______ , _______ , _______ , _______ , _______ , _______ } ,
+  { _______ , _______ , KC_QUOT , KC_LPRN , KC_RPRN , _______ , _______ , LD_OS_NUM , _______ , _______ , _______ , _______ } ,
   { _______ , _______ , _______ , KC_LBRC , KC_RBRC , _______ , _______ , _______ , _______ , _______ , _______ , _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
  } ,
 
-[_NUMBERS] = {
-  { _______ , _______ , _______ , _______ , _______ , _______ , KC_1 ,     KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_BSPC } ,
+[_NUM ] = {
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } , 
+  { _______ , KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ , _______ , _______ , _______ , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
+ } ,
+[_NUMBERS] = { 
+  { _______ ,  _______ , _______ , _______ , _______ , _______ , KC_1 ,     KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_BSPC } ,
   { _______ , _______ , _______ , _______ , _______ , KC_BSPC , KC_6 ,     KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  KC_MINS , KC_EQL ,  KC_DOT ,  KC_SLSH , _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , KC_SPACE , _______ , _______ , _______ , _______ , _______ }
@@ -206,42 +202,44 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 BOSS_EXTERNS();
 void matrix_init_user(void) {
   boss_ref_layer = biton32(default_layer_state);
-  boss_range.mo_first = LD_SYM;
-  boss_range.mo_last = LD_NEW;
+  boss_range.os_first = LD_OS_SYM;
+  boss_range.os_last = LD_OS_ARROWS;
+  boss_range.mo_first = LD_MO_SYM;
+  boss_range.mo_last = LD_MO_SYM;
 }
 
 void matrix_scan_user(void) {
 
-  IS_BOSSING(LD_SYM) {
+  IS_BOSSING(LD_OS_SYM) {
 
     BOSS_SEQ_LAYER(_SYM, 1, KC_TRNS)
 
     BOSS_SEQ(2, KC_I, KC_E) {
       SEND_STRING("{}");
-      register_code(KC_LEFT);
-      unregister_code(KC_LEFT);
+      boss_register_code(KC_LEFT);
+      boss_unregister_code(KC_LEFT);
       boss_state_clear_sequence();
       boss_state.oneshot = false;
     }
 
     BOSS_SEQ(2, KC_I, KC_D) {
       SEND_STRING("()");
-      register_code(KC_LEFT);
-      unregister_code(KC_LEFT);
+      boss_register_code(KC_LEFT);
+      boss_unregister_code(KC_LEFT);
       boss_state_clear_sequence();
       boss_state.oneshot = false;
     }
 
     BOSS_SEQ(2, KC_I, KC_C) {
       SEND_STRING("[]");
-      register_code(KC_LEFT);
-      unregister_code(KC_LEFT);
+      boss_register_code(KC_LEFT);
+      boss_unregister_code(KC_LEFT);
       boss_state_clear_sequence();
       boss_state.oneshot = false;
     }
 
     BOSS_SEQ(1, KC_P) {
-     boss_state_init(LD_FOO, boss_state.seq_key);
+     boss_register_code(LD_OS_NUM);
     }
 
 
@@ -252,62 +250,9 @@ void matrix_scan_user(void) {
     /* } */
   }
 
-  IS_BOSSING(LD_FOO) {
-    BOSS_SEQ(KC_D, KC_NO) {
-      SEND_STRING("LD_FOO");
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
+  IS_BOSSING(LD_OS_NUM) {
+    BOSS_SEQ_LAYER(_NUM, 1, KC_TRNS)
   }
-  /* BOSSING(LD_SYM) { */
-
-  /*   SEQ_BOSS_ONE_KEY(KC_Q) { */
-  /*     SEND_STRING("ACTION NOW:"); */
-  /*     boss_queue = 0; */
-  /*     boss_reset); */
-  /*     action_exec((keyevent_t){ */
-  /*         .key = (keypos_t){ .row = 0, .col = 3 }, */
-  /*         /\* .key = boss_current_keypos, *\/ */
-  /*           .pressed = true, */
-  /*              .time = (timer_read() | 1) /\* time should not be 0 *\/ */
-  /*              }); */
-
-  /*     SEND_STRING("AFTER ACTION TRUE:"); */
-  /*     action_exec((keyevent_t){ */
-  /*         .key = (keypos_t){ .row = 0, .col = 3 }, */
-  /*         /\* .key = boss_current_keypos, *\/ */
-  /*           .pressed = false, */
-  /*              .time = (timer_read() | 1) /\* time should not be 0 *\/ */
-  /*              }); */
-  /*     SEND_STRING("AFTER ACTION FALSE:"); */
-  /*     boss_queue = 0; */
-  /*     boss_reset(); */
-  /*   } */
-
-  /* } */
-
-
-  /* BOSSING_LAYER(LD_NUMBER, _NUMBERS) */
-
-  /* BOSSING_LAYER(LD_RAISE, _RAISE) */
-
-  /* BOSSING_LAYER(LD_ARROWS, _ARROWS) */
-
-  /* /\* if (bossing == (LD_PREFIX1 - KC_BOSS1 + 1)) { *\/ */
-  /* BOSSING(LD_PREFIX1) { */
-  /*   SEQ_BOSS_ONE_KEY(KC_K) { */
-  /*     register_code(KC_LCTL); */
-  /*     register_code(KC_LALT); */
-  /*     register_code(KC_LGUI); */
-  /*     register_code(KC_K); */
-  /*     unregister_code(KC_K); */
-  /*     unregister_code(KC_LGUI); */
-  /*     unregister_code(KC_LALT); */
-  /*     unregister_code(KC_LCTL); */
-  /*     boss_queue = 0; */
-  /*     boss_reset(); */
-  /*     return; */
-  /*   } */
-  /* } */
+  
 
 }

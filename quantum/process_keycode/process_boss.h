@@ -34,6 +34,8 @@ void boss_state_init(uint16_t keycode, keypos_t key);
 void boss_state_clear_sequence(void);
 bool boss_seq_cmp (uint8_t num, ...);
 void boss_seq_layer(uint8_t layer, uint8_t num, ...);
+void boss_register_code(uint16_t keycode);
+void boss_unregister_code(uint16_t keycode);
 
 typedef struct {
   uint16_t keycode_seq[BOSS_SEQ_MAX];
@@ -64,8 +66,8 @@ typedef struct {
 #define BOSS_EXTERNS() \
   extern boss_t boss_state; \
   extern boss_range_t boss_range; \
-  extern uint8_t boss_ref_layer; \
-  extern void boss_state_init(uint16_t keycode, keypos_t key);
+  extern uint8_t boss_ref_layer;
+  /* extern void boss_state_init(uint16_t keycode, keypos_t key); */
 
 
 #endif

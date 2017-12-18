@@ -64,11 +64,18 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       keycode == KC_RALT ) {
     return true;
   }
-  // Boss key set-up
+  
   if (record->event.pressed) {
     if (keycode >= boss_range.mo_first && keycode <= boss_range.mo_last ) {
       xprintf("  START BOSSING keycode: %d\r\n", keycode  );
       boss_state_init(keycode, record->event.key);
+      boss_state.oneshot = false;
+      return false;
+    }
+    if (keycode >= boss_range.os_first && keycode <= boss_range.os_last ) {
+      xprintf("  START BOSSING keycode: %d\r\n", keycode  );
+      boss_state_init(keycode, record->event.key);
+      boss_state.oneshot = true;
       return false;
     }
     if (boss_state.momentary || boss_state.oneshot) {
@@ -156,11 +163,33 @@ void boss_seq_layer(uint8_t layer, uint8_t num, ...) {
   if (keycode == KC_NO || keycode == KC_TRNS) {
     return;
   } 
-  register_code16(keycode);
-  unregister_code16(keycode);
+  boss_register_code(keycode);
+  boss_unregister_code(keycode);
   boss_state_clear_sequence();
   boss_state.oneshot = false;
   return ;
+}
+
+void boss_register_code(uint16_t keycode) {
+  if ((keycode >= boss_range.mo_first
+       && keycode <= boss_range.mo_last)
+      || (keycode >= boss_range.os_first
+          && keycode <= boss_range.os_last)) {
+     boss_state_init(keycode, boss_state.key_seq[boss_state.sequence_size - 1]);
+     return;
+  }
+  register_code16(keycode);
+  return;
+}
+void boss_unregister_code(uint16_t keycode) {
+  if ((keycode >= boss_range.mo_first
+       && keycode <= boss_range.mo_last)
+      || (keycode >= boss_range.os_first
+          && keycode <= boss_range.os_last)) {
+     return;
+  }
+  unregister_code16(keycode);
+  return;
 }
 
 #endif
