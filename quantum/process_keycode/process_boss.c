@@ -131,34 +131,33 @@ void boss_state_init(uint16_t keycode, keypos_t key) {
 bool boss_seq_cmp(uint8_t num, ...) {
   if (num > BOSS_SEQ_MAX) {return false;}
   va_list ap;
+  bool match = true;
   va_start(ap, num);
   uint16_t kc, seq_kc;
   for (uint8_t i = 0; i < num; i++) {
     seq_kc = boss_state.keycode_seq[i];
     if (seq_kc == KC_NO) {return false;}
     kc = va_arg(ap, uint16_t);
-    if (kc != seq_kc && kc != KC_TRNS) {
-      return false;
-    };
+    match = match && (kc == seq_kc || kc == KC_TRNS);
   }
   va_end(ap);
-  return true;
+  return match;
 }
 
 void boss_seq_layer(uint8_t layer, uint8_t num, ...) {
   if (num > BOSS_SEQ_MAX) {return ;}
   va_list ap;
+  bool match = true; 
   va_start(ap, num);
   uint16_t kc, seq_kc;
   for (uint8_t i = 0; i < num; i++) {
     seq_kc = boss_state.keycode_seq[i];
     if (seq_kc == KC_NO) {return;}
     kc = va_arg(ap, uint16_t);
-    if (kc != seq_kc && kc != KC_TRNS) {
-      return;
-    };
+    match = match && (kc == seq_kc || kc == KC_TRNS);
   }
   va_end(ap);
+  if (!match) {return;} 
   uint16_t keycode = keymap_key_to_keycode(layer, boss_state.key_seq[num-1]);
   if (keycode == KC_NO || keycode == KC_TRNS) {
     return;
