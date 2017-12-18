@@ -33,11 +33,12 @@ void boss_start(void);
 void boss_end(void);
 void boss_state_init(uint16_t keycode, keypos_t key);
 void boss_state_clear_sequence(void);
-bool boss_seq_cmp (uint8_t num, ...);
-void boss_seq_layer_register(uint8_t layer, ...);
+bool boss_seq_cmp (uint8_t num, ...); 
+void boss_seq_layer(uint8_t layer, uint8_t num, ...);
 
 #define BOSS_SEQ(...) if (boss_seq_cmp(__VA_ARGS__))
-/* #define BOSS_SEQ_LAYER(...) boss_seq_layer_register(__VA_ARGS__); */
+#define BOSS_SEQ_LAYER(...) boss_seq_layer(__VA_ARGS__);
+
 
 typedef struct {
   uint16_t keycode_seq[BOSS_SEQ_MAX];

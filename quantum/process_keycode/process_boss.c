@@ -163,8 +163,9 @@ bool boss_seq_cmp(uint8_t num, ...) {
   va_start(ap, num);
   uint16_t kc, seq_kc;
   for (uint8_t i = 0; i < num; i++) {
-    kc = va_arg(ap, uint16_t);
     seq_kc = boss_state.keycode_seq[i];
+    if (seq_kc == KC_NO) {return false;}
+    kc = va_arg(ap, uint16_t);
     if (kc != seq_kc && kc != KC_TRNS) {
       return false;
     };
@@ -173,20 +174,46 @@ bool boss_seq_cmp(uint8_t num, ...) {
   return true;
 }
 
-bool boss_seq_layers_cmp(uint8_t layer, ...) {
-  bool result = true;
-  /* uint16_t kc = keymap_key_to_keycode(layer, boss_state.key_seq[0]); */
-  /* va_list ap; */
-  /* va_start(ap, keycode); */
-  /* uint8_t i = 0; */
-  /* do { */
-  /*   KEYEQ(kc, boss_state.[i]) */
-  /*   result = result && kc == boss_state.sequence[i++]; */
-  /*   kc = va_arg(ap, uint16_t); */
-  /* } while (kc != KC_NO ); */
-  /* va_end(ap); */
-  return result;
+void boss_seq_layer(uint8_t layer, uint8_t num, ...) {
+  if (num > BOSS_SEQ_MAX) {return ;}
+  va_list ap;
+  va_start(ap, num);
+  uint16_t kc, seq_kc;
+  for (uint8_t i = 0; i < num; i++) {
+    seq_kc = boss_state.keycode_seq[i];
+    if (seq_kc == KC_NO) {return;}
+    kc = va_arg(ap, uint16_t);
+    if (kc != seq_kc && kc != KC_TRNS) {
+      return;
+    };
+  }
+  va_end(ap);
+  
+  uint16_t keycode = keymap_key_to_keycode(layer, boss_state.key_seq[num-1]);
+  if (keycode == KC_NO || keycode == KC_TRNS) {
+    return;
+  } 
+  register_code16(keycode);
+  unregister_code16(keycode);
+  boss_state_clear_sequence();
+  boss_state.oneshot = false;
+  return ;
 }
+
+/* bool boss_seq_layers_cmp(uint8_t layer, ...) { */
+/*   bool result = true; */
+/*   /\* uint16_t kc = keymap_key_to_keycode(layer, boss_state.key_seq[0]); *\/ */
+/*   /\* va_list ap; *\/ */
+/*   /\* va_start(ap, keycode); *\/ */
+/*   /\* uint8_t i = 0; *\/ */
+/*   /\* do { *\/ */
+/*   /\*   KEYEQ(kc, boss_state.[i]) *\/ */
+/*   /\*   result = result && kc == boss_state.sequence[i++]; *\/ */
+/*   /\*   kc = va_arg(ap, uint16_t); *\/ */
+/*   /\* } while (kc != KC_NO ); *\/ */
+/*   /\* va_end(ap); *\/ */
+/*   return result; */
+/* } */
 
 /* void boss_seq_layer_register(uint8_t layer, ...) { */
 /*   va_list ap; */

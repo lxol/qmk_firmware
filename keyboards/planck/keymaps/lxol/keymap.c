@@ -82,8 +82,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,               
 
 [_SYM] = { 
-  { _______ , _______ , _______ , KC_LCBR , KC_RCBR , _______ , _______ , _______ , _______ , _______ , _______ , _______ } ,
-  { _______ , _______ , _______ , KC_LPRN , KC_RPRN , _______ , _______ , _______ , _______ , _______ , _______ , _______ } ,
+  { _______ , _______ , KC_DQT , KC_LCBR , KC_RCBR , _______ , _______ , _______ , _______ , _______ , _______ , _______ } ,
+  { _______ , _______ , KC_QUOT , KC_LPRN , KC_RPRN , _______ , _______ , _______ , _______ , _______ , _______ , _______ } ,
   { _______ , _______ , _______ , KC_LBRC , KC_RBRC , _______ , _______ , _______ , _______ , _______ , _______ , _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } 
  } ,          
@@ -213,16 +213,16 @@ void matrix_init_user(void) {
 void matrix_scan_user(void) {
 
   IS_BOSSING(LD_SYM) {
-    BOSS_SEQ(1, KC_W) {
-      SEND_STRING("VAR MACRO ONE");
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
-    BOSS_SEQ(2, KC_Q, KC_W) {
-      SEND_STRING("VAR MACRO TWO");
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
+    /* BOSS_SEQ(1, KC_W) { */
+    /*   SEND_STRING("VAR MACRO ONE"); */
+    /*   boss_state_clear_sequence(); */
+    /*   boss_state.oneshot = false; */
+    /* } */
+    /* BOSS_SEQ(2, KC_Q, KC_W) { */
+    /*   SEND_STRING("VAR MACRO TWO"); */
+    /*   boss_state_clear_sequence(); */
+    /*   boss_state.oneshot = false; */
+    /* } */
     BOSS_SEQ(1, KC_E) {
       SEND_STRING("{");
       boss_state_clear_sequence();
@@ -284,7 +284,7 @@ void matrix_scan_user(void) {
      boss_state_init(LD_FOO, boss_state.seq_key);
     }
 
-   /* BOSS_SEQ_LAYER(_SYM, KC_NO) */
+    BOSS_SEQ_LAYER(_SYM, 1, KC_TRNS)
    
     /* BOSS_SEQ_ANY_TWO_KEYS { */
     /*   SEND_STRING("LD_NEW ANY KEY"); */
