@@ -32,7 +32,7 @@ void boss_start(void);
 void boss_end(void);
 void boss_state_init(uint16_t keycode, keypos_t key);
 void boss_state_clear_sequence(void);
-bool boss_seq_cmp (uint8_t num, ...);
+/* bool boss_seq_cmp (uint8_t num, ...); */
 /* uint16_t boss_last_seq_keycode(uint8_t layer); */
 void boss_register_code(uint16_t keycode);
 void boss_unregister_code(uint16_t keycode);
@@ -71,7 +71,7 @@ typedef struct {
   return;                                                    \
   }
 
-#define BOSS_SEQ(...) if (boss_seq_cmp(__VA_ARGS__))
+/* #define BOSS_SEQ(...) if (boss_seq_cmp(__VA_ARGS__)) */
 
 #define BOSS_SEQ_LAYER(layer) \
   uint16_t keycode = keymap_key_to_keycode(layer, boss_state.key_seq[boss_state.sequence_size - 1]); \

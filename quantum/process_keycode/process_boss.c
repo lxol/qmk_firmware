@@ -128,21 +128,21 @@ void boss_state_init(uint16_t keycode, keypos_t key) {
   boss_state.time = timer_read();
 }
 
-bool boss_seq_cmp(uint8_t num, ...) {
-  if (num > BOSS_SEQ_MAX) {return false;}
-  va_list ap;
-  bool match = true;
-  va_start(ap, num);
-  uint16_t kc, seq_kc;
-  for (uint8_t i = 0; i < num; i++) {
-    seq_kc = boss_state.keycode_seq[i];
-    if (seq_kc == KC_NO) {return false;}
-    kc = va_arg(ap, uint16_t);
-    match = match && (kc == seq_kc || kc == KC_TRNS);
-  }
-  va_end(ap);
-  return match;
-}
+/* bool boss_seq_cmp(uint8_t num, ...) { */
+/*   if (num > BOSS_SEQ_MAX) {return false;} */
+/*   va_list ap; */
+/*   bool match = true; */
+/*   va_start(ap, num); */
+/*   uint16_t kc, seq_kc; */
+/*   for (uint8_t i = 0; i < num; i++) { */
+/*     seq_kc = boss_state.keycode_seq[i]; */
+/*     if (seq_kc == KC_NO) {return false;} */
+/*     kc = va_arg(ap, uint16_t); */
+/*     match = match && (kc == seq_kc || kc == KC_TRNS); */
+/*   } */
+/*   va_end(ap); */
+/*   return match; */
+/* } */
 
 bool boss_seq_match(uint8_t num, ...) {
   if (num != boss_state.sequence_size) {
