@@ -97,6 +97,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       for (uint8_t i = 0; i < BOSS_PRESSED_MAX; i++) {
         if (KEYEQ(boss_state.key_pressed_seq[i], boss_no_key)) {
           boss_state.key_pressed_seq[i] = record->event.key;
+          xprintf("ADD pressed: row: pos: %d, %d, col %d\r\n", i, record->event.key.row, record->event.key.col);
           break;
         }
       }
@@ -107,6 +108,7 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
     for (uint8_t i = 0; i < BOSS_PRESSED_MAX; i++) {
       if (KEYEQ(boss_state.key_pressed_seq[i], record->event.key)) {
         boss_state.key_pressed_seq[i] = boss_no_key;
+        xprintf("RELEASE pressed: pos: %d, row: %d, col %d \r\n", i, record->event.key.row, record->event.key.col);
         return false;
       }
     }
@@ -115,6 +117,17 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       boss_state.momentary = false;
       return false;
     }
+    // safeguard for stuck pressed key
+    
+    /* uint8_t count = 0; */
+    /* for (uint8_t i = 0; i < MATRIX_ROWS; i++) { */
+    /*     count += matrix_bitpop(i); */
+    /* } */
+    /* if (count == 0) { */
+    /*   xprintf("KEY COUNT = 0; -> init pressed"  ); */
+    /*   boss_state_init_pressed(); */
+    /* } */
+
     if (boss_state.momentary || boss_state.oneshot) {
       /* xprintf("  RELEASE non bossing KEY UNDER BOSSING \r\n"  ); */
       return  false;

@@ -85,8 +85,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,
 
 [_NUM ] = {
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } , 
-  { _______ , KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ , _______ , _______ , _______ , _______ } , 
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,   _______  ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } , 
+  { _______ , KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ ,    _______ , _______ , _______ , _______ , _______ } , 
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
  } ,
@@ -249,14 +249,14 @@ void matrix_scan_user(void) {
       BOSS_SEQ_LAYER(_SYM)
     END_SEQ
       //TODO: optional to ignore wrong presses 
-    boss_state.sequence_size--;
+    /* boss_state.sequence_size--; */
   }
 
-  IS_BOSSING(LD_OS_SYM) {
+  IS_BOSSING(LD_OS_NUM) {
     BEGIN_SEQ(1, KC_TRNS)
       BOSS_SEQ_LAYER(_NUM)
     END_SEQ
-    boss_state.sequence_size--;
+    /* boss_state.sequence_size--; */
   }
   /* IS_BOSSING(LD_OS_NUM) { */
   /*   BOSS_SEQ(1, KC_TRNS) */
