@@ -49,11 +49,7 @@ keypos_t leaders_no_key = (keypos_t) {
 /* } */
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
-  //TODO: control presses and releases  -- too complicated
-
-  //TODO: add a delay to a potential leaders key on the layer
-  //      to deal with out of order but almost at the same time
-  //      pressings
+  //TODO: control presses and releases
 
   // ignore modifiers
   // TODO: make it configurable
@@ -101,7 +97,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       }
     }
   }
-  
+
   /* Keys pressed in leading_mode should not progress. */
   if (!record->event.pressed) {
     for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
