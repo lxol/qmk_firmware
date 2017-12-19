@@ -33,7 +33,7 @@ void boss_end(void);
 void boss_state_init(uint16_t keycode, keypos_t key);
 void boss_state_clear_sequence(void);
 bool boss_seq_cmp (uint8_t num, ...);
-void boss_seq_layer(uint8_t layer, uint8_t num, ...);
+/* uint16_t boss_last_seq_keycode(uint8_t layer); */
 void boss_register_code(uint16_t keycode);
 void boss_unregister_code(uint16_t keycode);
 bool boss_seq_match(uint8_t num, ...);
@@ -60,19 +60,26 @@ typedef struct {
 
 #define IS_BOSSING(boss_keycode) \
   if ((boss_state.sequence_size != 0) \
-      && (boss_state.momentary || boss_state.oneshot) \
+      && (boss_state.momentary || boss_state.oneshot)   \
       && (boss_state.keycode == boss_keycode ))
 
-#define BEGIN_SEQ(...) if (boss_seq_match(__VA_ARGS__)) { 
+#define BEGIN_SEQ(...) if (boss_seq_match(__VA_ARGS__)) {
 
 #define END_SEQ  \
-    boss_state_clear_sequence();                             \
-    boss_state.oneshot = false;                              \
+  boss_state_clear_sequence();                               \
+  boss_state.oneshot = false;                                \
+  return;                                                    \
   }
 
 #define BOSS_SEQ(...) if (boss_seq_cmp(__VA_ARGS__))
 
-#define BOSS_SEQ_LAYER(...) boss_seq_layer(__VA_ARGS__);
+#define BOSS_SEQ_LAYER(layer) \
+  uint16_t keycode = keymap_key_to_keycode(layer, boss_state.key_seq[boss_state.sequence_size - 1]); \
+  if (keycode == KC_NO || keycode == KC_TRNS) { \
+    return;                                     \
+  }                                             \
+  boss_register_code(keycode);                  \
+  boss_unregister_code(keycode);
 
 
 #define BOSS_EXTERNS() \

@@ -216,17 +216,15 @@ void matrix_init_user(void) {
 
 void matrix_scan_user(void) {
 
-  IS_BOSSING(LD_MO_RAISE) {
-    BOSS_SEQ_LAYER(_RAISE, 1, KC_TRNS)
-  }
+  /* IS_BOSSING(LD_MO_RAISE) { */
+  /*   BOSS_SEQ_LAYER(_RAISE, 1, KC_TRNS) */
+  /* } */
   
   IS_BOSSING(LD_OS_SYM) {
 
     BEGIN_SEQ(2, KC_I, KC_O)
       SEND_STRING("IO");
     END_SEQ
-
-    BOSS_SEQ_LAYER(_SYM, 1, KC_TRNS)
 
     BEGIN_SEQ(2, KC_I, KC_E)
       SEND_STRING("{}");
@@ -246,11 +244,24 @@ void matrix_scan_user(void) {
       boss_unregister_code(KC_LEFT);
     END_SEQ 
 
+    BEGIN_SEQ(1, KC_TRNS)
+      BOSS_SEQ_LAYER(_SYM)
+    END_SEQ
   }
 
-  IS_BOSSING(LD_OS_NUM) {
-    BOSS_SEQ_LAYER(_NUM, 1, KC_TRNS)
+  IS_BOSSING(LD_OS_SYM) {
+    BEGIN_SEQ(1, KC_TRNS)
+      BOSS_SEQ_LAYER(_NUM)
+    END_SEQ
   }
+  /* IS_BOSSING(LD_OS_NUM) { */
+  /*   BOSS_SEQ(1, KC_TRNS) */
+  /*     SEND_STRING("()"); */
+  /*     /\* boss_send_last(_NUM); *\/ */
+      
+  /*     /\* BOSS_SEQ_LAYER(_NUM) *\/ */
+  /*   END_SEQ */
+  /* } */
   
 
 }
