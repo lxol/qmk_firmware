@@ -228,33 +228,23 @@ void matrix_scan_user(void) {
 
     BOSS_SEQ_LAYER(_SYM, 1, KC_TRNS)
 
-    BOSS_SEQ(2, KC_I, KC_E) {
+    BEGIN_SEQ(2, KC_I, KC_E)
       SEND_STRING("{}");
       boss_register_code(KC_LEFT);
       boss_unregister_code(KC_LEFT);
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
+    END_SEQ
 
-    BOSS_SEQ(2, KC_I, KC_D) {
+    BEGIN_SEQ(2, KC_I, KC_D)
       SEND_STRING("()");
       boss_register_code(KC_LEFT);
       boss_unregister_code(KC_LEFT);
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
+    END_SEQ
 
-    BOSS_SEQ(2, KC_I, KC_C) {
+    BEGIN_SEQ(2, KC_I, KC_C)
       SEND_STRING("[]");
       boss_register_code(KC_LEFT);
       boss_unregister_code(KC_LEFT);
-      boss_state_clear_sequence();
-      boss_state.oneshot = false;
-    }
-
-    /* BOSS_SEQ(1, KC_P) { */
-    /*  boss_register_code(LD_OS_NUM); */
-    /* } */
+    END_SEQ 
 
   }
 
