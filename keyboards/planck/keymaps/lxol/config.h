@@ -3,9 +3,9 @@
 
 #include "../../config.h"
 
-#define BOSS_ENABLE
+#define LEADERS_ENABLE
 
-#define BOSS_SEQ_MAX 3
+#define LEADERS_SEQ_MAX 3
 
 /* disable debug print */
 //#define NO_DEBUG

@@ -18,8 +18,8 @@ enum planck_layers {
   _MOUSE
 };
 
-#undef BOSS_REFERENCE_LAYER
-#define BOSS_REFERENCE_LAYER = _QUERTY
+#undef LEADERS_REFERENCE_LAYER
+#define LEADERS_REFERENCE_LAYER = _QUERTY
 
 enum planck_keycodes {
   LEFT = SAFE_RANGE,
@@ -205,23 +205,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-BOSS_EXTERNS();
+LEADERS_EXTERNS();
 void matrix_init_user(void) {
-  boss_state_init_pressed();
-  boss_ref_layer = biton32(default_layer_state);
-  boss_range.os_first = LD_OS_FIRST;
-  boss_range.os_last = LD_OS_LAST;
-  boss_range.mo_first = LD_MO_FIRST;
-  boss_range.mo_last = LD_MO_LAST;
+  leaders_state_init_pressed();
+  leaders_ref_layer = biton32(default_layer_state);
+  leaders_range.os_first = LD_OS_FIRST;
+  leaders_range.os_last = LD_OS_LAST;
+  leaders_range.mo_first = LD_MO_FIRST;
+  leaders_range.mo_last = LD_MO_LAST;
 }
 
 void matrix_scan_user(void) {
 
-  /* IS_BOSSING(LD_MO_RAISE) { */
-  /*   BOSS_SEQ_LAYER(_RAISE, 1, KC_TRNS) */
+  /* IS_LEADING(LD_MO_RAISE) { */
+  /*   LEADERS_SEQ_LAYER(_RAISE, 1, KC_TRNS) */
   /* } */
   
-  IS_BOSSING(LD_OS_SYM) {
+  IS_LEADING(LD_OS_SYM) {
 
     BEGIN_SEQ(2, KC_I, KC_O)
       SEND_STRING("IO");
@@ -229,41 +229,41 @@ void matrix_scan_user(void) {
 
     BEGIN_SEQ(2, KC_I, KC_E)
       SEND_STRING("{}");
-      boss_register_code(KC_LEFT);
-      boss_unregister_code(KC_LEFT);
+      leaders_register_code(KC_LEFT);
+      leaders_unregister_code(KC_LEFT);
     END_SEQ
 
     BEGIN_SEQ(2, KC_I, KC_D)
       SEND_STRING("()");
-      boss_register_code(KC_LEFT);
-      boss_unregister_code(KC_LEFT);
+      leaders_register_code(KC_LEFT);
+      leaders_unregister_code(KC_LEFT);
     END_SEQ
 
     BEGIN_SEQ(2, KC_I, KC_C)
       SEND_STRING("[]");
-      boss_register_code(KC_LEFT);
-      boss_unregister_code(KC_LEFT);
+      leaders_register_code(KC_LEFT);
+      leaders_unregister_code(KC_LEFT);
     END_SEQ 
 
     BEGIN_SEQ(1, KC_TRNS)
-      BOSS_SEQ_LAYER(_SYM)
+      LEADERS_SEQ_LAYER(_SYM)
     END_SEQ
       //TODO: optional to ignore wrong presses 
-    /* boss_state.sequence_size--; */
+    /* leaders_state.sequence_size--; */
   }
 
-  IS_BOSSING(LD_OS_NUM) {
+  IS_LEADING(LD_OS_NUM) {
     BEGIN_SEQ(1, KC_TRNS)
-      BOSS_SEQ_LAYER(_NUM)
+      LEADERS_SEQ_LAYER(_NUM)
     END_SEQ
-    /* boss_state.sequence_size--; */
+    /* leaders_state.sequence_size--; */
   }
-  /* IS_BOSSING(LD_OS_NUM) { */
-  /*   BOSS_SEQ(1, KC_TRNS) */
+  /* IS_LEADING(LD_OS_NUM) { */
+  /*   LEADERS_SEQ(1, KC_TRNS) */
   /*     SEND_STRING("()"); */
-  /*     /\* boss_send_last(_NUM); *\/ */
+  /*     /\* leaders_send_last(_NUM); *\/ */
       
-  /*     /\* BOSS_SEQ_LAYER(_NUM) *\/ */
+  /*     /\* LEADERS_SEQ_LAYER(_NUM) *\/ */
   /*   END_SEQ */
   /* } */
   
