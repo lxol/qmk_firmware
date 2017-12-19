@@ -50,7 +50,6 @@ typedef struct {
   uint8_t sequence_size;
   uint16_t keycode;
   keypos_t key;
-  keypos_t seq_key;
   bool oneshot;
   bool momentary;
   uint16_t time;
@@ -62,6 +61,12 @@ typedef struct {
   uint16_t os_first;
   uint16_t os_last;
 } boss_range_t;
+
+typedef struct {
+  keypos_t key;
+  bool to_release;
+  uint16_t keycode;
+} boss_key_state_t;
 
 #define IS_BOSSING(boss_keycode) \
   if ((boss_state.sequence_size != 0) \

@@ -68,72 +68,68 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       keycode == KC_RALT ) {
     return true;
   }
-  
+
+  /* Manage boss key press */
   if (record->event.pressed) {
-    if (keycode >= boss_range.mo_first && keycode <= boss_range.mo_last ) {
-      /* xprintf("  START BOSSING keycode: %d\r\n", keycode  ); */
+    bool is_mo_boss_pressed = keycode >= boss_range.mo_first && keycode <= boss_range.mo_last;
+    bool is_os_boss_pressed = keycode >= boss_range.os_first && keycode <= boss_range.os_last;
+    if (is_mo_boss_pressed || is_os_boss_pressed) {
       boss_state_init(keycode, record->event.key);
-      boss_state.oneshot = false;
+      boss_state.oneshot = is_os_boss_pressed;
+      boss_state.momentary = true;
       return false;
     }
-    if (keycode >= boss_range.os_first && keycode <= boss_range.os_last ) {
-      /* xprintf("  START BOSSING keycode: %d\r\n", keycode  ); */
-      boss_state_init(keycode, record->event.key);
-      boss_state.oneshot = true;
-      return false;
-    }
-    if (boss_state.momentary || boss_state.oneshot) {
-      if (boss_state.sequence_size == BOSS_SEQ_MAX) {
-        boss_state_clear_sequence();
-        boss_state.oneshot = false;
-        return false;
-      }
-      /* xprintf("  PRESS non-boss KEY UNDER BOSSING \r\n"  ); */
-      uint16_t ref_kc = keymap_key_to_keycode(boss_ref_layer, record->event.key);
-      uint8_t i = boss_state.sequence_size++;
-      boss_state.keycode_seq[i] = ref_kc;
-      boss_state.key_seq[i] = record->event.key;
-      boss_state.seq_key = record->event.key;
-      for (uint8_t i = 0; i < BOSS_PRESSED_MAX; i++) {
-        if (KEYEQ(boss_state.key_pressed_seq[i], boss_no_key)) {
-          boss_state.key_pressed_seq[i] = record->event.key;
-          xprintf("ADD pressed: row: pos: %d, %d, col %d\r\n", i, record->event.key.row, record->event.key.col);
-          break;
-        }
-      }
-      return false;
-    }
-  } else {
-    // released keys pressed under boss should not progress
-    for (uint8_t i = 0; i < BOSS_PRESSED_MAX; i++) {
-      if (KEYEQ(boss_state.key_pressed_seq[i], record->event.key)) {
-        boss_state.key_pressed_seq[i] = boss_no_key;
-        xprintf("RELEASE pressed: pos: %d, row: %d, col %d \r\n", i, record->event.key.row, record->event.key.col);
-        return false;
-      }
-    }
-    if (boss_state.momentary && KEYEQ(boss_state.key, record->event.key)) { 
-      /* xprintf("  RELEASE bossing KEY UNDER BOSSING \r\n"  ); */
+  }
+
+  /* Manage boss key release */
+  if (!record->event.pressed) {
+    bool is_boss_released = boss_state.momentary && KEYEQ(boss_state.key, record->event.key);
+    if (is_boss_released) {
       boss_state.momentary = false;
       return false;
     }
-    // safeguard for stuck pressed key
-    
-    /* uint8_t count = 0; */
-    /* for (uint8_t i = 0; i < MATRIX_ROWS; i++) { */
-    /*     count += matrix_bitpop(i); */
-    /* } */
-    /* if (count == 0) { */
-    /*   xprintf("KEY COUNT = 0; -> init pressed"  ); */
-    /*   boss_state_init_pressed(); */
-    /* } */
+  }
 
-    if (boss_state.momentary || boss_state.oneshot) {
-      /* xprintf("  RELEASE non bossing KEY UNDER BOSSING \r\n"  ); */
-      return  false;
+  bool bossing_mode = boss_state.momentary || boss_state.oneshot;
+  /* Keep track all keys pressed under bossing mode */
+  if (bossing_mode && record->event.pressed) {
+    for (uint8_t i = 0; i < BOSS_PRESSED_MAX; i++) {
+      if (KEYEQ(boss_state.key_pressed_seq[i], boss_no_key)) {
+        boss_state.key_pressed_seq[i] = record->event.key;
+        xprintf("ADD pressed: row: pos: %d, %d, col %d\r\n", i, record->event.key.row, record->event.key.col);
+        break;
+      }
     }
   }
-  /* xprintf("    not affected by bossing \r\n"); */
+  
+  /* Keys pressed in bossing_mode should not progress. */
+  if (!record->event.pressed) {
+    for (uint8_t i = 0; i < BOSS_PRESSED_MAX; i++) {
+      if (KEYEQ(boss_state.key_pressed_seq[i], record->event.key)) {
+        boss_state.key_pressed_seq[i] = boss_no_key;
+        xprintf("RELEASE  pos: %d, row: %d, col %d \r\n", i, record->event.key.row, record->event.key.col);
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /* This is a guard for unmanaged sequences.*/
+  /* Start from scratch, when sequence reaches the maximum size.  */
+  if (record->event.pressed && bossing_mode && boss_state.sequence_size == BOSS_SEQ_MAX ) {
+    boss_state_clear_sequence();
+    boss_state.oneshot = false;
+    /* return false; */
+  }
+
+  /* Update boss_state with pressed key info. */
+  if (record->event.pressed && bossing_mode ) {
+    uint16_t ref_kc = keymap_key_to_keycode(boss_ref_layer, record->event.key);
+    uint8_t i = boss_state.sequence_size++;
+    boss_state.keycode_seq[i] = ref_kc;
+    boss_state.key_seq[i] = record->event.key;
+    return false;
+  }
   return true;
 }
 
@@ -160,7 +156,7 @@ void boss_state_init(uint16_t keycode, keypos_t key) {
 
 void boss_state_init_pressed(void) {
   for (uint8_t i = 0; i < BOSS_PRESSED_MAX; i++) {
-    boss_state.key_pressed_seq[i] = boss_no_key; 
+    boss_state.key_pressed_seq[i] = boss_no_key;
   }
 }
 /* bool boss_seq_cmp(uint8_t num, ...) { */
