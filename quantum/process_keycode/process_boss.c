@@ -33,6 +33,10 @@ boss_range_t boss_range = (boss_range_t) {.mo_first = KC_NO,
                                           .os_first = KC_NO,
                                           .os_last = KC_NO};
 
+keypos_t boss_no_key = (keypos_t) {
+  .row = MATRIX_ROWS,
+  .col = MATRIX_COLS
+};
 /* void boss_state_print(void) { */
 /*   xprintf("BOSS STATE:\r\n"); */
 /*   xprintf("   boss_state.key row:%d, col: %d\r\n", boss_state.key.row, boss_state.key.col); */
@@ -90,9 +94,22 @@ bool process_boss(uint16_t keycode, keyrecord_t *record) {
       boss_state.keycode_seq[i] = ref_kc;
       boss_state.key_seq[i] = record->event.key;
       boss_state.seq_key = record->event.key;
+      for (uint8_t i = 0; i < BOSS_PRESSED_MAX; i++) {
+        if (KEYEQ(boss_state.key_pressed_seq[i], boss_no_key)) {
+          boss_state.key_pressed_seq[i] = record->event.key;
+          break;
+        }
+      }
       return false;
     }
   } else {
+    // released keys pressed under boss should not progress
+    for (uint8_t i = 0; i < BOSS_PRESSED_MAX; i++) {
+      if (KEYEQ(boss_state.key_pressed_seq[i], record->event.key)) {
+        boss_state.key_pressed_seq[i] = boss_no_key;
+        return false;
+      }
+    }
     if (boss_state.momentary && KEYEQ(boss_state.key, record->event.key)) { 
       /* xprintf("  RELEASE bossing KEY UNDER BOSSING \r\n"  ); */
       boss_state.momentary = false;
@@ -128,6 +145,11 @@ void boss_state_init(uint16_t keycode, keypos_t key) {
   boss_state.time = timer_read();
 }
 
+void boss_state_init_pressed(void) {
+  for (uint8_t i = 0; i < BOSS_PRESSED_MAX; i++) {
+    boss_state.key_pressed_seq[i] = boss_no_key; 
+  }
+}
 /* bool boss_seq_cmp(uint8_t num, ...) { */
 /*   if (num > BOSS_SEQ_MAX) {return false;} */
 /*   va_list ap; */
@@ -163,6 +185,7 @@ bool boss_seq_match(uint8_t num, ...) {
   va_end(ap);
   return result;
 }
+
 
 
 /* uint16_t boss_last_seq_keycode(uint8_t layer) { */

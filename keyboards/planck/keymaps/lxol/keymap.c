@@ -207,6 +207,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 BOSS_EXTERNS();
 void matrix_init_user(void) {
+  boss_state_init_pressed();
   boss_ref_layer = biton32(default_layer_state);
   boss_range.os_first = LD_OS_FIRST;
   boss_range.os_last = LD_OS_LAST;
@@ -247,12 +248,15 @@ void matrix_scan_user(void) {
     BEGIN_SEQ(1, KC_TRNS)
       BOSS_SEQ_LAYER(_SYM)
     END_SEQ
+      //TODO: optional to ignore wrong presses 
+    boss_state.sequence_size--;
   }
 
   IS_BOSSING(LD_OS_SYM) {
     BEGIN_SEQ(1, KC_TRNS)
       BOSS_SEQ_LAYER(_NUM)
     END_SEQ
+    boss_state.sequence_size--;
   }
   /* IS_BOSSING(LD_OS_NUM) { */
   /*   BOSS_SEQ(1, KC_TRNS) */

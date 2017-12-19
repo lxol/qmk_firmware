@@ -23,6 +23,10 @@
 #define BOSS_SEQ_MAX  5
 #endif
 
+#ifndef BOSS_PRESSED_MAX
+#define BOSS_PRESSED_MAX  5
+#endif
+
 #ifndef BOSS_REFERENCE_LAYER
 #define BOSS_REFERENCE_LAYER 0
 #endif
@@ -32,6 +36,7 @@ void boss_start(void);
 void boss_end(void);
 void boss_state_init(uint16_t keycode, keypos_t key);
 void boss_state_clear_sequence(void);
+void boss_state_init_pressed(void);
 /* bool boss_seq_cmp (uint8_t num, ...); */
 /* uint16_t boss_last_seq_keycode(uint8_t layer); */
 void boss_register_code(uint16_t keycode);
@@ -41,7 +46,7 @@ bool boss_seq_match(uint8_t num, ...);
 typedef struct {
   uint16_t keycode_seq[BOSS_SEQ_MAX];
   keypos_t key_seq[BOSS_SEQ_MAX];
-  /* keypos_t key_release_seq[BOSS_SEQ_MAX]; */
+  keypos_t key_pressed_seq[BOSS_PRESSED_MAX];
   uint8_t sequence_size;
   uint16_t keycode;
   keypos_t key;
