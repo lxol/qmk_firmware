@@ -144,6 +144,27 @@ bool boss_seq_cmp(uint8_t num, ...) {
   return match;
 }
 
+bool boss_seq_match(uint8_t num, ...) {
+  if (num != boss_state.sequence_size) {
+    return false;
+  }
+  bool result = true;
+  va_list ap;
+  uint16_t kc, seq_kc;
+  va_start(ap, num);
+  for (uint8_t i = 0; i < num; i++) {
+    seq_kc = boss_state.keycode_seq[i];
+    kc = va_arg(ap, uint16_t);
+    if (kc != seq_kc && kc != KC_TRNS) {
+      result = false;
+      break;
+    };
+  }
+  va_end(ap);
+  return result;
+}
+
+
 void boss_seq_layer(uint8_t layer, uint8_t num, ...) {
   if (num > BOSS_SEQ_MAX) {return ;}
   va_list ap;

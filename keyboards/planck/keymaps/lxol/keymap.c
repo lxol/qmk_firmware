@@ -222,6 +222,10 @@ void matrix_scan_user(void) {
   
   IS_BOSSING(LD_OS_SYM) {
 
+    BEGIN_SEQ(2, KC_I, KC_O)
+      SEND_STRING("IO");
+    END_SEQ
+
     BOSS_SEQ_LAYER(_SYM, 1, KC_TRNS)
 
     BOSS_SEQ(2, KC_I, KC_E) {
