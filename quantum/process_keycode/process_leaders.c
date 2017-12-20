@@ -243,22 +243,31 @@ bool leaders_seq_match(uint8_t num, ...) {
 }
 
 void leaders_register_code(uint16_t keycode) {
-  if ((keycode >= leaders_range.momentary_first
-       && keycode <= leaders_range.momentary_last)
-      || (keycode >= leaders_range.oneshot_first
-          && keycode <= leaders_range.oneshot_last)) {
-     leaders_state_init(keycode, leaders_state.key_sequence[leaders_state.sequence_size - 1]);
+  bool is_momentary = (keycode >= leaders_range.momentary_first
+                       && keycode <= leaders_range.momentary_last);
+  bool is_oneshot = (keycode >= leaders_range.oneshot_first
+                     && keycode <= leaders_range.oneshot_last);
+  if (is_momentary || is_oneshot) {
+     /* leaders_state_init(keycode, leaders_state.key_sequence[leaders_state.sequence_size - 1]); */
+     keypos_t new_leader_key = leaders_state.key_sequence[leaders_state.sequence_size - 1];
+     leaders_state_clear_sequence();
+     leaders_state.leader_keycode = keycode;
+     leaders_state.leader_key = new_leader_key;
+     leaders_state.oneshot = is_oneshot;
+     leaders_state.momentary = true;
+     leaders_state.time = timer_read();
      return;
   }
   register_code16(keycode);
   return;
 }
 void leaders_unregister_code(uint16_t keycode) {
-  if ((keycode >= leaders_range.momentary_first
-       && keycode <= leaders_range.momentary_last)
-      || (keycode >= leaders_range.oneshot_first
-          && keycode <= leaders_range.oneshot_last)) {
-     return;
+  bool is_momentary = (keycode >= leaders_range.momentary_first
+                       && keycode <= leaders_range.momentary_last);
+  bool is_oneshot = (keycode >= leaders_range.oneshot_first
+                     && keycode <= leaders_range.oneshot_last);
+  if (is_momentary || is_oneshot) {
+    return;
   }
   unregister_code16(keycode);
   return;
