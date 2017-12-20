@@ -41,11 +41,10 @@ enum planck_keycodes {
   LD_MO_RAISE,
   LD_MOMENTARY_LAST,
   LD_LAYER_FIRST,
-  LD_LAYER_TEST,
-  LD_LAYER_LAST
+  LD_LAYER_LAST = LD_LAYER_FIRST + _MOUSE
 };
 
-
+#define LD_LAYER_TEST  (LD_LAYER_FIRST + _ARROWS)
 #include "dynamic_macro.h"
 
 
@@ -62,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = {
   { KC_ESC ,  KC_Q ,  KC_W , KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,  KC_I ,    KC_O ,   KC_P ,    KC_MINS } ,
   { KC_TAB ,  KC_A ,  KC_S , KC_D ,    KC_F ,    KC_G ,    KC_H ,   KC_J ,  KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } ,
-  { _______ , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,  KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } ,
+  { LD_LAYER_TEST , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,  KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } ,
   { XXXXXXX , MOUSE , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , RAISE , KC_LCTL , LEFT ,   KC_BSPC , KC_ENT }
  } ,
 
@@ -101,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,
 
 [_ARROWS] = {
-  { _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ , _______ ,  _______ , KC_BSPC } ,
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  KC_EQL , _______ , _______ ,  _______ , KC_BSPC } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , KC_LEFT ,  KC_DOWN , KC_UP ,   KC_RIGHT , _______ , _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ , _______ ,  _______ , _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , KC_SPACE , _______ , _______ , _______ ,  _______ , _______ }
@@ -161,14 +160,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     /*   } */
     /*   return false; */
     /*   break; */
-    case LEFT:
-      if (record->event.pressed) {
-        layer_on(_LEFT);
-      } else {
-        layer_off(_LEFT);
-      }
-      return false;
-      break;
+    /* case LEFT: */
+    /*   if (record->event.pressed) { */
+    /*     layer_on(_LEFT); */
+    /*   } else { */
+    /*     layer_off(_LEFT); */
+    /*   } */
+    /*   return false; */
+    /*   break; */
     case RAISE:
       if (record->event.pressed) {
         layer_on(_RAISE);
@@ -210,6 +209,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 LEADERS_EXTERNS();
 void matrix_init_user(void) {
+  xprintf("_QUERTY: %d , _RAISE: %d\r\n", _QWERTY, _RAISE);
+  foo_layer = _ARROWS;
   leaders_state_init_pressed();
   leaders_ref_layer = biton32(default_layer_state);
   leaders_range.oneshot_first = LD_ONESHOT_FIRST;
@@ -218,13 +219,18 @@ void matrix_init_user(void) {
   leaders_range.momentary_last = LD_MOMENTARY_LAST;
   leaders_range.layer_first = LD_LAYER_FIRST;
   leaders_range.layer_last = LD_LAYER_LAST;
+  leaders_range.ignore_first = LEFT;
+  leaders_range.ignore_last = DYNAMIC_MACRO_RANGE;
+  leaders_state.layer = false;
 }
 
 void matrix_scan_user(void) {
 
-  /* IS_LEADING(LD_MO_RAISE) { */
-  /*   LEADERS_SEQ_LAYER(_RAISE, 1, KC_TRNS) */
-  /* } */
+  IS_LEADING(LD_MO_RAISE) {
+    BEGIN_SEQ(1, KC_TRNS)
+      LEADERS_SEQ_LAYER(_RAISE)
+    END_SEQ
+  }
   
   IS_LEADING(LD_OS_SYM) {
 

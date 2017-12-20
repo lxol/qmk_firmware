@@ -25,6 +25,7 @@ __attribute__ ((weak))
 void leaders_end(void) {}
 
 leaders_state_t leaders_state;
+uint8_t foo_layer;
 
 uint8_t leaders_ref_layer = LEADERS_REFERENCE_LAYER;
 
@@ -64,12 +65,31 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       keycode == KC_RALT ) {
     return true;
   }
+
+  /* Ignore configured keycodes */
+  bool is_in_ignore_range = keycode >= leaders_range.ignore_first && keycode <= leaders_range.ignore_last;
+  if (is_in_ignore_range) {
+    if (record->event.pressed) {
+      xprintf("PRESSED IGNORED\r\n");
+    } else {
+      xprintf("RELEASED IGNORED\r\n");
+    }
+    return true;
+  }
+
   /* Manage layer leader key press. */
   if (record->event.pressed) {
     bool is_layer_leader_pressed = keycode >= leaders_range.layer_first && keycode <= leaders_range.layer_last;
     if (is_layer_leader_pressed) {
+      uint8_t layer_num = keycode - leaders_range.layer_first;
+      xprintf("PRESSED LAYER LEADER\r\n");
+      xprintf(" arrow layer pressed : %d\r\n", foo_layer);
+      xprintf(" layer_num : %d\r\n", layer_num);
+      leaders_state.leader_keycode = keycode;
+      leaders_state.leader_key = record->event.key;
       leaders_state.layer = true;
-      layer_on(8);
+      leaders_state.layer_num = layer_num;
+      layer_on(layer_num);
       return false;
     }
   }
@@ -77,11 +97,40 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   if (!record->event.pressed) {
     bool is_layer_leader_released = leaders_state.layer && KEYEQ(leaders_state.leader_key, record->event.key);
     if (is_layer_leader_released) {
+      xprintf("RELEASED LAYER LEADER\r\n");
+      xprintf(" arrow layer : %d\r\n", foo_layer);
       leaders_state.layer = false;
-      layer_off(8);
+      uint8_t layer_num = leaders_state.layer_num;
+      xprintf(" release layer_num : %d\r\n", layer_num);
+      layer_off(layer_num);
       return false;
     }
   }
+
+  /* No leaders processing in layer mode */
+  if (leaders_state.layer) {
+    xprintf("     KEY UNDER LAYER LEADER\r\n");
+    return true;
+  }
+
+  /* /\* Manage layer leader key press. *\/ */
+  /* if (record->event.pressed) { */
+  /*   bool is_layer_leader_pressed = keycode >= leaders_range.layer_first && keycode <= leaders_range.layer_last; */
+  /*   if (is_layer_leader_pressed) { */
+  /*     leaders_state.layer = true; */
+  /*     layer_on(8); */
+  /*     return false; */
+  /*   } */
+  /* } */
+  /* /\* Manage layer leader key release. *\/ */
+  /* if (!record->event.pressed) { */
+  /*   bool is_layer_leader_released = leaders_state.layer && KEYEQ(leaders_state.leader_key, record->event.key); */
+  /*   if (is_layer_leader_released) { */
+  /*     leaders_state.layer = false; */
+  /*     layer_off(8); */
+  /*     return false; */
+  /*   } */
+  /* } */
 
   /* Manage leaders key press */
   if (record->event.pressed) {
