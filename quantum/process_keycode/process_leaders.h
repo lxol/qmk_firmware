@@ -50,21 +50,24 @@ typedef struct {
   keypos_t pressed_keys[LEADERS_PRESSED_MAX];
   bool oneshot;
   bool momentary;
+  bool layer;
   uint16_t time;
-} leaders_t;
+} leaders_state_t;
 
 typedef struct {
   uint16_t momentary_first;
   uint16_t momentary_last;
   uint16_t oneshot_first;
   uint16_t oneshot_last;
+  uint16_t layer_first;
+  uint16_t layer_last;
 } leaders_range_t;
 
-typedef struct {
-  keypos_t key;
-  bool to_release;
-  uint16_t keycode;
-} leaders_key_state_t;
+/* typedef struct { */
+/*   keypos_t key; */
+/*   bool to_release; */
+/*   uint16_t keycode; */
+/* } leaders_key_state_t; */
 
 #define IS_LEADING(leaders_keycode)      \
   if ((leaders_state.sequence_size != 0)                      \
@@ -91,7 +94,7 @@ typedef struct {
 
 
 #define LEADERS_EXTERNS()         \
-  extern leaders_t leaders_state;       \
+  extern leaders_state_t leaders_state;       \
   extern leaders_range_t leaders_range; \
   extern uint8_t leaders_ref_layer;
 

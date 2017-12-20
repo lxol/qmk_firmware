@@ -39,7 +39,10 @@ enum planck_keycodes {
   LD_MOMENTARY_FIRST,
   LD_MO_SYM,
   LD_MO_RAISE,
-  LD_MOMENTARY_LAST
+  LD_MOMENTARY_LAST,
+  LD_LAYER_FIRST,
+  LD_LAYER_TEST,
+  LD_LAYER_LAST
 };
 
 
@@ -65,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_RAISE ] = {
   { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,      KC_9 ,      KC_0 ,    _______ } , 
-  { _______ , KC_LBRC , KC_RBRC , _______ , _______ , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_OS_SYM , LD_OS_NUM , _______ , _______ } , 
+  { _______ , KC_LBRC , KC_RBRC , _______ , LD_LAYER_TEST , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_OS_SYM , LD_OS_NUM , _______ , _______ } , 
   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,   _______ ,   _______ , _______ } , 
   { CALTDEL , KC_DEL ,  _______ , _______ , _______ , _______ , _______ , _______ , _______ ,   _______ ,   _______ , _______ }
  } , 
@@ -213,6 +216,8 @@ void matrix_init_user(void) {
   leaders_range.oneshot_last = LD_ONESHOT_LAST;
   leaders_range.momentary_first = LD_MOMENTARY_FIRST;
   leaders_range.momentary_last = LD_MOMENTARY_LAST;
+  leaders_range.layer_first = LD_LAYER_FIRST;
+  leaders_range.layer_last = LD_LAYER_LAST;
 }
 
 void matrix_scan_user(void) {

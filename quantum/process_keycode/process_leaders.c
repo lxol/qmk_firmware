@@ -24,7 +24,7 @@ void leaders_start(void) {}
 __attribute__ ((weak))
 void leaders_end(void) {}
 
-leaders_t leaders_state;
+leaders_state_t leaders_state;
 
 uint8_t leaders_ref_layer = LEADERS_REFERENCE_LAYER;
 
@@ -64,14 +64,32 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       keycode == KC_RALT ) {
     return true;
   }
+  /* Manage layer leader key press. */
+  if (record->event.pressed) {
+    bool is_layer_leader_pressed = keycode >= leaders_range.layer_first && keycode <= leaders_range.layer_last;
+    if (is_layer_leader_pressed) {
+      leaders_state.layer = true;
+      layer_on(8);
+      return false;
+    }
+  }
+  /* Manage layer leader key release. */
+  if (!record->event.pressed) {
+    bool is_layer_leader_released = leaders_state.layer && KEYEQ(leaders_state.leader_key, record->event.key);
+    if (is_layer_leader_released) {
+      leaders_state.layer = false;
+      layer_off(8);
+      return false;
+    }
+  }
 
   /* Manage leaders key press */
   if (record->event.pressed) {
-    bool is_mo_leaders_pressed = keycode >= leaders_range.momentary_first && keycode <= leaders_range.momentary_last;
-    bool is_os_leaders_pressed = keycode >= leaders_range.oneshot_first && keycode <= leaders_range.oneshot_last;
-    if (is_mo_leaders_pressed || is_os_leaders_pressed) {
+    bool is_mo_leader_pressed = keycode >= leaders_range.momentary_first && keycode <= leaders_range.momentary_last;
+    bool is_os_leader_pressed = keycode >= leaders_range.oneshot_first && keycode <= leaders_range.oneshot_last;
+    if (is_mo_leader_pressed || is_os_leader_pressed) {
       leaders_state_init(keycode, record->event.key);
-      leaders_state.oneshot = is_os_leaders_pressed;
+      leaders_state.oneshot = is_os_leader_pressed;
       leaders_state.momentary = true;
       return false;
     }
@@ -79,8 +97,8 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 
   /* Manage leaders key release */
   if (!record->event.pressed) {
-    bool is_leaders_released = leaders_state.momentary && KEYEQ(leaders_state.leader_key, record->event.key);
-    if (is_leaders_released) {
+    bool is_leader_released = leaders_state.momentary && KEYEQ(leaders_state.leader_key, record->event.key);
+    if (is_leader_released) {
       leaders_state.momentary = false;
       return false;
     }
