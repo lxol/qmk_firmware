@@ -29,17 +29,17 @@ enum planck_keycodes {
   MOUSE,
   BACKLIT,
   DYNAMIC_MACRO_RANGE,
-  LD_OS_FIRST,
+  LD_ONESHOT_FIRST,
   LD_OS_SYM,
   LD_OS_NUM,
   LD_OS_NUMBER,
   LD_OS_RAISE,
   LD_OS_ARROWS,
-  LD_OS_LAST,
-  LD_MO_FIRST,
+  LD_ONESHOT_LAST,
+  LD_MOMENTARY_FIRST,
   LD_MO_SYM,
   LD_MO_RAISE,
-  LD_MO_LAST
+  LD_MOMENTARY_LAST
 };
 
 
@@ -209,10 +209,10 @@ LEADERS_EXTERNS();
 void matrix_init_user(void) {
   leaders_state_init_pressed();
   leaders_ref_layer = biton32(default_layer_state);
-  leaders_range.os_first = LD_OS_FIRST;
-  leaders_range.os_last = LD_OS_LAST;
-  leaders_range.mo_first = LD_MO_FIRST;
-  leaders_range.mo_last = LD_MO_LAST;
+  leaders_range.oneshot_first = LD_ONESHOT_FIRST;
+  leaders_range.oneshot_last = LD_ONESHOT_LAST;
+  leaders_range.momentary_first = LD_MOMENTARY_FIRST;
+  leaders_range.momentary_last = LD_MOMENTARY_LAST;
 }
 
 void matrix_scan_user(void) {
