@@ -48,6 +48,7 @@ enum planck_keycodes {
 };
 
 #define LD_LAYER_TEST  (LD_LAYER_FIRST + _ARROWS)
+#define LD_LAYER_SYM  (LD_LAYER_FIRST + _SYM)
 #include "dynamic_macro.h"
 
 
@@ -69,10 +70,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,                
 
 [_RAISE] = { 
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,     KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,      KC_9 ,      KC_0 ,    _______ } , 
-  { _______ , KC_LBRC , KC_RBRC , LD_LAYER_TEST , LD_OS_CTL_X , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_OS_SYM , LD_OS_NUM , _______ , _______ } , 
-  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,   KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,   _______ ,   _______ , _______ } , 
-  { CALTDEL , KC_DEL ,  _______ , _______ , _______ ,  _______ , _______ , _______ , _______ ,   _______ ,   _______ , _______ }
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,          KC_4 ,        KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,         KC_9 ,      KC_0 ,    _______ } , 
+  { _______ , KC_LBRC , KC_RBRC , LD_LAYER_TEST , LD_OS_CTL_X , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_LAYER_SYM , LD_OS_NUM , _______ , _______ } , 
+  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,       KC_DLR ,      KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,      _______ ,   _______ , _______ } , 
+  { CALTDEL , KC_DEL ,  _______ , _______ ,       _______ ,     _______ , _______ , _______ , _______ ,      _______ ,   _______ , _______ }
  } ,          
 
 [_MAIN] = { 
@@ -90,10 +91,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,
 
 [_SYM] = {
-  { _______ , KC_GRV ,  KC_QUOT , KC_LCBR , KC_RCBR , KC_BSLS , _______ , _______ , _______ , _______ , _______ , _______ } , 
-  { _______ , KC_TILD , KC_DQUO , KC_LPRN , KC_RPRN , KC_BSPC , _______ , KC_ENT , _______ , _______ , _______ , _______ } , 
-  { _______ , _______ , _______ , KC_LBRC , KC_RBRC , KC_PIPE , _______ , _______ , _______ , _______ , _______ , _______ } , 
-  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
+  { XXXXXXX , KC_GRV ,  KC_QUOT , KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } , 
+  { XXXXXXX , KC_TILD , KC_DQUO , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } , 
+  { XXXXXXX , XXXXXXX , XXXXXXX , KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } , 
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_TRNS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX }
  } ,
 
 [_NUM ] = {
@@ -179,8 +180,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     /*   break; */
     case RAISE:
       if (record->event.pressed) {
+
+        xprintf("           RAISE ON\r\n");
         layer_on(_RAISE);
       } else {
+        xprintf("           RAISE OFF\r\n");
         layer_off(_RAISE);
       }
       return false;
@@ -219,7 +223,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 LEADERS_EXTERNS();
 void matrix_init_user(void) {
   xprintf("_QUERTY: %d , _RAISE: %d\r\n", _QWERTY, _RAISE);
-  foo_layer = _ARROWS;
+  /* foo_layer = _ARROWS; */
   leaders_state_init_pressed();
   leaders_ref_layer = biton32(default_layer_state);
   leaders_range.oneshot_first = LD_ONESHOT_FIRST;
@@ -228,8 +232,8 @@ void matrix_init_user(void) {
   leaders_range.momentary_last = LD_MOMENTARY_LAST;
   leaders_range.layer_first = LD_LAYER_FIRST;
   leaders_range.layer_last = LD_LAYER_LAST;
-  leaders_range.ignore_first = LEFT;
-  leaders_range.ignore_last = DYNAMIC_MACRO_RANGE;
+  /* leaders_range.ignore_first = LEFT; */
+  /* leaders_range.ignore_last = DYNAMIC_MACRO_RANGE; */
   leaders_state.layer = false;
 }
 
@@ -262,8 +266,7 @@ void matrix_scan_user(void) {
     END_SEQ
   }
   
-  IS_LEADING(LD_OS_SYM) {
-
+  IS_LEADING(LD_LAYER_SYM) {
 
     BEGIN_SEQ(2, KC_I, KC_S)
       SEND_STRING("\"\"");
@@ -315,9 +318,18 @@ void matrix_scan_user(void) {
       leaders_unregister_code(KC_LEFT);
     END_SEQ 
 
-    BEGIN_SEQ(1, KC_TRNS)
-      LEADERS_SEQ_LAYER(_SYM)
-    END_SEQ
+
+      if (leaders_seq_match(1, KC_TRNS)) {
+        /* ignore key unless it is managed by layer. */
+        uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]);
+        if (key != KC_NO) {
+          leaders_state_clear_sequence();
+          leaders_state.oneshot = false;
+        } 
+      } 
+    /* BEGIN_SEQ(1, KC_TRNS) */
+    /*   LEADERS_SEQ_LAYER(_SYM) */
+    /* END_SEQ */
       //TODO: optional to ignore wrong presses 
     /* leaders_state.sequence_size--; */
   }

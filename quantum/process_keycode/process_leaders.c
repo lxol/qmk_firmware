@@ -82,8 +82,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     bool is_layer_leader_pressed = keycode >= leaders_range.layer_first && keycode <= leaders_range.layer_last;
     if (is_layer_leader_pressed) {
       uint8_t layer_num = keycode - leaders_range.layer_first;
-      xprintf("PRESSED LAYER LEADER\r\n");
-      xprintf(" arrow layer pressed : %d\r\n", foo_layer);
+      /* xprintf(" arrow layer pressed : %d\r\n", foo_layer); */
       xprintf(" layer_num : %d\r\n", layer_num);
       leaders_state.leader_keycode = keycode;
       leaders_state.leader_key = record->event.key;
@@ -91,6 +90,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       leaders_state.momentary = true;
       leaders_state.layer_num = layer_num;
       layer_on(layer_num);
+      xprintf("PRESSED LAYER LEADER %d\r\n", layer_num);
       return false;
     }
   }
@@ -98,8 +98,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   if (!record->event.pressed) {
     bool is_layer_leader_released = leaders_state.layer && KEYEQ(leaders_state.leader_key, record->event.key);
     if (is_layer_leader_released) {
-      xprintf("RELEASED LAYER LEADER\r\n");
-      xprintf(" arrow layer : %d\r\n", foo_layer);
+      /* xprintf(" arrow layer : %d\r\n", foo_layer); */
       leaders_state.layer = false;
       leaders_state.momentary = false;
       uint8_t layer_num = leaders_state.layer_num;
@@ -165,6 +164,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         return leaders_state.layer;
       }
     }
+    xprintf("   RELEASE UNMANAGED  row: %d, col %d \r\n",  record->event.key.row, record->event.key.col);
     return true;
   }
 
