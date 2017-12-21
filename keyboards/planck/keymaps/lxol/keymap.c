@@ -239,9 +239,21 @@ void matrix_scan_user(void) {
     BEGIN_SEQ(1, KC_Y)
       SEND_STRING("It works!");
     END_SEQ
-    BEGIN_SEQ(1, KC_I)
-      SEND_STRING("It works again!");
+      
+    BEGIN_SEQ(2, KC_I, KC_Y)
+      SEND_STRING("2 keys works");
     END_SEQ
+      
+
+      if (leaders_seq_match(1, KC_TRNS)) {
+        /* ignore key unless it is managed by layer. */
+        uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]);
+        if (key != KC_NO) {
+          leaders_state_clear_sequence();
+          leaders_state.oneshot = false;
+        } 
+      } 
+
   }
 
   IS_LEADING(LD_MO_RAISE) {
