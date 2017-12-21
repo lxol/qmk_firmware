@@ -88,6 +88,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       leaders_state.leader_keycode = keycode;
       leaders_state.leader_key = record->event.key;
       leaders_state.layer = true;
+      leaders_state.momentary = true;
       leaders_state.layer_num = layer_num;
       layer_on(layer_num);
       return false;
@@ -100,6 +101,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       xprintf("RELEASED LAYER LEADER\r\n");
       xprintf(" arrow layer : %d\r\n", foo_layer);
       leaders_state.layer = false;
+      leaders_state.momentary = false;
       uint8_t layer_num = leaders_state.layer_num;
       xprintf(" release layer_num : %d\r\n", layer_num);
       layer_off(layer_num);

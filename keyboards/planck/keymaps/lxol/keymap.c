@@ -110,7 +110,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,
 
 [_ARROWS] = {
-  { _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  KC_EQL , _______ , _______ ,  _______ , KC_BSPC } ,
+  { _______ , _______ , _______ , _______ , _______ , _______ , XXXXXXX ,  KC_EQL , XXXXXXX , XXXXXXX ,  XXXXXXX , KC_BSPC } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , KC_LEFT ,  KC_DOWN , KC_UP ,   KC_RIGHT , _______ , _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ , _______ ,  _______ , _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , KC_SPACE , _______ , _______ , _______ ,  _______ , _______ }
@@ -234,6 +234,15 @@ void matrix_init_user(void) {
 }
 
 void matrix_scan_user(void) {
+
+  IS_LEADING(LD_LAYER_TEST) {
+    BEGIN_SEQ(1, KC_Y)
+      SEND_STRING("It works!");
+    END_SEQ
+    BEGIN_SEQ(1, KC_I)
+      SEND_STRING("It works again!");
+    END_SEQ
+  }
 
   IS_LEADING(LD_MO_RAISE) {
     BEGIN_SEQ(1, KC_TRNS)
