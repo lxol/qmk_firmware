@@ -88,6 +88,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       leaders_state.leader_key = record->event.key;
       leaders_state.layer = true;
       leaders_state.momentary = true;
+      leaders_state.oneshot = true;
       leaders_state.layer_num = layer_num;
       layer_on(layer_num);
       xprintf("PRESSED LAYER LEADER %d\r\n", layer_num);
