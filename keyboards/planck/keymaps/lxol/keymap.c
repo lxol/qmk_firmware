@@ -36,6 +36,7 @@ enum planck_keycodes {
   LD_OS_NUMBER,
   LD_OS_RAISE,
   LD_OS_MAIN,
+  LD_OS_CTL_X,
   LD_OS_ARROWS,
   LD_ONESHOT_LAST,
   LD_MOMENTARY_FIRST,
@@ -68,14 +69,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,                
 
 [_RAISE] = { 
-  { KC_GRV ,        KC_1 ,  KC_2 , KC_3 ,        KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,      KC_9 ,      KC_0 ,    _______ } , 
-  { _______ , KC_LBRC , KC_RBRC , _______ , LD_LAYER_TEST , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_OS_SYM , LD_OS_NUM , _______ , _______ } , 
-  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,   _______ ,   _______ , _______ } , 
-  { CALTDEL , KC_DEL ,  _______ , _______ , _______ , _______ , _______ , _______ , _______ ,   _______ ,   _______ , _______ }
- } , 
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,     KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,      KC_9 ,      KC_0 ,    _______ } , 
+  { _______ , KC_LBRC , KC_RBRC , LD_LAYER_TEST , LD_OS_CTL_X , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_OS_SYM , LD_OS_NUM , _______ , _______ } , 
+  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,   KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,   _______ ,   _______ , _______ } , 
+  { CALTDEL , KC_DEL ,  _______ , _______ , _______ ,  _______ , _______ , _______ , _______ ,   _______ ,   _______ , _______ }
+ } ,          
 
-[_MAIN] = {
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,          KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,      KC_9 ,      KC_0 ,    _______ } , 
+[_MAIN] = { 
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,     KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,      KC_9 ,      KC_0 ,    _______ } , 
   { _______ , KC_LBRC , KC_RBRC , _______ , LD_LAYER_TEST , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_OS_SYM , LD_OS_NUM , _______ , _______ } , 
   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,        KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,   _______ ,   _______ , _______ } , 
   { CALTDEL , KC_DEL ,  _______ , _______ , _______ ,       _______ , KC_SPC , LD_MO_SYM , _______ ,   _______ ,   _______ , _______ }
@@ -90,8 +91,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_SYM] = {
   { _______ , KC_GRV ,  KC_QUOT , KC_LCBR , KC_RCBR , KC_BSLS , _______ , _______ , _______ , _______ , _______ , _______ } , 
-  { _______ , KC_TILD , KC_DQUO , KC_LPRN , KC_RPRN , KC_PIPE , _______ , _______ , _______ , _______ , _______ , _______ } , 
-  { _______ , _______ , _______ , KC_LBRC , KC_RBRC , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
+  { _______ , KC_TILD , KC_DQUO , KC_LPRN , KC_RPRN , KC_BSPC , _______ , KC_ENT , _______ , _______ , _______ , _______ } , 
+  { _______ , _______ , _______ , KC_LBRC , KC_RBRC , KC_PIPE , _______ , _______ , _______ , _______ , _______ , _______ } , 
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
  } ,
 
@@ -242,9 +243,6 @@ void matrix_scan_user(void) {
   
   IS_LEADING(LD_OS_SYM) {
 
-    BEGIN_SEQ(2, KC_I, KC_O)
-      SEND_STRING("IO");
-    END_SEQ
 
     BEGIN_SEQ(2, KC_I, KC_S)
       SEND_STRING("\"\"");
@@ -314,6 +312,51 @@ void matrix_scan_user(void) {
       LEADERS_SEQ_LAYER(_MAIN)
     END_SEQ
   }
+
+  IS_LEADING(LD_OS_CTL_X) {
+    BEGIN_SEQ(1, KC_J)
+      leaders_register_code(KC_LCTL);
+      leaders_register_code(KC_X);
+      leaders_unregister_code(KC_X);
+      leaders_unregister_code(KC_LCTL);
+      leaders_register_code(KC_1);
+      leaders_unregister_code(KC_1);
+    END_SEQ 
+
+    BEGIN_SEQ(1, KC_K)
+      leaders_register_code(KC_LCTL);
+      leaders_register_code(KC_X);
+      leaders_unregister_code(KC_X);
+      leaders_unregister_code(KC_LCTL);
+      leaders_register_code(KC_2);
+      leaders_unregister_code(KC_2);
+    END_SEQ 
+
+    BEGIN_SEQ(1, KC_L)
+      leaders_register_code(KC_LCTL);
+      leaders_register_code(KC_X);
+      leaders_unregister_code(KC_X);
+      leaders_unregister_code(KC_LCTL);
+      leaders_register_code(KC_3);
+      leaders_unregister_code(KC_3);
+    END_SEQ 
+
+    BEGIN_SEQ(1, KC_O)
+      leaders_register_code(KC_LCTL);
+      leaders_register_code(KC_X);
+      leaders_unregister_code(KC_X);
+      leaders_unregister_code(KC_LCTL);
+      leaders_register_code(KC_O);
+      leaders_unregister_code(KC_O);
+    END_SEQ 
+
+    /* ignore other keys  */
+    BEGIN_SEQ(1, KC_TRNS)
+      leaders_state_clear_sequence();
+      leaders_state.oneshot = false;
+    END_SEQ 
+  }
+  
   /* IS_LEADING(LD_OS_NUM) { */
   /*   LEADERS_SEQ(1, KC_TRNS) */
   /*     SEND_STRING("()"); */

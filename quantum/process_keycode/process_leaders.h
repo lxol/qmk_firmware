@@ -1,4 +1,4 @@
-/* Copyright 2016 Jack Humbert
+/* Copyright 2016 Alex Olkhovskiy
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -85,7 +85,6 @@ typedef struct {
   return;                                                       \
   }
 
-/* #define LEADERS_SEQ(...) if (leaders_seq_cmp(__VA_ARGS__)) */
 
 #define LEADERS_SEQ_LAYER(layer) \
   uint16_t keycode = keymap_key_to_keycode(layer, leaders_state.key_sequence[leaders_state.sequence_size - 1]); \

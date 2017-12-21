@@ -1,4 +1,4 @@
-/* Copyright 2016 Jack Humbert
+/* Copyright 2016 Alex Olkhovskiy
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,15 +67,15 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   }
 
   /* Ignore configured keycodes */
-  bool is_in_ignore_range = keycode >= leaders_range.ignore_first && keycode <= leaders_range.ignore_last;
-  if (is_in_ignore_range) {
-    if (record->event.pressed) {
-      xprintf("PRESSED IGNORED\r\n");
-    } else {
-      xprintf("RELEASED IGNORED\r\n");
-    }
-    return true;
-  }
+  /* bool is_in_ignore_range = keycode >= leaders_range.ignore_first && keycode <= leaders_range.ignore_last; */
+  /* if (is_in_ignore_range) { */
+  /*   if (record->event.pressed) { */
+  /*     xprintf("PRESSED IGNORED\r\n"); */
+  /*   } else { */
+  /*     xprintf("RELEASED IGNORED\r\n"); */
+  /*   } */
+  /*   return true; */
+  /* } */
 
   /* Manage layer leader key press. */
   if (record->event.pressed) {
@@ -113,25 +113,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     return true;
   }
 
-  /* /\* Manage layer leader key press. *\/ */
-  /* if (record->event.pressed) { */
-  /*   bool is_layer_leader_pressed = keycode >= leaders_range.layer_first && keycode <= leaders_range.layer_last; */
-  /*   if (is_layer_leader_pressed) { */
-  /*     leaders_state.layer = true; */
-  /*     layer_on(8); */
-  /*     return false; */
-  /*   } */
-  /* } */
-  /* /\* Manage layer leader key release. *\/ */
-  /* if (!record->event.pressed) { */
-  /*   bool is_layer_leader_released = leaders_state.layer && KEYEQ(leaders_state.leader_key, record->event.key); */
-  /*   if (is_layer_leader_released) { */
-  /*     leaders_state.layer = false; */
-  /*     layer_off(8); */
-  /*     return false; */
-  /*   } */
-  /* } */
-
   /* Manage leaders key press */
   if (record->event.pressed) {
     bool is_mo_leader_pressed = keycode >= leaders_range.momentary_first && keycode <= leaders_range.momentary_last;
@@ -140,6 +121,10 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       leaders_state_init(keycode, record->event.key);
       leaders_state.oneshot = is_os_leader_pressed;
       leaders_state.momentary = true;
+
+#ifdef BACKLIGHT_ENABLE
+      backlight_set(2);
+#endif
       return false;
     }
   }
@@ -149,11 +134,14 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     bool is_leader_released = leaders_state.momentary && KEYEQ(leaders_state.leader_key, record->event.key);
     if (is_leader_released) {
       leaders_state.momentary = false;
+#ifdef BACKLIGHT_ENABLE
+      backlight_set(0);
+#endif
       return false;
     }
   }
 
-  bool leading_mode = leaders_state.momentary || leaders_state.oneshot;
+  bool leading_mode = leaders_state.momentary || leaders_state.oneshot || leaders_state.layer;
   /* Keep track all keys pressed under leading mode */
   if (leading_mode && record->event.pressed) {
     for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
