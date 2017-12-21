@@ -108,10 +108,10 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   }
 
   /* No leaders processing in layer mode */
-  if (leaders_state.layer) {
-    xprintf("     KEY UNDER LAYER LEADER\r\n");
-    return true;
-  }
+  /* if (leaders_state.layer) { */
+  /*   xprintf("     KEY UNDER LAYER LEADER\r\n"); */
+  /*   return true; */
+  /* } */
 
   /* Manage leaders key press */
   if (record->event.pressed) {
@@ -121,6 +121,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       leaders_state_init(keycode, record->event.key);
       leaders_state.oneshot = is_os_leader_pressed;
       leaders_state.momentary = true;
+      leaders_state.layer = false;
 
 #ifdef BACKLIGHT_ENABLE
       backlight_set(2);
@@ -159,7 +160,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       if (KEYEQ(leaders_state.pressed_keys[i], record->event.key)) {
         leaders_state.pressed_keys[i] = leaders_no_key;
         xprintf("RELEASE  pos: %d, row: %d, col %d \r\n", i, record->event.key.row, record->event.key.col);
-        return false;
+        return leaders_state.layer;
       }
     }
     return true;
@@ -178,7 +179,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     uint8_t i = leaders_state.sequence_size++;
     leaders_state.keycode_sequence[i] = ref_kc;
     leaders_state.key_sequence[i] = record->event.key;
-    return false;
+    return leaders_state.layer;
   }
   return true;
 }
