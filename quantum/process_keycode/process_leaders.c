@@ -24,20 +24,103 @@ void leaders_start(void) {}
 __attribute__ ((weak))
 void leaders_end(void) {}
 
+leader_t leaders[LEADERS_MAX];
+
+__attribute__ ((weak))
+bool leaders_sequence_user(void) {return true;}
+
 leaders_state_t leaders_state;
 uint8_t foo_layer;
 
 uint8_t leaders_ref_layer = LEADERS_REFERENCE_LAYER;
 
-leaders_range_t leaders_range = (leaders_range_t) {.momentary_first = KC_NO,
-                                          .momentary_last = KC_NO,
-                                          .oneshot_first = KC_NO,
-                                          .oneshot_last = KC_NO};
+/* leaders_range_t leaders_range = (leaders_range_t) {.momentary_first = KC_NO, */
+/*                                           .momentary_last = KC_NO, */
+/*                                           .oneshot_first = KC_NO, */
+/*                                           .oneshot_last = KC_NO}; */
 
 keypos_t leaders_no_key = (keypos_t) {
   .row = MATRIX_ROWS,
   .col = MATRIX_COLS
 };
+
+bool on_release(pressed_key_t pressed_key) {
+  return true;
+} 
+bool process_leaders(uint16_t keycode, keyrecord_t *record) {
+
+  /* Manage leader mode releases */
+  /*  */
+  if (!record->event.pressed) {
+    for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
+      pressed_key_t pressed_key = leaders_pressed_keys[i];
+      if (!pressed_key.released && KEYEQ(pressed_key.key, record->event.key)) {
+        return on_release(pressed_key);
+      }
+    }
+    /* Key was not under leading mode management. Let it go. */
+    return true;
+  }
+  
+  /* Act on leader key press. */
+  if (record->event.pressed) {
+    uint8_t i = 0;
+    do {
+      if (keycode != leaders[i].keycode) { continue; }
+      /* Leader key pressed! */
+      /* Create an active_leader and put it to active_leaders */
+      bool leader_activated = false;
+      for (uint8_t j = 0; j < ACTIVE_LEADERS_MAX; j++) {
+        if (active_leaders[j].momentary || active_leaders[j].oneshot) { continue; }
+        /*  */
+        active_leaders[j] = (active_leader_t) {
+          .leader = leaders[i],
+          .momentary = true,
+          .oneshot = leaders[i].oneshot,
+          .time = timer_read32()
+        };
+        leader_activated = true;
+        break;
+      }
+      if (leader_activated) {
+        break;
+      } else {
+        /* TODO: control overflow here */
+      }
+    } while (leaders[i++].keycode != KC_NO);
+  }
+  
+  /* Check if in leading mode. */
+  /* The most recent active leader wins. */
+  bool leading_mode = false;
+  uint8_t active_leader_index;
+  uint32_t cur_time = timer_read32();
+  uint32_t diff_min = UINT32_MAX;
+  for (uint8_t i = 0; i < ACTIVE_LEADERS_MAX; i++) {
+    if (active_leaders[i].momentary || active_leaders[i].oneshot) {
+      uint32_t diff = TIMER_DIFF_32(cur_time, active_leaders[i].time);
+      if (diff < diff_min) {
+        leading_mode = true;
+        active_leader_index = 0;
+      };
+    }
+  }
+  /* Nothing to do here. We are not in leading mode. */
+  if (!leading_mode) {
+    return true;
+  }
+  
+  active_leader_t active_leader = active_leaders[active_leader_index];
+  active_leaders[0] = active_leader;
+  
+  
+  if (record->event.pressed) {
+    
+  } 
+  /* return leaders_sequence_user(); */
+  return true;
+}
+
 /* void leaders_state_print(void) { */
 /*   xprintf("LEADERS STATE:\r\n"); */
 /*   xprintf("   leaders_state.leader_key row:%d, col: %d\r\n", leaders_state.leader_key.row, leaders_state.leader_key.col); */
@@ -49,143 +132,126 @@ keypos_t leaders_no_key = (keypos_t) {
 /*     xprintf("        leaders_state.keycode_sequence[%d] keycode: %d\r\n", i, leaders_state.keycode_sequence[i]); */
 /* } */
 
-bool process_leaders(uint16_t keycode, keyrecord_t *record) {
-  //TODO: control presses and releases
+/* bool process_leaders(uint16_t keycode, keyrecord_t *record) { */
 
-  // ignore modifiers
-  // TODO: make it configurable
-  /* leaders_state_print(); */
-  if (keycode == KC_LCTL ||
-      keycode == KC_RCTL ||
-      keycode == KC_LGUI ||
-      keycode == KC_RGUI ||
-      keycode == KC_LSFT ||
-      keycode == KC_RSFT ||
-      keycode == KC_LALT ||
-      keycode == KC_RALT ) {
-    return true;
-  }
+/*   // ignore modifiers */
+/*   // TODO: make it configurable */
+/*   /\* leaders_state_print(); *\/ */
+/*   if (keycode == KC_LCTL || */
+/*       keycode == KC_RCTL || */
+/*       keycode == KC_LGUI || */
+/*       keycode == KC_RGUI || */
+/*       keycode == KC_LSFT || */
+/*       keycode == KC_RSFT || */
+/*       keycode == KC_LALT || */
+/*       keycode == KC_RALT ) { */
+/*     return true; */
+/*   } */
 
-  /* Ignore configured keycodes */
-  /* bool is_in_ignore_range = keycode >= leaders_range.ignore_first && keycode <= leaders_range.ignore_last; */
-  /* if (is_in_ignore_range) { */
-  /*   if (record->event.pressed) { */
-  /*     xprintf("PRESSED IGNORED\r\n"); */
-  /*   } else { */
-  /*     xprintf("RELEASED IGNORED\r\n"); */
-  /*   } */
-  /*   return true; */
-  /* } */
 
-  /* Manage layer leader key press. */
-  if (record->event.pressed) {
-    bool is_layer_leader_pressed = keycode >= leaders_range.layer_first && keycode <= leaders_range.layer_last;
-    if (is_layer_leader_pressed) {
-      uint8_t layer_num = keycode - leaders_range.layer_first;
-      /* xprintf(" arrow layer pressed : %d\r\n", foo_layer); */
-      xprintf(" layer_num : %d\r\n", layer_num);
-      leaders_state.leader_keycode = keycode;
-      leaders_state.leader_key = record->event.key;
-      leaders_state.layer = true;
-      leaders_state.momentary = true;
-      leaders_state.oneshot = true;
-      leaders_state.layer_num = layer_num;
-      layer_on(layer_num);
-      xprintf("PRESSED LAYER LEADER %d\r\n", layer_num);
-      return false;
-    }
-  }
-  /* Manage layer leader key release. */
-  if (!record->event.pressed) {
-    bool is_layer_leader_released = leaders_state.layer && KEYEQ(leaders_state.leader_key, record->event.key);
-    if (is_layer_leader_released) {
-      /* xprintf(" arrow layer : %d\r\n", foo_layer); */
-      leaders_state.layer = false;
-      leaders_state.momentary = false;
-      uint8_t layer_num = leaders_state.layer_num;
-      xprintf(" release layer_num : %d\r\n", layer_num);
-      layer_off(layer_num);
-      return false;
-    }
-  }
+/*   /\* Manage layer leader key press. *\/ */
+/*   if (record->event.pressed) { */
+/*     bool is_layer_leader_pressed = keycode >= leaders_range.layer_first && keycode <= leaders_range.layer_last; */
+/*     if (is_layer_leader_pressed) { */
+/*       uint8_t layer_num = keycode - leaders_range.layer_first; */
+/*       /\* xprintf(" arrow layer pressed : %d\r\n", foo_layer); *\/ */
+/*       xprintf(" layer_num : %d\r\n", layer_num); */
+/*       leaders_state.leader_keycode = keycode; */
+/*       leaders_state.leader_key = record->event.key; */
+/*       leaders_state.layer = true; */
+/*       leaders_state.momentary = true; */
+/*       leaders_state.oneshot = true; */
+/*       leaders_state.layer_num = layer_num; */
+/*       layer_on(layer_num); */
+/*       xprintf("PRESSED LAYER LEADER %d\r\n", layer_num); */
+/*       return false; */
+/*     } */
+/*   } */
+/*   /\* Manage layer leader key release. *\/ */
+/*   if (!record->event.pressed) { */
+/*     bool is_layer_leader_released = leaders_state.layer && KEYEQ(leaders_state.leader_key, record->event.key); */
+/*     if (is_layer_leader_released) { */
+/*       /\* xprintf(" arrow layer : %d\r\n", foo_layer); *\/ */
+/*       leaders_state.layer = false; */
+/*       leaders_state.momentary = false; */
+/*       uint8_t layer_num = leaders_state.layer_num; */
+/*       xprintf(" release layer_num : %d\r\n", layer_num); */
+/*       layer_off(layer_num); */
+/*       return false; */
+/*     } */
+/*   } */
 
-  /* No leaders processing in layer mode */
-  /* if (leaders_state.layer) { */
-  /*   xprintf("     KEY UNDER LAYER LEADER\r\n"); */
-  /*   return true; */
-  /* } */
+/*   /\* Manage leaders key press *\/ */
+/*   if (record->event.pressed) { */
+/*     bool is_mo_leader_pressed = keycode >= leaders_range.momentary_first && keycode <= leaders_range.momentary_last; */
+/*     bool is_os_leader_pressed = keycode >= leaders_range.oneshot_first && keycode <= leaders_range.oneshot_last; */
+/*     if (is_mo_leader_pressed || is_os_leader_pressed) { */
+/*       leaders_state_init(keycode, record->event.key); */
+/*       leaders_state.oneshot = is_os_leader_pressed; */
+/*       leaders_state.momentary = true; */
+/*       leaders_state.layer = false; */
 
-  /* Manage leaders key press */
-  if (record->event.pressed) {
-    bool is_mo_leader_pressed = keycode >= leaders_range.momentary_first && keycode <= leaders_range.momentary_last;
-    bool is_os_leader_pressed = keycode >= leaders_range.oneshot_first && keycode <= leaders_range.oneshot_last;
-    if (is_mo_leader_pressed || is_os_leader_pressed) {
-      leaders_state_init(keycode, record->event.key);
-      leaders_state.oneshot = is_os_leader_pressed;
-      leaders_state.momentary = true;
-      leaders_state.layer = false;
+/* #ifdef BACKLIGHT_ENABLE */
+/*       backlight_set(2); */
+/* #endif */
+/*       return false; */
+/*     } */
+/*   } */
 
-#ifdef BACKLIGHT_ENABLE
-      backlight_set(2);
-#endif
-      return false;
-    }
-  }
+/*   /\* Manage leaders key release *\/ */
+/*   if (!record->event.pressed) { */
+/*     bool is_leader_released = leaders_state.momentary && KEYEQ(leaders_state.leader_key, record->event.key); */
+/*     if (is_leader_released) { */
+/*       leaders_state.momentary = false; */
+/* #ifdef BACKLIGHT_ENABLE */
+/*       backlight_set(0); */
+/* #endif */
+/*       return false; */
+/*     } */
+/*   } */
 
-  /* Manage leaders key release */
-  if (!record->event.pressed) {
-    bool is_leader_released = leaders_state.momentary && KEYEQ(leaders_state.leader_key, record->event.key);
-    if (is_leader_released) {
-      leaders_state.momentary = false;
-#ifdef BACKLIGHT_ENABLE
-      backlight_set(0);
-#endif
-      return false;
-    }
-  }
+/*   bool leading_mode = leaders_state.momentary || leaders_state.oneshot || leaders_state.layer; */
+/*   /\* Keep track all keys pressed under leading mode *\/ */
+/*   if (leading_mode && record->event.pressed) { */
+/*     for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) { */
+/*       if (KEYEQ(leaders_state.pressed_keys[i], leaders_no_key)) { */
+/*         leaders_state.pressed_keys[i] = record->event.key; */
+/*         xprintf("ADD pressed: row: pos: %d, %d, col %d\r\n", i, record->event.key.row, record->event.key.col); */
+/*         break; */
+/*       } */
+/*     } */
+/*   } */
 
-  bool leading_mode = leaders_state.momentary || leaders_state.oneshot || leaders_state.layer;
-  /* Keep track all keys pressed under leading mode */
-  if (leading_mode && record->event.pressed) {
-    for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
-      if (KEYEQ(leaders_state.pressed_keys[i], leaders_no_key)) {
-        leaders_state.pressed_keys[i] = record->event.key;
-        xprintf("ADD pressed: row: pos: %d, %d, col %d\r\n", i, record->event.key.row, record->event.key.col);
-        break;
-      }
-    }
-  }
+/*   /\* Keys pressed in leading_mode should not progress. *\/ */
+/*   if (!record->event.pressed) { */
+/*     for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) { */
+/*       if (KEYEQ(leaders_state.pressed_keys[i], record->event.key)) { */
+/*         leaders_state.pressed_keys[i] = leaders_no_key; */
+/*         xprintf("RELEASE  pos: %d, row: %d, col %d \r\n", i, record->event.key.row, record->event.key.col); */
+/*         return leaders_state.layer; */
+/*       } */
+/*     } */
+/*     xprintf("   RELEASE UNMANAGED  row: %d, col %d \r\n",  record->event.key.row, record->event.key.col); */
+/*     return true; */
+/*   } */
 
-  /* Keys pressed in leading_mode should not progress. */
-  if (!record->event.pressed) {
-    for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
-      if (KEYEQ(leaders_state.pressed_keys[i], record->event.key)) {
-        leaders_state.pressed_keys[i] = leaders_no_key;
-        xprintf("RELEASE  pos: %d, row: %d, col %d \r\n", i, record->event.key.row, record->event.key.col);
-        return leaders_state.layer;
-      }
-    }
-    xprintf("   RELEASE UNMANAGED  row: %d, col %d \r\n",  record->event.key.row, record->event.key.col);
-    return true;
-  }
+/*   /\* This is a guard for unmanaged sequences.*\/ */
+/*   /\* Start from scratch, when sequence reaches the maximum size.  *\/ */
+/*   if (record->event.pressed && leading_mode && leaders_state.sequence_size == LEADERS_SEQ_MAX ) { */
+/*     leaders_state_clear_sequence(); */
+/*     leaders_state.oneshot = false; */
+/*   } */
 
-  /* This is a guard for unmanaged sequences.*/
-  /* Start from scratch, when sequence reaches the maximum size.  */
-  if (record->event.pressed && leading_mode && leaders_state.sequence_size == LEADERS_SEQ_MAX ) {
-    leaders_state_clear_sequence();
-    leaders_state.oneshot = false;
-  }
-
-  /* Update leaders_state with pressed key info. */
-  if (record->event.pressed && leading_mode ) {
-    uint16_t ref_kc = keymap_key_to_keycode(leaders_ref_layer, record->event.key);
-    uint8_t i = leaders_state.sequence_size++;
-    leaders_state.keycode_sequence[i] = ref_kc;
-    leaders_state.key_sequence[i] = record->event.key;
-    return leaders_state.layer;
-  }
-  return true;
-}
+/*   /\* Update leaders_state with pressed key info. *\/ */
+/*   if (record->event.pressed && leading_mode ) { */
+/*     uint16_t ref_kc = keymap_key_to_keycode(leaders_ref_layer, record->event.key); */
+/*     uint8_t i = leaders_state.sequence_size++; */
+/*     leaders_state.keycode_sequence[i] = ref_kc; */
+/*     leaders_state.key_sequence[i] = record->event.key; */
+/*     return leaders_state.layer; */
+/*   } */
+/*   return true; */
+/* } */
 
 void leaders_state_clear_sequence(void) {
   for (uint8_t i = 0; i < LEADERS_SEQ_MAX; ++i) {
@@ -234,35 +300,35 @@ bool leaders_seq_match(uint8_t num, ...) {
   return result;
 }
 
-void leaders_register_code(uint16_t keycode) {
-  bool is_momentary = (keycode >= leaders_range.momentary_first
-                       && keycode <= leaders_range.momentary_last);
-  bool is_oneshot = (keycode >= leaders_range.oneshot_first
-                     && keycode <= leaders_range.oneshot_last);
-  if (is_momentary || is_oneshot) {
-     /* leaders_state_init(keycode, leaders_state.key_sequence[leaders_state.sequence_size - 1]); */
-     keypos_t new_leader_key = leaders_state.key_sequence[leaders_state.sequence_size - 1];
-     leaders_state_clear_sequence();
-     leaders_state.leader_keycode = keycode;
-     leaders_state.leader_key = new_leader_key;
-     leaders_state.oneshot = is_oneshot;
-     leaders_state.momentary = true;
-     leaders_state.time = timer_read();
-     return;
-  }
-  register_code16(keycode);
-  return;
-}
-void leaders_unregister_code(uint16_t keycode) {
-  bool is_momentary = (keycode >= leaders_range.momentary_first
-                       && keycode <= leaders_range.momentary_last);
-  bool is_oneshot = (keycode >= leaders_range.oneshot_first
-                     && keycode <= leaders_range.oneshot_last);
-  if (is_momentary || is_oneshot) {
-    return;
-  }
-  unregister_code16(keycode);
-  return;
-}
+/* void leaders_register_code(uint16_t keycode) { */
+/*   bool is_momentary = (keycode >= leaders_range.momentary_first */
+/*                        && keycode <= leaders_range.momentary_last); */
+/*   bool is_oneshot = (keycode >= leaders_range.oneshot_first */
+/*                      && keycode <= leaders_range.oneshot_last); */
+/*   if (is_momentary || is_oneshot) { */
+/*      /\* leaders_state_init(keycode, leaders_state.key_sequence[leaders_state.sequence_size - 1]); *\/ */
+/*      keypos_t new_leader_key = leaders_state.key_sequence[leaders_state.sequence_size - 1]; */
+/*      leaders_state_clear_sequence(); */
+/*      leaders_state.leader_keycode = keycode; */
+/*      leaders_state.leader_key = new_leader_key; */
+/*      leaders_state.oneshot = is_oneshot; */
+/*      leaders_state.momentary = true; */
+/*      leaders_state.time = timer_read(); */
+/*      return; */
+/*   } */
+/*   register_code16(keycode); */
+/*   return; */
+/* } */
+/* void leaders_unregister_code(uint16_t keycode) { */
+/*   bool is_momentary = (keycode >= leaders_range.momentary_first */
+/*                        && keycode <= leaders_range.momentary_last); */
+/*   bool is_oneshot = (keycode >= leaders_range.oneshot_first */
+/*                      && keycode <= leaders_range.oneshot_last); */
+/*   if (is_momentary || is_oneshot) { */
+/*     return; */
+/*   } */
+/*   unregister_code16(keycode); */
+/*   return; */
+/* } */
 
 #endif

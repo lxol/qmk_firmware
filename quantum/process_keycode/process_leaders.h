@@ -31,6 +31,16 @@
 #define LEADERS_REFERENCE_LAYER 0
 #endif
 
+#ifndef ACTIVE_LEADERS_MAX
+#define ACTIVE_LEADERS_MAX 4
+#endif
+
+#ifndef LEADERS_MAX
+#define LEADERS_MAX  10
+#endif
+
+bool leaders_sequence_user(void);
+
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
 void leaders_start(void);
 void leaders_end(void);
@@ -40,6 +50,7 @@ void leaders_state_init_pressed(void);
 void leaders_register_code(uint16_t keycode);
 void leaders_unregister_code(uint16_t keycode);
 bool leaders_seq_match(uint8_t num, ...);
+
 
 typedef struct {
   uint16_t leader_keycode;
@@ -55,22 +66,60 @@ typedef struct {
   uint16_t time;
 } leaders_state_t;
 
-typedef struct {
-  uint16_t momentary_first;
-  uint16_t momentary_last;
-  uint16_t oneshot_first;
-  uint16_t oneshot_last;
-  uint16_t layer_first;
-  uint16_t layer_last;
-  uint16_t ignore_first;
-  uint16_t ignore_last;
-} leaders_range_t;
-
 /* typedef struct { */
-/*   keypos_t key; */
-/*   bool to_release; */
-/*   uint16_t keycode; */
-/* } leaders_key_state_t; */
+/*   uint16_t momentary_first; */
+/*   uint16_t momentary_last; */
+/*   uint16_t oneshot_first; */
+/*   uint16_t oneshot_last; */
+/*   uint16_t layer_first; */
+/*   uint16_t layer_last; */
+/*   uint16_t ignore_first; */
+/*   uint16_t ignore_last; */
+/* } leaders_range_t; */
+
+typedef struct {
+  uint16_t keycode;
+  /* bool momentary; */
+  bool oneshot;
+  /* bool layer; */
+  /* uint8_t layer_number; */
+  uint8_t reference_layer;
+} leader_t;
+
+typedef struct {
+  leader_t leader;
+  keypos_t keypos;
+  bool momentary;
+  bool oneshot;
+  /* bool layer; */
+  /* uint8_t layer_number; */
+  /* 16 bit is only 65536 ms hence 32 bit */
+  uint32_t time;
+} active_leader_t;
+
+typedef struct {
+  uint16_t keycode;
+  uint16_t release_keycode;
+  keypos_t key;
+  leader_t leader;
+  bool released;
+  uint16_t time;
+} sequence_key_t;
+
+typedef struct {
+  uint16_t keycode;
+  uint16_t release_keycode;
+  keypos_t key;
+  leader_t leader;
+  bool released;
+  uint16_t time;
+} pressed_key_t;
+
+
+active_leader_t active_leaders[ACTIVE_LEADERS_MAX];
+sequence_key_t leaders_sequence[LEADERS_SEQ_MAX];
+uint8_t leaders_sequence_size;
+pressed_key_t leaders_pressed_keys[LEADERS_PRESSED_MAX];
 
 #define IS_LEADING(leaders_keycode)      \
   if ((leaders_state.sequence_size != 0)                      \
@@ -97,8 +146,7 @@ typedef struct {
 
 #define LEADERS_EXTERNS()         \
   extern leaders_state_t leaders_state;       \
-  extern leaders_range_t leaders_range; \
-  extern uint8_t foo_layer; \
+  extern leader_t leaders[]; \
   extern uint8_t leaders_ref_layer;
 
 
