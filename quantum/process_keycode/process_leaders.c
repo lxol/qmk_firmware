@@ -87,7 +87,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       } else {
         /* TODO: control overflow here */
       }
-    } while (leaders[i++].keycode != KC_NO);
+    } while (leaders[i++].keycode != KC_NO || i == LEADERS_MAX);
   }
   
   /* Check if in leading mode. */
