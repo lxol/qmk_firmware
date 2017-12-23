@@ -99,11 +99,8 @@ typedef struct {
 
 typedef struct {
   uint16_t keycode;
-  uint16_t release_keycode;
-  keypos_t key;
+  /* keypos_t key; */
   leader_t leader;
-  bool released;
-  uint16_t time;
 } sequence_key_t;
 
 typedef struct {

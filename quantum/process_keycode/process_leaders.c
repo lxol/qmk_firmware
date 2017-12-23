@@ -29,6 +29,7 @@ leader_t leaders[LEADERS_MAX];
 __attribute__ ((weak))
 bool leaders_sequence_user(void) {return true;}
 
+uint8_t leaders_sequence_size = 0; 
 leaders_state_t leaders_state;
 uint8_t foo_layer;
 
@@ -47,48 +48,34 @@ keypos_t leaders_no_key = (keypos_t) {
 bool on_release(pressed_key_t pressed_key) {
   return true;
 } 
-bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 
-  /* Manage leader mode releases */
-  /*  */
-  if (!record->event.pressed) {
-    for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
-      pressed_key_t pressed_key = leaders_pressed_keys[i];
-      if (!pressed_key.released && KEYEQ(pressed_key.key, record->event.key)) {
-        return on_release(pressed_key);
-      }
-    }
-    /* Key was not under leading mode management. Let it go. */
-    return true;
-  }
-  
+bool process_leaders_pressed(uint16_t keycode, keyrecord_t *record) {
+
   /* Act on leader key press. */
-  if (record->event.pressed) {
-    uint8_t i = 0;
-    do {
-      if (keycode != leaders[i].keycode) { continue; }
-      /* Leader key pressed! */
-      /* Create an active_leader and put it to active_leaders */
-      bool leader_activated = false;
-      for (uint8_t j = 0; j < ACTIVE_LEADERS_MAX; j++) {
-        if (active_leaders[j].momentary || active_leaders[j].oneshot) { continue; }
-        /*  */
-        active_leaders[j] = (active_leader_t) {
-          .leader = leaders[i],
-          .momentary = true,
-          .oneshot = leaders[i].oneshot,
-          .time = timer_read32()
-        };
-        leader_activated = true;
-        break;
-      }
-      if (leader_activated) {
-        break;
-      } else {
-        /* TODO: control overflow here */
-      }
-    } while (leaders[i++].keycode != KC_NO || i == LEADERS_MAX);
-  }
+  uint8_t i = 0;
+  do {
+    if (keycode != leaders[i].keycode) { continue; }
+    /* Leader key pressed! */
+    /* Create an active_leader and put it to active_leaders */
+    bool leader_activated = false;
+    for (uint8_t j = 0; j < ACTIVE_LEADERS_MAX; j++) {
+      if (active_leaders[j].momentary || active_leaders[j].oneshot) { continue; }
+      /*  */
+      active_leaders[j] = (active_leader_t) {
+        .leader = leaders[i],
+        .momentary = true,
+        .oneshot = leaders[i].oneshot,
+        .time = timer_read32()
+      };
+      leader_activated = true;
+      break;
+    }
+    if (leader_activated) {
+      break;
+    } else {
+      /* TODO: control overflow here */
+    }
+  } while (leaders[i++].keycode != KC_NO || i == LEADERS_MAX);
   
   /* Check if in leading mode. */
   /* The most recent active leader wins. */
@@ -105,6 +92,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       };
     }
   }
+  
   /* Nothing to do here. We are not in leading mode. */
   if (!leading_mode) {
     return true;
@@ -112,15 +100,40 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   
   active_leader_t active_leader = active_leaders[active_leader_index];
   active_leaders[0] = active_leader;
+
+  /* time to record sequence and pressed keys */
+  /* uint8_t ref_layer = active_leader.leader.reference_layer; */
+  /* uint16_t ref_kc = keymap_key_to_keycode(ref_layer, record->event.key); */
+    /* leaders_state.keycode_sequence[i] = ref_kc; */
+    /* leaders_state.key_sequence[i] = record->event.key; */
+    /* return leaders_state.layer; */
   
-  
-  if (record->event.pressed) {
-    
-  } 
   /* return leaders_sequence_user(); */
   return true;
 }
 
+bool process_leaders_released(uint16_t keycode, keyrecord_t *record) {
+
+  /* Manage key releases */
+  /*  */
+  for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
+    pressed_key_t pressed_key = leaders_pressed_keys[i];
+    if (!pressed_key.released && KEYEQ(pressed_key.key, record->event.key)) {
+      return on_release(pressed_key);
+    }
+  }
+  /* Key was not under leading mode management. Let it go. */
+  return true;
+}
+
+bool process_leaders(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+    return process_leaders_pressed(keycode, record);
+  }
+  else {
+    return process_leaders_released(keycode, record);
+  }
+}
 /* void leaders_state_print(void) { */
 /*   xprintf("LEADERS STATE:\r\n"); */
 /*   xprintf("   leaders_state.leader_key row:%d, col: %d\r\n", leaders_state.leader_key.row, leaders_state.leader_key.col); */
