@@ -30,11 +30,6 @@ uint8_t foo_layer;
 
 uint8_t leaders_ref_layer = LEADERS_REFERENCE_LAYER;
 
-leaders_range_t leaders_range = (leaders_range_t) {.momentary_first = KC_NO,
-                                          .momentary_last = KC_NO,
-                                          .oneshot_first = KC_NO,
-                                          .oneshot_last = KC_NO};
-
 keypos_t leaders_no_key = (keypos_t) {
   .row = MATRIX_ROWS,
   .col = MATRIX_COLS

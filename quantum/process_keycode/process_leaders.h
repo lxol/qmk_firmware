@@ -72,17 +72,6 @@ typedef struct {
 } leader_t;
 
 
-typedef struct {
-  uint16_t momentary_first;
-  uint16_t momentary_last;
-  uint16_t oneshot_first;
-  uint16_t oneshot_last;
-  uint16_t layer_first;
-  uint16_t layer_last;
-  uint16_t ignore_first;
-  uint16_t ignore_last;
-} leaders_range_t;
-
 /* typedef struct { */
 /*   keypos_t key; */
 /*   bool to_release; */
@@ -114,7 +103,6 @@ typedef struct {
 
 #define LEADERS_EXTERNS()         \
   extern leaders_state_t leaders_state;       \
-  extern leaders_range_t leaders_range; \
   extern uint8_t foo_layer; \
   extern leader_t leaders[]; \
   extern uint8_t leaders_ref_layer;
