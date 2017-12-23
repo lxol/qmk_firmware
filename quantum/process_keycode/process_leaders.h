@@ -89,7 +89,7 @@ typedef struct {
 
 typedef struct {
   leader_t leader;
-  keypos_t keypos;
+  keypos_t key;
   bool momentary;
   bool oneshot;
   /* bool layer; */
@@ -109,8 +109,9 @@ typedef struct {
   uint16_t release_keycode;
   keypos_t key;
   leader_t leader;
+  bool is_leader;
   bool released;
-  uint16_t time;
+  /* uint16_t time; */
 } pressed_key_t;
 
 
