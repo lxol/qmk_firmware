@@ -252,10 +252,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 /* LEADERS_EXTERNS(); */
-void matrix_init_user(void) {
+
+void leaders_init_user(void) {
   xprintf("_QUERTY: %d , _RAISE: %d\r\n", _QWERTY, _RAISE);
   /* foo_layer = _ARROWS; */
-  leaders_state_init_pressed();
   leaders_ref_layer = biton32(default_layer_state);
   /* leaders_range.oneshot_first = LD_ONESHOT_FIRST; */
   /* leaders_range.oneshot_last = LD_ONESHOT_LAST; */

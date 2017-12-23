@@ -35,12 +35,13 @@
 #define LEADERS_MAX  10
 #endif
 
+void leaders_init(void);
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
+void leaders_init(void);
 void leaders_start(void);
 void leaders_end(void);
 void leaders_state_init(uint16_t keycode, keypos_t key);
 void leaders_state_clear_sequence(void);
-void leaders_state_init_pressed(void);
 void leaders_register_code(uint16_t keycode);
 void leaders_unregister_code(uint16_t keycode);
 bool leaders_seq_match(uint8_t num, ...);

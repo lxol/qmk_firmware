@@ -24,6 +24,9 @@ void leaders_start(void) {}
 __attribute__ ((weak))
 void leaders_end(void) {}
 
+__attribute__ ((weak))
+void leaders_init_user(void) {}
+
 leader_t leaders[LEADERS_MAX];
 leaders_state_t leaders_state;
 uint8_t foo_layer;
@@ -34,6 +37,13 @@ keypos_t leaders_no_key = (keypos_t) {
   .row = MATRIX_ROWS,
   .col = MATRIX_COLS
 };
+
+void leaders_init(void) {
+  for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
+    leaders_state.pressed_keys[i] = leaders_no_key;
+  }
+  leaders_init_user(); 
+}
 /* void leaders_state_print(void) { */
 /*   xprintf("LEADERS STATE:\r\n"); */
 /*   xprintf("   leaders_state.leader_key row:%d, col: %d\r\n", leaders_state.leader_key.row, leaders_state.leader_key.col); */
@@ -213,11 +223,6 @@ void leaders_state_init(uint16_t keycode, keypos_t key) {
   leaders_state.time = timer_read();
 }
 
-void leaders_state_init_pressed(void) {
-  for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
-    leaders_state.pressed_keys[i] = leaders_no_key;
-  }
-}
 
 bool leaders_seq_match(uint8_t num, ...) {
   if (num != leaders_state.sequence_size) {
