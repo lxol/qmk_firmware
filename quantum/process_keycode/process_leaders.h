@@ -39,6 +39,7 @@
 #define LEADERS_MAX  10
 #endif
 
+void leaders_init(void);
 bool leaders_sequence_user(void);
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record);

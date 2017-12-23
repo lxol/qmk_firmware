@@ -1,0 +1,6 @@
+* Leaders mode
+  Inspired by leader key implementation. 
+** How to build   
+   #+BEGIN_EXAMPLE
+   make planck/rev4lxolMS:lxol
+   #+END_EXAMPLE

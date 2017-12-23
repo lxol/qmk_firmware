@@ -49,6 +49,22 @@ bool on_release(pressed_key_t pressed_key) {
   return true;
 } 
 
+void leaders_init(void) {
+  for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
+    leaders_pressed_keys[i] = (pressed_key_t) {
+      .released = true,
+    };
+  }
+  for (uint8_t i = 0; i < ACTIVE_LEADERS_MAX; i++) {
+    active_leaders[i] = (active_leader_t) {
+      .momentary = false,
+      .oneshot = false,
+      .time = 0
+    };
+  }
+  leaders_sequence_size = 0;
+  return; 
+}
 bool process_leaders_pressed(uint16_t keycode, keyrecord_t *record) {
 
   /* Act on leader key press. */
@@ -99,11 +115,22 @@ bool process_leaders_pressed(uint16_t keycode, keyrecord_t *record) {
   }
   
   active_leader_t active_leader = active_leaders[active_leader_index];
-  active_leaders[0] = active_leader;
+  /* active_leaders[0] = active_leader; */
 
   /* time to record sequence and pressed keys */
-  /* uint8_t ref_layer = active_leader.leader.reference_layer; */
-  /* uint16_t ref_kc = keymap_key_to_keycode(ref_layer, record->event.key); */
+  uint8_t ref_layer = active_leader.leader.reference_layer;
+  uint16_t ref_kc = keymap_key_to_keycode(ref_layer, record->event.key);
+  leaders_sequence[leaders_sequence_size++] = (sequence_key_t) {
+    .keycode = ref_kc,
+    .leader = active_leader.leader
+  };
+  
+  for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
+    if (leaders_pressed_keys[i].released) {
+      
+    }
+  }
+
     /* leaders_state.keycode_sequence[i] = ref_kc; */
     /* leaders_state.key_sequence[i] = record->event.key; */
     /* return leaders_state.layer; */
