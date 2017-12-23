@@ -31,6 +31,10 @@
 #define LEADERS_REFERENCE_LAYER 0
 #endif
 
+#ifndef LEADERS_MAX
+#define LEADERS_MAX  10
+#endif
+
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
 void leaders_start(void);
 void leaders_end(void);
@@ -54,6 +58,19 @@ typedef struct {
   uint8_t layer_num;
   uint16_t time;
 } leaders_state_t;
+
+typedef struct {
+  uint16_t keycode;
+  /* bool momentary; */
+  bool oneshot;
+  bool toggle_layer;
+
+  /* bool layer; */
+  /* uint8_t layer_number; */
+  uint8_t toggle_layer_number;
+  uint8_t reference_layer;
+} leader_t;
+
 
 typedef struct {
   uint16_t momentary_first;
@@ -99,6 +116,7 @@ typedef struct {
   extern leaders_state_t leaders_state;       \
   extern leaders_range_t leaders_range; \
   extern uint8_t foo_layer; \
+  extern leader_t leaders[]; \
   extern uint8_t leaders_ref_layer;
 
 

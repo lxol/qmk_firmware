@@ -24,6 +24,7 @@ void leaders_start(void) {}
 __attribute__ ((weak))
 void leaders_end(void) {}
 
+leader_t leaders[LEADERS_MAX];
 leaders_state_t leaders_state;
 uint8_t foo_layer;
 
@@ -49,6 +50,14 @@ keypos_t leaders_no_key = (keypos_t) {
 /*     xprintf("        leaders_state.keycode_sequence[%d] keycode: %d\r\n", i, leaders_state.keycode_sequence[i]); */
 /* } */
 
+uint8_t leader_index(uint16_t keycode) {
+  for (uint8_t i = 0; i < LEADERS_MAX; i++) {
+    if (leaders[i].keycode  == keycode ) {
+      return i;
+    }
+  }
+  return LEADERS_MAX;
+}
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   //TODO: control presses and releases
 
@@ -78,10 +87,11 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   /* } */
 
   /* Manage layer leader key press. */
+  uint8_t lix = leader_index(keycode);
   if (record->event.pressed) {
-    bool is_layer_leader_pressed = keycode >= leaders_range.layer_first && keycode <= leaders_range.layer_last;
+    bool is_layer_leader_pressed = lix != LEADERS_MAX && leaders[lix].toggle_layer;
     if (is_layer_leader_pressed) {
-      uint8_t layer_num = keycode - leaders_range.layer_first;
+      uint8_t layer_num = leaders[lix].toggle_layer_number;
       /* xprintf(" arrow layer pressed : %d\r\n", foo_layer); */
       xprintf(" layer_num : %d\r\n", layer_num);
       leaders_state.leader_keycode = keycode;
@@ -117,8 +127,8 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 
   /* Manage leaders key press */
   if (record->event.pressed) {
-    bool is_mo_leader_pressed = keycode >= leaders_range.momentary_first && keycode <= leaders_range.momentary_last;
-    bool is_os_leader_pressed = keycode >= leaders_range.oneshot_first && keycode <= leaders_range.oneshot_last;
+    bool is_mo_leader_pressed = lix != LEADERS_MAX;
+    bool is_os_leader_pressed = lix != LEADERS_MAX && leaders[lix].oneshot;
     if (is_mo_leader_pressed || is_os_leader_pressed) {
       leaders_state_init(keycode, record->event.key);
       leaders_state.oneshot = is_os_leader_pressed;
@@ -235,32 +245,32 @@ bool leaders_seq_match(uint8_t num, ...) {
 }
 
 void leaders_register_code(uint16_t keycode) {
-  bool is_momentary = (keycode >= leaders_range.momentary_first
-                       && keycode <= leaders_range.momentary_last);
-  bool is_oneshot = (keycode >= leaders_range.oneshot_first
-                     && keycode <= leaders_range.oneshot_last);
-  if (is_momentary || is_oneshot) {
-     /* leaders_state_init(keycode, leaders_state.key_sequence[leaders_state.sequence_size - 1]); */
-     keypos_t new_leader_key = leaders_state.key_sequence[leaders_state.sequence_size - 1];
-     leaders_state_clear_sequence();
-     leaders_state.leader_keycode = keycode;
-     leaders_state.leader_key = new_leader_key;
-     leaders_state.oneshot = is_oneshot;
-     leaders_state.momentary = true;
-     leaders_state.time = timer_read();
-     return;
-  }
+  /* bool is_momentary = (keycode >= leaders_range.momentary_first */
+  /*                      && keycode <= leaders_range.momentary_last); */
+  /* bool is_oneshot = (keycode >= leaders_range.oneshot_first */
+  /*                    && keycode <= leaders_range.oneshot_last); */
+  /* if (is_momentary || is_oneshot) { */
+  /*    /\* leaders_state_init(keycode, leaders_state.key_sequence[leaders_state.sequence_size - 1]); *\/ */
+  /*    keypos_t new_leader_key = leaders_state.key_sequence[leaders_state.sequence_size - 1]; */
+  /*    leaders_state_clear_sequence(); */
+  /*    leaders_state.leader_keycode = keycode; */
+  /*    leaders_state.leader_key = new_leader_key; */
+  /*    leaders_state.oneshot = is_oneshot; */
+  /*    leaders_state.momentary = true; */
+  /*    leaders_state.time = timer_read(); */
+  /*    return; */
+  /* } */
   register_code16(keycode);
   return;
 }
 void leaders_unregister_code(uint16_t keycode) {
-  bool is_momentary = (keycode >= leaders_range.momentary_first
-                       && keycode <= leaders_range.momentary_last);
-  bool is_oneshot = (keycode >= leaders_range.oneshot_first
-                     && keycode <= leaders_range.oneshot_last);
-  if (is_momentary || is_oneshot) {
-    return;
-  }
+  /* bool is_momentary = (keycode >= leaders_range.momentary_first */
+  /*                      && keycode <= leaders_range.momentary_last); */
+  /* bool is_oneshot = (keycode >= leaders_range.oneshot_first */
+  /*                    && keycode <= leaders_range.oneshot_last); */
+ /* if (is_momentary || is_oneshot) { */
+ /*    return; */
+ /*  } */
   unregister_code16(keycode);
   return;
 }

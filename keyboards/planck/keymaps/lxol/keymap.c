@@ -44,11 +44,42 @@ enum planck_keycodes {
   LD_MO_RAISE,
   LD_MOMENTARY_LAST,
   LD_LAYER_FIRST,
-  LD_LAYER_LAST = LD_LAYER_FIRST + _MOUSE
+  LD_LAYER_LAST = LD_LAYER_FIRST + _MOUSE,
+  LD_TEST,
+  LD_LAYER_SYM,
+  LD_OS_TEST,
+  LD_TEST2
+
 };
 
-#define LD_LAYER_TEST  (LD_LAYER_FIRST + _ARROWS)
-#define LD_LAYER_SYM  (LD_LAYER_FIRST + _SYM)
+LEADERS_EXTERNS();
+leader_t leaders[] = {
+  (leader_t) {
+    .keycode = LD_LAYER_SYM,
+    .oneshot = true,
+    .toggle_layer = true,
+    .toggle_layer_number = _SYM,
+    .reference_layer = _QWERTY
+  },
+  (leader_t) {
+    .keycode = LD_TEST2,
+    .oneshot = true,
+    .toggle_layer = false,
+    .reference_layer = _QWERTY
+  },
+  (leader_t) {
+    .keycode = LD_OS_TEST,
+    .oneshot = true,
+    .toggle_layer = false,
+    .reference_layer = _QWERTY
+  },
+  /* terminator */
+  (leader_t) {
+    .keycode = KC_NO
+  }
+};
+
+/* #define LD_LAYER_SYM  (LD_LAYER_FIRST + _SYM) */
 #include "dynamic_macro.h"
 
 
@@ -63,27 +94,27 @@ enum planck_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = {
-  { KC_ESC ,        KC_Q ,  KC_W , KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,       KC_I ,    KC_O ,   KC_P ,    KC_MINS } , 
-  { KC_TAB ,        KC_A ,  KC_S , KC_D ,    KC_F ,    KC_G ,    KC_H ,   KC_J ,       KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } , 
-  { LD_LAYER_TEST , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,       KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } , 
+  { KC_ESC ,        KC_Q ,  KC_W , KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,       KC_I ,    KC_O ,   KC_P ,    KC_MINS } ,
+  { KC_TAB ,        KC_A ,  KC_S , KC_D ,    KC_F ,    KC_G ,    KC_H ,   KC_J ,       KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } ,
+  { LD_OS_TEST , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,       KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } ,
   { XXXXXXX ,       MOUSE , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , RAISE , KC_LCTL , LEFT ,   KC_BSPC , KC_ENT }
- } ,                
+ } ,
 
-[_RAISE] = { 
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,          KC_4 ,        KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,         KC_9 ,      KC_0 ,    _______ } , 
-  { _______ , KC_LBRC , KC_RBRC , LD_LAYER_TEST , LD_OS_CTL_X , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_LAYER_SYM , LD_OS_NUM , _______ , _______ } , 
-  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,       KC_DLR ,      KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,      _______ ,   _______ , _______ } , 
+[_RAISE] = {
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,          KC_4 ,        KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,         KC_9 ,      KC_0 ,    _______ } ,
+  { _______ , KC_LBRC , KC_RBRC , LD_OS_TEST , LD_OS_CTL_X , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_LAYER_SYM , LD_OS_NUM , _______ , _______ } ,
+  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,       KC_DLR ,      KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,      _______ ,   _______ , _______ } ,
   { CALTDEL , KC_DEL ,  _______ , _______ ,       _______ ,     _______ , _______ , _______ , _______ ,      _______ ,   _______ , _______ }
- } ,          
+ } ,
 
-[_MAIN] = { 
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,     KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,      KC_9 ,      KC_0 ,    _______ } , 
-  { _______ , KC_LBRC , KC_RBRC , _______ , LD_LAYER_TEST , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_OS_SYM , LD_OS_NUM , _______ , _______ } , 
-  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,        KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,   _______ ,   _______ , _______ } , 
+[_MAIN] = {
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,     KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,      KC_9 ,      KC_0 ,    _______ } ,
+  { _______ , KC_LBRC , KC_RBRC , _______ , LD_OS_TEST , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_OS_SYM , LD_OS_NUM , _______ , _______ } ,
+  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,        KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,   _______ ,   _______ , _______ } ,
   { CALTDEL , KC_DEL ,  _______ , _______ , _______ ,       _______ , KC_SPC , LD_MO_SYM , _______ ,   _______ ,   _______ , _______ }
- } ,          
+ } ,
 
-[_FUN] = { 
+[_FUN] = {
   { KC_F12 ,  KC_F1 ,   KC_F2 ,   KC_F3 , KC_F4 , KC_F5 , KC_F6 ,    KC_F7 ,   KC_F8 ,   KC_F9 ,    KC_F10 ,  KC_F11 } ,
   { DYN_REC_STOP , DYN_REC_START1 ,  DYN_REC_START2 ,  BACKLIT , BL_DEC ,  BL_INC ,  KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_BSLS , KC_PIPE } ,
   { KC_CAPS ,      DYN_MACRO_PLAY1 , DYN_MACRO_PLAY2 , KC_VOLU , KC_VOLD , KC_MPLY , _______ , KC_PGDN , KC_PGUP , _______ ,  _______ , _______ } ,
@@ -91,19 +122,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,
 
 [_SYM] = {
-  { XXXXXXX , KC_GRV ,  KC_QUOT , KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } , 
-  { XXXXXXX , KC_TILD , KC_DQUO , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } , 
-  { XXXXXXX , XXXXXXX , XXXXXXX , KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } , 
+  { XXXXXXX , KC_GRV ,  KC_QUOT , KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } ,
+  { XXXXXXX , KC_TILD , KC_DQUO , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } ,
+  { XXXXXXX , XXXXXXX , XXXXXXX , KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } ,
   { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_TRNS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX }
  } ,
 
 [_NUM ] = {
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,   _______  ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } , 
-  { _______ , KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ ,    _______ , _______ , _______ , _______ , _______ } , 
-  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } , 
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,   _______  ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } ,
+  { _______ , KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ ,    _______ , _______ , _______ , _______ , _______ } ,
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
  } ,
-[_NUMBERS] = { 
+[_NUMBERS] = {
   { _______ ,  _______ , _______ , _______ , _______ , _______ , KC_1 ,     KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_BSPC } ,
   { _______ , _______ , _______ , _______ , _______ , KC_BSPC , KC_6 ,     KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  KC_MINS , KC_EQL ,  KC_DOT ,  KC_SLSH , _______ } ,
@@ -220,18 +251,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-LEADERS_EXTERNS();
+/* LEADERS_EXTERNS(); */
 void matrix_init_user(void) {
   xprintf("_QUERTY: %d , _RAISE: %d\r\n", _QWERTY, _RAISE);
   /* foo_layer = _ARROWS; */
   leaders_state_init_pressed();
   leaders_ref_layer = biton32(default_layer_state);
-  leaders_range.oneshot_first = LD_ONESHOT_FIRST;
-  leaders_range.oneshot_last = LD_ONESHOT_LAST;
-  leaders_range.momentary_first = LD_MOMENTARY_FIRST;
-  leaders_range.momentary_last = LD_MOMENTARY_LAST;
-  leaders_range.layer_first = LD_LAYER_FIRST;
-  leaders_range.layer_last = LD_LAYER_LAST;
+  /* leaders_range.oneshot_first = LD_ONESHOT_FIRST; */
+  /* leaders_range.oneshot_last = LD_ONESHOT_LAST; */
+  /* leaders_range.momentary_first = LD_MOMENTARY_FIRST; */
+  /* leaders_range.momentary_last = LD_MOMENTARY_LAST; */
+  /* leaders_range.layer_first = LD_LAYER_FIRST; */
+  /* leaders_range.layer_last = LD_LAYER_LAST; */
   /* leaders_range.ignore_first = LEFT; */
   /* leaders_range.ignore_last = DYNAMIC_MACRO_RANGE; */
   leaders_state.layer = false;
@@ -239,15 +270,15 @@ void matrix_init_user(void) {
 
 void matrix_scan_user(void) {
 
-  IS_LEADING(LD_LAYER_TEST) {
+  IS_LEADING(LD_OS_TEST) {
     BEGIN_SEQ(1, KC_Y)
       SEND_STRING("It works!");
     END_SEQ
-      
+
     BEGIN_SEQ(2, KC_I, KC_Y)
       SEND_STRING("2 keys works");
     END_SEQ
-      
+
 
       if (leaders_seq_match(1, KC_TRNS)) {
         /* ignore key unless it is managed by layer. */
@@ -255,8 +286,8 @@ void matrix_scan_user(void) {
         if (key != KC_NO) {
           leaders_state_clear_sequence();
           leaders_state.oneshot = false;
-        } 
-      } 
+        }
+      }
 
   }
 
@@ -265,7 +296,7 @@ void matrix_scan_user(void) {
       LEADERS_SEQ_LAYER(_RAISE)
     END_SEQ
   }
-  
+
   IS_LEADING(LD_LAYER_SYM) {
 
     BEGIN_SEQ(2, KC_I, KC_S)
@@ -316,7 +347,7 @@ void matrix_scan_user(void) {
       SEND_STRING("[]");
       leaders_register_code(KC_LEFT);
       leaders_unregister_code(KC_LEFT);
-    END_SEQ 
+    END_SEQ
 
 
       if (leaders_seq_match(1, KC_TRNS)) {
@@ -325,12 +356,12 @@ void matrix_scan_user(void) {
         if (key != KC_NO) {
           leaders_state_clear_sequence();
           leaders_state.oneshot = false;
-        } 
-      } 
+        }
+      }
     /* BEGIN_SEQ(1, KC_TRNS) */
     /*   LEADERS_SEQ_LAYER(_SYM) */
     /* END_SEQ */
-      //TODO: optional to ignore wrong presses 
+      //TODO: optional to ignore wrong presses
     /* leaders_state.sequence_size--; */
   }
 
@@ -354,7 +385,7 @@ void matrix_scan_user(void) {
       leaders_unregister_code(KC_LCTL);
       leaders_register_code(KC_1);
       leaders_unregister_code(KC_1);
-    END_SEQ 
+    END_SEQ
 
     BEGIN_SEQ(1, KC_K)
       leaders_register_code(KC_LCTL);
@@ -363,7 +394,7 @@ void matrix_scan_user(void) {
       leaders_unregister_code(KC_LCTL);
       leaders_register_code(KC_2);
       leaders_unregister_code(KC_2);
-    END_SEQ 
+    END_SEQ
 
     BEGIN_SEQ(1, KC_L)
       leaders_register_code(KC_LCTL);
@@ -372,7 +403,7 @@ void matrix_scan_user(void) {
       leaders_unregister_code(KC_LCTL);
       leaders_register_code(KC_3);
       leaders_unregister_code(KC_3);
-    END_SEQ 
+    END_SEQ
 
     BEGIN_SEQ(1, KC_O)
       leaders_register_code(KC_LCTL);
@@ -381,23 +412,23 @@ void matrix_scan_user(void) {
       leaders_unregister_code(KC_LCTL);
       leaders_register_code(KC_O);
       leaders_unregister_code(KC_O);
-    END_SEQ 
+    END_SEQ
 
     /* ignore other keys  */
     BEGIN_SEQ(1, KC_TRNS)
       leaders_state_clear_sequence();
       leaders_state.oneshot = false;
-    END_SEQ 
+    END_SEQ
   }
-  
+
   /* IS_LEADING(LD_OS_NUM) { */
   /*   LEADERS_SEQ(1, KC_TRNS) */
   /*     SEND_STRING("()"); */
   /*     /\* leaders_send_last(_NUM); *\/ */
-      
+
   /*     /\* LEADERS_SEQ_LAYER(_NUM) *\/ */
   /*   END_SEQ */
   /* } */
-  
+
 
 }
