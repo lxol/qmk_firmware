@@ -41,14 +41,15 @@ enum planck_keycodes {
   LD_OS_SYM,
   LD_EMACS_SUPER,
   LD_SUPER,
+  LD_ARROWS1,
   DYNAMIC_MACRO_RANGE,
 };
 
 #include "dynamic_macro.h"
 
 
-#undef LEADER_TIMEOUT
-#define LEADER_TIMEOUT 2000
+/* #undef LEADER_TIMEOUT */
+/* #define LEADER_TIMEOUT 2000 */
 // Fillers to make layering more clear
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
@@ -207,39 +208,31 @@ leader_t leaders[] = {
   (leader_t) {
     .keycode = LD_LAYER_SYM,
     .oneshot = true,
-    /* .toggle_layer = true, */
-    /* .toggle_layer_number = _SYM, */
     .reference_layer = _QWERTY
   },
   (leader_t) {
     .keycode = LD_ARROWS,
     .oneshot = false,
-    .toggle_layer = true,
-    .toggle_layer_number = _ARROWS,
     .reference_layer = _QWERTY
   },
   (leader_t) {
     .keycode = LD_TEST2,
     .oneshot = true,
-    .toggle_layer = false,
     .reference_layer = _QWERTY
   },
   (leader_t) {
     .keycode = LD_OS_TEST,
     .oneshot = true,
-    .toggle_layer = false,
     .reference_layer = _QWERTY
   },
   (leader_t) {
     .keycode = LD_OS_CTL_X,
     .oneshot = true,
-    .toggle_layer = false,
     .reference_layer = _QWERTY
   },
   (leader_t) {
     .keycode = LD_SUPER,
     .oneshot = false,
-    .toggle_layer = false,
     .reference_layer = _QWERTY
   },
   /* terminator */
@@ -254,15 +247,23 @@ void leaders_init_user(void) {
 
 bool process_leader_press_user(void) {
   if (LD_SUPER == leaders_state.leader_keycode ) {
-      SEND_STRING("SUPER_PRESSED!");
+    register_code16(KC_LGUI);
+  }
+  if (LD_ARROWS == leaders_state.leader_keycode ) {
+    layer_on(_ARROWS);
   }
   return false;
 }
 
 bool process_leader_release_user(void) {
   if (LD_SUPER == leaders_state.leader_keycode ) {
-      SEND_STRING("SUPER_RELEASED!");
+    unregister_code16(KC_LGUI);
   }
+
+  if (LD_ARROWS == leaders_state.leader_keycode ) {
+    layer_off(_ARROWS);
+  }
+  
   return false;
 }
 
@@ -270,11 +271,19 @@ bool process_sequence_release_user(void) {
   if (LD_SUPER == leaders_state.leader_keycode ) {
     return true;
   }
+
+  if (LD_ARROWS == leaders_state.leader_keycode ) {
+    return true;
+  }
   return false;
 }
 
 bool process_sequence_press_user(void) {
   if (is_leading(LD_SUPER)) {
+    return true;
+  }
+
+  if (is_leading(LD_ARROWS)) {
     return true;
   }
 

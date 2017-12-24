@@ -118,31 +118,31 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 
   /* Manage layer leader key press. */
   uint8_t lix = leader_index(keycode);
-  if (record->event.pressed) {
-    bool is_layer_leader_pressed = lix != LEADERS_MAX && leaders[lix].toggle_layer;
-    if (is_layer_leader_pressed) {
-      uint8_t layer_num = leaders[lix].toggle_layer_number;
-      leaders_state.leader_keycode = keycode;
-      leaders_state.leader_key = record->event.key;
-      leaders_state.layer = true;
-      leaders_state.momentary = true;
-      leaders_state.oneshot = leaders[lix].oneshot;
-      leaders_state.layer_num = layer_num;
-      layer_on(layer_num);
-      return process_sequence_press();
-    }
-  }
+  /* if (record->event.pressed) { */
+  /*   bool is_layer_leader_pressed = lix != LEADERS_MAX && leaders[lix].toggle_layer; */
+  /*   if (is_layer_leader_pressed) { */
+  /*     uint8_t layer_num = leaders[lix].toggle_layer_number; */
+  /*     leaders_state.leader_keycode = keycode; */
+  /*     leaders_state.leader_key = record->event.key; */
+  /*     leaders_state.layer = true; */
+  /*     leaders_state.momentary = true; */
+  /*     leaders_state.oneshot = leaders[lix].oneshot; */
+  /*     leaders_state.layer_num = layer_num; */
+  /*     layer_on(layer_num); */
+  /*     return process_sequence_press(); */
+  /*   } */
+  /* } */
   /* Manage layer leader key release. */
-  if (!record->event.pressed) {
-    bool is_layer_leader_released = leaders_state.layer && KEYEQ(leaders_state.leader_key, record->event.key);
-    if (is_layer_leader_released) {
-      leaders_state.layer = false;
-      leaders_state.momentary = false;
-      uint8_t layer_num = leaders_state.layer_num;
-      layer_off(layer_num);
-      return process_sequence_press();
-    }
-  }
+  /* if (!record->event.pressed) { */
+  /*   bool is_layer_leader_released = leaders_state.layer && KEYEQ(leaders_state.leader_key, record->event.key); */
+  /*   if (is_layer_leader_released) { */
+  /*     leaders_state.layer = false; */
+  /*     leaders_state.momentary = false; */
+  /*     uint8_t layer_num = leaders_state.layer_num; */
+  /*     layer_off(layer_num); */
+  /*     return process_sequence_press(); */
+  /*   } */
+  /* } */
 
   /* Manage leaders key press */
   if (record->event.pressed) {

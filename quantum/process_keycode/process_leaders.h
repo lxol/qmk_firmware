@@ -56,8 +56,8 @@ typedef struct {
 typedef struct {
   uint16_t keycode;
   bool oneshot;
-  bool toggle_layer;
-  uint8_t toggle_layer_number;
+  /* bool toggle_layer; */
+  /* uint8_t toggle_layer_number; */
   uint8_t reference_layer;
 } leader_t;
 
