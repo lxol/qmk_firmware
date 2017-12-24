@@ -42,38 +42,6 @@ enum planck_keycodes {
   DYNAMIC_MACRO_RANGE,
 };
 
-LEADERS_EXTERNS();
-leader_t leaders[] = {
-  (leader_t) {
-    .keycode = LD_LAYER_SYM,
-    .oneshot = true,
-    .toggle_layer = true,
-    .toggle_layer_number = _SYM,
-    .reference_layer = _QWERTY
-  },
-  (leader_t) {
-    .keycode = LD_TEST2,
-    .oneshot = true,
-    .toggle_layer = false,
-    .reference_layer = _QWERTY
-  },
-  (leader_t) {
-    .keycode = LD_OS_TEST,
-    .oneshot = true,
-    .toggle_layer = false,
-    .reference_layer = _QWERTY
-  },
-  (leader_t) {
-    .keycode = LD_OS_CTL_X,
-    .oneshot = true,
-    .toggle_layer = false,
-    .reference_layer = _QWERTY
-  },
-  /* terminator */
-  (leader_t) {
-    .keycode = KC_NO
-  }
-};
 
 /* #define LD_LAYER_SYM  (LD_LAYER_FIRST + _SYM) */
 #include "dynamic_macro.h"
@@ -247,7 +215,41 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-/* LEADERS_EXTERNS(); */
+
+#ifdef LEADERS_ENABLE
+
+LEADERS_EXTERNS();
+leader_t leaders[] = {
+  (leader_t) {
+    .keycode = LD_LAYER_SYM,
+    .oneshot = true,
+    .toggle_layer = true,
+    .toggle_layer_number = _SYM,
+    .reference_layer = _QWERTY
+  },
+  (leader_t) {
+    .keycode = LD_TEST2,
+    .oneshot = true,
+    .toggle_layer = false,
+    .reference_layer = _QWERTY
+  },
+  (leader_t) {
+    .keycode = LD_OS_TEST,
+    .oneshot = true,
+    .toggle_layer = false,
+    .reference_layer = _QWERTY
+  },
+  (leader_t) {
+    .keycode = LD_OS_CTL_X,
+    .oneshot = true,
+    .toggle_layer = false,
+    .reference_layer = _QWERTY
+  },
+  /* terminator */
+  (leader_t) {
+    .keycode = KC_NO
+  }
+};
 
 void leaders_init_user(void) {
   leaders_ref_layer = biton32(default_layer_state);
@@ -417,3 +419,5 @@ bool process_sequence_user(void) {
 
   return false;
 }
+
+#endif
