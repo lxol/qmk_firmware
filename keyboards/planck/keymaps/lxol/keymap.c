@@ -223,8 +223,8 @@ leader_t leaders[] = {
   (leader_t) {
     .keycode = LD_LAYER_SYM,
     .oneshot = true,
-    .toggle_layer = true,
-    .toggle_layer_number = _SYM,
+    /* .toggle_layer = true, */
+    /* .toggle_layer_number = _SYM, */
     .reference_layer = _QWERTY
   },
   (leader_t) {
@@ -344,17 +344,17 @@ bool process_sequence_user(void) {
     END_SEQ
 
 
-      if (leaders_seq_match(1, KC_TRNS)) {
-        /* ignore key unless it is managed by layer. */
-        uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]);
-        if (key != KC_NO) {
-          leaders_state_clear_sequence();
-          leaders_state.oneshot = false;
-        }
-      }
-    /* BEGIN_SEQ(1, KC_TRNS) */
-    /*   LEADERS_SEQ_LAYER(_SYM) */
-    /* END_SEQ */
+      /* if (leaders_seq_match(1, KC_TRNS)) { */
+      /*   /\* ignore key unless it is managed by layer. *\/ */
+      /*   uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]); */
+      /*   if (key != KC_NO) { */
+      /*     leaders_state_clear_sequence(); */
+      /*     leaders_state.oneshot = false; */
+      /*   } */
+      /* } */
+    BEGIN_SEQ(1, KC_TRNS)
+      LEADERS_SEQ_LAYER(_SYM)
+    END_SEQ
       //TODO: optional to ignore wrong presses
     /* leaders_state.sequence_size--; */
   }
