@@ -55,6 +55,39 @@ uint8_t leader_index(uint16_t keycode) {
   }
   return LEADERS_MAX;
 }
+
+void leaders_state_clear_sequence(void) {
+  for (uint8_t i = 0; i < LEADERS_SEQ_MAX; ++i) {
+    leaders_state.keycode_sequence[i] = KC_NO;
+    leaders_state.key_sequence[i] = (keypos_t) {
+      .row = MATRIX_ROWS + 1,
+      .col = MATRIX_COLS + 1};
+  }
+  leaders_state.sequence_size = 0;
+}
+
+
+bool leaders_seq_match(uint8_t num, ...) {
+  if (num != leaders_state.sequence_size) {
+    return false;
+  }
+  bool result = true;
+  va_list ap;
+  uint16_t kc, seq_kc;
+  va_start(ap, num);
+  for (uint8_t i = 0; i < num; i++) {
+    seq_kc = leaders_state.keycode_sequence[i];
+    kc = va_arg(ap, uint16_t);
+    if (kc != seq_kc && kc != KC_TRNS) {
+      result = false;
+      break;
+    };
+  }
+  va_end(ap);
+  return result;
+}
+
+
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   //TODO: control presses and releases
 
@@ -151,7 +184,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
           return true;
         }
         return process_sequence();
-        /* return leaders_state.layer; */
       }
     }
     return true;
@@ -177,37 +209,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     /* return leaders_state.layer; */
   }
   return true;
-}
-
-void leaders_state_clear_sequence(void) {
-  for (uint8_t i = 0; i < LEADERS_SEQ_MAX; ++i) {
-    leaders_state.keycode_sequence[i] = KC_NO;
-    leaders_state.key_sequence[i] = (keypos_t) {
-      .row = MATRIX_ROWS + 1,
-      .col = MATRIX_COLS + 1};
-  }
-  leaders_state.sequence_size = 0;
-}
-
-
-bool leaders_seq_match(uint8_t num, ...) {
-  if (num != leaders_state.sequence_size) {
-    return false;
-  }
-  bool result = true;
-  va_list ap;
-  uint16_t kc, seq_kc;
-  va_start(ap, num);
-  for (uint8_t i = 0; i < num; i++) {
-    seq_kc = leaders_state.keycode_sequence[i];
-    kc = va_arg(ap, uint16_t);
-    if (kc != seq_kc && kc != KC_TRNS) {
-      result = false;
-      break;
-    };
-  }
-  va_end(ap);
-  return result;
 }
 
 
