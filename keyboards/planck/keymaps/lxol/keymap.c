@@ -256,11 +256,11 @@ bool process_sequence_user(void) {
     END_SEQ
 
 
-      if (leaders_seq_match(1, KC_TRNS)) {
+      if (match_sequence(1, KC_TRNS)) {
         /* ignore key unless it is managed by layer. */
         uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]);
         if (key != KC_NO) {
-          clear_sequence();
+          leaders_state.sequence_size = 0;
           leaders_state.oneshot = false;
         }
       }
@@ -326,11 +326,11 @@ bool process_sequence_user(void) {
     END_SEQ
 
 
-      /* if (leaders_seq_match(1, KC_TRNS)) { */
+      /* if (match_sequence(1, KC_TRNS)) { */
       /*   /\* ignore key unless it is managed by layer. *\/ */
       /*   uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]); */
       /*   if (key != KC_NO) { */
-      /*     clear_sequence(); */
+      /*     leaders_state.sequence_size = 0; */
       /*     leaders_state.oneshot = false; */
       /*   } */
       /* } */
@@ -392,7 +392,7 @@ bool process_sequence_user(void) {
 
     /* ignore other keys  */
     BEGIN_SEQ(1, KC_TRNS)
-      clear_sequence();
+      leaders_state.sequence_size = 0;
       leaders_state.oneshot = false;
     END_SEQ
   }

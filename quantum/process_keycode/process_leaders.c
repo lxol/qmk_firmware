@@ -56,17 +56,7 @@ uint8_t leader_index(uint16_t keycode) {
   return LEADERS_MAX;
 }
 
-void clear_sequence(void) {
-  for (uint8_t i = 0; i < LEADERS_SEQ_MAX; ++i) {
-    leaders_state.keycode_sequence[i] = KC_NO;
-    leaders_state.key_sequence[i] = (keypos_t) {
-      .row = MATRIX_ROWS + 1,
-      .col = MATRIX_COLS + 1};
-  }
-  leaders_state.sequence_size = 0;
-}
-
-bool leaders_seq_match(uint8_t num, ...) {
+bool match_sequence(uint8_t num, ...) {
   if (num != leaders_state.sequence_size) {
     return false;
   }
@@ -132,7 +122,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     bool is_mo_leader_pressed = lix != LEADERS_MAX;
     bool is_os_leader_pressed = lix != LEADERS_MAX && leaders[lix].oneshot;
     if (is_mo_leader_pressed || is_os_leader_pressed) {
-      clear_sequence();
+      leaders_state.sequence_size = 0;
       leaders_state.leader_keycode = keycode;
       leaders_state.leader_key = record->event.key;
       leaders_state.momentary = true;
@@ -186,7 +176,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   /* This is a guard for unmanaged sequences.*/
   /* Start from scratch, when sequence reaches the maximum size.  */
   if (record->event.pressed && leading_mode && leaders_state.sequence_size == LEADERS_SEQ_MAX ) {
-    clear_sequence();
+    leaders_state.sequence_size = 0;
     leaders_state.oneshot = false;
   }
 
