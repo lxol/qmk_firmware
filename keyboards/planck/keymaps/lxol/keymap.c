@@ -248,59 +248,79 @@ bool process_sequence_user(void) {
 
   if (is_leading(LD_OS_TEST)) {
     
-    BEGIN_SEQ(1, KC_Y)
+    if (match_sequence(1, KC_Y)) {
       SEND_STRING("It works!");
-    END_SEQ
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
 
-    BEGIN_SEQ(2, KC_I, KC_Y)
-      SEND_STRING("2 keys works");
-    END_SEQ
-
-
-      if (match_sequence(1, KC_TRNS)) {
-        /* ignore key unless it is managed by layer. */
-        uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]);
-        if (key != KC_NO) {
-          leaders_state.sequence_size = 0;
-          leaders_state.oneshot = false;
-        }
-      }
-
+    if (match_sequence(2, KC_I, KC_Y)) {
+      SEND_STRING("2 keys works!");
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
   }
 
+  /* if (match_sequence(1, KC_TRNS)) { */
+  /*   /\* ignore key unless it is managed by layer. *\/ */
+  /*   uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]); */
+  /*   if (key != KC_NO) { */
+  /*     leaders_state.sequence_size = 0; */
+  /*     leaders_state.oneshot = false; */
+  /*   } */
+  /* } */
+
+
   if (is_leading(LD_MO_RAISE)) {
-    BEGIN_SEQ(1, KC_TRNS)
+    if (match_sequence(1, KC_TRNS)) {
       LEADERS_SEQ_LAYER(_RAISE)
-    END_SEQ
+        leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
   }
 
   if (is_leading(LD_LAYER_SYM)) {
 
-    BEGIN_SEQ(2, KC_I, KC_S)
+    if (match_sequence(2, KC_I, KC_S)) {
       SEND_STRING("\"\"");
       register_code16(KC_LEFT);
       unregister_code16(KC_LEFT);
-    END_SEQ
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
 
-    BEGIN_SEQ(2, KC_I, KC_W)
+    if (match_sequence(2, KC_I, KC_W)) {
       SEND_STRING("''");
       register_code16(KC_LEFT);
       unregister_code16(KC_LEFT);
-    END_SEQ
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
 
-    BEGIN_SEQ(2, KC_I, KC_Q)
+    if (match_sequence(2, KC_I, KC_Q)) {
       SEND_STRING("``");
       register_code16(KC_LEFT);
       unregister_code16(KC_LEFT);
-    END_SEQ
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
 
-    BEGIN_SEQ(2, KC_I, KC_E)
+    if (match_sequence(2, KC_I, KC_E)) {
       SEND_STRING("{}");
       register_code16(KC_LEFT);
       unregister_code16(KC_LEFT);
-    END_SEQ
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
 
-    BEGIN_SEQ(3, KC_I, KC_I, KC_E)
+    if (match_sequence(3, KC_I, KC_I, KC_E)) {
       SEND_STRING("{}");
       register_code16(KC_LEFT);
       unregister_code16(KC_LEFT);
@@ -312,90 +332,123 @@ bool process_sequence_user(void) {
       unregister_code16(KC_UP);
       register_code16(KC_TAB);
       unregister_code16(KC_TAB);
-    END_SEQ
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
 
-    BEGIN_SEQ(2, KC_I, KC_D)
+    if (match_sequence(2, KC_I, KC_D)) {
       SEND_STRING("()");
       register_code16(KC_LEFT);
       unregister_code16(KC_LEFT);
-    END_SEQ
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
 
-    BEGIN_SEQ(2, KC_I, KC_C)
+    if (match_sequence(2, KC_I, KC_C)) {
       SEND_STRING("[]");
       register_code16(KC_LEFT);
       unregister_code16(KC_LEFT);
-    END_SEQ
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
 
 
-      /* if (match_sequence(1, KC_TRNS)) { */
-      /*   /\* ignore key unless it is managed by layer. *\/ */
-      /*   uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]); */
-      /*   if (key != KC_NO) { */
-      /*     leaders_state.sequence_size = 0; */
-      /*     leaders_state.oneshot = false; */
-      /*   } */
-      /* } */
-    BEGIN_SEQ(1, KC_TRNS)
+    /* if (match_sequence(1, KC_TRNS)) { */
+    /*   /\* ignore key unless it is managed by layer. *\/ */
+    /*   uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]); */
+    /*   if (key != KC_NO) { */
+    /*     leaders_state.sequence_size = 0; */
+    /*     leaders_state.oneshot = false; */
+    /*   } */
+    /* } */
+    if (match_sequence(1, KC_TRNS)) {
       LEADERS_SEQ_LAYER(_SYM)
-    END_SEQ
-      //TODO: optional to ignore wrong presses
+        leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
+    //TODO: optional to ignore wrong presses
     /* leaders_state.sequence_size--; */
   }
 
   if (is_leading(LD_OS_NUM)) {
-    BEGIN_SEQ(1, KC_TRNS)
+    if (match_sequence(1, KC_TRNS)) {
       LEADERS_SEQ_LAYER(_NUM)
-    END_SEQ
+        leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
   }
 
   if (is_leading(LD_OS_MAIN)) {
-    BEGIN_SEQ(1, KC_TRNS)
+    if (match_sequence(1, KC_TRNS)) {
       LEADERS_SEQ_LAYER(_MAIN)
-    END_SEQ
+        leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
   }
 
   if (is_leading(LD_OS_CTL_X)) {
-    BEGIN_SEQ(1, KC_J)
+    if (match_sequence(1, KC_J)) {
       register_code16(KC_LCTL);
       register_code16(KC_X);
       unregister_code16(KC_X);
       unregister_code16(KC_LCTL);
       register_code16(KC_1);
       unregister_code16(KC_1);
-    END_SEQ
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
 
-    BEGIN_SEQ(1, KC_K)
+    if (match_sequence(1, KC_K)) {
       register_code16(KC_LCTL);
       register_code16(KC_X);
       unregister_code16(KC_X);
       unregister_code16(KC_LCTL);
       register_code16(KC_2);
       unregister_code16(KC_2);
-    END_SEQ
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
 
-    BEGIN_SEQ(1, KC_L)
+    if (match_sequence(1, KC_L)) {
       register_code16(KC_LCTL);
       register_code16(KC_X);
       unregister_code16(KC_X);
       unregister_code16(KC_LCTL);
       register_code16(KC_3);
       unregister_code16(KC_3);
-    END_SEQ
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
 
-    BEGIN_SEQ(1, KC_O)
+    if (match_sequence(1, KC_O)) {
       register_code16(KC_LCTL);
       register_code16(KC_X);
       unregister_code16(KC_X);
       unregister_code16(KC_LCTL);
       register_code16(KC_O);
       unregister_code16(KC_O);
-    END_SEQ
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
 
     /* ignore other keys  */
-    BEGIN_SEQ(1, KC_TRNS)
+    if (match_sequence(1, KC_TRNS)) {
       leaders_state.sequence_size = 0;
       leaders_state.oneshot = false;
-    END_SEQ
+      leaders_state.sequence_size = 0;
+      leaders_state.oneshot = false; 
+      return false;                 
+    }
   }
 
   /* if (is_leading(LD_OS_NUM) { )*/
@@ -404,7 +457,6 @@ bool process_sequence_user(void) {
   /*     /\* leaders_send_last(_NUM); *\/ */
 
   /*     /\* LEADERS_SEQ_LAYER(_NUM) *\/ */
-  /*   END_SEQ */
   /* } */
 
   return false;

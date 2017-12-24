@@ -62,10 +62,10 @@ typedef struct {
 } leader_t;
 
 
-#define IS_LEADING(leaders_keycode)                             \
-  if ((leaders_state.sequence_size != 0)                        \
-      && (leaders_state.momentary || leaders_state.oneshot)     \
-      && (leaders_state.leader_keycode == leaders_keycode ))
+/* #define IS_LEADING(leaders_keycode)                             \ */
+/*   if ((leaders_state.sequence_size != 0)                        \ */
+/*       && (leaders_state.momentary || leaders_state.oneshot)     \ */
+/*       && (leaders_state.leader_keycode == leaders_keycode )) */
 
 #define BEGIN_SEQ(...) if (match_sequence(__VA_ARGS__)) {
 
