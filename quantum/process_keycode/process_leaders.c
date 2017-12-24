@@ -78,8 +78,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     bool is_layer_leader_pressed = lix != LEADERS_MAX && leaders[lix].toggle_layer;
     if (is_layer_leader_pressed) {
       uint8_t layer_num = leaders[lix].toggle_layer_number;
-      /* xprintf(" arrow layer pressed : %d\r\n", foo_layer); */
-      xprintf(" layer_num : %d\r\n", layer_num);
       leaders_state.leader_keycode = keycode;
       leaders_state.leader_key = record->event.key;
       leaders_state.layer = true;
@@ -87,7 +85,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       leaders_state.oneshot = leaders[lix].oneshot;
       leaders_state.layer_num = layer_num;
       layer_on(layer_num);
-      xprintf("PRESSED LAYER LEADER %d\r\n", layer_num);
       return process_sequence();
     }
   }
@@ -95,11 +92,9 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   if (!record->event.pressed) {
     bool is_layer_leader_released = leaders_state.layer && KEYEQ(leaders_state.leader_key, record->event.key);
     if (is_layer_leader_released) {
-      /* xprintf(" arrow layer : %d\r\n", foo_layer); */
       leaders_state.layer = false;
       leaders_state.momentary = false;
       uint8_t layer_num = leaders_state.layer_num;
-      xprintf(" release layer_num : %d\r\n", layer_num);
       layer_off(layer_num);
       return process_sequence();
     }
@@ -137,12 +132,11 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   }
 
   bool leading_mode = leaders_state.momentary || leaders_state.oneshot || leaders_state.layer;
-  /* Keep track all keys pressed under leading mode */
+  /* Keep track of all keys pressed under leading mode */
   if (leading_mode && record->event.pressed) {
     for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
       if (KEYEQ(leaders_state.pressed_keys[i], leaders_no_key)) {
         leaders_state.pressed_keys[i] = record->event.key;
-        xprintf("ADD pressed: row: pos: %d, %d, col %d\r\n", i, record->event.key.row, record->event.key.col);
         break;
       }
     }
@@ -153,7 +147,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
       if (KEYEQ(leaders_state.pressed_keys[i], record->event.key)) {
         leaders_state.pressed_keys[i] = leaders_no_key;
-        xprintf("RELEASE  pos: %d, row: %d, col %d \r\n", i, record->event.key.row, record->event.key.col);
         if (leaders_state.layer) {
           return true;
         }
@@ -161,7 +154,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         /* return leaders_state.layer; */
       }
     }
-    xprintf("   RELEASE UNMANAGED  row: %d, col %d \r\n",  record->event.key.row, record->event.key.col);
     return true;
   }
 
