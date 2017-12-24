@@ -229,8 +229,8 @@ bool process_record_quantum(keyrecord_t *record) {
   #ifndef DISABLE_LEADER
     process_leader(keycode, record) &&
   #endif
-  #ifndef DISABLE_BOSS
-    process_boss(keycode, record) &&
+  #ifdef LEADERS_ENABLE
+    process_leaders(keycode, record) &&
   #endif
   #ifndef DISABLE_CHORDING
     process_chording(keycode, record) &&
@@ -806,6 +806,9 @@ void matrix_init_quantum() {
   #endif
   #ifdef AUDIO_ENABLE
     audio_init();
+  #endif
+  #ifdef LEADERS_ENABLE
+    leaders_init();
   #endif
   matrix_init_kb();
 }
