@@ -46,7 +46,7 @@ void leaders_end(void);
 void leaders_state_init(uint16_t keycode, keypos_t key);
 void leaders_state_clear_sequence(void);
 void leaders_register_code(uint16_t keycode);
-void leaders_unregister_code(uint16_t keycode);
+void unregister_code16(uint16_t keycode);
 bool leaders_seq_match(uint8_t num, ...);
 
 typedef struct {
@@ -101,8 +101,8 @@ typedef struct {
   if (keycode == KC_NO || keycode == KC_TRNS) {                         \
     return false;                                                             \
   }                                                                     \
-  leaders_register_code(keycode);                                       \
-  leaders_unregister_code(keycode);
+  register_code16(keycode);                                       \
+  unregister_code16(keycode);
 
 
 #define LEADERS_EXTERNS()         \

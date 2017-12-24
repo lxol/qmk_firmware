@@ -42,8 +42,6 @@ enum planck_keycodes {
   DYNAMIC_MACRO_RANGE,
 };
 
-
-/* #define LD_LAYER_SYM  (LD_LAYER_FIRST + _SYM) */
 #include "dynamic_macro.h"
 
 
@@ -118,22 +116,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_BTN1 , KC_BTN3 , KC_BTN2 , _______ , _______ } ,
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ }
  }
-/* [_LEFT] = { */
-/*   { DYN_REC_STOP , DYN_REC_START1 , DYN_REC_START2 , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_PGDN , KC_PGUP , XXXXXXX ,  _______ , _______ } ,  */
-/*   { XXXXXXX ,      BACKLIT ,         XXXXXXX ,         XXXXXXX , XXXXXXX , XXXXXXX , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_BSLS , KC_PIPE } ,  */
-/*   { _______ ,      XXXXXXX ,         XXXXXXX ,         XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , _______ , _______ , _______ ,  _______ , _______ } ,  */
-/*   { _______ ,      BL_DEC ,          BL_INC ,          _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  KC_DEL ,  _______ } */
-/* *  } ,                *\/ */
-
-/* [_RIGHT] = {  */
-/*   { _______ , DYN_MACRO_PLAY1 , DYN_MACRO_PLAY2 , KC_LBRC , KC_RBRC , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } ,  */
-/*   { XXXXXXX , XXXXXXX ,         XXXXXXX ,         KC_LCBR , KC_RCBR , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } ,  */
-/*   { _______ , XXXXXXX ,         XXXXXXX ,         KC_LPRN , KC_RPRN , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , _______ } ,  */
-/*   { _______ , _______ ,         _______ ,         _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ } /\*  *\/ */
-/*  } ,           */
-
-
-
 
  };
 /* const uint16_t PROGMEM fn_actions[] = { */
@@ -295,52 +277,52 @@ bool process_sequence_user(void) {
 
     BEGIN_SEQ(2, KC_I, KC_S)
       SEND_STRING("\"\"");
-      leaders_register_code(KC_LEFT);
-      leaders_unregister_code(KC_LEFT);
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
     END_SEQ
 
     BEGIN_SEQ(2, KC_I, KC_W)
       SEND_STRING("''");
-      leaders_register_code(KC_LEFT);
-      leaders_unregister_code(KC_LEFT);
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
     END_SEQ
 
     BEGIN_SEQ(2, KC_I, KC_Q)
       SEND_STRING("``");
-      leaders_register_code(KC_LEFT);
-      leaders_unregister_code(KC_LEFT);
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
     END_SEQ
 
     BEGIN_SEQ(2, KC_I, KC_E)
       SEND_STRING("{}");
-      leaders_register_code(KC_LEFT);
-      leaders_unregister_code(KC_LEFT);
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
     END_SEQ
 
     BEGIN_SEQ(3, KC_I, KC_I, KC_E)
       SEND_STRING("{}");
-      leaders_register_code(KC_LEFT);
-      leaders_unregister_code(KC_LEFT);
-      leaders_register_code(KC_ENT);
-      leaders_unregister_code(KC_ENT);
-      leaders_register_code(KC_ENT);
-      leaders_unregister_code(KC_ENT);
-      leaders_register_code(KC_UP);
-      leaders_unregister_code(KC_UP);
-      leaders_register_code(KC_TAB);
-      leaders_unregister_code(KC_TAB);
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
+      register_code16(KC_ENT);
+      unregister_code16(KC_ENT);
+      register_code16(KC_ENT);
+      unregister_code16(KC_ENT);
+      register_code16(KC_UP);
+      unregister_code16(KC_UP);
+      register_code16(KC_TAB);
+      unregister_code16(KC_TAB);
     END_SEQ
 
     BEGIN_SEQ(2, KC_I, KC_D)
       SEND_STRING("()");
-      leaders_register_code(KC_LEFT);
-      leaders_unregister_code(KC_LEFT);
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
     END_SEQ
 
     BEGIN_SEQ(2, KC_I, KC_C)
       SEND_STRING("[]");
-      leaders_register_code(KC_LEFT);
-      leaders_unregister_code(KC_LEFT);
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
     END_SEQ
 
 
@@ -373,39 +355,39 @@ bool process_sequence_user(void) {
 
   IS_LEADING(LD_OS_CTL_X) {
     BEGIN_SEQ(1, KC_J)
-      leaders_register_code(KC_LCTL);
-      leaders_register_code(KC_X);
-      leaders_unregister_code(KC_X);
-      leaders_unregister_code(KC_LCTL);
-      leaders_register_code(KC_1);
-      leaders_unregister_code(KC_1);
+      register_code16(KC_LCTL);
+      register_code16(KC_X);
+      unregister_code16(KC_X);
+      unregister_code16(KC_LCTL);
+      register_code16(KC_1);
+      unregister_code16(KC_1);
     END_SEQ
 
     BEGIN_SEQ(1, KC_K)
-      leaders_register_code(KC_LCTL);
-      leaders_register_code(KC_X);
-      leaders_unregister_code(KC_X);
-      leaders_unregister_code(KC_LCTL);
-      leaders_register_code(KC_2);
-      leaders_unregister_code(KC_2);
+      register_code16(KC_LCTL);
+      register_code16(KC_X);
+      unregister_code16(KC_X);
+      unregister_code16(KC_LCTL);
+      register_code16(KC_2);
+      unregister_code16(KC_2);
     END_SEQ
 
     BEGIN_SEQ(1, KC_L)
-      leaders_register_code(KC_LCTL);
-      leaders_register_code(KC_X);
-      leaders_unregister_code(KC_X);
-      leaders_unregister_code(KC_LCTL);
-      leaders_register_code(KC_3);
-      leaders_unregister_code(KC_3);
+      register_code16(KC_LCTL);
+      register_code16(KC_X);
+      unregister_code16(KC_X);
+      unregister_code16(KC_LCTL);
+      register_code16(KC_3);
+      unregister_code16(KC_3);
     END_SEQ
 
     BEGIN_SEQ(1, KC_O)
-      leaders_register_code(KC_LCTL);
-      leaders_register_code(KC_X);
-      leaders_unregister_code(KC_X);
-      leaders_unregister_code(KC_LCTL);
-      leaders_register_code(KC_O);
-      leaders_unregister_code(KC_O);
+      register_code16(KC_LCTL);
+      register_code16(KC_X);
+      unregister_code16(KC_X);
+      unregister_code16(KC_LCTL);
+      register_code16(KC_O);
+      unregister_code16(KC_O);
     END_SEQ
 
     /* ignore other keys  */
