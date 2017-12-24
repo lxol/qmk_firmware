@@ -19,12 +19,6 @@
 #include "process_leaders.h"
 
 __attribute__ ((weak))
-void leaders_start(void) {}
-
-__attribute__ ((weak))
-void leaders_end(void) {}
-
-__attribute__ ((weak))
 void leaders_init_user(void) {}
 
 __attribute__ ((weak))
@@ -116,9 +110,11 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     bool is_mo_leader_pressed = lix != LEADERS_MAX;
     bool is_os_leader_pressed = lix != LEADERS_MAX && leaders[lix].oneshot;
     if (is_mo_leader_pressed || is_os_leader_pressed) {
-      leaders_state_init(keycode, record->event.key);
-      leaders_state.oneshot = is_os_leader_pressed;
+      leaders_state_clear_sequence();
+      leaders_state.leader_keycode = keycode;
+      leaders_state.leader_key = record->event.key;
       leaders_state.momentary = true;
+      leaders_state.oneshot = is_os_leader_pressed;
       leaders_state.layer = false;
 
 #ifdef BACKLIGHT_ENABLE
@@ -199,17 +195,6 @@ void leaders_state_clear_sequence(void) {
       .col = MATRIX_COLS + 1};
   }
   leaders_state.sequence_size = 0;
-}
-
-void leaders_state_init(uint16_t keycode, keypos_t key) {
-  leaders_state_clear_sequence();
-  leaders_state.leader_keycode = keycode;
-  leaders_state.leader_key = key;
-  // TODO: wrap oneshot in #ifdef LEADERS_ONESHOT ???
-  // it it can be manage in user space
-  leaders_state.oneshot = true;
-  leaders_state.momentary = true;
-  leaders_state.time = timer_read();
 }
 
 

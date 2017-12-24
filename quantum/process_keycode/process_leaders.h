@@ -35,18 +35,14 @@
 #define LEADERS_MAX  10
 #endif
 
-void leaders_init(void);
-void leaders_init_user(void);
-bool process_sequence(void);
-bool process_sequence_user(void);
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
 void leaders_init(void);
-void leaders_start(void);
-void leaders_end(void);
-void leaders_state_init(uint16_t keycode, keypos_t key);
+/* void leaders_init_user(void); */
+/* bool process_sequence(void); */
+/* bool process_sequence_user(void); */
+/* void leaders_start(void); */
+/* void leaders_end(void); */
 void leaders_state_clear_sequence(void);
-void leaders_register_code(uint16_t keycode);
-void unregister_code16(uint16_t keycode);
 bool leaders_seq_match(uint8_t num, ...);
 
 typedef struct {
