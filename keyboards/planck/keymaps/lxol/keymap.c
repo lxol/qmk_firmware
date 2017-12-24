@@ -29,27 +29,17 @@ enum planck_keycodes {
   FUN,
   MOUSE,
   BACKLIT,
-  DYNAMIC_MACRO_RANGE,
-  LD_ONESHOT_FIRST,
-  LD_OS_SYM,
-  LD_OS_NUM,
-  LD_OS_NUMBER,
-  LD_OS_RAISE,
-  LD_OS_MAIN,
   LD_OS_CTL_X,
   LD_OS_ARROWS,
-  LD_ONESHOT_LAST,
-  LD_MOMENTARY_FIRST,
-  LD_MO_SYM,
-  LD_MO_RAISE,
-  LD_MOMENTARY_LAST,
-  LD_LAYER_FIRST,
-  LD_LAYER_LAST = LD_LAYER_FIRST + _MOUSE,
-  LD_TEST,
   LD_LAYER_SYM,
+  LD_MO_RAISE,
+  LD_MO_SYM,
+  LD_OS_MAIN,
+  LD_OS_NUM,
   LD_OS_TEST,
-  LD_TEST2
-
+  LD_TEST2,
+  LD_OS_SYM,
+  DYNAMIC_MACRO_RANGE,
 };
 
 LEADERS_EXTERNS();
@@ -69,6 +59,12 @@ leader_t leaders[] = {
   },
   (leader_t) {
     .keycode = LD_OS_TEST,
+    .oneshot = true,
+    .toggle_layer = false,
+    .reference_layer = _QWERTY
+  },
+  (leader_t) {
+    .keycode = LD_OS_CTL_X,
     .oneshot = true,
     .toggle_layer = false,
     .reference_layer = _QWERTY
@@ -257,7 +253,6 @@ void leaders_init_user(void) {
   leaders_ref_layer = biton32(default_layer_state);
 }
 
-/* void matrix_scan_user(void) { */
 bool process_sequence_user(void) {
 
   IS_LEADING(LD_OS_TEST) {
