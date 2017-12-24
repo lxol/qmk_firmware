@@ -246,7 +246,8 @@ void leaders_init_user(void) {
 
 bool process_sequence_user(void) {
 
-  IS_LEADING(LD_OS_TEST) {
+  if (is_leading(LD_OS_TEST)) {
+    
     BEGIN_SEQ(1, KC_Y)
       SEND_STRING("It works!");
     END_SEQ
@@ -267,13 +268,13 @@ bool process_sequence_user(void) {
 
   }
 
-  IS_LEADING(LD_MO_RAISE) {
+  if (is_leading(LD_MO_RAISE)) {
     BEGIN_SEQ(1, KC_TRNS)
       LEADERS_SEQ_LAYER(_RAISE)
     END_SEQ
   }
 
-  IS_LEADING(LD_LAYER_SYM) {
+  if (is_leading(LD_LAYER_SYM)) {
 
     BEGIN_SEQ(2, KC_I, KC_S)
       SEND_STRING("\"\"");
@@ -341,19 +342,19 @@ bool process_sequence_user(void) {
     /* leaders_state.sequence_size--; */
   }
 
-  IS_LEADING(LD_OS_NUM) {
+  if (is_leading(LD_OS_NUM)) {
     BEGIN_SEQ(1, KC_TRNS)
       LEADERS_SEQ_LAYER(_NUM)
     END_SEQ
   }
 
-  IS_LEADING(LD_OS_MAIN) {
+  if (is_leading(LD_OS_MAIN)) {
     BEGIN_SEQ(1, KC_TRNS)
       LEADERS_SEQ_LAYER(_MAIN)
     END_SEQ
   }
 
-  IS_LEADING(LD_OS_CTL_X) {
+  if (is_leading(LD_OS_CTL_X)) {
     BEGIN_SEQ(1, KC_J)
       register_code16(KC_LCTL);
       register_code16(KC_X);
@@ -397,7 +398,7 @@ bool process_sequence_user(void) {
     END_SEQ
   }
 
-  /* IS_LEADING(LD_OS_NUM) { */
+  /* if (is_leading(LD_OS_NUM) { )*/
   /*   LEADERS_SEQ(1, KC_TRNS) */
   /*     SEND_STRING("()"); */
   /*     /\* leaders_send_last(_NUM); *\/ */

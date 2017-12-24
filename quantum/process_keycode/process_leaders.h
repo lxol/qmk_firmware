@@ -37,6 +37,7 @@
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
 void leaders_init(void);
+bool is_leading(uint16_t keycode);
 bool match_sequence(uint8_t num, ...);
 
 typedef struct {

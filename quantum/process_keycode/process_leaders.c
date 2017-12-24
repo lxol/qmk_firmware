@@ -76,6 +76,12 @@ bool match_sequence(uint8_t num, ...) {
   return result;
 }
 
+bool is_leading(uint16_t keycode) {
+  return (leaders_state.sequence_size != 0)
+    && (leaders_state.momentary || leaders_state.oneshot)
+    && (leaders_state.leader_keycode == keycode );
+}
+
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   // TODO: make it configurable
   if (keycode == KC_LCTL ||
