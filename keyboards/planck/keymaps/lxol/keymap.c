@@ -30,7 +30,7 @@ enum planck_keycodes {
   MOUSE,
   BACKLIT,
   LD_OS_CTL_X,
-  LD_OS_ARROWS,
+  LD_ARROWS,
   LD_LAYER_SYM,
   LD_MO_RAISE,
   LD_MO_SYM,
@@ -66,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_RAISE] = {
   { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,          KC_4 ,        KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,         KC_9 ,      KC_0 ,    _______ } ,
-  { _______ , KC_LBRC , KC_RBRC , LD_OS_TEST , LD_OS_CTL_X , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_LAYER_SYM , LD_OS_NUM , _______ , _______ } ,
+  { _______ , KC_LBRC , KC_RBRC , LD_ARROWS , LD_OS_CTL_X , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_LAYER_SYM , LD_OS_NUM , _______ , _______ } ,
   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,       KC_DLR ,      KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,      _______ ,   _______ , _______ } ,
   { CALTDEL , KC_DEL ,  _______ , _______ ,       _______ ,     _______ , _______ , _______ , _______ ,      _______ ,   _______ , _______ }
  } ,
@@ -106,11 +106,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,
 
 [_ARROWS] = {
-  { _______ , _______ , _______ , _______ , _______ , _______ , XXXXXXX ,  KC_EQL , XXXXXXX , XXXXXXX ,  XXXXXXX , KC_BSPC } ,
-  { _______ , _______ , _______ , _______ , _______ , _______ , KC_LEFT ,  KC_DOWN , KC_UP ,   KC_RIGHT , _______ , _______ } ,
-  { _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ , _______ ,  _______ , _______ } ,
-  { _______ , _______ , _______ , _______ , _______ , _______ , KC_SPACE , _______ , _______ , _______ ,  _______ , _______ }
- } ,
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_PGDN , KC_PGUP , XXXXXXX ,  XXXXXXX , XXXXXXX } , 
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_BSPC , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , XXXXXXX , XXXXXXX } , 
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX } , 
+  { XXXXXXX , XXXXXXX , XXXXXXX , _______ , _______ , _______ , _______ , _______ , _______ , XXXXXXX ,  XXXXXXX , XXXXXXX }
+ } ,                 
 
 [_MOUSE] = {
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_WH_D , KC_WH_U , _______ , _______ , _______ } ,
@@ -225,6 +225,13 @@ leader_t leaders[] = {
     .oneshot = true,
     .toggle_layer = true,
     .toggle_layer_number = _SYM,
+    .reference_layer = _QWERTY
+  },
+  (leader_t) {
+    .keycode = LD_ARROWS,
+    .oneshot = true,
+    .toggle_layer = true,
+    .toggle_layer_number = _ARROWS,
     .reference_layer = _QWERTY
   },
   (leader_t) {
