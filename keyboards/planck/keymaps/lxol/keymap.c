@@ -257,7 +257,8 @@ void leaders_init_user(void) {
   leaders_ref_layer = biton32(default_layer_state);
 }
 
-void matrix_scan_user(void) {
+/* void matrix_scan_user(void) { */
+bool process_sequence_user(void) {
 
   IS_LEADING(LD_OS_TEST) {
     BEGIN_SEQ(1, KC_Y)
@@ -419,5 +420,5 @@ void matrix_scan_user(void) {
   /*   END_SEQ */
   /* } */
 
-
+  return false;
 }

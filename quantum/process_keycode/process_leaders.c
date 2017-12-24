@@ -27,6 +27,9 @@ void leaders_end(void) {}
 __attribute__ ((weak))
 void leaders_init_user(void) {}
 
+__attribute__ ((weak))
+bool process_sequence_user(void) {return false;}
+
 leader_t leaders[LEADERS_MAX];
 leaders_state_t leaders_state;
 uint8_t foo_layer;
@@ -44,6 +47,10 @@ void leaders_init(void) {
   }
   leaders_state.layer = false;
   leaders_init_user(); 
+}
+
+bool process_sequence(void) {
+  return process_sequence_user();
 }
 /* void leaders_state_print(void) { */
 /*   xprintf("LEADERS STATE:\r\n"); */
@@ -108,7 +115,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       leaders_state.layer_num = layer_num;
       layer_on(layer_num);
       xprintf("PRESSED LAYER LEADER %d\r\n", layer_num);
-      return false;
+      return process_sequence();
     }
   }
   /* Manage layer leader key release. */
@@ -121,7 +128,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       uint8_t layer_num = leaders_state.layer_num;
       xprintf(" release layer_num : %d\r\n", layer_num);
       layer_off(layer_num);
-      return false;
+      return process_sequence();
     }
   }
 
@@ -144,7 +151,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 #ifdef BACKLIGHT_ENABLE
       backlight_set(2);
 #endif
-      return false;
+      return process_sequence();
     }
   }
 
@@ -156,7 +163,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 #ifdef BACKLIGHT_ENABLE
       backlight_set(0);
 #endif
-      return false;
+      return process_sequence();
     }
   }
 
@@ -178,7 +185,11 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       if (KEYEQ(leaders_state.pressed_keys[i], record->event.key)) {
         leaders_state.pressed_keys[i] = leaders_no_key;
         xprintf("RELEASE  pos: %d, row: %d, col %d \r\n", i, record->event.key.row, record->event.key.col);
-        return leaders_state.layer;
+        if (leaders_state.layer) {
+          return true;
+        }
+        return process_sequence();
+        /* return leaders_state.layer; */
       }
     }
     xprintf("   RELEASE UNMANAGED  row: %d, col %d \r\n",  record->event.key.row, record->event.key.col);
@@ -198,7 +209,11 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     uint8_t i = leaders_state.sequence_size++;
     leaders_state.keycode_sequence[i] = ref_kc;
     leaders_state.key_sequence[i] = record->event.key;
-    return leaders_state.layer;
+    if (leaders_state.layer) {
+      return true;
+    }
+    return process_sequence();
+    /* return leaders_state.layer; */
   }
   return true;
 }

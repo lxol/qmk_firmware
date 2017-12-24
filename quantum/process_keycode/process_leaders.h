@@ -36,6 +36,9 @@
 #endif
 
 void leaders_init(void);
+void leaders_init_user(void);
+bool process_sequence(void);
+bool process_sequence_user(void);
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
 void leaders_init(void);
 void leaders_start(void);
@@ -89,14 +92,14 @@ typedef struct {
 #define END_SEQ                                                 \
   leaders_state_clear_sequence();                               \
   leaders_state.oneshot = false;                                \
-  return;                                                       \
+  return false;                                                       \
   }
 
 
 #define LEADERS_SEQ_LAYER(layer) \
   uint16_t keycode = keymap_key_to_keycode(layer, leaders_state.key_sequence[leaders_state.sequence_size - 1]); \
   if (keycode == KC_NO || keycode == KC_TRNS) {                         \
-    return;                                                             \
+    return false;                                                             \
   }                                                                     \
   leaders_register_code(keycode);                                       \
   leaders_unregister_code(keycode);
