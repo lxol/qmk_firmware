@@ -24,6 +24,15 @@ void leaders_init_user(void) {}
 __attribute__ ((weak))
 bool process_sequence_press_user(void) {return false;}
 
+__attribute__ ((weak))
+bool process_sequence_release_user(void) {return false;}
+
+__attribute__ ((weak))
+bool process_leader_press_user(void) {return false;}
+
+__attribute__ ((weak))
+bool process_leader_release_user(void) {return false;}
+
 leader_t leaders[LEADERS_MAX];
 leaders_state_t leaders_state;
 
@@ -43,8 +52,20 @@ void leaders_init(void) {
   leaders_init_user(); 
 }
 
+bool process_leader_press(void) {
+  return process_leader_press_user();
+}
+
+bool process_leader_release(void) {
+  return process_leader_release_user();
+}
+
 bool process_sequence_press(void) {
   return process_sequence_press_user();
+}
+
+bool process_sequence_release(void) {
+  return process_sequence_release_user();
 }
 
 uint8_t leader_index(uint16_t keycode) {
@@ -138,7 +159,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 #ifdef BACKLIGHT_ENABLE
       backlight_set(2);
 #endif
-      return false;
+      return process_leader_press();
     }
   }
 
@@ -150,8 +171,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 #ifdef BACKLIGHT_ENABLE
       backlight_set(0);
 #endif
-      /* return process_sequence_press(); */
-      return false;
+      return process_leader_release();
     }
   }
 
@@ -174,7 +194,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         if (leaders_state.layer) {
           return true;
         }
-        return process_sequence_press();
+        return process_sequence_release();
       }
     }
     return true;
