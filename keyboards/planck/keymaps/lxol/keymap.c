@@ -254,18 +254,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 /* LEADERS_EXTERNS(); */
 
 void leaders_init_user(void) {
-  xprintf("_QUERTY: %d , _RAISE: %d\r\n", _QWERTY, _RAISE);
-  /* foo_layer = _ARROWS; */
   leaders_ref_layer = biton32(default_layer_state);
-  /* leaders_range.oneshot_first = LD_ONESHOT_FIRST; */
-  /* leaders_range.oneshot_last = LD_ONESHOT_LAST; */
-  /* leaders_range.momentary_first = LD_MOMENTARY_FIRST; */
-  /* leaders_range.momentary_last = LD_MOMENTARY_LAST; */
-  /* leaders_range.layer_first = LD_LAYER_FIRST; */
-  /* leaders_range.layer_last = LD_LAYER_LAST; */
-  /* leaders_range.ignore_first = LEFT; */
-  /* leaders_range.ignore_last = DYNAMIC_MACRO_RANGE; */
-  leaders_state.layer = false;
 }
 
 void matrix_scan_user(void) {

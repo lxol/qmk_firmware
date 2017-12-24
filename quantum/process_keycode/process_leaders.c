@@ -42,6 +42,7 @@ void leaders_init(void) {
   for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
     leaders_state.pressed_keys[i] = leaders_no_key;
   }
+  leaders_state.layer = false;
   leaders_init_user(); 
 }
 /* void leaders_state_print(void) { */
