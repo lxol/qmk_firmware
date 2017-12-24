@@ -241,7 +241,7 @@ leader_t leaders[] = {
 };
 
 void leaders_init_user(void) {
-  leaders_ref_layer = biton32(default_layer_state);
+  /* leaders_ref_layer = biton32(default_layer_state); */
 }
 
 bool process_sequence_user(void) {

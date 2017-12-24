@@ -26,7 +26,6 @@ bool process_sequence_user(void) {return false;}
 
 leader_t leaders[LEADERS_MAX];
 leaders_state_t leaders_state;
-uint8_t foo_layer;
 
 uint8_t leaders_ref_layer = LEADERS_REFERENCE_LAYER;
 
@@ -40,6 +39,7 @@ void leaders_init(void) {
     leaders_state.pressed_keys[i] = leaders_no_key;
   }
   leaders_state.layer = false;
+  leaders_ref_layer = biton32(default_layer_state);
   leaders_init_user(); 
 }
 
