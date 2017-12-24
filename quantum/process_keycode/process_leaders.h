@@ -67,13 +67,13 @@ typedef struct {
 /*       && (leaders_state.momentary || leaders_state.oneshot)     \ */
 /*       && (leaders_state.leader_keycode == leaders_keycode )) */
 
-#define BEGIN_SEQ(...) if (match_sequence(__VA_ARGS__)) {
+/* #define BEGIN_SEQ(...) if (match_sequence(__VA_ARGS__)) { */
 
-#define END_SEQ                                 \
-  leaders_state.sequence_size = 0;               \
-  leaders_state.oneshot = false;                \
-  return false;                                 \
-  }
+/* #define END_SEQ                                 \ */
+/*   leaders_state.sequence_size = 0;               \ */
+/*   leaders_state.oneshot = false;                \ */
+/*   return false;                                 \ */
+/*   } */
 
 
 #define LEADERS_SEQ_LAYER(layer)                                        \

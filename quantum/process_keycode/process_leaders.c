@@ -196,7 +196,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       return true;
     }
     return process_sequence();
-    /* return leaders_state.layer; */
   }
   return true;
 }

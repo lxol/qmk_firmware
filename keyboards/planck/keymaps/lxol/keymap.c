@@ -263,15 +263,6 @@ bool process_sequence_user(void) {
     }
   }
 
-  /* if (match_sequence(1, KC_TRNS)) { */
-  /*   /\* ignore key unless it is managed by layer. *\/ */
-  /*   uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]); */
-  /*   if (key != KC_NO) { */
-  /*     leaders_state.sequence_size = 0; */
-  /*     leaders_state.oneshot = false; */
-  /*   } */
-  /* } */
-
 
   if (is_leading(LD_MO_RAISE)) {
     if (match_sequence(1, KC_TRNS)) {
@@ -355,29 +346,18 @@ bool process_sequence_user(void) {
       return false;                 
     }
 
-
-    /* if (match_sequence(1, KC_TRNS)) { */
-    /*   /\* ignore key unless it is managed by layer. *\/ */
-    /*   uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]); */
-    /*   if (key != KC_NO) { */
-    /*     leaders_state.sequence_size = 0; */
-    /*     leaders_state.oneshot = false; */
-    /*   } */
-    /* } */
     if (match_sequence(1, KC_TRNS)) {
       LEADERS_SEQ_LAYER(_SYM)
-        leaders_state.sequence_size = 0;
+      leaders_state.sequence_size = 0;
       leaders_state.oneshot = false; 
       return false;                 
     }
-    //TODO: optional to ignore wrong presses
-    /* leaders_state.sequence_size--; */
   }
 
   if (is_leading(LD_OS_NUM)) {
     if (match_sequence(1, KC_TRNS)) {
       LEADERS_SEQ_LAYER(_NUM)
-        leaders_state.sequence_size = 0;
+      leaders_state.sequence_size = 0;
       leaders_state.oneshot = false; 
       return false;                 
     }
@@ -450,14 +430,6 @@ bool process_sequence_user(void) {
       return false;                 
     }
   }
-
-  /* if (is_leading(LD_OS_NUM) { )*/
-  /*   LEADERS_SEQ(1, KC_TRNS) */
-  /*     SEND_STRING("()"); */
-  /*     /\* leaders_send_last(_NUM); *\/ */
-
-  /*     /\* LEADERS_SEQ_LAYER(_NUM) *\/ */
-  /* } */
 
   return false;
 }
