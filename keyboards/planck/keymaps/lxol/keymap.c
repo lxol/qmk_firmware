@@ -65,30 +65,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,
 
 [_RAISE] = {
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,          KC_4 ,        KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,         KC_9 ,      KC_0 ,    _______ } ,
-  { _______ , KC_LBRC , KC_RBRC , LD_ARROWS , LD_OS_CTL_X , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_LAYER_SYM , LD_OS_NUM , _______ , _______ } ,
-  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,       KC_DLR ,      KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,      _______ ,   _______ , _______ } ,
-  { CALTDEL , KC_DEL ,  _______ , _______ ,       _______ ,     _______ , _______ , _______ , _______ ,      _______ ,   _______ , _______ }
- } ,
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,        KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,         KC_9 ,      KC_0 ,    _______ } , 
+  { _______ , KC_LBRC , KC_RBRC , LD_ARROWS , LD_OS_CTL_X , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_LAYER_SYM , LD_OS_NUM , _______ , _______ } , 
+  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,      KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,      _______ ,   _______ , _______ } , 
+  { CALTDEL , KC_DEL ,  _______ , _______ ,   _______ ,     _______ , _______ , _______ , _______ ,      _______ ,   _______ , _______ }
+ } ,          
 
-[_MAIN] = {
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,     KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,      KC_9 ,      KC_0 ,    _______ } ,
-  { _______ , KC_LBRC , KC_RBRC , _______ , LD_OS_TEST , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_OS_SYM , LD_OS_NUM , _______ , _______ } ,
-  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,        KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,   _______ ,   _______ , _______ } ,
-  { CALTDEL , KC_DEL ,  _______ , _______ , _______ ,       _______ , KC_SPC , LD_MO_SYM , _______ ,   _______ ,   _______ , _______ }
- } ,
+[_MAIN] = { 
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,       KC_5 ,    KC_6 ,    KC_7 ,      KC_8 ,      KC_9 ,      KC_0 ,    _______ } , 
+  { _______ , KC_LBRC , KC_RBRC , _______ , LD_OS_TEST , KC_BSPC , KC_EQL ,  KC_ENT ,    LD_OS_SYM , LD_OS_NUM , _______ , _______ } , 
+  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,     KC_PERC , KC_CIRC , KC_AMPR ,   KC_ASTR ,   _______ ,   _______ , _______ } , 
+  { CALTDEL , KC_DEL ,  _______ , _______ , _______ ,    _______ , KC_SPC ,  LD_MO_SYM , _______ ,   _______ ,   _______ , _______ }
+ } ,          
 
-[_FUN] = {
-  { KC_F12 ,  KC_F1 ,   KC_F2 ,   KC_F3 , KC_F4 , KC_F5 , KC_F6 ,    KC_F7 ,   KC_F8 ,   KC_F9 ,    KC_F10 ,  KC_F11 } ,
-  { DYN_REC_STOP , DYN_REC_START1 ,  DYN_REC_START2 ,  BACKLIT , BL_DEC ,  BL_INC ,  KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_BSLS , KC_PIPE } ,
-  { KC_CAPS ,      DYN_MACRO_PLAY1 , DYN_MACRO_PLAY2 , KC_VOLU , KC_VOLD , KC_MPLY , _______ , KC_PGDN , KC_PGUP , _______ ,  _______ , _______ } ,
+[_FUN] = { 
+  { KC_F12 ,       KC_F1 ,           KC_F2 ,           KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,    KC_F10 ,  KC_F11 } ,  
+  { DYN_REC_STOP , DYN_REC_START1 ,  DYN_REC_START2 ,  BACKLIT , BL_DEC ,  BL_INC ,  KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_BSLS , KC_PIPE } , 
+  { KC_CAPS ,      DYN_MACRO_PLAY1 , DYN_MACRO_PLAY2 , KC_VOLU , KC_VOLD , KC_MPLY , _______ , KC_PGDN , KC_PGUP , _______ ,  _______ , _______ } , 
   { AG_NORM ,      AG_SWAP ,         _______ ,         _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ }
- } ,
+ } ,               
 
-[_SYM] = {
-  { XXXXXXX , KC_GRV ,  KC_QUOT , KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } ,
-  { XXXXXXX , KC_TILD , KC_DQUO , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } ,
-  { XXXXXXX , XXXXXXX , XXXXXXX , KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } ,
+[_SYM] = { 
+  { XXXXXXX , KC_GRV ,  KC_QUOT , KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } , 
+  { XXXXXXX , KC_TILD , KC_DQUO , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } , 
+  { XXXXXXX , XXXXXXX , XXXXXXX , KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } , 
   { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_TRNS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX }
  } ,
 
