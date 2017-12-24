@@ -37,7 +37,7 @@
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
 void leaders_init(void);
-void leaders_state_clear_sequence(void);
+void clear_sequence(void);
 bool leaders_seq_match(uint8_t num, ...);
 
 typedef struct {
@@ -70,7 +70,7 @@ typedef struct {
 #define BEGIN_SEQ(...) if (leaders_seq_match(__VA_ARGS__)) {
 
 #define END_SEQ                                 \
-  leaders_state_clear_sequence();               \
+  clear_sequence();               \
   leaders_state.oneshot = false;                \
   return false;                                 \
   }

@@ -260,7 +260,7 @@ bool process_sequence_user(void) {
         /* ignore key unless it is managed by layer. */
         uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]);
         if (key != KC_NO) {
-          leaders_state_clear_sequence();
+          clear_sequence();
           leaders_state.oneshot = false;
         }
       }
@@ -330,7 +330,7 @@ bool process_sequence_user(void) {
       /*   /\* ignore key unless it is managed by layer. *\/ */
       /*   uint16_t key = keymap_key_to_keycode(leaders_state.layer_num, leaders_state.key_sequence[leaders_state.sequence_size - 1]); */
       /*   if (key != KC_NO) { */
-      /*     leaders_state_clear_sequence(); */
+      /*     clear_sequence(); */
       /*     leaders_state.oneshot = false; */
       /*   } */
       /* } */
@@ -392,7 +392,7 @@ bool process_sequence_user(void) {
 
     /* ignore other keys  */
     BEGIN_SEQ(1, KC_TRNS)
-      leaders_state_clear_sequence();
+      clear_sequence();
       leaders_state.oneshot = false;
     END_SEQ
   }
