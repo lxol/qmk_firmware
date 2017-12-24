@@ -229,7 +229,7 @@ leader_t leaders[] = {
   },
   (leader_t) {
     .keycode = LD_ARROWS,
-    .oneshot = true,
+    .oneshot = false,
     .toggle_layer = true,
     .toggle_layer_number = _ARROWS,
     .reference_layer = _QWERTY
