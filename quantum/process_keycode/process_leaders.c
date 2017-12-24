@@ -22,7 +22,7 @@ __attribute__ ((weak))
 void leaders_init_user(void) {}
 
 __attribute__ ((weak))
-bool process_sequence_user(void) {return false;}
+bool process_sequence_press_user(void) {return false;}
 
 leader_t leaders[LEADERS_MAX];
 leaders_state_t leaders_state;
@@ -43,8 +43,8 @@ void leaders_init(void) {
   leaders_init_user(); 
 }
 
-bool process_sequence(void) {
-  return process_sequence_user();
+bool process_sequence_press(void) {
+  return process_sequence_press_user();
 }
 
 uint8_t leader_index(uint16_t keycode) {
@@ -108,7 +108,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       leaders_state.oneshot = leaders[lix].oneshot;
       leaders_state.layer_num = layer_num;
       layer_on(layer_num);
-      return process_sequence();
+      return process_sequence_press();
     }
   }
   /* Manage layer leader key release. */
@@ -119,7 +119,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       leaders_state.momentary = false;
       uint8_t layer_num = leaders_state.layer_num;
       layer_off(layer_num);
-      return process_sequence();
+      return process_sequence_press();
     }
   }
 
@@ -138,7 +138,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 #ifdef BACKLIGHT_ENABLE
       backlight_set(2);
 #endif
-      return process_sequence();
+      return false;
     }
   }
 
@@ -150,7 +150,8 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 #ifdef BACKLIGHT_ENABLE
       backlight_set(0);
 #endif
-      return process_sequence();
+      /* return process_sequence_press(); */
+      return false;
     }
   }
 
@@ -173,7 +174,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         if (leaders_state.layer) {
           return true;
         }
-        return process_sequence();
+        return process_sequence_press();
       }
     }
     return true;
@@ -195,7 +196,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     if (leaders_state.layer) {
       return true;
     }
-    return process_sequence();
+    return process_sequence_press();
   }
   return true;
 }

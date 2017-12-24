@@ -244,7 +244,7 @@ void leaders_init_user(void) {
   /* leaders_ref_layer = biton32(default_layer_state); */
 }
 
-bool process_sequence_user(void) {
+bool process_sequence_press_user(void) {
 
   if (is_leading(LD_OS_TEST)) {
     
