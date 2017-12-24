@@ -39,6 +39,8 @@ enum planck_keycodes {
   LD_OS_TEST,
   LD_TEST2,
   LD_OS_SYM,
+  LD_EMACS_SUPER,
+  LD_SUPER,
   DYNAMIC_MACRO_RANGE,
 };
 
@@ -58,13 +60,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = {
   { KC_ESC ,        KC_Q ,  KC_W , KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,       KC_I ,    KC_O ,   KC_P ,    KC_MINS } ,
   { KC_TAB ,        KC_A ,  KC_S , KC_D ,    KC_F ,    KC_G ,    KC_H ,   KC_J ,       KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } ,
-  { LD_OS_TEST , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,       KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } ,
+  { LD_SUPER , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,       KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } ,
   { XXXXXXX ,       MOUSE , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , RAISE , KC_LCTL , LEFT ,   KC_BSPC , KC_ENT }
  } ,
 
 [_RAISE] = {
   { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,        KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,         KC_9 ,      KC_0 ,    _______ } , 
-  { _______ , KC_LBRC , KC_RBRC , LD_ARROWS , LD_OS_CTL_X , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_LAYER_SYM , LD_OS_NUM , _______ , _______ } , 
+  { _______ , KC_LBRC , KC_RBRC , LD_ARROWS , LD_OS_CTL_X , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_LAYER_SYM , LD_SUPER , _______ , _______ } , 
   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,      KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,      _______ ,   _______ , _______ } , 
   { CALTDEL , KC_DEL ,  _______ , _______ ,   _______ ,     _______ , _______ , _______ , _______ ,      _______ ,   _______ , _______ }
  } ,          
@@ -234,6 +236,12 @@ leader_t leaders[] = {
     .toggle_layer = false,
     .reference_layer = _QWERTY
   },
+  (leader_t) {
+    .keycode = LD_SUPER,
+    .oneshot = false,
+    .toggle_layer = false,
+    .reference_layer = _QWERTY
+  },
   /* terminator */
   (leader_t) {
     .keycode = KC_NO
@@ -244,7 +252,31 @@ void leaders_init_user(void) {
   /* leaders_ref_layer = biton32(default_layer_state); */
 }
 
+bool process_leader_press_user(void) {
+  if (LD_SUPER == leaders_state.leader_keycode ) {
+      SEND_STRING("SUPER_PRESSED!");
+  }
+  return false;
+}
+
+bool process_leader_release_user(void) {
+  if (LD_SUPER == leaders_state.leader_keycode ) {
+      SEND_STRING("SUPER_RELEASED!");
+  }
+  return false;
+}
+
+bool process_sequence_release_user(void) {
+  if (LD_SUPER == leaders_state.leader_keycode ) {
+    return true;
+  }
+  return false;
+}
+
 bool process_sequence_press_user(void) {
+  if (is_leading(LD_SUPER)) {
+    return true;
+  }
 
   if (is_leading(LD_OS_TEST)) {
     
