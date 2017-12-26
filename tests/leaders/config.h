@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TESTS_BASIC_CONFIG_H_
-#define TESTS_BASIC_CONFIG_H_
+#ifndef TESTS_LEADERS_CONFIG_H_
+#define TESTS_LEADERS_CONFIG_H_
 
 #define MATRIX_ROWS 4
 #define MATRIX_COLS 10

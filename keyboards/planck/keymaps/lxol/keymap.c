@@ -201,8 +201,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-
 #ifdef LEADERS_ENABLE
+LEADERS_EXTERNS();
+bool process_leader_user(bool press) {
+  return false;
+}
+
+#endif
+
+#ifdef LEADERS_ENABLE_IGNORE
 
 LEADERS_EXTERNS();
 leader_t leaders[] = {

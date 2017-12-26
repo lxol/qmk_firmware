@@ -36,9 +36,35 @@
 #endif
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
+
 void leaders_init(void);
+#ifdef __cplusplus
+extern "C" {
+#endif
+void memorize_press(keypos_t key, uint16_t keycode);
+#ifdef __cplusplus
+}
+#endif
+
+void unmemorize_press(keypos_t key);
+
+typedef struct {
+  keypos_t key;
+  uint16_t kc;
+} leaders_press_t;
+
+
+typedef struct {
+  uint16_t keycode;
+  bool oneshot;
+  uint8_t reference_layer;
+} leader_t;
+
 bool is_leading(uint16_t keycode);
+
+#if PLATFORM!=TEST
 bool match_sequence(uint8_t num, ...);
+#endif
 
 typedef struct {
   uint16_t leader_keycode;
@@ -47,33 +73,13 @@ typedef struct {
   keypos_t key_sequence[LEADERS_SEQ_MAX];
   uint8_t sequence_size;
   keypos_t pressed_keys[LEADERS_PRESSED_MAX];
+  uint16_t pressed_leader[LEADERS_PRESSED_MAX];
+  uint8_t pressed_state;
   bool oneshot;
   bool momentary;
   bool layer;
   uint8_t layer_num;
 } leaders_state_t;
-
-typedef struct {
-  uint16_t keycode;
-  bool oneshot;
-  /* bool toggle_layer; */
-  /* uint8_t toggle_layer_number; */
-  uint8_t reference_layer;
-} leader_t;
-
-
-/* #define IS_LEADING(leaders_keycode)                             \ */
-/*   if ((leaders_state.sequence_size != 0)                        \ */
-/*       && (leaders_state.momentary || leaders_state.oneshot)     \ */
-/*       && (leaders_state.leader_keycode == leaders_keycode )) */
-
-/* #define BEGIN_SEQ(...) if (match_sequence(__VA_ARGS__)) { */
-
-/* #define END_SEQ                                 \ */
-/*   leaders_state.sequence_size = 0;               \ */
-/*   leaders_state.oneshot = false;                \ */
-/*   return false;                                 \ */
-/*   } */
 
 
 #define LEADERS_SEQ_LAYER(layer)                                        \
@@ -87,6 +93,7 @@ typedef struct {
 
 #define LEADERS_EXTERNS()                       \
   extern leaders_state_t leaders_state;         \
+  extern leaders_press_t leaders_presses[];         \
   extern uint8_t foo_layer;                     \
   extern leader_t leaders[];                    \
   extern uint8_t leaders_ref_layer;

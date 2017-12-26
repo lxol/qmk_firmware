@@ -36,6 +36,8 @@ bool process_leader_release_user(void) {return false;}
 leader_t leaders[LEADERS_MAX];
 leaders_state_t leaders_state;
 
+leaders_press_t leaders_presses[16];
+
 uint8_t leaders_ref_layer = LEADERS_REFERENCE_LAYER;
 
 keypos_t leaders_no_key = (keypos_t) {
@@ -47,9 +49,10 @@ void leaders_init(void) {
   for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
     leaders_state.pressed_keys[i] = leaders_no_key;
   }
+  leaders_state.pressed_state = 0;
   leaders_state.layer = false;
   leaders_ref_layer = biton32(default_layer_state);
-  leaders_init_user(); 
+  leaders_init_user();
 }
 
 bool process_leader_press(void) {
@@ -76,7 +79,9 @@ uint8_t leader_index(uint16_t keycode) {
   }
   return LEADERS_MAX;
 }
+/* asdfadf */
 
+#if PLATFORM!=TEST
 bool match_sequence(uint8_t num, ...) {
   if (num != leaders_state.sequence_size) {
     return false;
@@ -96,6 +101,7 @@ bool match_sequence(uint8_t num, ...) {
   va_end(ap);
   return result;
 }
+#endif
 
 bool is_leading(uint16_t keycode) {
   return (leaders_state.sequence_size != 0)
@@ -103,7 +109,35 @@ bool is_leading(uint16_t keycode) {
     && (leaders_state.leader_keycode == keycode );
 }
 
+void memorize_press(keypos_t key, uint16_t keycode) {
+  for (int8_t i = 0; i < 8; i ++) {
+    if (leaders_state.pressed_state && (1U << i)) {
+      continue; 
+    }
+    leaders_state.pressed_state |= (1U << i);
+    leaders_state.pressed_keys[i] = key;
+    leaders_state.pressed_leader[i] = keycode;
+    break;
+  }
+}
+
+void unmemorize_press(keypos_t key) {
+  
+}
+
+void recall_press(keypos_t key) {
+  
+}
+
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
+  /* store pressed */
+  if (record->event.pressed) {
+    memorize_press(leaders_no_key, KC_NO);
+  }
+  return true; 
+}  
+  
+bool _process_leaders(uint16_t keycode, keyrecord_t *record) {
   // TODO: make it configurable
   /* if (keycode == KC_LCTL || */
   /*     keycode == KC_RCTL || */
@@ -117,7 +151,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   /* } */
 
   /* Manage layer leader key press. */
-  uint8_t lix = leader_index(keycode);
+  /* uint8_t lix = leader_index(keycode); */
   /* if (record->event.pressed) { */
   /*   bool is_layer_leader_pressed = lix != LEADERS_MAX && leaders[lix].toggle_layer; */
   /*   if (is_layer_leader_pressed) { */
@@ -145,37 +179,37 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   /* } */
 
   /* Manage leaders key press */
-  if (record->event.pressed) {
-    bool is_mo_leader_pressed = lix != LEADERS_MAX;
-    bool is_os_leader_pressed = lix != LEADERS_MAX && leaders[lix].oneshot;
-    if (is_mo_leader_pressed || is_os_leader_pressed) {
-      leaders_state.sequence_size = 0;
-      leaders_state.leader_keycode = keycode;
-      leaders_state.leader_key = record->event.key;
-      leaders_state.momentary = true;
-      leaders_state.oneshot = is_os_leader_pressed;
-      leaders_state.layer = false;
+/*   if (record->event.pressed) { */
+/*     bool is_mo_leader_pressed = lix != LEADERS_MAX; */
+/*     bool is_os_leader_pressed = lix != LEADERS_MAX && leaders[lix].oneshot; */
+/*     if (is_mo_leader_pressed || is_os_leader_pressed) { */
+/*       leaders_state.sequence_size = 0; */
+/*       leaders_state.leader_keycode = keycode; */
+/*       leaders_state.leader_key = record->event.key; */
+/*       leaders_state.momentary = true; */
+/*       leaders_state.oneshot = is_os_leader_pressed; */
+/*       leaders_state.layer = false; */
 
-#ifdef BACKLIGHT_ENABLE
-      backlight_set(2);
-#endif
-      return process_leader_press();
-    }
-  }
+/* #ifdef BACKLIGHT_ENABLE */
+/*       backlight_set(2); */
+/* #endif */
+/*       return process_leader_press(); */
+/*     } */
+/*   } */
 
   /* Manage leaders key release */
-  if (!record->event.pressed) {
-    bool is_leader_released = leaders_state.momentary && KEYEQ(leaders_state.leader_key, record->event.key);
-    if (is_leader_released) {
-      leaders_state.momentary = false;
-#ifdef BACKLIGHT_ENABLE
-      backlight_set(0);
-#endif
-      return process_leader_release();
-    }
-  }
+/*   if (!record->event.pressed) { */
+/*     bool is_leader_released = leaders_state.momentary && KEYEQ(leaders_state.leader_key, record->event.key); */
+/*     if (is_leader_released) { */
+/*       leaders_state.momentary = false; */
+/* #ifdef BACKLIGHT_ENABLE */
+/*       backlight_set(0); */
+/* #endif */
+/*       return process_leader_release(); */
+/*     } */
+/*   } */
 
-  bool leading_mode = leaders_state.momentary || leaders_state.oneshot || leaders_state.layer;
+  bool leading_mode = leaders_state.sequence_size > 0;
   /* Keep track of all keys pressed under leading mode */
   if (leading_mode && record->event.pressed) {
     for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
