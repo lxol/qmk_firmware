@@ -69,15 +69,17 @@ TEST_F(Leaders, First ) {
     ASSERT_EQ(recall_press(keys[2]).key.col, 2) << "recall pressed key";
     ASSERT_EQ(recall_press(keys[2]).leader, 2) << "recall pressed key";
 
-    // ASSERT_EQ(recall_press(keys[4]).key.row, leaders_no_key.row) << "recall forgotten key";
+    leaders_init();
+    for (uint8_t i; i < 16; i ++) {
+      memorize_press(keys[i],  i);
+    }
+    ASSERT_EQ(press_state, 0b1111111111111111) << "memorizing max 16 presses";
+    // memorize_press(keys[0],  1);
+    unmemorize_press(keys[10]);
+    ASSERT_EQ(press_state, 0b1111101111111111) << "unmemorizing when max 16 presses";
+    memorize_press(keys[10],  10);
+    ASSERT_EQ(press_state, 0b1111111111111111) << "memorizing again when 15 presses";
+    memorize_press(keys[17],  10);
+    ASSERT_EQ(press_state, 0) << "memorizing when max 16 presses should reset press_state";
 
-    // ASSERT_EQ(recall_press(keys[4]).key.col, leaders_no_key.col) << "recall forgotten key";
-    ASSERT_EQ(recall_press(keys[4]).leader, KC_NO) << "recall forgotten key";
-    // memorize_press(keypos_t key, uint16_t keycode);
-    // press_key(7, 0);
-
-    // // Tapping keys does nothing on press
-    // EXPECT_CALL(driver, send_keyboard_mock(_)).Times(0);
-    // run_one_scan_loop();
-    // release_key(7, 0);
 }

@@ -112,15 +112,17 @@ bool is_leading(uint16_t keycode) {
 }
 
 void memorize_press(keypos_t key, uint16_t keycode) {
-  for (int8_t i = 0; i < 8; i ++) {
+  for (int8_t i = 0; i < 16; i ++) {
     if (press_state & (1U << i)) {
       continue; 
     }
     press_state |= (1U << i);
     leaders_presses[i].key = key;
     leaders_presses[i].leader = keycode;
-    break;
+    /* break; */
+    return;
   }
+  press_state = 0U;
 }
 
 uint8_t leaders_biton16(uint16_t bits)
@@ -162,6 +164,7 @@ leaders_press_t recall_press(keypos_t key) {
   }
   return leaders_presses[idx];
 }
+
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   /* store pressed */
