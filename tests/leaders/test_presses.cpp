@@ -39,15 +39,20 @@ TEST_F(Press, First ) {
     LEADERS_EXTERNS();
     leaders_press_t ld = (leaders_press_t) {
       .key = key1,
-        .kc = KC_NO 
+        .leader = KC_NO 
         };
+    leaders_init();
+    ASSERT_EQ(press_state, 0) << "press_state should be 0 after init";
     memorize_press(key1,  1);
+    ASSERT_EQ(press_state, 1) << "the first bit should be 1 after first memorizing";
+    unmemorize_press(key1);
+    ASSERT_EQ(press_state, 0) << "press_state == 0 after unmemorizing";
     // leaders_init();
     // memorize_press(keypos_t key, uint16_t keycode);
-    press_key(7, 0);
+    // press_key(7, 0);
 
-    // Tapping keys does nothing on press
-    EXPECT_CALL(driver, send_keyboard_mock(_)).Times(0);
-    run_one_scan_loop();
-    release_key(7, 0);
+    // // Tapping keys does nothing on press
+    // EXPECT_CALL(driver, send_keyboard_mock(_)).Times(0);
+    // run_one_scan_loop();
+    // release_key(7, 0);
 }

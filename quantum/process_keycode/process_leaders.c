@@ -37,6 +37,7 @@ leader_t leaders[LEADERS_MAX];
 leaders_state_t leaders_state;
 
 leaders_press_t leaders_presses[16];
+uint16_t press_state;
 
 uint8_t leaders_ref_layer = LEADERS_REFERENCE_LAYER;
 
@@ -53,6 +54,7 @@ void leaders_init(void) {
   leaders_state.layer = false;
   leaders_ref_layer = biton32(default_layer_state);
   leaders_init_user();
+  press_state = 0UL; 
 }
 
 bool process_leader_press(void) {
@@ -111,18 +113,21 @@ bool is_leading(uint16_t keycode) {
 
 void memorize_press(keypos_t key, uint16_t keycode) {
   for (int8_t i = 0; i < 8; i ++) {
-    if (leaders_state.pressed_state && (1U << i)) {
+    if (press_state && (1U << i)) {
       continue; 
     }
-    leaders_state.pressed_state |= (1U << i);
-    leaders_state.pressed_keys[i] = key;
-    leaders_state.pressed_leader[i] = keycode;
+    press_state |= (1U << i);
+    leaders_presses[i].key = key;
+    leaders_presses[i].leader = keycode;
     break;
   }
 }
 
 void unmemorize_press(keypos_t key) {
-  
+  uint8_t l = biton16(press_state);
+  for (int8_t i = 0; i < l; i++) {
+    
+  }
 }
 
 void recall_press(keypos_t key) {
