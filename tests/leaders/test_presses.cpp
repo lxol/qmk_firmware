@@ -26,11 +26,11 @@ using testing::InSequence;
 //   void memorize_press(keypos_t key, uint16_t keycode);
 // }
 
-class Press : public TestFixture {};
+class Leaders : public TestFixture {};
 
-TEST_F(Press, First ) {
-    TestDriver driver;
-    InSequence s;
+TEST_F(Leaders, First ) {
+    // TestDriver driver;
+    // InSequence s;
 
     keypos_t key1 = (keypos_t) {
       .col = 1,
