@@ -64,11 +64,15 @@ TEST_F(Leaders, First ) {
     unmemorize_press(keys[1]);
     // ASSERT_EQ(press_state, 0b0000000000000101) << "memorizing/unmemorizing";
     ASSERT_EQ(press_state, 0b1101) << "memorizing/unmemorizing";
-    ASSERT_EQ(recall_press(keys[2]).key.row, 2) << "memorizing/unmemorizing";
+    ASSERT_EQ(recall_press(keys[2]).key.row, 2) << "recall pressed key";
 
-    ASSERT_EQ(recall_press(keys[2]).key.col, 2) << "memorizing/unmemorizing";
-    ASSERT_EQ(recall_press(keys[2]).leader, 2) << "memorizing/unmemorizing";
-    // leaders_init();
+    ASSERT_EQ(recall_press(keys[2]).key.col, 2) << "recall pressed key";
+    ASSERT_EQ(recall_press(keys[2]).leader, 2) << "recall pressed key";
+
+    // ASSERT_EQ(recall_press(keys[4]).key.row, leaders_no_key.row) << "recall forgotten key";
+
+    // ASSERT_EQ(recall_press(keys[4]).key.col, leaders_no_key.col) << "recall forgotten key";
+    ASSERT_EQ(recall_press(keys[4]).leader, KC_NO) << "recall forgotten key";
     // memorize_press(keypos_t key, uint16_t keycode);
     // press_key(7, 0);
 
