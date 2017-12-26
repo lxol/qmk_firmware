@@ -134,19 +134,33 @@ uint8_t leaders_biton16(uint16_t bits)
     return n;
 }
 
-void unmemorize_press(keypos_t key) {
+uint8_t find_press(keypos_t key) {
   uint8_t l = leaders_biton16(press_state);
   for (int8_t i = 0; i < l; i++) {
     if (press_state & (1U << i)) {
       if (KEYEQ(leaders_presses[i].key, key)) {
-        press_state &= ~(1U << i);
+        return i;
       }
     }
   }
+  return 16;
 }
 
-void recall_press(keypos_t key) {
-  
+void unmemorize_press(keypos_t key) {
+  uint8_t idx = find_press(key);
+  if (idx == 16) {return;}
+  press_state &= ~(1U << idx);
+}
+
+leaders_press_t recall_press(keypos_t key) {
+  uint8_t idx = find_press(key);
+  if (idx == 16) {
+    return (leaders_press_t) {
+      .key = leaders_no_key,
+        .leader = KC_NO
+    };
+  }
+  return leaders_presses[idx];
 }
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {

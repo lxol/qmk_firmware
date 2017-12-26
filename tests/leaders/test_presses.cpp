@@ -32,21 +32,42 @@ TEST_F(Leaders, First ) {
     // TestDriver driver;
     // InSequence s;
 
-    keypos_t key1 = (keypos_t) {
-      .col = 1,
-      .row = 2
+  // generate key fixtures
+  keypos_t keys[20];
+  for (int8_t i; i < 20; i++) {
+    keys[i] = (keypos_t) {
+      .col = i,
+      .row = i
     };
+    
+  }
+
+    // keypos_t keys[0] = (keypos_t) {
+    //   .col = 1,
+    //   .row = 2
+    // };
     LEADERS_EXTERNS();
-    leaders_press_t ld = (leaders_press_t) {
-      .key = key1,
-        .leader = KC_NO 
-        };
+    // leaders_press_t ld = (leaders_press_t) {
+    //   .key = keys[0],
+    //     .leader = KC_NO 
+    //     };
     leaders_init();
     ASSERT_EQ(press_state, 0) << "press_state should be 0 after init";
-    memorize_press(key1,  1);
+    memorize_press(keys[0],  1);
     ASSERT_EQ(press_state, 1) << "the first bit should be 1 after first memorizing";
-    unmemorize_press(key1);
+    unmemorize_press(keys[0]);
     ASSERT_EQ(press_state, 0) << "press_state == 0 after unmemorizing";
+    memorize_press(keys[0],  0);
+    memorize_press(keys[1],  1);
+    memorize_press(keys[2],  2);
+    memorize_press(keys[3],  3);
+    unmemorize_press(keys[1]);
+    // ASSERT_EQ(press_state, 0b0000000000000101) << "memorizing/unmemorizing";
+    ASSERT_EQ(press_state, 0b1101) << "memorizing/unmemorizing";
+    ASSERT_EQ(recall_press(keys[2]).key.row, 2) << "memorizing/unmemorizing";
+
+    ASSERT_EQ(recall_press(keys[2]).key.col, 2) << "memorizing/unmemorizing";
+    ASSERT_EQ(recall_press(keys[2]).leader, 2) << "memorizing/unmemorizing";
     // leaders_init();
     // memorize_press(keypos_t key, uint16_t keycode);
     // press_key(7, 0);
