@@ -20,7 +20,7 @@
 #include "quantum.h"
 
 #ifndef LEADERS_SEQ_MAX
-#define LEADERS_SEQ_MAX  5
+#define LEADERS_SEQ_MAX  16
 #endif
 
 #ifndef LEADERS_PRESSED_MAX
@@ -40,6 +40,7 @@
 #endif
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
+bool process_leaders_user(uint16_t keycode, keyrecord_t *record);
 
 
 typedef struct {
@@ -87,13 +88,15 @@ typedef struct {
 #ifdef __cplusplus
 extern "C" {
 #endif
-void leaders_init(void);
-void memorize_press(keypos_t key, uint16_t keycode);
-void unmemorize_press(keypos_t key);
-leaders_press_t recall_press(keypos_t key);
-void ld_add_leader(uint16_t keycode);
-void ld_remove_leader(uint16_t keycode);
-uint16_t ld_current_leader(void);
+  void leaders_init(void);
+  void memorize_press(keypos_t key, uint16_t keycode);
+  void unmemorize_press(keypos_t key);
+  leaders_press_t recall_press(keypos_t key);
+  void ld_add_leader(uint16_t keycode);
+  void ld_remove_leader(uint16_t keycode);
+  uint16_t ld_current_leader(void);
+  void ld_sequence_push(keypos_t key);
+  void ld_sequence_clear(void);
 #ifdef __cplusplus
 }
 #endif

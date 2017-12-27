@@ -33,9 +33,16 @@ bool process_leader_press_user(void) {return false;}
 __attribute__ ((weak))
 bool process_leader_release_user(void) {return false;}
 
+__attribute__ ((weak))
+bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
+  return true;
+}
+  
+
 leader_t leaders[LEADERS_MAX];
 leaders_state_t leaders_state;
 
+uint8_t leaders_ref_layer = LEADERS_REFERENCE_LAYER;
 /* press data structure */
 leaders_press_t leaders_presses[16];
 uint16_t press_state;
@@ -43,11 +50,22 @@ uint16_t press_state;
 /* end of press data structure */
 
 /* sequence data structure interface */
-uint16_t ld_sequence_state;
-keypos_t ld_seq[16];
+/* uint16_t ld_sequence_state; */
+uint16_t ld_sequence[LEADERS_SEQ_MAX];
+/* keypos_16 ld_sequence_key[LEADERS_SEQ_MAX]; */
 uint8_t ld_sequence_index;
-void ldseq_memorize_key(keypos_t key) {}
-void ldseq_mark_leader(void) {}
+void ld_sequence_push(keypos_t key) {
+  uint16_t ref_kc = keymap_key_to_keycode(leaders_ref_layer, key);
+  ld_sequence[ld_sequence_index++] = ref_kc;
+  /* ld_sequence_kc[ld_sequence_index++] = keycode; */
+  if (ld_sequence_index == LEADERS_SEQ_MAX) {
+    /* reset if overflow */
+    ld_sequence_index = 0;
+  }
+}
+void ld_sequence_clear(void) {
+    ld_sequence_index = 0;
+}  
 /* end sequence data structure interface*/
 
 /* leaders data structure interface */
@@ -87,6 +105,28 @@ void ld_remove_leader(uint16_t keycode) {
   return;
 }
 
+#if PLATFORM!=TEST
+bool ld_match_sequence(uint8_t num, ...) {
+  if (num != ld_sequence_index) {
+    return false;
+  }
+  bool result = true;
+  va_list ap;
+  uint16_t kc, seq_kc;
+  va_start(ap, num);
+  for (uint8_t i = 0; i < num; i++) {
+    seq_kc = ld_sequence[i];
+    kc = va_arg(ap, uint16_t);
+    if (kc != seq_kc && kc != KC_TRNS) {
+      result = false;
+      break;
+    };
+  }
+  va_end(ap);
+  return result;
+}
+#endif
+
 void ld_remove_current_leader(void) {
   return;
 }
@@ -111,7 +151,6 @@ void ld_remove_current_leader(void) {
 /* end of  testing here*/
 
 
-uint8_t leaders_ref_layer = LEADERS_REFERENCE_LAYER;
 
 keypos_t leaders_no_key = (keypos_t) {
   .row = MATRIX_ROWS,
@@ -119,6 +158,7 @@ keypos_t leaders_no_key = (keypos_t) {
 };
 
 void leaders_init(void) {
+  ld_sequence_index = 0;
   for (uint8_t i = 0; i < ALEADERS_MAX; i ++) {
     ld_leaders[i] = KC_NO;
   }
@@ -244,10 +284,11 @@ leaders_press_t recall_press(keypos_t key) {
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   /* store pressed */
-  if (record->event.pressed) {
-    memorize_press(leaders_no_key, KC_NO);
-  }
-  return true;
+  return process_leaders_user(keycode, record);
+  /* if (record->event.pressed) { */
+  /*   memorize_press(leaders_no_key, KC_NO); */
+  /* } */
+  /* return true; */
 }
 
 bool _process_leaders(uint16_t keycode, keyrecord_t *record) {
