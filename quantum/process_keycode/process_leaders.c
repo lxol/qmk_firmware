@@ -36,8 +36,80 @@ bool process_leader_release_user(void) {return false;}
 leader_t leaders[LEADERS_MAX];
 leaders_state_t leaders_state;
 
+/* press data structure */
 leaders_press_t leaders_presses[16];
 uint16_t press_state;
+
+/* end of press data structure */
+
+/* sequence data structure interface */
+uint16_t ld_sequence_state;
+keypos_t ld_seq[16];
+uint8_t ld_sequence_index;
+void ldseq_memorize_key(keypos_t key) {}
+void ldseq_mark_leader(void) {}
+/* end sequence data structure interface*/
+
+/* leaders data structure interface */
+uint16_t ld_leaders[ALEADERS_MAX];
+bool ld_oneshot;
+uint8_t ld_leader_index;
+/* uint32_t leader_state; */
+void ld_add_leader(uint16_t keycode) {
+  ld_leaders[ld_leader_index++] = keycode;
+  return;
+}
+
+void ld_remove_leader(uint16_t keycode) {
+  for (uint8_t i = 0; i < ld_leader_index; i++) {
+    if (ld_leaders[i] != keycode) {
+      continue;
+    }
+    if (i == (ld_leader_index - 1)) {
+      if (ld_oneshot) {
+        ld_oneshot = false;
+      }
+      else {
+        ld_leader_index--;
+      }
+      break;
+    }
+    /* swap */
+    for (uint8_t j = i; j < (ld_leader_index - 1); j++) {
+      ld_leaders[j] ^= ld_leaders[j+1];
+      ld_leaders[j+1] ^= ld_leaders[j];
+      ld_leaders[j] ^= ld_leaders[j+1];
+    }
+    ld_leader_index--;
+    break;
+  }
+
+  return;
+}
+
+void ld_remove_current_leader(void) {
+  return;
+}
+
+/* end of leaders data structure interface */
+/* testing here*/
+/* int addInt(void) { */
+/*   return 1;  */
+/* } */
+/* int (*functionPtr)(int, int); */
+/* int (*fsi[5])(void); */
+
+/* const uint16_t PROGMEM foo[] = { */
+/*   [0]  = 1, */
+/*   [1]  = 2, */
+/*   [2]  = 3 */
+/* }; */
+/* extern int f1(); */
+/* fsp = &f1; */
+/* fsi[3] = &addInt; */
+/* void (*fs[5])() = &addInt; */
+/* end of  testing here*/
+
 
 uint8_t leaders_ref_layer = LEADERS_REFERENCE_LAYER;
 
@@ -47,6 +119,11 @@ keypos_t leaders_no_key = (keypos_t) {
 };
 
 void leaders_init(void) {
+  for (uint8_t i = 0; i < ALEADERS_MAX; i ++) {
+    ld_leaders[i] = KC_NO;
+  }
+  ld_leader_index = 0;
+
   for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
     leaders_state.pressed_keys[i] = leaders_no_key;
   }
@@ -54,7 +131,7 @@ void leaders_init(void) {
   leaders_state.layer = false;
   leaders_ref_layer = biton32(default_layer_state);
   leaders_init_user();
-  press_state = 0UL; 
+  press_state = 0UL;
 }
 
 bool process_leader_press(void) {
@@ -81,7 +158,6 @@ uint8_t leader_index(uint16_t keycode) {
   }
   return LEADERS_MAX;
 }
-/* asdfadf */
 
 #if PLATFORM!=TEST
 bool match_sequence(uint8_t num, ...) {
@@ -114,7 +190,7 @@ bool is_leading(uint16_t keycode) {
 void memorize_press(keypos_t key, uint16_t keycode) {
   for (int8_t i = 0; i < 16; i ++) {
     if (press_state & (1U << i)) {
-      continue; 
+      continue;
     }
     press_state |= (1U << i);
     leaders_presses[i].key = key;
@@ -171,9 +247,9 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     memorize_press(leaders_no_key, KC_NO);
   }
-  return true; 
-}  
-  
+  return true;
+}
+
 bool _process_leaders(uint16_t keycode, keyrecord_t *record) {
   // TODO: make it configurable
   /* if (keycode == KC_LCTL || */

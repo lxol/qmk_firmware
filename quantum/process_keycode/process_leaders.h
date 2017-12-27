@@ -35,8 +35,11 @@
 #define LEADERS_MAX  10
 #endif
 
-bool process_leaders(uint16_t keycode, keyrecord_t *record);
+#ifndef ALEADERS_MAX
+#define ALEADERS_MAX  6
+#endif
 
+bool process_leaders(uint16_t keycode, keyrecord_t *record);
 
 
 typedef struct {
@@ -88,6 +91,9 @@ void leaders_init(void);
 void memorize_press(keypos_t key, uint16_t keycode);
 void unmemorize_press(keypos_t key);
 leaders_press_t recall_press(keypos_t key);
+void ld_add_leader(uint16_t keycode);
+void ld_remove_leader(uint16_t keycode);
+uint16_t ld_current_leader(void);
 #ifdef __cplusplus
 }
 #endif
@@ -95,6 +101,10 @@ leaders_press_t recall_press(keypos_t key);
 #define LEADERS_EXTERNS()                       \
   extern leaders_state_t leaders_state;         \
   extern leaders_press_t leaders_presses[];         \
+  extern uint16_t ld_leaders[];                     \
+  extern bool ld_oneshot;                           \
+  extern bool ld_momentary;                         \
+  extern uint8_t ld_leader_index;                   \
   extern uint16_t press_state;                      \
   extern uint8_t foo_layer;                     \
   extern leader_t leaders[];                    \

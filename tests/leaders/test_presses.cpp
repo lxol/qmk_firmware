@@ -26,9 +26,9 @@ using testing::InSequence;
 //   void memorize_press(keypos_t key, uint16_t keycode);
 // }
 
-class Leaders : public TestFixture {};
+class Presses : public TestFixture {};
 
-TEST_F(Leaders, First ) {
+TEST_F(Presses, First ) {
     // TestDriver driver;
     // InSequence s;
 
@@ -82,4 +82,32 @@ TEST_F(Leaders, First ) {
     memorize_press(keys[17],  10);
     ASSERT_EQ(press_state, 0) << "memorizing when max 16 presses should reset press_state";
 
+}
+
+TEST_F(Presses, Second ) {
+
+    LEADERS_EXTERNS();
+    leaders_init();
+
+    ASSERT_EQ(ld_leader_index, 0) << "check leaders index after init";
+    ld_add_leader(1000U); 
+    ASSERT_EQ(ld_leader_index, 1) << "add leader";
+    ASSERT_EQ(ld_leaders[0], 1000U ) << "add leader";
+
+    ld_add_leader(1001U); 
+    ld_add_leader(1002U); 
+    ld_add_leader(1003U); 
+    ASSERT_EQ(ld_leader_index, 4) ;
+    ASSERT_EQ(ld_leaders[0], 1000U ) ;
+    ASSERT_EQ(ld_leaders[1], 1001U ) ;
+    ASSERT_EQ(ld_leaders[2], 1002U ) ;
+    ASSERT_EQ(ld_leaders[3], 1003U ) ;
+    ld_remove_leader(1001U);
+    ASSERT_EQ(ld_leader_index, 3) ;
+    ASSERT_EQ(ld_leaders[0], 1000U ) ;
+    ASSERT_EQ(ld_leaders[1], 1002U ) ;
+    ASSERT_EQ(ld_leaders[2], 1003U ) ;
+    ASSERT_EQ(ld_leaders[3], 1001U ) ;
+    // ASSERT_EQ(ld_leaders[3], 1001U ) ;
+    // ASSERT_EQ(ld_leaders[2], 0U ) ;
 }
