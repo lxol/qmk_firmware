@@ -28,11 +28,14 @@ TEST_F(Leaders, BasicLeaderTest) {
     InSequence s;
 
     LEADERS_EXTERNS();
+    ASSERT_EQ(ld_leader_index, 0) << "initial index should be 0";
     press_key(1, 0);
     keyboard_task();
     ASSERT_EQ(ld_leaders[0], ld_test) << "ld_leaders[0] should contain LD_TEST";
+    ASSERT_EQ(ld_leader_index, 1) << "ld_leader_index should be 1";
     release_key(1, 0);
     keyboard_task();
+    ASSERT_EQ(ld_leader_index, 0) << "index 0 after release";
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_B)));
     press_key(0, 0);
     // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));

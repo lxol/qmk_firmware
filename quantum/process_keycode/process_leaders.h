@@ -27,6 +27,10 @@
 #define LEADERS_PRESSED_MAX  5
 #endif
 
+/* #ifndef LD_PRESS_MAX */
+#define LD_PRESS_MAX 16
+/* #endif */
+
 #ifndef LEADERS_REFERENCE_LAYER
 #define LEADERS_REFERENCE_LAYER 0
 #endif

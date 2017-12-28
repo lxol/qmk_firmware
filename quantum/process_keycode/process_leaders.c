@@ -36,7 +36,7 @@ bool process_leader_release_user(void) {return false;}
 leader_t leaders[LEADERS_MAX];
 leaders_state_t leaders_state;
 
-leaders_press_t leaders_presses[16];
+leaders_press_t leaders_presses[LD_PRESS_MAX];
 uint16_t press_state;
 
 /* leaders data structure interface */
@@ -145,7 +145,7 @@ bool is_leading(uint16_t keycode) {
 }
 
 void memorize_press(keypos_t key, uint16_t keycode) {
-  for (int8_t i = 0; i < 16; i ++) {
+  for (int8_t i = 0; i < LD_PRESS_MAX; i ++) {
     if (press_state & (1U << i)) {
       continue;
     }
@@ -170,6 +170,7 @@ uint8_t leaders_biton16(uint16_t bits)
 }
 
 uint8_t find_press(keypos_t key) {
+  if (press_state == 0) {return LD_PRESS_MAX;}
   uint8_t l = leaders_biton16(press_state);
   for (int8_t i = 0; i < l; i++) {
     if (press_state & (1U << i)) {
@@ -178,19 +179,25 @@ uint8_t find_press(keypos_t key) {
       }
     }
   }
-  return 16;
+  return LD_PRESS_MAX;
 }
 
 bool unmemorize_press(keypos_t key) {
   uint8_t idx = find_press(key);
-  if (idx == 16) {return false;}
+  if (idx == LD_PRESS_MAX) {return false;}
+  press_state &= ~(1U << idx);
+  return true;
+}
+
+bool unmemorize_press_by_idx(uint8_t idx) {
+  if (idx == LD_PRESS_MAX) {return false;}
   press_state &= ~(1U << idx);
   return true;
 }
 
 leaders_press_t recall_press(keypos_t key) {
   uint8_t idx = find_press(key);
-  if (idx == 16) {
+  if (idx == LD_PRESS_MAX) {
     return (leaders_press_t) {
       .key = leaders_no_key,
         .leader = KC_NO
@@ -257,7 +264,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       leaders_state.oneshot = is_os_leader_pressed;
       leaders_state.layer = false;
       ld_add_leader(keycode);
-
+      memorize_press(record->event.key, keycode);
 #ifdef BACKLIGHT_ENABLE
       backlight_set(2);
 #endif
