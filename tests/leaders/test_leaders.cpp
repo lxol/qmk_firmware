@@ -20,14 +20,17 @@
 using testing::_;
 using testing::InSequence;
 
+extern uint16_t ld_test;
 class Leaders : public TestFixture {};
 
 TEST_F(Leaders, BasicLeaderTest) {
     TestDriver driver;
     InSequence s;
 
+    LEADERS_EXTERNS();
     press_key(1, 0);
     keyboard_task();
+    ASSERT_EQ(ld_leaders[0], ld_test) << "ld_leaders[0] should contain LD_TEST";
     release_key(1, 0);
     keyboard_task();
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_B)));
@@ -44,3 +47,31 @@ TEST_F(Leaders, BasicLeaderTest) {
     // run_one_scan_loop();
 }
 
+
+// TEST_F(Leaders, LeadersAddRmove) {
+//     TestDriver driver;
+//     InSequence s;
+
+//     // press leader  LD_TEST
+
+//     LEADERS_EXTERNS();
+//     press_key(1, 0);
+//     keyboard_task();
+//     EXPECT_CALL(driver, send_keyboard_mock());
+//     // ASSERT_EQ(ld_leaders[0], 1) << "";
+
+//     // release_key(1, 0);
+//     // keyboard_task();
+//     // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_B)));
+//     // press_key(0, 0);
+//     // // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+//     // // keyboard_task();
+//     // // press_key(0, 0);
+//     // keyboard_task();
+//     // keyboard_task();
+//     // First we get the key press
+//     // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_P)));
+//     // // Then the release
+//     // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+//     // run_one_scan_loop();
+// }

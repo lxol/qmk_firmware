@@ -16,10 +16,12 @@
 
 #include "quantum.h"
 
-enum planck_keycodes {
+enum test_keycodes {
   LEFT = SAFE_RANGE,
   LD_TEST,
 };
+uint16_t ld_test = LD_TEST;
+
 // Don't rearrange keys as existing tests might rely on the order
 // Col2, Row 0 has to be KC_NO, because tests rely on it
 

@@ -256,6 +256,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       leaders_state.momentary = true;
       leaders_state.oneshot = is_os_leader_pressed;
       leaders_state.layer = false;
+      ld_add_leader(keycode);
 
 #ifdef BACKLIGHT_ENABLE
       backlight_set(2);
@@ -268,6 +269,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   if (!record->event.pressed) {
     bool is_leader_released = leaders_state.momentary && KEYEQ(leaders_state.leader_key, record->event.key);
     if (is_leader_released) {
+      ld_remove_leader(leaders_state.leader_keycode);
       leaders_state.momentary = false;
 #ifdef BACKLIGHT_ENABLE
       backlight_set(0);
