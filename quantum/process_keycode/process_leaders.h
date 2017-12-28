@@ -36,7 +36,6 @@
 #endif
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
-void leaders_init(void);
 bool is_leading(uint16_t keycode);
 bool match_sequence(uint8_t num, ...);
 
@@ -64,13 +63,15 @@ typedef struct {
 typedef struct {
   keypos_t key;
   uint16_t leader;
+  uint16_t keycodes[2];
 } leaders_press_t;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+  void leaders_init(void);
   void memorize_press(keypos_t key, uint16_t keycode);
-  void unmemorize_press(keypos_t key);
+  bool unmemorize_press(keypos_t key);
   leaders_press_t recall_press(keypos_t key);
 #ifdef __cplusplus
 }
@@ -101,6 +102,7 @@ extern "C" {
 #define LEADERS_EXTERNS()                       \
   extern leaders_state_t leaders_state;         \
   extern uint8_t foo_layer;                     \
+  extern uint16_t press_state;                     \
   extern leader_t leaders[];                    \
   extern uint8_t leaders_ref_layer;
 
