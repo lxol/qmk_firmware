@@ -27,11 +27,16 @@ TEST_F(Leaders, BasicLeaderTest) {
     InSequence s;
 
     press_key(1, 0);
-    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_B)));
     keyboard_task();
     release_key(1, 0);
-    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
     keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_B)));
+    press_key(0, 0);
+    // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    // keyboard_task();
+    // press_key(0, 0);
+    keyboard_task();
+    // keyboard_task();
     // First we get the key press
     // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_P)));
     // // Then the release
