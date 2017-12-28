@@ -45,7 +45,6 @@ typedef struct {
   uint16_t keycode_sequence[LEADERS_SEQ_MAX];
   keypos_t key_sequence[LEADERS_SEQ_MAX];
   uint8_t sequence_size;
-  keypos_t pressed_keys[LEADERS_PRESSED_MAX];
   bool oneshot;
   bool momentary;
   bool layer;
@@ -73,6 +72,9 @@ extern "C" {
   void memorize_press(keypos_t key, uint16_t keycode);
   bool unmemorize_press(keypos_t key);
   leaders_press_t recall_press(keypos_t key);
+  void ld_add_leader(uint16_t keycode);
+  void ld_remove_leader(uint16_t keycode);
+  uint16_t ld_current_leader(void);
 #ifdef __cplusplus
 }
 #endif
@@ -103,6 +105,10 @@ extern "C" {
   extern leaders_state_t leaders_state;         \
   extern uint8_t foo_layer;                     \
   extern uint16_t press_state;                     \
+  extern uint16_t ld_leaders[];                     \
+  extern bool ld_oneshot;                           \
+  extern bool ld_momentary;                         \
+  extern uint8_t ld_leader_index;                   \
   extern leader_t leaders[];                    \
   extern uint8_t leaders_ref_layer;
 

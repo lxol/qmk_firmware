@@ -67,3 +67,61 @@ TEST_F(Presses, First ) {
   ASSERT_EQ(press_state, 0) << "memorizing when max 16 presses should reset press_state";
 
 }
+
+TEST_F(Presses, Leader1 ) {
+
+    LEADERS_EXTERNS();
+    leaders_init();
+
+    ASSERT_EQ(ld_leader_index, 0) << "check leaders index after init";
+    ld_add_leader(1000U); 
+    ASSERT_EQ(ld_leader_index, 1) << "add leader";
+    ASSERT_EQ(ld_leaders[0], 1000U ) << "add leader";
+
+    ld_add_leader(1001U); 
+    ld_add_leader(1002U); 
+    ld_add_leader(1003U); 
+    ASSERT_EQ(ld_leader_index, 4) ;
+    ASSERT_EQ(ld_leaders[0], 1000U ) ;
+    ASSERT_EQ(ld_leaders[1], 1001U ) ;
+    ASSERT_EQ(ld_leaders[2], 1002U ) ;
+    ASSERT_EQ(ld_leaders[3], 1003U ) ;
+    ld_remove_leader(1001U);
+    ASSERT_EQ(ld_leader_index, 3) ;
+    ASSERT_EQ(ld_leaders[0], 1000U ) ;
+    ASSERT_EQ(ld_leaders[1], 1002U ) ;
+    ASSERT_EQ(ld_leaders[2], 1003U ) ;
+    ASSERT_EQ(ld_leaders[3], 1001U ) ;
+    // ASSERT_EQ(ld_leaders[3], 1001U ) ;
+    // ASSERT_EQ(ld_leaders[2], 0U ) ;
+}
+
+TEST_F(Presses, RemoveLeaderOneShot ) {
+
+    LEADERS_EXTERNS();
+    leaders_init();
+    ld_add_leader(1000U); 
+    ld_add_leader(1001U); 
+    ld_add_leader(1002U); 
+    ld_add_leader(1003U); 
+    ASSERT_EQ(ld_leader_index, 4) ;
+    ASSERT_EQ(ld_leaders[0], 1000U ) ;
+    ASSERT_EQ(ld_leaders[1], 1001U ) ;
+    ASSERT_EQ(ld_leaders[2], 1002U ) ;
+    ASSERT_EQ(ld_leaders[3], 1003U ) ;
+    ld_oneshot = true;
+    ld_remove_leader(1003U);
+    ASSERT_EQ(ld_leader_index, 4) ;
+    ASSERT_EQ(ld_leaders[0], 1000U ) ;
+    ASSERT_EQ(ld_leaders[1], 1001U ) ;
+    ASSERT_EQ(ld_leaders[2], 1002U ) ;
+    ASSERT_EQ(ld_leaders[3], 1003U ) ;
+    ASSERT_EQ(ld_oneshot, false ) ;
+    ld_remove_leader(1003U);
+    ASSERT_EQ(ld_leader_index, 3) ;
+    ASSERT_EQ(ld_leaders[0], 1000U ) ;
+    ASSERT_EQ(ld_leaders[1], 1001U ) ;
+    ASSERT_EQ(ld_leaders[2], 1002U ) ;
+    ASSERT_EQ(ld_leaders[3], 1003U ) ;
+    ASSERT_EQ(ld_oneshot, false ) ;
+}

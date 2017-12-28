@@ -39,6 +39,10 @@ leaders_state_t leaders_state;
 leaders_press_t leaders_presses[16];
 uint16_t press_state;
 
+/* leaders data structure interface */
+uint16_t ld_leaders[8];
+bool ld_oneshot;
+uint8_t ld_leader_index;
 uint8_t leaders_ref_layer = LEADERS_REFERENCE_LAYER;
 
 keypos_t leaders_no_key = (keypos_t) {
@@ -50,6 +54,10 @@ void leaders_init(void) {
   /* new press */
   press_state = 0UL;
 
+  for (uint8_t i = 0; i < 8; i ++) {
+    ld_leaders[i] = KC_NO;
+  }
+  ld_leader_index = 0;
   /* for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) { */
   /*   leaders_state.pressed_keys[i] = leaders_no_key; */
   /* } */
@@ -82,6 +90,39 @@ uint8_t leader_index(uint16_t keycode) {
     }
   }
   return LEADERS_MAX;
+}
+
+/* uint32_t leader_state; */
+void ld_add_leader(uint16_t keycode) {
+  ld_leaders[ld_leader_index++] = keycode;
+  return;
+}
+
+void ld_remove_leader(uint16_t keycode) {
+  for (uint8_t i = 0; i < ld_leader_index; i++) {
+    if (ld_leaders[i] != keycode) {
+      continue;
+    }
+    if (i == (ld_leader_index - 1)) {
+      if (ld_oneshot) {
+        ld_oneshot = false;
+      }
+      else {
+        ld_leader_index--;
+      }
+      break;
+    }
+    /* swap */
+    for (uint8_t j = i; j < (ld_leader_index - 1); j++) {
+      ld_leaders[j] ^= ld_leaders[j+1];
+      ld_leaders[j+1] ^= ld_leaders[j];
+      ld_leaders[j] ^= ld_leaders[j+1];
+    }
+    ld_leader_index--;
+    break;
+  }
+
+  return;
 }
 
 #if PLATFORM != TEST
