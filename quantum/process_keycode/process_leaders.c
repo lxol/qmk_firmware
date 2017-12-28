@@ -124,6 +124,14 @@ void ld_remove_leader(uint16_t keycode) {
   return;
 }
 
+bool ld_leader_eq(uint16_t keycode) {
+  if (ld_leader_index == 0) {return false;}
+  if (ld_leaders[ld_leader_index - 1] == keycode) {
+    return true;
+  }
+  return false;
+}
+
 bool sequence_eq(uint8_t num, uint16_t keycode, uint16_t seq[]) {
   if (seq[num - 1] == keycode || keycode == KC_TRNS) {
     return true;
