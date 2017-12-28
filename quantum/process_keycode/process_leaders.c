@@ -201,7 +201,11 @@ leaders_press_t recall_press(keypos_t key) {
 
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
+        /* register_code16(KC_B); */
+        /* unregister_code16(KC_B); */
+        /* return true; */
   // TODO: make it configurable
+
   /* if (keycode == KC_LCTL || */
   /*     keycode == KC_RCTL || */
   /*     keycode == KC_LGUI || */

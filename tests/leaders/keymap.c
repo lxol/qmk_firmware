@@ -53,19 +53,19 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     return MACRO_NONE;
 };
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case LD_TEST:
-      if (record->event.pressed) {
-        register_code16(KC_B);
-      } else {
-        unregister_code16(KC_B);
-      }
-      return false;
-      break;
-  }
-  return true;
-}
+/* bool process_record_user(uint16_t keycode, keyrecord_t *record) { */
+/*   switch (keycode) { */
+/*     case LD_TEST: */
+/*       if (record->event.pressed) { */
+/*         register_code16(KC_B); */
+/*       } else { */
+/*         unregister_code16(KC_B); */
+/*       } */
+/*       return false; */
+/*       break; */
+/*   } */
+/*   return true; */
+/* } */
 
 void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
 }
@@ -75,7 +75,7 @@ LEADERS_EXTERNS();
 leader_t leaders[] = {
   (leader_t) {
     .keycode = LD_TEST,
-    .oneshot = false
+    .oneshot = true
   },
   /* terminator */
   (leader_t) {
@@ -85,4 +85,14 @@ leader_t leaders[] = {
 
 void leaders_init_user(void) {
   leaders_ref_layer = 1;
+}
+
+bool process_sequence_press_user(void) {
+  if (is_leading(LD_TEST)) {
+    register_code16(KC_B);
+    /* unregister_code16(KC_X); */
+    /* return false; */
+    return false;
+  }
+  return true;
 }
