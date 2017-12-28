@@ -89,9 +89,9 @@ void leaders_init_user(void) {
 
 bool process_sequence_press_user(void) {
   if (is_leading(LD_TEST)) {
-    register_code16(KC_B);
-    /* unregister_code16(KC_X); */
-    /* return false; */
+    if (peq(1, KC_A)) {
+      register_code16(KC_B);
+    }
     return false;
   }
   return true;
