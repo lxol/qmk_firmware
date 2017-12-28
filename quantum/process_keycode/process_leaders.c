@@ -123,13 +123,17 @@ void ld_remove_leader(uint16_t keycode) {
   }
   return;
 }
-
 bool ld_leader_eq(uint16_t keycode) {
   if (ld_leader_index == 0) {return false;}
   if (ld_leaders[ld_leader_index - 1] == keycode) {
     return true;
   }
   return false;
+}
+
+uint16_t ld_current_leader() {
+  if (ld_leader_index == 0) {return KC_NO;}
+  return ld_leaders[ld_leader_index - 1];
 }
 
 bool sequence_eq(uint8_t num, uint16_t keycode, uint16_t seq[]) {
@@ -152,7 +156,7 @@ bool is_leading(uint16_t keycode) {
     && (leaders_state.leader_keycode == keycode );
 }
 
-void memorize_press(keypos_t key, uint16_t keycode) {
+void memorize_press(keypos_t key, uint16_t keycode, uint16_t leader) {
   for (int8_t i = 0; i < LD_PRESS_MAX; i ++) {
     if (press_state & (1U << i)) {
       continue;
@@ -160,6 +164,7 @@ void memorize_press(keypos_t key, uint16_t keycode) {
     press_state |= (1U << i);
     leaders_presses[i].key = key;
     leaders_presses[i].keycode = keycode;
+    leaders_presses[i].leader = leader;
     /* break; */
     return;
   }
@@ -273,7 +278,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       leaders_state.oneshot = is_os_leader_pressed;
       leaders_state.layer = false;
       ld_add_leader(keycode);
-      memorize_press(record->event.key, keycode);
+      memorize_press(record->event.key, keycode, ld_current_leader());
 #ifdef BACKLIGHT_ENABLE
       backlight_set(2);
 #endif
@@ -306,7 +311,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   bool leading_mode = leaders_state.momentary || leaders_state.oneshot || leaders_state.layer;
   /* Keep track of all keys pressed under leading mode */
   if (leading_mode && record->event.pressed) {
-    memorize_press(record->event.key, leaders_state.leader_keycode);
+    memorize_press(record->event.key, leaders_state.leader_keycode, ld_current_leader());
     /* for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) { */
     /*   if (KEYEQ(leaders_state.pressed_keys[i], leaders_no_key)) { */
     /*     leaders_state.pressed_keys[i] = record->event.key; */

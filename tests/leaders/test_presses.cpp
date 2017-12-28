@@ -37,14 +37,14 @@ TEST_F(Presses, First ) {
   LEADERS_EXTERNS();
   leaders_init();
   ASSERT_EQ(press_state, 0) << "press_state should be 0 after init";
-  memorize_press(keys[0],  1);
+  memorize_press(keys[0],  1,2);
   ASSERT_EQ(press_state, 1) << "the first bit should be 1 after first memorizing";
   unmemorize_press(keys[0]);
   ASSERT_EQ(press_state, 0) << "press_state == 0 after unmemorizing";
-  memorize_press(keys[0],  0);
-  memorize_press(keys[1],  1);
-  memorize_press(keys[2],  2);
-  memorize_press(keys[3],  3);
+  memorize_press(keys[0],  0,2);
+  memorize_press(keys[1],  1,2);
+  memorize_press(keys[2],  2,2 );
+  memorize_press(keys[3],  3,2);
   unmemorize_press(keys[1]);
   // ASSERT_EQ(press_state, 0b0000000000000101) << "memorizing/unmemorizing";
   ASSERT_EQ(press_state, 0b1101) << "memorizing/unmemorizing";
@@ -55,15 +55,15 @@ TEST_F(Presses, First ) {
 
   leaders_init();
   for (uint8_t i; i < 16; i ++) {
-    memorize_press(keys[i],  i);
+    memorize_press(keys[i],  i, 2);
   }
   ASSERT_EQ(press_state, 0b1111111111111111) << "memorizing max 16 presses";
   // memorize_press(keys[0],  1);
   unmemorize_press(keys[10]);
   ASSERT_EQ(press_state, 0b1111101111111111) << "unmemorizing when max 16 presses";
-  memorize_press(keys[10],  10);
+  memorize_press(keys[10],  10,2);
   ASSERT_EQ(press_state, 0b1111111111111111) << "memorizing again when 15 presses";
-  memorize_press(keys[17],  10);
+  memorize_press(keys[17],  10,2);
   ASSERT_EQ(press_state, 0) << "memorizing when max 16 presses should reset press_state";
 
 }

@@ -72,7 +72,7 @@ typedef struct {
 extern "C" {
 #endif
   void leaders_init(void);
-  void memorize_press(keypos_t key, uint16_t keycode);
+  void memorize_press(keypos_t key, uint16_t keycode, uint16_t leader);
   bool unmemorize_press(keypos_t key);
   leaders_press_t recall_press(keypos_t key);
   void ld_add_leader(uint16_t keycode);
