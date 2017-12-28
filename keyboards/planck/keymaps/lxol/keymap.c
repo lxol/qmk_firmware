@@ -328,26 +328,26 @@ bool process_sequence_press_user(void) {
     return true;
   }
 
-  if (is_leading(LD_OS_TEST)) {
+  /* if (is_leading(LD_OS_TEST)) { */
     
-    if (match_sequence(1, KC_Y)) {
-      SEND_STRING("It works!");
-      leaders_state.sequence_size = 0;
-      leaders_state.oneshot = false; 
-      return false;                 
-    }
+  /*   if (match_sequence(1, KC_Y)) { */
+  /*     SEND_STRING("It works!"); */
+  /*     leaders_state.sequence_size = 0; */
+  /*     leaders_state.oneshot = false;  */
+  /*     return false;                  */
+  /*   } */
 
-    if (match_sequence(2, KC_I, KC_Y)) {
-      SEND_STRING("2 keys works!");
-      leaders_state.sequence_size = 0;
-      leaders_state.oneshot = false; 
-      return false;                 
-    }
-  }
+  /*   if (match_sequence(2, KC_I, KC_Y)) { */
+  /*     SEND_STRING("2 keys works!"); */
+  /*     leaders_state.sequence_size = 0; */
+  /*     leaders_state.oneshot = false;  */
+  /*     return false;                  */
+  /*   } */
+  /* } */
 
 
   if (is_leading(LD_MO_RAISE)) {
-    if (match_sequence(1, KC_TRNS)) {
+    if (peq(1, KC_TRNS)) {
       LEADERS_SEQ_LAYER(_RAISE)
         leaders_state.sequence_size = 0;
       leaders_state.oneshot = false; 
@@ -357,87 +357,92 @@ bool process_sequence_press_user(void) {
 
   if (is_leading(LD_LAYER_SYM)) {
 
-    if (match_sequence(2, KC_I, KC_S)) {
-      SEND_STRING("\"\"");
-      register_code16(KC_LEFT);
-      unregister_code16(KC_LEFT);
-      leaders_state.sequence_size = 0;
-      leaders_state.oneshot = false; 
-      return false;                 
+    if (peq(1, KC_I)) {
+      if (peq(2, KC_S)) {
+        SEND_STRING("\"\"");
+        register_code16(KC_LEFT);
+        unregister_code16(KC_LEFT);
+        leaders_state.sequence_size = 0;
+        leaders_state.oneshot = false; 
+        return false;                 
+      }
+      if (peq(2, KC_O)) {
+        SEND_STRING("works11!");
+        leaders_state.sequence_size = 0;
+        leaders_state.oneshot = false; 
+        return false;                 
+      }
+      if (peq(2, KC_W)) {
+        SEND_STRING("''");
+        register_code16(KC_LEFT);
+        unregister_code16(KC_LEFT);
+        leaders_state.sequence_size = 0;
+        leaders_state.oneshot = false; 
+        return false;                 
+      }
+      if (peq(2, KC_W)) {
+        SEND_STRING("``");
+        register_code16(KC_LEFT);
+        unregister_code16(KC_LEFT);
+        leaders_state.sequence_size = 0;
+        leaders_state.oneshot = false; 
+        return false;                 
+      }
+      if (peq(2, KC_E)) {
+        SEND_STRING("{}");
+        register_code16(KC_LEFT);
+        unregister_code16(KC_LEFT);
+        leaders_state.sequence_size = 0;
+        leaders_state.oneshot = false; 
+        return false;                 
+      }
+      if (peq(2, KC_D)) {
+        SEND_STRING("()");
+        register_code16(KC_LEFT);
+        unregister_code16(KC_LEFT);
+        leaders_state.sequence_size = 0;
+        leaders_state.oneshot = false; 
+        return false;                 
+      }
+
+      if (peq(2, KC_C)) {
+        SEND_STRING("[]");
+        register_code16(KC_LEFT);
+        unregister_code16(KC_LEFT);
+        leaders_state.sequence_size = 0;
+        leaders_state.oneshot = false; 
+        return false;                 
+      }
+      if (peq(2,  KC_I)) {
+        if (peq(3,  KC_E)) {
+          SEND_STRING("{}");
+          register_code16(KC_LEFT);
+          unregister_code16(KC_LEFT);
+          register_code16(KC_ENT);
+          unregister_code16(KC_ENT);
+          register_code16(KC_ENT);
+          unregister_code16(KC_ENT);
+          register_code16(KC_UP);
+          unregister_code16(KC_UP);
+          register_code16(KC_TAB);
+          unregister_code16(KC_TAB);
+          leaders_state.sequence_size = 0;
+          leaders_state.oneshot = false; 
+          return false;                 
+        }
+      }
     }
 
-    if (match_sequence(2, KC_I, KC_W)) {
-      SEND_STRING("''");
-      register_code16(KC_LEFT);
-      unregister_code16(KC_LEFT);
-      leaders_state.sequence_size = 0;
-      leaders_state.oneshot = false; 
-      return false;                 
-    }
-
-    if (match_sequence(2, KC_I, KC_Q)) {
-      SEND_STRING("``");
-      register_code16(KC_LEFT);
-      unregister_code16(KC_LEFT);
-      leaders_state.sequence_size = 0;
-      leaders_state.oneshot = false; 
-      return false;                 
-    }
-
-    if (match_sequence(2, KC_I, KC_E)) {
-      SEND_STRING("{}");
-      register_code16(KC_LEFT);
-      unregister_code16(KC_LEFT);
-      leaders_state.sequence_size = 0;
-      leaders_state.oneshot = false; 
-      return false;                 
-    }
-
-    if (match_sequence(3, KC_I, KC_I, KC_E)) {
-      SEND_STRING("{}");
-      register_code16(KC_LEFT);
-      unregister_code16(KC_LEFT);
-      register_code16(KC_ENT);
-      unregister_code16(KC_ENT);
-      register_code16(KC_ENT);
-      unregister_code16(KC_ENT);
-      register_code16(KC_UP);
-      unregister_code16(KC_UP);
-      register_code16(KC_TAB);
-      unregister_code16(KC_TAB);
-      leaders_state.sequence_size = 0;
-      leaders_state.oneshot = false; 
-      return false;                 
-    }
-
-    if (match_sequence(2, KC_I, KC_D)) {
-      SEND_STRING("()");
-      register_code16(KC_LEFT);
-      unregister_code16(KC_LEFT);
-      leaders_state.sequence_size = 0;
-      leaders_state.oneshot = false; 
-      return false;                 
-    }
-
-    if (match_sequence(2, KC_I, KC_C)) {
-      SEND_STRING("[]");
-      register_code16(KC_LEFT);
-      unregister_code16(KC_LEFT);
-      leaders_state.sequence_size = 0;
-      leaders_state.oneshot = false; 
-      return false;                 
-    }
-
-    if (match_sequence(1, KC_TRNS)) {
+    if (peq(1,  KC_TRNS)) {
       LEADERS_SEQ_LAYER(_SYM)
-      leaders_state.sequence_size = 0;
+        leaders_state.sequence_size = 0;
       leaders_state.oneshot = false; 
       return false;                 
     }
   }
 
   if (is_leading(LD_OS_NUM)) {
-    if (match_sequence(1, KC_TRNS)) {
+    if (peq(1,  KC_TRNS)) {
       LEADERS_SEQ_LAYER(_NUM)
       leaders_state.sequence_size = 0;
       leaders_state.oneshot = false; 
@@ -445,17 +450,9 @@ bool process_sequence_press_user(void) {
     }
   }
 
-  if (is_leading(LD_OS_MAIN)) {
-    if (match_sequence(1, KC_TRNS)) {
-      LEADERS_SEQ_LAYER(_MAIN)
-        leaders_state.sequence_size = 0;
-      leaders_state.oneshot = false; 
-      return false;                 
-    }
-  }
 
   if (is_leading(LD_OS_CTL_X)) {
-    if (match_sequence(1, KC_J)) {
+    if (peq(1,  KC_J)) {
       register_code16(KC_LCTL);
       register_code16(KC_X);
       unregister_code16(KC_X);
@@ -467,7 +464,7 @@ bool process_sequence_press_user(void) {
       return false;                 
     }
 
-    if (match_sequence(1, KC_K)) {
+    if (peq(1,  KC_K)) {
       register_code16(KC_LCTL);
       register_code16(KC_X);
       unregister_code16(KC_X);
@@ -479,7 +476,7 @@ bool process_sequence_press_user(void) {
       return false;                 
     }
 
-    if (match_sequence(1, KC_L)) {
+    if (peq(1,  KC_L)) {
       register_code16(KC_LCTL);
       register_code16(KC_X);
       unregister_code16(KC_X);
@@ -491,7 +488,7 @@ bool process_sequence_press_user(void) {
       return false;                 
     }
 
-    if (match_sequence(1, KC_O)) {
+    if (peq(1,  KC_O)) {
       register_code16(KC_LCTL);
       register_code16(KC_X);
       unregister_code16(KC_X);
@@ -504,7 +501,7 @@ bool process_sequence_press_user(void) {
     }
 
     /* ignore other keys  */
-    if (match_sequence(1, KC_TRNS)) {
+    if (peq(1,  KC_TRNS)) {
       leaders_state.sequence_size = 0;
       leaders_state.oneshot = false;
       leaders_state.sequence_size = 0;

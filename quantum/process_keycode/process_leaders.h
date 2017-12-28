@@ -37,7 +37,6 @@
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
 bool is_leading(uint16_t keycode);
-bool match_sequence(uint8_t num, ...);
 
 typedef struct {
   uint16_t leader_keycode;
@@ -75,6 +74,7 @@ extern "C" {
   void ld_add_leader(uint16_t keycode);
   void ld_remove_leader(uint16_t keycode);
   uint16_t ld_current_leader(void);
+  bool peq(uint8_t num, uint16_t keycode);
 #ifdef __cplusplus
 }
 #endif

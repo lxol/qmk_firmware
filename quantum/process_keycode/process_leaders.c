@@ -121,7 +121,6 @@ void ld_remove_leader(uint16_t keycode) {
     ld_leader_index--;
     break;
   }
-
   return;
 }
 
@@ -132,32 +131,12 @@ bool sequence_eq(uint8_t num, uint16_t keycode, uint16_t seq[]) {
   return false;
 }
 
-bool sequence_eq_press(uint8_t num, uint16_t keycode) {
+bool peq(uint8_t num, uint16_t keycode) {
+  if (leaders_state.sequence_size == 0) {return false;}
+  if (num > leaders_state.sequence_size) {return false;}
   return sequence_eq(num, keycode, leaders_state.keycode_sequence);
 }
 
-
-#if PLATFORM != TEST
-bool match_sequence(uint8_t num, ...) {
-  if (num != leaders_state.sequence_size) {
-    return false;
-  }
-  bool result = true;
-  va_list ap;
-  uint16_t kc, seq_kc;
-  va_start(ap, num);
-  for (uint8_t i = 0; i < num; i++) {
-    seq_kc = leaders_state.keycode_sequence[i];
-    kc = va_arg(ap, uint16_t);
-    if (kc != seq_kc && kc != KC_TRNS) {
-      result = false;
-      break;
-    };
-  }
-  va_end(ap);
-  return result;
-}
-#endif
 
 bool is_leading(uint16_t keycode) {
   return (leaders_state.sequence_size != 0)
