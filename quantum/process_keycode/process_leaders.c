@@ -125,6 +125,18 @@ void ld_remove_leader(uint16_t keycode) {
   return;
 }
 
+bool sequence_eq(uint8_t num, uint16_t keycode, uint16_t seq[]) {
+  if (seq[num - 1] == keycode || keycode == KC_TRNS) {
+    return true;
+  } 
+  return false;
+}
+
+bool sequence_eq_press(uint8_t num, uint16_t keycode) {
+  return sequence_eq(num, keycode, leaders_state.keycode_sequence);
+}
+
+
 #if PLATFORM != TEST
 bool match_sequence(uint8_t num, ...) {
   if (num != leaders_state.sequence_size) {
