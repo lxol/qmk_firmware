@@ -6,6 +6,7 @@
 #define LEADERS_ENABLE
 
 #define LEADERS_SEQ_MAX 3
+#define PLATFORM 3
 
 /* disable debug print */
 //#define NO_DEBUG

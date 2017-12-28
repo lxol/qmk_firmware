@@ -42,6 +42,7 @@
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
 bool process_leaders_user(uint16_t keycode, keyrecord_t *record);
 
+bool ld_match_sequence(uint8_t num, ...);
 
 typedef struct {
   keypos_t key;

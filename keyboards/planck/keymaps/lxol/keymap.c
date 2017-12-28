@@ -38,6 +38,7 @@ enum planck_keycodes {
   LD_OS_NUM,
   LD_OS_TEST,
   LD_TEST2,
+  LD_TEST3,
   LD_OS_SYM,
   LD_EMACS_SUPER,
   LD_EMACS_HYPER,
@@ -62,12 +63,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = {
   { KC_ESC ,   KC_Q ,  KC_W , KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,  KC_I ,    KC_O ,   KC_P ,    KC_MINS } , 
   { KC_TAB ,   KC_A ,  KC_S , KC_D ,    KC_F ,    KC_G ,    KC_H ,   KC_J ,  KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } , 
-  { LD_TEST2 , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,  KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } , 
+  { LD_TEST3 , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,  KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } , 
   { XXXXXXX ,  MOUSE , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , RAISE , KC_LCTL , LEFT ,   KC_BSPC , KC_ENT }
  } ,           
 
 [_RAISE] = { 
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,           KC_5 ,           KC_6 ,    KC_7 ,    KC_8 ,         KC_9 ,     KC_0 ,    _______ } ,        
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,           KC_5 ,           KC_6 ,    KC_7 ,    KC_8 ,         KC_9 ,     KC_0 ,    LD_TEST3 } ,        
   { _______ , KC_LBRC , KC_RBRC , LD_ARROWS , LD_OS_CTL_X ,    KC_BSPC ,        KC_EQL ,  KC_ENT ,  LD_LAYER_SYM , LD_TEST2 , KC_LCBR , KC_RCBR } , 
   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,         KC_PERC ,        KC_CIRC , KC_AMPR , KC_ASTR ,      _______ ,  KC_LPRN , KC_RPRN } ,        
   { CALTDEL , KC_DEL ,  _______ , _______ ,   LD_EMACS_SUPER , LD_EMACS_HYPER , _______ , _______ , _______ ,      _______ ,  _______ , _______ }
@@ -204,15 +205,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef LEADERS_ENABLE
 LEADERS_EXTERNS();
 bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
+  if (!record->event.pressed && (press_state == 0U)) {
+      return true;
+  }
   if (record->event.pressed) {
     if (keycode == LD_TEST2) {
       memorize_press(record->event.key, LD_TEST2);
       register_code16(KC_LSFT);
+      return false;
     }
   } else {
-    if (press_state == 0U) {
-      return true;
-    } 
     leaders_press_t p = recall_press(record->event.key);
     if (p.leader == LD_TEST2) {
       unregister_code16(KC_LSFT);
@@ -220,6 +222,41 @@ bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
       return false;
     }
   } 
+
+  if (record->event.pressed) {
+    if (keycode == LD_TEST3) {
+      ld_add_leader(LD_TEST3);
+      memorize_press(record->event.key, LD_TEST3);
+      /* register_code16(KC_LSFT); */
+      return false;
+    }
+  } else {
+    leaders_press_t p = recall_press(record->event.key);
+    if (p.leader == LD_TEST3) {
+      /* unregister_code16(KC_LSFT); */
+      unmemorize_press(record->event.key);
+      ld_remove_leader(LD_TEST3);
+      return false;
+    }
+  } 
+  
+  if (record->event.pressed) {
+    if (ld_leader_index != 0 && ld_leaders[ld_leader_index - 1] == LD_TEST3) {
+      if (ld_leader_index !=0 && ld_match_sequence(1, KC_Y)) {
+        send_string("MATCH");
+        memorize_press(record->event.key, LD_TEST3);
+        return false;
+      }
+    }
+  } else {
+    leaders_press_t p = recall_press(record->event.key);
+    if (p.leader == LD_TEST3) {
+      /* unregister_code16(KC_LSFT); */
+      unmemorize_press(record->event.key);
+      return false;
+    }
+  } 
+  
   return true;
 }
 /* bool process_leader_user(bool press) { */

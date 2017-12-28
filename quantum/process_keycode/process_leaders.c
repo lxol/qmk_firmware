@@ -105,7 +105,10 @@ void ld_remove_leader(uint16_t keycode) {
   return;
 }
 
-#if PLATFORM!=TEST
+/* bool ld_match_sequence(uint8_t num, ...) { */
+/*   return true; */
+/* } */
+#if PLATFORM != TEST
 bool ld_match_sequence(uint8_t num, ...) {
   if (num != ld_sequence_index) {
     return false;
@@ -284,10 +287,13 @@ leaders_press_t recall_press(keypos_t key) {
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   /* store pressed */
+  if (record->event.pressed) {
+    if (ld_sequence_index != 0) {
+      ld_sequence_push(record->event.key);
+    }
+    memorize_press(leaders_no_key, KC_NO);
+  }
   return process_leaders_user(keycode, record);
-  /* if (record->event.pressed) { */
-  /*   memorize_press(leaders_no_key, KC_NO); */
-  /* } */
   /* return true; */
 }
 
