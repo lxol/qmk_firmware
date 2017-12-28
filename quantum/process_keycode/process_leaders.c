@@ -50,9 +50,9 @@ void leaders_init(void) {
   /* new press */
   press_state = 0UL;
 
-  for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
-    leaders_state.pressed_keys[i] = leaders_no_key;
-  }
+  /* for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) { */
+  /*   leaders_state.pressed_keys[i] = leaders_no_key; */
+  /* } */
 
   leaders_state.layer = false;
   leaders_ref_layer = biton32(default_layer_state);
@@ -149,10 +149,11 @@ uint8_t find_press(keypos_t key) {
   return 16;
 }
 
-void unmemorize_press(keypos_t key) {
+bool unmemorize_press(keypos_t key) {
   uint8_t idx = find_press(key);
-  if (idx == 16) {return;}
+  if (idx == 16) {return false;}
   press_state &= ~(1U << idx);
+  return true;
 }
 
 leaders_press_t recall_press(keypos_t key) {
@@ -242,24 +243,25 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   bool leading_mode = leaders_state.momentary || leaders_state.oneshot || leaders_state.layer;
   /* Keep track of all keys pressed under leading mode */
   if (leading_mode && record->event.pressed) {
-    for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
-      if (KEYEQ(leaders_state.pressed_keys[i], leaders_no_key)) {
-        leaders_state.pressed_keys[i] = record->event.key;
-        break;
-      }
-    }
+    memorize_press(record->event.key, leaders_state.leader_keycode);
+    /* for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) { */
+    /*   if (KEYEQ(leaders_state.pressed_keys[i], leaders_no_key)) { */
+    /*     leaders_state.pressed_keys[i] = record->event.key; */
+    /*     break; */
+    /*   } */
+    /* } */
   }
 
   /* Keys pressed in leading_mode should not progress. */
   if (!record->event.pressed) {
-    for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
-      if (KEYEQ(leaders_state.pressed_keys[i], record->event.key)) {
-        leaders_state.pressed_keys[i] = leaders_no_key;
+    if (press_state == 0) {
+      return true;
+    }
+    if (unmemorize_press(record->event.key)) {
         if (leaders_state.layer) {
           return true;
         }
         return process_sequence_release();
-      }
     }
     return true;
   }
