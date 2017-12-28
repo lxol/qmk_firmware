@@ -7,7 +7,6 @@
 
 #define LEADERS_SEQ_MAX 3
 
-#define PLATFORM AVR
 /* disable debug print */
 //#define NO_DEBUG
 
