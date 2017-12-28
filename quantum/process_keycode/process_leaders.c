@@ -221,6 +221,17 @@ leaders_press_t recall_press(keypos_t key) {
 }
 
 
+leaders_press_t recall_press_by_idx(uint8_t idx) {
+  if (idx == LD_PRESS_MAX) {
+    return (leaders_press_t) {
+      .key = leaders_no_key,
+        .leader = KC_NO,
+        .keycode = KC_NO
+    };
+  }
+  return leaders_presses[idx];
+}
+
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         /* register_code16(KC_B); */
         /* unregister_code16(KC_B); */
@@ -289,9 +300,10 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   /* Manage leaders key release */
   if (!record->event.pressed) {
     uint8_t press_idx = find_press(record->event.key);
-    if (press_idx < LD_PRESS_MAX) {
+    leaders_press_t press = recall_press_by_idx(press_idx);
+    if (press.leader != KC_NO && press.leader == press.keycode) {
       unmemorize_press_by_idx(press_idx);
-      ld_remove_leader(leaders_state.leader_keycode);
+      ld_remove_leader(press.leader);
       leaders_state.momentary = false;
 #ifdef BACKLIGHT_ENABLE
       backlight_set(0);
@@ -311,7 +323,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   bool leading_mode = leaders_state.momentary || leaders_state.oneshot || leaders_state.layer;
   /* Keep track of all keys pressed under leading mode */
   if (leading_mode && record->event.pressed) {
-    memorize_press(record->event.key, leaders_state.leader_keycode, ld_current_leader());
+    memorize_press(record->event.key, keycode, ld_current_leader());
     /* for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) { */
     /*   if (KEYEQ(leaders_state.pressed_keys[i], leaders_no_key)) { */
     /*     leaders_state.pressed_keys[i] = record->event.key; */

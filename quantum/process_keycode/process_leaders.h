@@ -79,6 +79,7 @@ extern "C" {
   void ld_remove_leader(uint16_t keycode);
   uint16_t ld_current_leader(void);
   bool peq(uint8_t num, uint16_t keycode);
+  leaders_press_t recall_press_by_idx(uint8_t idx);
 #ifdef __cplusplus
 }
 #endif
