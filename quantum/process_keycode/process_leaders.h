@@ -61,7 +61,20 @@ typedef struct {
   uint8_t reference_layer;
 } leader_t;
 
+typedef struct {
+  keypos_t key;
+  uint16_t leader;
+} leaders_press_t;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+  void memorize_press(keypos_t key, uint16_t keycode);
+  void unmemorize_press(keypos_t key);
+  leaders_press_t recall_press(keypos_t key);
+#ifdef __cplusplus
+}
+#endif
 /* #define IS_LEADING(leaders_keycode)                             \ */
 /*   if ((leaders_state.sequence_size != 0)                        \ */
 /*       && (leaders_state.momentary || leaders_state.oneshot)     \ */
