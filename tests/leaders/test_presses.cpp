@@ -51,7 +51,7 @@ TEST_F(Presses, First ) {
   ASSERT_EQ(recall_press(keys[2]).key.row, 2) << "recall pressed key";
 
   ASSERT_EQ(recall_press(keys[2]).key.col, 2) << "recall pressed key";
-  ASSERT_EQ(recall_press(keys[2]).leader, 2) << "recall pressed key";
+  ASSERT_EQ(recall_press(keys[2]).keycode, 2) << "recall pressed key";
 
   leaders_init();
   for (uint8_t i; i < 16; i ++) {

@@ -159,7 +159,7 @@ void memorize_press(keypos_t key, uint16_t keycode) {
     }
     press_state |= (1U << i);
     leaders_presses[i].key = key;
-    leaders_presses[i].leader = keycode;
+    leaders_presses[i].keycode = keycode;
     /* break; */
     return;
   }
@@ -208,7 +208,8 @@ leaders_press_t recall_press(keypos_t key) {
   if (idx == LD_PRESS_MAX) {
     return (leaders_press_t) {
       .key = leaders_no_key,
-        .leader = KC_NO
+        .leader = KC_NO,
+        .keycode = KC_NO
     };
   }
   return leaders_presses[idx];

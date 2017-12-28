@@ -65,7 +65,7 @@ typedef struct {
 typedef struct {
   keypos_t key;
   uint16_t leader;
-  uint16_t keycodes[2];
+  uint16_t keycode;
 } leaders_press_t;
 
 #ifdef __cplusplus
