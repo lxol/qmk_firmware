@@ -47,9 +47,13 @@ keypos_t leaders_no_key = (keypos_t) {
 };
 
 void leaders_init(void) {
+  /* new press */
+  press_state = 0UL;
+
   for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) {
     leaders_state.pressed_keys[i] = leaders_no_key;
   }
+
   leaders_state.layer = false;
   leaders_ref_layer = biton32(default_layer_state);
   leaders_init_user(); 
@@ -80,6 +84,7 @@ uint8_t leader_index(uint16_t keycode) {
   return LEADERS_MAX;
 }
 
+#if PLATFORM != TEST
 bool match_sequence(uint8_t num, ...) {
   if (num != leaders_state.sequence_size) {
     return false;
@@ -99,6 +104,7 @@ bool match_sequence(uint8_t num, ...) {
   va_end(ap);
   return result;
 }
+#endif
 
 bool is_leading(uint16_t keycode) {
   return (leaders_state.sequence_size != 0)
@@ -159,6 +165,7 @@ leaders_press_t recall_press(keypos_t key) {
   }
   return leaders_presses[idx];
 }
+
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   // TODO: make it configurable
