@@ -36,6 +36,9 @@ bool process_leader_release_user(void) {return false;}
 leader_t leaders[LEADERS_MAX];
 leaders_state_t leaders_state;
 
+leaders_press_t leaders_presses[16];
+uint16_t press_state;
+
 uint8_t leaders_ref_layer = LEADERS_REFERENCE_LAYER;
 
 keypos_t leaders_no_key = (keypos_t) {
@@ -101,6 +104,60 @@ bool is_leading(uint16_t keycode) {
   return (leaders_state.sequence_size != 0)
     && (leaders_state.momentary || leaders_state.oneshot)
     && (leaders_state.leader_keycode == keycode );
+}
+
+void memorize_press(keypos_t key, uint16_t keycode) {
+  for (int8_t i = 0; i < 16; i ++) {
+    if (press_state & (1U << i)) {
+      continue;
+    }
+    press_state |= (1U << i);
+    leaders_presses[i].key = key;
+    leaders_presses[i].leader = keycode;
+    /* break; */
+    return;
+  }
+  press_state = 0U;
+}
+
+uint8_t leaders_biton16(uint16_t bits)
+{
+    uint8_t n = 0;
+    if (bits >> 8) { bits >>= 8; n += 8;}
+    if (bits >> 4) { bits >>= 4; n += 4;}
+    if (bits >> 2) { bits >>= 2; n += 2;}
+    if (bits >> 1) { bits >>= 1; n += 1;}
+    if (bits)      { n += 1;}
+    return n;
+}
+
+uint8_t find_press(keypos_t key) {
+  uint8_t l = leaders_biton16(press_state);
+  for (int8_t i = 0; i < l; i++) {
+    if (press_state & (1U << i)) {
+      if (KEYEQ(leaders_presses[i].key, key)) {
+        return i;
+      }
+    }
+  }
+  return 16;
+}
+
+void unmemorize_press(keypos_t key) {
+  uint8_t idx = find_press(key);
+  if (idx == 16) {return;}
+  press_state &= ~(1U << idx);
+}
+
+leaders_press_t recall_press(keypos_t key) {
+  uint8_t idx = find_press(key);
+  if (idx == 16) {
+    return (leaders_press_t) {
+      .key = leaders_no_key,
+        .leader = KC_NO
+    };
+  }
+  return leaders_presses[idx];
 }
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
