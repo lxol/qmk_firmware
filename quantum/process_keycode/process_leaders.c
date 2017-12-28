@@ -274,8 +274,9 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 
   /* Manage leaders key release */
   if (!record->event.pressed) {
-    bool is_leader_released = leaders_state.momentary && KEYEQ(leaders_state.leader_key, record->event.key);
-    if (is_leader_released) {
+    uint8_t press_idx = find_press(record->event.key);
+    if (press_idx < LD_PRESS_MAX) {
+      unmemorize_press_by_idx(press_idx);
       ld_remove_leader(leaders_state.leader_keycode);
       leaders_state.momentary = false;
 #ifdef BACKLIGHT_ENABLE
@@ -283,6 +284,14 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 #endif
       return process_leader_release();
     }
+/*     bool is_leader_released = leaders_state.momentary && KEYEQ(leaders_state.leader_key, record->event.key); */
+/*     if (is_leader_released) { */
+/*       leaders_state.momentary = false; */
+/* #ifdef BACKLIGHT_ENABLE */
+/*       backlight_set(0); */
+/* #endif */
+/*       return process_leader_release(); */
+    /* } */
   }
 
   bool leading_mode = leaders_state.momentary || leaders_state.oneshot || leaders_state.layer;
