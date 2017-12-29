@@ -88,4 +88,9 @@ TEST_F(NewLeader, Two_Leaders_Test) {
     keyboard_task();
     ASSERT_EQ(ld_oneshot, true) << "3 leader presses leave ld_onshot on";
     ASSERT_EQ(ld_leader_index, 3) << "ld_leader_index = 3 after 3 leaders presses";
+    release_key(3, 0); // release LD_TEST3
+
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+
+    keyboard_task();
 }
