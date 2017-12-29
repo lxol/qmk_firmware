@@ -122,9 +122,15 @@ bool process_sequence_release_user(uint16_t leader, uint16_t keycode) {
 }
 
 bool process_leader_press_user(uint16_t leader) {
+  if (leader == LD_TEST3) {
+    register_code16(KC_Y);
+  }
   return false;
 }
 
 bool process_leader_release_user(uint16_t leader) {
+  if (leader == LD_TEST3) {
+    unregister_code16(KC_Y);
+  }
   return false;
 }

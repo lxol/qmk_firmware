@@ -83,6 +83,7 @@ TEST_F(NewLeader, Two_Leaders_Test) {
     keyboard_task();
     press_key(2, 0); // press LD_TEST2
     keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_Y)));
     press_key(3, 0); // press LD_TEST3
     keyboard_task();
     ASSERT_EQ(ld_oneshot, true) << "3 leader presses leave ld_onshot on";
