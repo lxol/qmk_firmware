@@ -108,11 +108,32 @@ void ld_remove_leader(uint16_t keycode, bool want_oneshot, bool want_momentary) 
       continue;
     }
     if (i == (ld_leader_index - 1)) {
-      if (ld_oneshot) {
-        ld_oneshot = false;
-      }
-      else {
-        ld_leader_index--;
+      if (want_oneshot && !want_momentary) {
+        if (ld_momentary) {
+          /* Remove oneshot protection. */
+          ld_oneshot = false;
+          break;
+        } else {
+          /*  */
+            ld_leader_index--;
+            ld_oneshot = false; /* Lower leader already used its oneshot protection. */
+            ld_momentary = true; /* Lower leader can only be momentary, otherwise it could've gone already. */
+            break;
+        }
+      } else if (!want_oneshot && want_momentary) {
+        if (ld_oneshot) {
+          /* Can not remove the leader but indicate that we no longer hold it. */
+          ld_momentary = false;
+        } else {
+          ld_leader_index--;
+          ld_momentary = true;
+          ld_oneshot = false;
+          break;
+        }
+      } else if (want_oneshot && want_momentary) {
+          ld_leader_index--;
+          ld_momentary = true;
+          ld_oneshot = false;
       }
       break;
     }

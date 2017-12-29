@@ -96,7 +96,45 @@ TEST_F(Presses, Leader1 ) {
     // ASSERT_EQ(ld_leaders[2], 0U ) ;
 }
 
-TEST_F(Presses, RemoveLeaderOneShot ) {
+// TEST_F(Presses, RemoveLeaderOneShot ) {
+
+//     LEADERS_EXTERNS();
+//     leaders_init();
+//     ld_add_leader(1000U); 
+//     ld_add_leader(1001U); 
+//     ld_add_leader(1002U); 
+//     ld_add_leader(1003U); 
+//     ASSERT_EQ(ld_leader_index, 4) ;
+//     ASSERT_EQ(ld_leaders[0], 1000U ) ;
+//     ASSERT_EQ(ld_leaders[1], 1001U ) ;
+//     ASSERT_EQ(ld_leaders[2], 1002U ) ;
+//     ASSERT_EQ(ld_leaders[3], 1003U ) ;
+//     ld_oneshot = true;
+//     ld_remove_leader_momentary(1003U);
+//     ASSERT_EQ(ld_leader_index, 4) ;
+//     ASSERT_EQ(ld_leaders[0], 1000U ) ;
+//     ASSERT_EQ(ld_leaders[1], 1001U ) ;
+//     ASSERT_EQ(ld_leaders[2], 1002U ) ;
+//     ASSERT_EQ(ld_leaders[3], 1003U ) ;
+//     ASSERT_EQ(ld_oneshot, false ) ;
+//     ld_remove_leader_momentary(1003U);
+//     ASSERT_EQ(ld_leader_index, 3) ;
+//     ASSERT_EQ(ld_leaders[0], 1000U ) ;
+//     ASSERT_EQ(ld_leaders[1], 1001U ) ;
+//     ASSERT_EQ(ld_leaders[2], 1002U ) ;
+//     ASSERT_EQ(ld_leaders[3], 1003U ) ;
+//     ASSERT_EQ(ld_oneshot, false ) ;
+//     leaders_init();
+//     ld_oneshot = true;
+//     ld_add_leader(1000U); 
+//     ASSERT_EQ(ld_leader_index, 1) ;
+//     ld_remove_leader_momentary(1000U);
+//     ASSERT_EQ(ld_leader_index, 1) ;
+//     ld_remove_leader_momentary(1000U);
+//     ASSERT_EQ(ld_leader_index, 0) ;
+// }
+
+TEST_F(Presses, RemoveLeaderOneshot ) {
 
     LEADERS_EXTERNS();
     leaders_init();
@@ -109,27 +147,29 @@ TEST_F(Presses, RemoveLeaderOneShot ) {
     ASSERT_EQ(ld_leaders[1], 1001U ) ;
     ASSERT_EQ(ld_leaders[2], 1002U ) ;
     ASSERT_EQ(ld_leaders[3], 1003U ) ;
-    ld_oneshot = true;
-    ld_remove_leader_momentary(1003U);
-    ASSERT_EQ(ld_leader_index, 4) ;
-    ASSERT_EQ(ld_leaders[0], 1000U ) ;
-    ASSERT_EQ(ld_leaders[1], 1001U ) ;
-    ASSERT_EQ(ld_leaders[2], 1002U ) ;
-    ASSERT_EQ(ld_leaders[3], 1003U ) ;
-    ASSERT_EQ(ld_oneshot, false ) ;
-    ld_remove_leader_momentary(1003U);
-    ASSERT_EQ(ld_leader_index, 3) ;
-    ASSERT_EQ(ld_leaders[0], 1000U ) ;
-    ASSERT_EQ(ld_leaders[1], 1001U ) ;
-    ASSERT_EQ(ld_leaders[2], 1002U ) ;
-    ASSERT_EQ(ld_leaders[3], 1003U ) ;
-    ASSERT_EQ(ld_oneshot, false ) ;
-    leaders_init();
-    ld_oneshot = true;
-    ld_add_leader(1000U); 
-    ASSERT_EQ(ld_leader_index, 1) ;
-    ld_remove_leader_momentary(1000U);
-    ASSERT_EQ(ld_leader_index, 1) ;
-    ld_remove_leader_momentary(1000U);
-    ASSERT_EQ(ld_leader_index, 0) ;
+
+    // ld_oneshot = true;
+    // ld_remove_leader_momentary(1003U);
+    // ASSERT_EQ(ld_leader_index, 4) ;
+    // ASSERT_EQ(ld_leaders[0], 1000U ) ;
+    // ASSERT_EQ(ld_leaders[1], 1001U ) ;
+    // ASSERT_EQ(ld_leaders[2], 1002U ) ;
+    // ASSERT_EQ(ld_leaders[3], 1003U ) ;
+    // ASSERT_EQ(ld_oneshot, false ) ;
+    
+    // ld_remove_leader_momentary(1003U);
+    // ASSERT_EQ(ld_leader_index, 3) ;
+    // ASSERT_EQ(ld_leaders[0], 1000U ) ;
+    // ASSERT_EQ(ld_leaders[1], 1001U ) ;
+    // ASSERT_EQ(ld_leaders[2], 1002U ) ;
+    // ASSERT_EQ(ld_leaders[3], 1003U ) ;
+    // ASSERT_EQ(ld_oneshot, false ) ;
+    // leaders_init();
+    // ld_oneshot = true;
+    // ld_add_leader(1000U); 
+    // ASSERT_EQ(ld_leader_index, 1) ;
+    // ld_remove_leader_momentary(1000U);
+    // ASSERT_EQ(ld_leader_index, 1) ;
+    // ld_remove_leader_momentary(1000U);
+    // ASSERT_EQ(ld_leader_index, 0) ;
 }
