@@ -47,22 +47,46 @@ TEST_F(NewLeader, Leader_Basic_Test) {
 TEST_F(NewLeader, Leader_Momentary_Test) {
     TestDriver driver;
     InSequence s;
-
+    
     LEADERS_EXTERNS();
 
     press_key(1, 0); // press leader
     keyboard_task();
 
-    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_B)));
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_B))).Times(1);
     press_key(0, 0); // press key under leader
     keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport())).Times(0);
     release_key(0, 0); // release key under leader
     keyboard_task();
+    // press_key(0, 0);
 
-    // release_key(1, 0); // press leader
-    // keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport())).Times(0);
+    release_key(1, 0); // release leader key
+    keyboard_task();
+
+    ASSERT_EQ(ld_oneshot, false) << "one shot should be cleared";
+    ASSERT_EQ(ld_leader_index, 0) << "leader index should be cleared after first match";
+    
     // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
-    // press_key(0, 0); // press the same key not under the leader
+    // press_key(0, 0);
     // keyboard_task();
+    // release_key(0, 0);
+    // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    // keyboard_task();
+
+    // ASSERT_EQ(ld_oneshot, false) << "";
 }
 
+
+// TEST_F(NewLeader, Leader_NoLeaders_Test) {
+//     TestDriver driver;
+//     InSequence s;
+
+//     LEADERS_EXTERNS();
+
+//     press_key(0, 0);
+
+//     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
+//     keyboard_task();
+// }

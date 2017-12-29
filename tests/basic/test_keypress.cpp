@@ -121,4 +121,3 @@ TEST_F(KeyPress, RightShiftLeftControlAndCharWithTheSameKey) {
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_RSFT, KC_RCTRL)));
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
     keyboard_task();
-}

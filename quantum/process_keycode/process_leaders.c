@@ -100,7 +100,7 @@ void ld_add_leader(uint16_t keycode) {
 
 void ld_remove_current_leader(void) {
   if (ld_leader_index == 0) {return;}
-  ld_leader_index--;
+  ld_remove_leader(ld_leaders[ld_leader_index -1]);
 }
 
 void ld_remove_leader(uint16_t keycode) {
