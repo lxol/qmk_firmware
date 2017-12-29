@@ -98,6 +98,11 @@ void ld_add_leader(uint16_t keycode) {
   return;
 }
 
+void ld_remove_current_leader(void) {
+  if (ld_leader_index == 0) {return;}
+  ld_leader_index--;
+}
+
 void ld_remove_leader(uint16_t keycode) {
   for (uint8_t i = 0; i < ld_leader_index; i++) {
     if (ld_leaders[i] != keycode) {
@@ -123,6 +128,7 @@ void ld_remove_leader(uint16_t keycode) {
   }
   return;
 }
+
 bool ld_leader_eq(uint16_t keycode) {
   if (ld_leader_index == 0) {return false;}
   if (ld_leaders[ld_leader_index - 1] == keycode) {

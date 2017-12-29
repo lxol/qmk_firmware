@@ -93,7 +93,8 @@ bool process_sequence_press_user(void) {
   if (is_leading(LD_TEST)) {
     if (peq(1, KC_A)) {
       register_code16(KC_B);
-      ld_remove_leader(LD_TEST);
+      /* ld_remove_leader(LD_TEST); */
+      ld_remove_current_leader();
     }
     return false;
   }
