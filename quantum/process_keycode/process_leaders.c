@@ -290,7 +290,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       leaders_state.sequence_size = 0;
       /* leaders_state.leader_keycode = keycode; */
       leaders_state.leader_key = record->event.key;
-      leaders_state.momentary = true;
+      /* leaders_state.momentary = true; */
       /* leaders_state.oneshot = is_os_leader_pressed; */
       leaders_state.layer = false;
       ld_add_leader(keycode);
@@ -310,7 +310,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     if (press.leader != KC_NO && press.leader == press.keycode) {
       unmemorize_press_by_idx(press_idx);
       ld_remove_leader(press.leader);
-      leaders_state.momentary = false;
+      /* leaders_state.momentary = false; */
 #ifdef BACKLIGHT_ENABLE
       backlight_set(0);
 #endif

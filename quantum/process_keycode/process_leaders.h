@@ -43,13 +43,10 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record);
 bool is_leading(uint16_t keycode);
 
 typedef struct {
-  /* uint16_t leader_keycode; */
   keypos_t leader_key;
   uint16_t keycode_sequence[LEADERS_SEQ_MAX];
   keypos_t key_sequence[LEADERS_SEQ_MAX];
   uint8_t sequence_size;
-  /* bool oneshot; */
-  bool momentary;
   bool layer;
   uint8_t layer_num;
 } leaders_state_t;
@@ -57,8 +54,6 @@ typedef struct {
 typedef struct {
   uint16_t keycode;
   bool oneshot;
-  /* bool toggle_layer; */
-  /* uint8_t toggle_layer_number; */
   uint8_t reference_layer;
 } leader_t;
 
