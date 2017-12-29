@@ -28,10 +28,10 @@ __attribute__ ((weak))
 bool process_sequence_release_user(uint16_t leader, uint16_t keycode) {return false;}
 
 __attribute__ ((weak))
-bool process_leader_press_user(void) {return false;}
+bool process_leader_press_user(uint16_t leader) {return false;}
 
 __attribute__ ((weak))
-bool process_leader_release_user(void) {return false;}
+bool process_leader_release_user(uint16_t leader) {return false;}
 
 leader_t leaders[LEADERS_MAX];
 leaders_state_t leaders_state;
@@ -68,12 +68,12 @@ void leaders_init(void) {
   leaders_init_user(); 
 }
 
-bool process_leader_press(void) {
-  return process_leader_press_user();
+bool process_leader_press(uint16_t leader) {
+  return process_leader_press_user(leader);
 }
 
-bool process_leader_release(void) {
-  return process_leader_release_user();
+bool process_leader_release(uint16_t leader) {
+  return process_leader_release_user(leader);
 }
 
 bool process_sequence_press(void) {
@@ -331,11 +331,12 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       /* leaders_state.oneshot = is_os_leader_pressed; */
       leaders_state.layer = false;
       ld_add_leader(keycode);
-      memorize_press(record->event.key, keycode, ld_current_leader());
+      uint16_t current_leader = ld_current_leader();
+      memorize_press(record->event.key, keycode, current_leader);
 #ifdef BACKLIGHT_ENABLE
       backlight_set(2);
 #endif
-      return process_leader_press();
+      return process_leader_press(current_leader);
     }
   }
 
@@ -350,7 +351,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 #ifdef BACKLIGHT_ENABLE
       backlight_set(0);
 #endif
-      return process_leader_release();
+      return process_leader_release(press.leader);
     }
 /*     bool is_leader_released = leaders_state.momentary && KEYEQ(leaders_state.leader_key, record->event.key); */
 /*     if (is_leader_released) { */
@@ -358,7 +359,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 /* #ifdef BACKLIGHT_ENABLE */
 /*       backlight_set(0); */
 /* #endif */
-/*       return process_leader_release(); */
     /* } */
   }
 

@@ -19,8 +19,12 @@
 enum test_keycodes {
   LEFT = SAFE_RANGE,
   LD_TEST,
+  LD_TEST2,
+  LD_TEST3
 };
 uint16_t ld_test = LD_TEST;
+uint16_t ld_test2 = LD_TEST2;
+uint16_t ld_test3 = LD_TEST3;
 
 // Don't rearrange keys as existing tests might rely on the order
 // Col2, Row 0 has to be KC_NO, because tests rely on it
@@ -30,10 +34,10 @@ uint16_t ld_test = LD_TEST;
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = {
         // 0    1      2      3        4        5        6       7            8      9
-        {KC_A,  LD_TEST,  KC_NO, KC_LSFT, KC_RSFT, KC_LCTL, COMBO1, SFT_T(KC_P), M(0),  KC_NO},
-        {KC_NO, KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NO,       KC_NO, KC_NO},
-        {KC_NO, KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NO,       KC_NO, KC_NO},
-        {KC_C,  KC_D,  KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NO,       KC_NO, KC_NO},
+        { KC_A ,  LD_TEST , LD_TEST2 , LD_TEST3 ,  KC_RSFT , KC_LCTL , COMBO1 , SFT_T(KC_P) , M(0) ,  KC_NO } , 
+        { KC_NO , KC_NO ,   KC_NO ,       KC_NO , KC_NO ,   KC_NO ,   KC_NO ,  KC_NO ,       KC_NO , KC_NO } , 
+        { KC_NO , KC_NO ,   KC_NO ,       KC_NO , KC_NO ,   KC_NO ,   KC_NO ,  KC_NO ,       KC_NO , KC_NO } , 
+        { KC_C ,  KC_D ,    KC_NO ,       KC_NO , KC_NO ,   KC_NO ,   KC_NO ,  KC_NO ,       KC_NO , KC_NO} , 
     },
     [1] = {
         // 0    1      2      3        4        5        6       7            8      9
@@ -79,6 +83,10 @@ leader_t leaders[] = {
     .keycode = LD_TEST,
     .oneshot = true
   },
+  (leader_t) {
+    .keycode = LD_TEST2,
+    .oneshot = true
+  },
   /* terminator */
   (leader_t) {
     .keycode = KC_NO
@@ -111,4 +119,12 @@ bool process_sequence_release_user(uint16_t leader, uint16_t keycode) {
     }
   }
   return true;
+}
+
+bool process_leader_press_user(uint16_t leader) {
+  return false;
+}
+
+bool process_leader_release_user(uint16_t leader) {
+  return false;
 }

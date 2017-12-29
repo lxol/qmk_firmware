@@ -72,3 +72,19 @@ TEST_F(NewLeader, Leader_Momentary_Test) {
     keyboard_task();
 
 }
+
+TEST_F(NewLeader, Two_Leaders_Test) {
+    TestDriver driver;
+    InSequence s;
+
+    LEADERS_EXTERNS();
+
+    press_key(1, 0); // press leader LD_TEST
+    keyboard_task();
+    press_key(2, 0); // press LD_TEST2
+    keyboard_task();
+    press_key(3, 0); // press LD_TEST3
+    keyboard_task();
+    ASSERT_EQ(ld_oneshot, true) << "3 leader presses leave ld_onshot on";
+    ASSERT_EQ(ld_leader_index, 3) << "ld_leader_index = 3 after 3 leaders presses";
+}

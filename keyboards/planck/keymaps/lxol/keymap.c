@@ -246,7 +246,7 @@ void leaders_init_user(void) {
   /* leaders_ref_layer = biton32(default_layer_state); */
 }
 
-bool process_leader_press_user(void) {
+bool process_leader_press_user(uint16_t leader) {
   if (ld_leader_eq(LD_SUPER)) {
     register_code16(KC_LGUI);
   }
@@ -256,7 +256,7 @@ bool process_leader_press_user(void) {
   return false;
 }
 
-bool process_leader_release_user(void) {
+bool process_leader_release_user(uint16_t leader) {
   if (ld_leader_eq(LD_SUPER)) {
     unregister_code16(KC_LGUI);
   }
