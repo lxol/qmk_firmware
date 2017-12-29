@@ -247,21 +247,21 @@ void leaders_init_user(void) {
 }
 
 bool process_leader_press_user(void) {
-  if (LD_SUPER == leaders_state.leader_keycode ) {
+  if (ld_leader_eq(LD_SUPER)) {
     register_code16(KC_LGUI);
   }
-  if (LD_ARROWS == leaders_state.leader_keycode ) {
+  if (ld_leader_eq(LD_ARROWS)) {
     layer_on(_ARROWS);
   }
   return false;
 }
 
 bool process_leader_release_user(void) {
-  if (LD_SUPER == leaders_state.leader_keycode ) {
+  if (ld_leader_eq(LD_SUPER)) {
     unregister_code16(KC_LGUI);
   }
 
-  if (LD_ARROWS == leaders_state.leader_keycode ) {
+  if (ld_leader_eq(LD_ARROWS)) {
     layer_off(_ARROWS);
   }
   
@@ -269,19 +269,19 @@ bool process_leader_release_user(void) {
 }
 
 bool process_sequence_release_user(void) {
-  if (LD_SUPER == leaders_state.leader_keycode ) {
+  if (ld_leader_eq(LD_SUPER)) {
     return true;
   }
 
-  if (LD_ARROWS == leaders_state.leader_keycode ) {
+  if (ld_leader_eq(LD_ARROWS)) {
     return true;
   }
 
-  if (LD_EMACS_SUPER == leaders_state.leader_keycode ) {
+  if (ld_leader_eq(LD_EMACS_SUPER)) {
     return true;
   }
 
-  if (LD_EMACS_HYPER == leaders_state.leader_keycode ) {
+  if (ld_leader_eq(LD_EMACS_HYPER)) {
     return true;
   }
   

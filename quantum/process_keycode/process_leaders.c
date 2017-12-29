@@ -151,9 +151,8 @@ bool peq(uint8_t num, uint16_t keycode) {
 
 
 bool is_leading(uint16_t keycode) {
-  return (leaders_state.sequence_size != 0)
-    && (leaders_state.momentary || leaders_state.oneshot)
-    && (leaders_state.leader_keycode == keycode );
+  uint16_t kc = ld_current_leader();
+  return kc != KC_NO && kc == keycode; 
 }
 
 void memorize_press(keypos_t key, uint16_t keycode, uint16_t leader) {
@@ -283,12 +282,13 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     bool is_os_leader_pressed = lix != LEADERS_MAX && leaders[lix].oneshot;
     if (is_mo_leader_pressed || is_os_leader_pressed) {
       leaders_state.sequence_size = 0;
-      leaders_state.leader_keycode = keycode;
+      /* leaders_state.leader_keycode = keycode; */
       leaders_state.leader_key = record->event.key;
       leaders_state.momentary = true;
       leaders_state.oneshot = is_os_leader_pressed;
       leaders_state.layer = false;
       ld_add_leader(keycode);
+      ld_oneshot = true;
       memorize_press(record->event.key, keycode, ld_current_leader());
 #ifdef BACKLIGHT_ENABLE
       backlight_set(2);
@@ -320,7 +320,8 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     /* } */
   }
 
-  bool leading_mode = leaders_state.momentary || leaders_state.oneshot || leaders_state.layer;
+  /* bool leading_mode = leaders_state.momentary || leaders_state.oneshot || leaders_state.layer; */
+  bool leading_mode = ld_leader_index != 0;
   /* Keep track of all keys pressed under leading mode */
   if (leading_mode && record->event.pressed) {
     memorize_press(record->event.key, keycode, ld_current_leader());

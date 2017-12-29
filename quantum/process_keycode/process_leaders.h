@@ -43,7 +43,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record);
 bool is_leading(uint16_t keycode);
 
 typedef struct {
-  uint16_t leader_keycode;
+  /* uint16_t leader_keycode; */
   keypos_t leader_key;
   uint16_t keycode_sequence[LEADERS_SEQ_MAX];
   keypos_t key_sequence[LEADERS_SEQ_MAX];
@@ -80,6 +80,7 @@ extern "C" {
   uint16_t ld_current_leader(void);
   bool peq(uint8_t num, uint16_t keycode);
   leaders_press_t recall_press_by_idx(uint8_t idx);
+  bool ld_leader_eq(uint16_t keycode);
 #ifdef __cplusplus
 }
 #endif

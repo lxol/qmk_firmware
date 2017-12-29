@@ -36,7 +36,8 @@ TEST_F(Leaders, BasicLeaderTest) {
     ASSERT_EQ(ld_leader_index, 1) << "ld_leader_index should be 1";
     release_key(1, 0);
     keyboard_task();
-    ASSERT_EQ(ld_leader_index, 0) << "index 0 after release";
+    ASSERT_EQ(ld_leader_index, 1) << "index should stay the same after first unmemorize ";
+    ASSERT_EQ(ld_oneshot, false) << "but oneshot should be changed to false";
     ASSERT_EQ(press_state, 0) << "leader press should be forgotten";
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_B)));
     press_key(0, 0);
@@ -44,6 +45,7 @@ TEST_F(Leaders, BasicLeaderTest) {
     // keyboard_task();
     // press_key(0, 0);
     keyboard_task();
+    ASSERT_EQ(ld_leader_index, 0) << "leader index should be cleared after first match";
     // keyboard_task();
     // First we get the key press
     // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_P)));

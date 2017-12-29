@@ -65,7 +65,7 @@ TEST_F(Presses, First ) {
   ASSERT_EQ(press_state, 0b1111111111111111) << "memorizing again when 15 presses";
   memorize_press(keys[17],  10,2);
   ASSERT_EQ(press_state, 0) << "memorizing when max 16 presses should reset press_state";
-
+  
 }
 
 TEST_F(Presses, Leader1 ) {
@@ -124,4 +124,12 @@ TEST_F(Presses, RemoveLeaderOneShot ) {
     ASSERT_EQ(ld_leaders[2], 1002U ) ;
     ASSERT_EQ(ld_leaders[3], 1003U ) ;
     ASSERT_EQ(ld_oneshot, false ) ;
+    leaders_init();
+    ld_oneshot = true;
+    ld_add_leader(1000U); 
+    ASSERT_EQ(ld_leader_index, 1) ;
+    ld_remove_leader(1000U);
+    ASSERT_EQ(ld_leader_index, 1) ;
+    ld_remove_leader(1000U);
+    ASSERT_EQ(ld_leader_index, 0) ;
 }
