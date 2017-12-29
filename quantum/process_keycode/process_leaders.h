@@ -48,7 +48,7 @@ typedef struct {
   uint16_t keycode_sequence[LEADERS_SEQ_MAX];
   keypos_t key_sequence[LEADERS_SEQ_MAX];
   uint8_t sequence_size;
-  bool oneshot;
+  /* bool oneshot; */
   bool momentary;
   bool layer;
   uint8_t layer_num;
@@ -85,18 +85,6 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-/* #define IS_LEADING(leaders_keycode)                             \ */
-/*   if ((leaders_state.sequence_size != 0)                        \ */
-/*       && (leaders_state.momentary || leaders_state.oneshot)     \ */
-/*       && (leaders_state.leader_keycode == leaders_keycode )) */
-
-/* #define BEGIN_SEQ(...) if (match_sequence(__VA_ARGS__)) { */
-
-/* #define END_SEQ                                 \ */
-/*   leaders_state.sequence_size = 0;               \ */
-/*   leaders_state.oneshot = false;                \ */
-/*   return false;                                 \ */
-/*   } */
 
 
 #define LEADERS_SEQ_LAYER(layer)                                        \

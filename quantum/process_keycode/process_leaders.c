@@ -291,7 +291,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       /* leaders_state.leader_keycode = keycode; */
       leaders_state.leader_key = record->event.key;
       leaders_state.momentary = true;
-      leaders_state.oneshot = is_os_leader_pressed;
+      /* leaders_state.oneshot = is_os_leader_pressed; */
       leaders_state.layer = false;
       ld_add_leader(keycode);
       ld_oneshot = true;
@@ -355,10 +355,10 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 
   /* This is a guard for unmanaged sequences.*/
   /* Start from scratch, when sequence reaches the maximum size.  */
-  if (record->event.pressed && leading_mode && leaders_state.sequence_size == LEADERS_SEQ_MAX ) {
-    leaders_state.sequence_size = 0;
-    leaders_state.oneshot = false;
-  }
+  /* if (record->event.pressed && leading_mode && leaders_state.sequence_size == LEADERS_SEQ_MAX ) { */
+  /*   leaders_state.sequence_size = 0; */
+  /*   /\* leaders_state.oneshot = false; *\/ */
+  /* } */
 
   /* Update leaders_state with pressed key info. */
   if (record->event.pressed && leading_mode ) {
