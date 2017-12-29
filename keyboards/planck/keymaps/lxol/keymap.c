@@ -300,7 +300,7 @@ bool process_sequence_press_user(void) {
     register_code16(KC_S);
     unregister_code16(KC_S);
     leaders_state.sequence_size = 0;
-    ld_remove_current_leader();
+    ld_remove_current_leader_oneshot();
     return true;
   }
 
@@ -314,7 +314,7 @@ bool process_sequence_press_user(void) {
     register_code16(KC_H);
     unregister_code16(KC_H);
     leaders_state.sequence_size = 0;
-    ld_remove_current_leader();
+    ld_remove_current_leader_oneshot();
     return true;
   }
   
@@ -333,7 +333,7 @@ bool process_sequence_press_user(void) {
     if (peq(1, KC_TRNS)) {
       LEADERS_SEQ_LAYER(_RAISE)
         leaders_state.sequence_size = 0;
-      ld_remove_current_leader();
+      ld_remove_current_leader_oneshot();
       return false;                 
     }
   }
@@ -346,13 +346,13 @@ bool process_sequence_press_user(void) {
         register_code16(KC_LEFT);
         unregister_code16(KC_LEFT);
         leaders_state.sequence_size = 0;
-        ld_remove_current_leader();
+        ld_remove_current_leader_oneshot();
         return false;                 
       }
       if (peq(2, KC_O)) {
         SEND_STRING("works11!");
         leaders_state.sequence_size = 0;
-        ld_remove_current_leader();
+        ld_remove_current_leader_oneshot();
         return false;                 
       }
       if (peq(2, KC_W)) {
@@ -360,7 +360,7 @@ bool process_sequence_press_user(void) {
         register_code16(KC_LEFT);
         unregister_code16(KC_LEFT);
         leaders_state.sequence_size = 0;
-        ld_remove_current_leader();
+        ld_remove_current_leader_oneshot();
         return false;                 
       }
       if (peq(2, KC_W)) {
@@ -368,7 +368,7 @@ bool process_sequence_press_user(void) {
         register_code16(KC_LEFT);
         unregister_code16(KC_LEFT);
         leaders_state.sequence_size = 0;
-        ld_remove_current_leader();
+        ld_remove_current_leader_oneshot();
         return false;                 
       }
       if (peq(2, KC_E)) {
@@ -376,7 +376,7 @@ bool process_sequence_press_user(void) {
         register_code16(KC_LEFT);
         unregister_code16(KC_LEFT);
         leaders_state.sequence_size = 0;
-        ld_remove_current_leader();
+        ld_remove_current_leader_oneshot();
         return false;                 
       }
       if (peq(2, KC_D)) {
@@ -384,7 +384,7 @@ bool process_sequence_press_user(void) {
         register_code16(KC_LEFT);
         unregister_code16(KC_LEFT);
         leaders_state.sequence_size = 0;
-        ld_remove_current_leader();
+        ld_remove_current_leader_oneshot();
         return false;                 
       }
 
@@ -393,7 +393,7 @@ bool process_sequence_press_user(void) {
         register_code16(KC_LEFT);
         unregister_code16(KC_LEFT);
         leaders_state.sequence_size = 0;
-        ld_remove_current_leader();
+        ld_remove_current_leader_oneshot();
         return false;                 
       }
       if (peq(2,  KC_I)) {
@@ -410,7 +410,7 @@ bool process_sequence_press_user(void) {
           register_code16(KC_TAB);
           unregister_code16(KC_TAB);
           leaders_state.sequence_size = 0;
-          ld_remove_current_leader();
+          ld_remove_current_leader_oneshot();
           return false;                 
         }
       }
@@ -419,7 +419,7 @@ bool process_sequence_press_user(void) {
     if (peq(1,  KC_TRNS)) {
       LEADERS_SEQ_LAYER(_SYM)
         leaders_state.sequence_size = 0;
-      ld_remove_current_leader();
+      ld_remove_current_leader_oneshot();
       return false;                 
     }
   }
@@ -428,7 +428,7 @@ bool process_sequence_press_user(void) {
     if (peq(1,  KC_TRNS)) {
       LEADERS_SEQ_LAYER(_NUM)
       leaders_state.sequence_size = 0;
-      ld_remove_current_leader();
+      ld_remove_current_leader_oneshot();
       return false;                 
     }
   }
@@ -443,7 +443,7 @@ bool process_sequence_press_user(void) {
       register_code16(KC_1);
       unregister_code16(KC_1);
       leaders_state.sequence_size = 0;
-      ld_remove_current_leader();
+      ld_remove_current_leader_oneshot();
       return false;                 
     }
 
@@ -455,7 +455,7 @@ bool process_sequence_press_user(void) {
       register_code16(KC_2);
       unregister_code16(KC_2);
       leaders_state.sequence_size = 0;
-      ld_remove_current_leader();
+      ld_remove_current_leader_oneshot();
       return false;                 
     }
 
@@ -467,7 +467,7 @@ bool process_sequence_press_user(void) {
       register_code16(KC_3);
       unregister_code16(KC_3);
       leaders_state.sequence_size = 0;
-      ld_remove_current_leader();
+      ld_remove_current_leader_oneshot();
       return false;                 
     }
 
@@ -479,16 +479,16 @@ bool process_sequence_press_user(void) {
       register_code16(KC_O);
       unregister_code16(KC_O);
       leaders_state.sequence_size = 0;
-      ld_remove_current_leader();
+      ld_remove_current_leader_oneshot();
       return false;                 
     }
 
     /* ignore other keys  */
     if (peq(1,  KC_TRNS)) {
       leaders_state.sequence_size = 0;
-      ld_remove_current_leader();
+      ld_remove_current_leader_oneshot();
       leaders_state.sequence_size = 0;
-      ld_remove_current_leader();
+      ld_remove_current_leader_oneshot();
       return false;                 
     }
   }

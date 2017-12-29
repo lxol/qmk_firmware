@@ -101,12 +101,8 @@ void ld_add_leader(uint16_t keycode) {
   return;
 }
 
-void ld_remove_current_leader(void) {
-  if (ld_leader_index == 0) {return;}
-  ld_remove_leader(ld_leaders[ld_leader_index -1]);
-}
 
-void ld_remove_leader(uint16_t keycode) {
+void ld_remove_leader(uint16_t keycode, bool want_oneshot, bool want_momentary) {
   for (uint8_t i = 0; i < ld_leader_index; i++) {
     if (ld_leaders[i] != keycode) {
       continue;
@@ -130,6 +126,23 @@ void ld_remove_leader(uint16_t keycode) {
     break;
   }
   return;
+}
+
+void ld_remove_leader_oneshot(uint16_t keycode) {
+  ld_remove_leader(keycode, true, false);
+}
+
+void ld_remove_leader_momentary(uint16_t keycode) {
+  ld_remove_leader(keycode, false, true);
+}
+
+void ld_remove_leader_force(uint16_t keycode) {
+  ld_remove_leader(keycode, true, true);
+}
+
+void ld_remove_current_leader_oneshot(void) {
+  if (ld_leader_index == 0) {return;}
+  ld_remove_leader_oneshot(ld_leaders[ld_leader_index -1]);
 }
 
 bool ld_leader_eq(uint16_t keycode) {
@@ -311,7 +324,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     leaders_press_t press = recall_press_by_idx(press_idx);
     if (press.leader != KC_NO && press.leader == press.keycode) {
       unmemorize_press_by_idx(press_idx);
-      ld_remove_leader(press.leader);
+      ld_remove_leader_momentary(press.leader);
       /* leaders_state.momentary = false; */
 #ifdef BACKLIGHT_ENABLE
       backlight_set(0);

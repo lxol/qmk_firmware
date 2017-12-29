@@ -94,8 +94,8 @@ bool process_sequence_press_user(void) {
     if (peq(1, KC_A)) {
       register_code16(KC_B);
       /* unregister_code16(KC_B); */
-      /* ld_remove_leader(LD_TEST); */
-      ld_remove_current_leader();
+      /* ld_remove_leader_oneshot(LD_TEST); */
+      ld_remove_current_leader_oneshot();
       leaders_state.sequence_size = 0;
     }
     return false;

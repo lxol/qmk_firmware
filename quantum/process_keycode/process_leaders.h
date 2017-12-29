@@ -71,12 +71,15 @@ extern "C" {
   bool unmemorize_press(keypos_t key);
   leaders_press_t recall_press(keypos_t key);
   void ld_add_leader(uint16_t keycode);
-  void ld_remove_leader(uint16_t keycode);
+  /* void ld_remove_leader(uint16_t keycode); */
   uint16_t ld_current_leader(void);
   bool peq(uint8_t num, uint16_t keycode);
   leaders_press_t recall_press_by_idx(uint8_t idx);
   bool ld_leader_eq(uint16_t keycode);
-  void ld_remove_current_leader(void);
+  void ld_remove_current_leader_oneshot(void);
+  void ld_remove_leader_oneshot(uint16_t keycode);
+  void ld_remove_leader_momentary(uint16_t keycode);
+  void ld_remove_leader_force(uint16_t keycode);
 #ifdef __cplusplus
 }
 #endif
