@@ -42,6 +42,7 @@ uint16_t press_state;
 /* leaders data structure interface */
 uint16_t ld_leaders[8];
 bool ld_oneshot;
+bool ld_momentary;
 uint8_t ld_leader_index;
 uint8_t leaders_ref_layer = LEADERS_REFERENCE_LAYER;
 
@@ -95,6 +96,8 @@ uint8_t leader_index(uint16_t keycode) {
 /* uint32_t leader_state; */
 void ld_add_leader(uint16_t keycode) {
   ld_leaders[ld_leader_index++] = keycode;
+  ld_oneshot = true;
+  ld_momentary = true;
   return;
 }
 
@@ -294,7 +297,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       /* leaders_state.oneshot = is_os_leader_pressed; */
       leaders_state.layer = false;
       ld_add_leader(keycode);
-      ld_oneshot = true;
       memorize_press(record->event.key, keycode, ld_current_leader());
 #ifdef BACKLIGHT_ENABLE
       backlight_set(2);
