@@ -21,12 +21,11 @@ using testing::_;
 using testing::InSequence;
 
 extern uint16_t ld_test;
-class Leaders : public TestFixture {};
+class NewLeader : public TestFixture {};
 
-TEST_F(Leaders, BasicLeaderTest) {
+TEST_F(NewLeader, Leader_Basic_Test) {
     TestDriver driver;
     InSequence s;
-
     LEADERS_EXTERNS();
     ASSERT_EQ(ld_leader_index, 0) << "initial index should be 0";
     press_key(1, 0);
@@ -45,9 +44,25 @@ TEST_F(Leaders, BasicLeaderTest) {
     ASSERT_EQ(ld_leader_index, 0) << "leader index should be cleared after first match";
 }
 
+TEST_F(NewLeader, Leader_Momentary_Test) {
+    TestDriver driver;
+    InSequence s;
 
+    LEADERS_EXTERNS();
 
-// TEST_F(Leaders, BasicLeaderTest1) {
-    // TestDriver driver;
-    // InSequence s;
-// }
+    press_key(1, 0); // press leader
+    keyboard_task();
+
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_B)));
+    press_key(0, 0); // press key under leader
+    keyboard_task();
+    release_key(0, 0); // release key under leader
+    keyboard_task();
+
+    // release_key(1, 0); // press leader
+    // keyboard_task();
+    // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
+    // press_key(0, 0); // press the same key not under the leader
+    // keyboard_task();
+}
+
