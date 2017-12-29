@@ -93,10 +93,22 @@ bool process_sequence_press_user(void) {
   if (is_leading(LD_TEST)) {
     if (peq(1, KC_A)) {
       register_code16(KC_B);
+      /* unregister_code16(KC_B); */
       /* ld_remove_leader(LD_TEST); */
       ld_remove_current_leader();
+      leaders_state.sequence_size = 0;
     }
     return false;
+  }
+  return true;
+}
+
+bool process_sequence_release_user(uint16_t leader, uint16_t keycode) {
+  if (leader == LD_TEST) {
+    if (keycode == KC_A) {
+      unregister_code16(KC_B);
+      return false;
+    }
   }
   return true;
 }

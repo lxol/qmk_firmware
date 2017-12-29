@@ -25,7 +25,7 @@ __attribute__ ((weak))
 bool process_sequence_press_user(void) {return false;}
 
 __attribute__ ((weak))
-bool process_sequence_release_user(void) {return false;}
+bool process_sequence_release_user(uint16_t leader, uint16_t keycode) {return false;}
 
 __attribute__ ((weak))
 bool process_leader_press_user(void) {return false;}
@@ -79,8 +79,8 @@ bool process_sequence_press(void) {
   return process_sequence_press_user();
 }
 
-bool process_sequence_release(void) {
-  return process_sequence_release_user();
+bool process_sequence_release(uint16_t leader, uint16_t keycode) {
+  return process_sequence_release_user(leader, keycode);
 }
 
 uint8_t leader_index(uint16_t keycode) {
@@ -344,11 +344,15 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     if (press_state == 0) {
       return true;
     }
-    if (unmemorize_press(record->event.key)) {
-        if (leaders_state.layer) {
-          return true;
-        }
-        return process_sequence_release();
+    uint8_t press_idx = find_press(record->event.key);
+    leaders_press_t press = recall_press_by_idx(press_idx);
+    if (press.leader != KC_NO && press.leader != press.keycode) {
+      unmemorize_press_by_idx(press_idx);
+    /* if (unmemorize_press(record->event.key)) { */
+        /* if (leaders_state.layer) { */
+        /*   return true; */
+        /* } */
+      return process_sequence_release(press.leader, press.keycode);
     }
     return true;
   }
