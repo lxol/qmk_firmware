@@ -19,11 +19,28 @@
 #include "host_driver.h"
 #include <stdbool.h>
 
-/* void init_serial_link(void); */
-/* void init_serial_link_hal(void); */
-/* bool is_serial_link_connected(void); */
-/* bool is_serial_link_master(void); */
-/* host_driver_t* get_serial_link_driver(void); */
-/* void serial_link_update(void); */
+void keychain_init(void);
+
+/* Removes first element of the active chain */
+uint8_t keychain_remove_first(void);
+
+/* Removes last element of the active chain */
+uint8_t keychain_remove_last(void);
+
+/* Returns the number of elements in the active chain  */
+uint8_t keychain_size(void);
+
+/* Append the specified element to the end of the active chain */
+bool keychain_add(void);
+  
+/* Return the position of the first element in the active chain */
+uint8_t keychain_first(void);
+
+/* Return the position of the last element in the active chain */
+uint8_t keychain_last(void);
+
+/* garbage collect the chain starting from the specified position */
+void keychain_gc(uint8_t pos);
+
 
 #endif
