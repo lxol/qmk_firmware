@@ -326,7 +326,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     if (is_mo_leader_pressed || is_os_leader_pressed) {
       leaders_state.sequence_size = 0;
       /* leaders_state.leader_keycode = keycode; */
-      leaders_state.leader_key = record->event.key;
+      /* leaders_state.leader_key = record->event.key; */
       /* leaders_state.momentary = true; */
       /* leaders_state.oneshot = is_os_leader_pressed; */
       leaders_state.layer = false;
@@ -367,12 +367,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   /* Keep track of all keys pressed under leading mode */
   if (leading_mode && record->event.pressed) {
     memorize_press(record->event.key, keycode, ld_current_leader());
-    /* for (uint8_t i = 0; i < LEADERS_PRESSED_MAX; i++) { */
-    /*   if (KEYEQ(leaders_state.pressed_keys[i], leaders_no_key)) { */
-    /*     leaders_state.pressed_keys[i] = record->event.key; */
-    /*     break; */
-    /*   } */
-    /* } */
   }
 
   /* Keys pressed in leading_mode should not progress. */
@@ -384,10 +378,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     leaders_press_t press = recall_press_by_idx(press_idx);
     if (press.leader != KC_NO && press.leader != press.keycode) {
       unmemorize_press_by_idx(press_idx);
-    /* if (unmemorize_press(record->event.key)) { */
-        /* if (leaders_state.layer) { */
-        /*   return true; */
-        /* } */
       return process_sequence_release(press.leader, press.keycode);
     }
     return true;
@@ -406,13 +396,18 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     uint8_t i = leaders_state.sequence_size++;
     leaders_state.keycode_sequence[i] = ref_kc;
     leaders_state.key_sequence[i] = record->event.key;
-    if (leaders_state.layer) {
-      return true;
-    }
     return process_sequence_press();
   }
   return true;
 }
 
 
+void foo(void) {
+  int addInt(int n, int m) {
+    return n+m;
+  }
+  int (*functionPtr)(int,int);
+  functionPtr = &addInt;
+  (*functionPtr)(2, 3);
+}
 #endif

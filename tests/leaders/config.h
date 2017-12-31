@@ -20,6 +20,6 @@
 #define MATRIX_ROWS 4
 #define MATRIX_COLS 10
 
-#define LEADERS_ENABLE
+/* #define LEADERS_ENABLE */
 
 #endif /* TESTS_BASIC_CONFIG_H_ */

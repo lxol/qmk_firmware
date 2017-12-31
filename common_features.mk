@@ -177,11 +177,15 @@ ifeq ($(strip $(USB_HID_ENABLE)), yes)
     include $(TMK_DIR)/protocol/usb_hid.mk
 endif
 
+ifeq ($(strip $(LEADERS_ENABLE)), yes)
+    SRC += $(QUANTUM_DIR)/process_keycode/process_leaders.c
+    OPT_DEFS += -DLEADERS_ENABLE
+endif
+
 QUANTUM_SRC:= \
     $(QUANTUM_DIR)/quantum.c \
     $(QUANTUM_DIR)/keymap_common.c \
     $(QUANTUM_DIR)/keycode_config.c \
-    $(QUANTUM_DIR)/process_keycode/process_leaders.c \
     $(QUANTUM_DIR)/process_keycode/process_leader.c
 
 ifndef CUSTOM_MATRIX

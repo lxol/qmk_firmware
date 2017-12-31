@@ -3,7 +3,7 @@
 
 #include "../../config.h"
 
-#define LEADERS_ENABLE
+/* #define LEADERS_ENABLE */
 
 #define LEADERS_SEQ_MAX 3
 
