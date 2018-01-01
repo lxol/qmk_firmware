@@ -43,15 +43,24 @@ public:
 };
 
 TEST_F(Keychain, init_works ) {
-  ASSERT_EQ(free_idx, 1) << "init sets free index to 1";
+  ASSERT_EQ(free_idx, 0) << "init sets free index to 0";
+  ASSERT_EQ(keychain_size(), 0) << "init sets size of the active chain to 0";
 }
 
 TEST_F(Keychain, keychain_add_works ) {
   uint8_t idx = keychain_add(key1);
-  ASSERT_EQ(idx, 1) << "";
-  ASSERT_EQ(free_idx, 2) << "";
+  ASSERT_EQ(idx, 0) << "";
+  ASSERT_EQ(free_idx, 1);
   ASSERT_EQ(first_idx, 0);
-  ASSERT_EQ(last_idx, 1);
+  ASSERT_EQ(last_idx, 0);
   ASSERT_EQ(keychain_size(), 1);
 
+}
+
+TEST_F(Keychain, keychain_free_works ) {
+  uint8_t first_idx = keychain_add(key1);
+  keychain_add(key2);
+  keychain_free(first_idx);
+  ASSERT_EQ(first_idx, 0);
+  ASSERT_EQ(keychain_size(), 0);
 }

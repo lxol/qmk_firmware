@@ -43,7 +43,7 @@ uint8_t keychain_first(void);
 uint8_t keychain_last(void);
 
 /* free the chain starting from the specified position */
-void keychain_free(uint8_t pos);
+void keychain_free(uint8_t idx);
 
 typedef struct {
   uint8_t next;

@@ -21,22 +21,18 @@ uint8_t last_idx;
 uint8_t free_idx;
 uint8_t size;
 
-keypos_t root_key = (keypos_t) {
-  .row = 0xFF,
-  .col = 0xFF
-};
+/* keypos_t root_key = (keypos_t) { */
+/*   .row = 0xFF, */
+/*   .col = 0xFF */
+/* }; */
 /* keychain_t free_links[KEYCHAIN_MAX]; */
 
 void keychain_init(void) {
-  first_idx = 0;
-  last_idx = 0;
-  free_idx = 1;
-  links[0] = (keychain_t) {
-    .next = KEYCHAIN_MAX,
-    .key = root_key
-    
-  };
-  for (int8_t i = 1; i < KEYCHAIN_MAX; i++) {
+  size = 0;
+  /* first_idx = KEYCHAIN_MAX; */
+  /* last_idx = KEYCHAIN_MAX; */
+  free_idx = 0;
+  for (int8_t i = 0; i < KEYCHAIN_MAX; i++) {
     links[i] = (keychain_t) {
       .next = i + 1,
     };
@@ -44,7 +40,11 @@ void keychain_init(void) {
 }
 
 uint8_t keychain_add(keypos_t key) {
-  links[last_idx].next = free_idx;
+  if (size == 0) {
+    first_idx = free_idx;
+  } else {
+    links[last_idx].next = free_idx;
+  }
   last_idx = free_idx;
   free_idx = links[free_idx].next;
   links[last_idx].key = key;
@@ -55,4 +55,22 @@ uint8_t keychain_add(keypos_t key) {
 
 uint8_t keychain_size(void) {
   return size; 
+}
+
+uint8_t keychain_first(void) {
+  return first_idx; 
+}
+
+uint8_t keychain_last(void) {
+  return last_idx;
+}
+
+void keychain_free(uint8_t idx) {
+  uint8_t i = idx;
+  while (links[i].next != KEYCHAIN_MAX) {
+    i = links[i].next;
+  }
+  links[i].next = free_idx;
+  free_idx = idx;
+  size = 0;
 }
