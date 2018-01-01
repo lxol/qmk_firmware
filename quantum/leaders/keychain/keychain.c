@@ -41,3 +41,7 @@ void keychain_init(void) {
     };
   }
 }
+
+bool keychain_add(keypos_t key) {
+  return true;
+}

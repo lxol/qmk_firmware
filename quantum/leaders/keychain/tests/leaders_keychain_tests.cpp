@@ -18,10 +18,37 @@ extern "C" {
 #include "leaders/keychain/keychain.h"
 }
 
+KEYCHAIN_EXTERNS();
 
 class Keychain : public testing::Test {
+public:
+  Keychain() {
+    keychain_init();
+  }
+
+  virtual ~Keychain() {
+    // You can do clean-up work that doesn't throw exceptions here.
+  }
+
+  keypos_t key1 = (keypos_t) {
+    .col = 1,
+    .row = 1
+  };
+
+  keypos_t key2 = (keypos_t) {
+    .col = 1,
+    .row = 1
+  };
+
 };
 
-TEST_F(Keychain, foobar_test) {
-    ASSERT_EQ(1, 1) << "foo test";
+TEST_F(Keychain, init_works ) {
+  ASSERT_EQ(free_idx, 1) << "init sets free index to 1";
+}
+
+TEST_F(Keychain, keychain_add_works ) {
+  keychain_add(key1);
+  ASSERT_EQ(free_idx, 2) << "";
+  ASSERT_EQ(first_idx, 1);
+  ASSERT_EQ(last_idx, 1);
 }

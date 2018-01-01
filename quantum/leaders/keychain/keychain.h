@@ -31,7 +31,7 @@ void keychain_init(void);
 /* uint8_t keychain_remove_last(void); */
 
 /* Append the specified element to the end of the active chain */
-bool keychain_add(void);
+bool keychain_add(keypos_t key);
 
 /* Returns the number of elements in the active chain  */
 uint8_t keychain_size(void);
@@ -49,5 +49,13 @@ typedef struct {
   uint8_t next;
   keypos_t key;
 } keychain_t;
+
+#ifdef __cplusplus
+#define KEYCHAIN_EXTERNS()                      \
+  extern keychain_t links[];                    \
+  extern uint8_t first_idx;                     \
+  extern uint8_t last_idx;                      \
+  extern uint8_t free_idx;                     
+#endif
 
 #endif
