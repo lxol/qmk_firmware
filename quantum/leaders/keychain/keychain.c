@@ -21,16 +21,8 @@ uint8_t last_idx;
 uint8_t free_idx;
 uint8_t size;
 
-/* keypos_t root_key = (keypos_t) { */
-/*   .row = 0xFF, */
-/*   .col = 0xFF */
-/* }; */
-/* keychain_t free_links[KEYCHAIN_MAX]; */
-
 void keychain_init(void) {
   size = 0;
-  /* first_idx = KEYCHAIN_MAX; */
-  /* last_idx = KEYCHAIN_MAX; */
   free_idx = 0;
   for (int8_t i = 0; i < KEYCHAIN_MAX; i++) {
     links[i] = (keychain_t) {
