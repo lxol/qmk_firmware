@@ -16,11 +16,27 @@
 #include "leaders/keychain/keychain.h"
 
 keychain_t links[KEYCHAIN_MAX];
-keychain_t free_links[KEYCHAIN_MAX];
+uint8_t first_idx;
+uint8_t last_idx;
+uint8_t free_idx;
+
+keypos_t root_key = (keypos_t) {
+  .row = 0xFF,
+  .col = 0xFF
+};
+/* keychain_t free_links[KEYCHAIN_MAX]; */
 
 void keychain_init(void) {
-  for (int8_t i = 0; i < KEYCHAIN_MAX; i++) {
-    free_links[i] = (keychain_t) {
+  first_idx = 0;
+  last_idx = 0;
+  free_idx = 1;
+  links[0] = (keychain_t) {
+    .next = KEYCHAIN_MAX,
+    .key = root_key
+    
+  };
+  for (int8_t i = 1; i < KEYCHAIN_MAX; i++) {
+    links[i] = (keychain_t) {
       .next = i + 1,
     };
   }

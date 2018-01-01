@@ -42,8 +42,8 @@ uint8_t keychain_first(void);
 /* Return the position of the last element in the active chain */
 uint8_t keychain_last(void);
 
-/* garbage collect the chain starting from the specified position */
-void keychain_gc(uint8_t pos);
+/* free the chain starting from the specified position */
+void keychain_free(uint8_t pos);
 
 typedef struct {
   uint8_t next;
