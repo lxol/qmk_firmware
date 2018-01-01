@@ -19,6 +19,7 @@ keychain_t links[KEYCHAIN_MAX];
 uint8_t first_idx;
 uint8_t last_idx;
 uint8_t free_idx;
+uint8_t size;
 
 keypos_t root_key = (keypos_t) {
   .row = 0xFF,
@@ -48,5 +49,10 @@ uint8_t keychain_add(keypos_t key) {
   free_idx = links[free_idx].next;
   links[last_idx].key = key;
   links[last_idx].next = KEYCHAIN_MAX;
+  size++;
   return last_idx;
+}
+
+uint8_t keychain_size(void) {
+  return size; 
 }

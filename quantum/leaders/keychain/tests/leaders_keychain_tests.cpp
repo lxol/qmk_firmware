@@ -52,4 +52,6 @@ TEST_F(Keychain, keychain_add_works ) {
   ASSERT_EQ(free_idx, 2) << "";
   ASSERT_EQ(first_idx, 0);
   ASSERT_EQ(last_idx, 1);
+  ASSERT_EQ(keychain_size(), 1);
+
 }
