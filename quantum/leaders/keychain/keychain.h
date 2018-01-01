@@ -16,23 +16,26 @@
 #ifndef KEYCHAIN_H
 #define KEYCHAIN_H
 
-#include "host_driver.h"
-#include <stdbool.h>
+#include "keyboard.h"
+
+#ifndef KEYCHAIN_MAX
+#define KEYCHAIN_MAX 50
+#endif
 
 void keychain_init(void);
 
 /* Removes first element of the active chain */
-uint8_t keychain_remove_first(void);
+/* uint8_t keychain_remove_first(void); */
 
 /* Removes last element of the active chain */
-uint8_t keychain_remove_last(void);
+/* uint8_t keychain_remove_last(void); */
+
+/* Append the specified element to the end of the active chain */
+bool keychain_add(void);
 
 /* Returns the number of elements in the active chain  */
 uint8_t keychain_size(void);
 
-/* Append the specified element to the end of the active chain */
-bool keychain_add(void);
-  
 /* Return the position of the first element in the active chain */
 uint8_t keychain_first(void);
 
@@ -42,5 +45,9 @@ uint8_t keychain_last(void);
 /* garbage collect the chain starting from the specified position */
 void keychain_gc(uint8_t pos);
 
+typedef struct {
+  uint8_t next;
+  keypos_t key;
+} keychain_t;
 
 #endif

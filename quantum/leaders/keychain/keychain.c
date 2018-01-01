@@ -15,3 +15,13 @@
  */
 #include "leaders/keychain/keychain.h"
 
+keychain_t links[KEYCHAIN_MAX];
+keychain_t free_links[KEYCHAIN_MAX];
+
+void keychain_init(void) {
+  for (int8_t i = 0; i < KEYCHAIN_MAX; i++) {
+    free_links[i] = (keychain_t) {
+      .next = i + 1,
+    };
+  }
+}
