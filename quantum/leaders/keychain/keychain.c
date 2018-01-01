@@ -42,6 +42,11 @@ void keychain_init(void) {
   }
 }
 
-bool keychain_add(keypos_t key) {
+uint8_t keychain_add(keypos_t key) {
+  links[last_idx].next = free_idx;
+  last_idx = free_idx;
+  free_idx = links[last_idx].next;
+  links[last_idx].key = key;
+  links[last_idx].next = KEYCHAIN_MAX;
   return true;
 }

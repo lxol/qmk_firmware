@@ -49,6 +49,6 @@ TEST_F(Keychain, init_works ) {
 TEST_F(Keychain, keychain_add_works ) {
   keychain_add(key1);
   ASSERT_EQ(free_idx, 2) << "";
-  ASSERT_EQ(first_idx, 1);
+  ASSERT_EQ(first_idx, 0);
   ASSERT_EQ(last_idx, 1);
 }

@@ -31,7 +31,7 @@ void keychain_init(void);
 /* uint8_t keychain_remove_last(void); */
 
 /* Append the specified element to the end of the active chain */
-bool keychain_add(keypos_t key);
+uint8_t keychain_add(keypos_t key);
 
 /* Returns the number of elements in the active chain  */
 uint8_t keychain_size(void);
