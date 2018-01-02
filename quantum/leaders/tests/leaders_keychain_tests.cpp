@@ -40,6 +40,9 @@ public:
     .row = 1
   };
 
+  bool keychain_match_user(uint16_t leader, uint8_t idx) {
+    return true;
+  }
 };
 
 TEST_F(Keychain, init_works ) {
@@ -54,7 +57,6 @@ TEST_F(Keychain, keychain_add_works ) {
   ASSERT_EQ(first_idx, 0);
   ASSERT_EQ(last_idx, 0);
   ASSERT_EQ(keychain_size(), 1);
-
 }
 
 TEST_F(Keychain, keychain_free_works ) {
@@ -63,4 +65,11 @@ TEST_F(Keychain, keychain_free_works ) {
   keychain_free(first_idx);
   ASSERT_EQ(first_idx, 0);
   ASSERT_EQ(keychain_size(), 0);
+}
+
+TEST_F(Keychain, keychain_has_next_works ) {
+  uint8_t idx1 = keychain_add(key1);
+  uint8_t idx2 = keychain_add(key2);
+  ASSERT_EQ(keychain_has_next(idx1), true);
+  ASSERT_EQ(keychain_has_next(idx2), false);
 }

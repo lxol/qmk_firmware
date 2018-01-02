@@ -47,7 +47,7 @@ void keychain_free(uint8_t idx);
 
 void keychain_deactivate(uint8_t idx);
 
-bool keychain_match_user(keypos_t key);
+bool keychain_has_next(uint8_t idx);
 
 typedef struct {
   uint8_t next;
