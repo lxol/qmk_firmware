@@ -15,7 +15,7 @@
  */
 #include "gtest/gtest.h"
 extern "C" {
-#include "leaders/leaderlist/leaderlist.h"
+#include "leaders/leaderlist.h"
 }
 
 
