@@ -18,7 +18,7 @@
 #define PROCESS_LEADERS_H
 
 #include "quantum.h"
-#include "leaders/keychain/keychain.h"
+#include "leaders/keychain.h"
 
 #ifndef LEADERS_SEQ_MAX
 #define LEADERS_SEQ_MAX  5

@@ -15,7 +15,7 @@
  */
 #include "gtest/gtest.h"
 extern "C" {
-#include "leaders/keychain/keychain.h"
+#include "leaders/keychain.h"
 }
 
 KEYCHAIN_EXTERNS();

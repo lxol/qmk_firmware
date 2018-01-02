@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "leaders/keychain/keychain.h"
+#include "leaders/keychain.h"
 
 __attribute__ ((weak))
 bool keychain_match_user(keypos_t key) {return false;}

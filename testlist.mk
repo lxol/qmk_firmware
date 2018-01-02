@@ -2,8 +2,8 @@ TEST_LIST = $(notdir $(patsubst %/rules.mk,%,$(wildcard $(ROOT_DIR)/tests/*/rule
 FULL_TESTS := $(TEST_LIST)
 
 include $(ROOT_DIR)/quantum/serial_link/tests/testlist.mk
-include $(ROOT_DIR)/quantum/leaders/keychain/tests/testlist.mk
-include $(ROOT_DIR)/quantum/leaders/leaderlist/tests/testlist.mk
+include $(ROOT_DIR)/quantum/leaders/tests/testlist.mk
+# include $(ROOT_DIR)/quantum/leaders/leaderlist/tests/testlist.mk
 
 define VALIDATE_TEST_LIST
     ifneq ($1,)
