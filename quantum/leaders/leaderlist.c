@@ -28,7 +28,6 @@ void init_leaderlist(void) {
   leader_index = 0;
 }
 
-/* uint32_t leader_state; */
 void add_leader(uint16_t keycode) {
   leaders[leader_index++] = keycode;
   oneshot = true;

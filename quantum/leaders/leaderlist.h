@@ -33,5 +33,10 @@ typedef struct {
 
 void init_leaderlist(void);
 uint16_t current_leader(void);
+void add_leader(uint16_t keycode);
+void remove_leader(uint16_t keycode, bool want_oneshot, bool want_momentary);
+void remove_leader_oneshot(uint16_t keycode);
+void remove_leader_momentary(uint16_t keycode);
+void remove_leader_force(uint16_t keycode);
 
 #endif

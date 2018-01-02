@@ -29,9 +29,22 @@ public:
   virtual ~Leaderlist() {
     // You can do clean-up work that doesn't throw exceptions here.
   }
-
+  const uint16_t LEADER1 = 1;
+  const uint16_t LEADER2 = 2;
+  const uint16_t LEADER3 = 3;
 };
 
 TEST_F(Leaderlist, init_works ) {
   ASSERT_EQ(current_leader(), KC_NO);
+}
+
+TEST_F(Leaderlist, add_leader_works ) {
+  add_leader(LEADER1);
+  ASSERT_EQ(current_leader(), LEADER1);
+}
+
+TEST_F(Leaderlist, remove_leader_oneshot_works ) {
+  add_leader(KC_A);
+  add_leader(KC_B);
+  // ASSERT_EQ(current_leader(), KC_A);
 }
