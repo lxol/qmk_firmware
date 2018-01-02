@@ -15,8 +15,6 @@
  */
 #include "leaders/keychain.h"
 
-__attribute__ ((weak))
-
 keychain_t links[KEYCHAIN_MAX];
 uint8_t first_idx;
 uint8_t last_idx;

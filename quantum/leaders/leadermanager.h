@@ -16,6 +16,17 @@
 #ifndef LEADEMANAGER_H
 #define LEADEMANAGER_H
 
+#include "keyboard.h"
+#include "keycode.h"
 
+typedef enum {
+  MATCH,
+  PARTIAL,
+  MISS
+} leaders_match_t;
+
+leaders_match_t leaders_match_user(uint16_t leader, uint8_t idx);
+
+bool linkeq(uint8_t beg, uint8_t pos, keypos_t key);
 
 #endif

@@ -14,3 +14,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "leaders/leadermanager.h"
+
+__attribute__ ((weak))
+leaders_match_t leaders_match_user(uint16_t leader, uint8_t idx) {
+  return MISS;
+}
+
+bool linkeq(uint8_t beg, uint8_t num, keypos_t key) {
+  return false;
+}
