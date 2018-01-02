@@ -1,3 +1,4 @@
 TEST_LIST +=\
 	leaders_keychain    \
-	leaders_leaderlist
+	leaders_leaderlist  \
+	leaders_leadermanager
