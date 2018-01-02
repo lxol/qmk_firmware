@@ -17,11 +17,21 @@
 #define LEADERLIST_H
 
 
-/* void init_serial_link(void); */
-/* void init_serial_link_hal(void); */
-/* bool is_serial_link_connected(void); */
-/* bool is_serial_link_master(void); */
-/* host_driver_t* get_serial_link_driver(void); */
-/* void serial_link_update(void); */
+#include "keyboard.h"
+#include "keycode.h"
+
+
+#ifndef LEADERS_MAX
+#define LEADERS_MAX  10
+#endif
+
+typedef struct {
+  uint16_t keycode;
+  bool oneshot;
+  uint8_t reference_layer;
+} leader_t;
+
+void init_leaderlist(void);
+uint16_t current_leader(void);
 
 #endif

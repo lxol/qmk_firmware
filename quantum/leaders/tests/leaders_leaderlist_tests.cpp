@@ -19,9 +19,19 @@ extern "C" {
 }
 
 
-class Keychain : public testing::Test {
+class Leaderlist : public testing::Test {
+  
+public:
+  Leaderlist() {
+    init_leaderlist();
+  }
+
+  virtual ~Leaderlist() {
+    // You can do clean-up work that doesn't throw exceptions here.
+  }
+
 };
 
-TEST_F(Keychain, foobar_test) {
-    ASSERT_EQ(1, 1) << "foo test";
+TEST_F(Leaderlist, init_works ) {
+  ASSERT_EQ(current_leader(), KC_NO);
 }
