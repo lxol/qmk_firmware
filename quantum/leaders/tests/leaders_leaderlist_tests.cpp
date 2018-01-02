@@ -43,8 +43,22 @@ TEST_F(Leaderlist, add_leader_works ) {
   ASSERT_EQ(current_leader(), LEADER1);
 }
 
-TEST_F(Leaderlist, remove_leader_oneshot_works ) {
-  add_leader(KC_A);
-  add_leader(KC_B);
-  // ASSERT_EQ(current_leader(), KC_A);
+TEST_F(Leaderlist, remove_leader_scenario1 ) {
+  add_leader(LEADER1);
+  add_leader(LEADER2);
+  remove_leader_oneshot(LEADER2);
+  ASSERT_EQ(current_leader(), LEADER2);
+  remove_leader_oneshot(LEADER2);
+  ASSERT_EQ(current_leader(), LEADER2);
+}
+
+TEST_F(Leaderlist, remove_leader_scenario2 ) {
+  add_leader(LEADER1);
+  add_leader(LEADER2);
+  remove_leader_momentary(LEADER2);
+  ASSERT_EQ(current_leader(), LEADER2);
+  remove_leader_momentary(LEADER2);
+  ASSERT_EQ(current_leader(), LEADER2);
+  remove_leader_oneshot(LEADER2);
+  ASSERT_EQ(current_leader(), LEADER1);
 }
