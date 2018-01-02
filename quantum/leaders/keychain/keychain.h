@@ -45,6 +45,10 @@ uint8_t keychain_last(void);
 /* free the chain starting from the specified position */
 void keychain_free(uint8_t idx);
 
+void keychain_deactivate(uint8_t idx);
+
+bool keychain_match_user(keypos_t key);
+
 typedef struct {
   uint8_t next;
   keypos_t key;

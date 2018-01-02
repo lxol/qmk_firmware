@@ -54,6 +54,7 @@ keypos_t leaders_no_key = (keypos_t) {
 void leaders_init(void) {
   /* new press */
   press_state = 0UL;
+  keychain_init();
 
   for (uint8_t i = 0; i < 8; i ++) {
     ld_leaders[i] = KC_NO;

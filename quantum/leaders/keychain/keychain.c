@@ -15,6 +15,9 @@
  */
 #include "leaders/keychain/keychain.h"
 
+__attribute__ ((weak))
+bool keychain_match_user(keypos_t key) {return false;}
+
 keychain_t links[KEYCHAIN_MAX];
 uint8_t first_idx;
 uint8_t last_idx;
@@ -29,6 +32,10 @@ void keychain_init(void) {
       .next = i + 1,
     };
   }
+}
+
+bool keychain_match(keypos_t key) {
+  return keychain_match_user(key);
 }
 
 uint8_t keychain_add(keypos_t key) {
@@ -64,5 +71,9 @@ void keychain_free(uint8_t idx) {
   }
   links[i].next = free_idx;
   free_idx = idx;
+  size = 0;
+}
+
+void keychain_deactivate(uint8_t idx) {
   size = 0;
 }
