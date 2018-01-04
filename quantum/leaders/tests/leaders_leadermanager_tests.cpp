@@ -31,13 +31,13 @@ enum foobar {
   SEQ_IEE
 };
 
-const uint16_t* leader1[] = {
+const uint16_t* leader1[]  = {
   (uint16_t[]){KC_I,KC_E, KC_E, SEQ_IEE, KC_NO},
   (uint16_t[]){KC_I, KC_E, SEQ_IE, KC_NO},
   (uint16_t[]){KC_NO}
 };
 
-const uint16_t* leader2[] = {
+const uint16_t*  leader2[]  = {
   (uint16_t[]){KC_O,KC_T, SEQ_OT, KC_NO},
   (uint16_t[]){KC_I, KC_E, SEQ_IE, KC_NO},
   (uint16_t[]){KC_NO}
@@ -51,6 +51,8 @@ class Leadermanager : public testing::Test {
 public:
   Leadermanager() {
     // init_leaderlist();
+    fo[LD_LEADER1 - LD_FIRST] = leader1; 
+    fo[LD_LEADER2 - LD_FIRST] = leader2; 
   }
 
   virtual ~Leadermanager() {
