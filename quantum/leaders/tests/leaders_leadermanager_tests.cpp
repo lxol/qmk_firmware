@@ -15,10 +15,39 @@
  */
 #include "gtest/gtest.h"
 #include <cstdarg>
+#include "quantum_keycodes.h"
 extern "C" {
 #include "leaders/leaderlist.h"
 }
 
+enum foobar {
+  LD_FIRST = SAFE_RANGE,
+  LD_IIE, 
+  LD_IEE, 
+  LD_IE,
+  LD_OT,
+  LD_E,
+  LD_R,
+  LD_D,
+  LD_F,
+  LD_LAST
+};
+
+const uint16_t* leader1[] = {
+  (uint16_t[]){KC_I,KC_E, KC_E, LD_IEE, KC_NO},
+  (uint16_t[]){KC_I, KC_E, LD_IIE, KC_NO},
+  (uint16_t[]){KC_NO}
+};
+
+const uint16_t* leader2[] = {
+
+  (uint16_t[]){KC_O,KC_T, LD_OT, KC_NO},
+  (uint16_t[]){KC_I, KC_E, LD_IE, KC_NO},
+  (uint16_t[]){KC_NO}
+  
+};
+
+const uint16_t** fo[LD_LAST- LD_FIRST];
 
 class Leadermanager : public testing::Test {
 
@@ -30,6 +59,9 @@ public:
   virtual ~Leadermanager() {
     // You can do clean-up work that doesn't throw exceptions here.
   }
+
+
+
 };
 
 TEST_F(Leadermanager, foo_bar_test ) {

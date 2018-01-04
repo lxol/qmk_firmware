@@ -37,55 +37,49 @@ leaders_match_t leaders_match_user(uint16_t leader, uint8_t idx) {
 /*   return (*pf[action_index])(); */
 /* } */
 
-enum foobar {
-  LD_IIE, 
-  LD_IE,
-  LD_E,
-  LD_R,
-  LD_D,
-  LD_F,
-  LD_LAST
-};
+/* enum foobar { */
+/*   LD_IIE,  */
+/*   LD_IEE,  */
+/*   LD_IE, */
+/*   LD_E, */
+/*   LD_R, */
+/*   LD_D, */
+/*   LD_F, */
+/*   LD_LAST */
+/* }; */
 
-/* const uint16_t *(*aaaa[]) =  { */
-  
+/* const uint16_t* names1[] = { */
+
+/*   (uint16_t[]){KC_I,KC_E, KC_E, LD_IEE, KC_NO}, */
+/*   (uint16_t[]){KC_I, KC_E, LD_IIE, KC_NO}, */
+/*   (uint16_t[]){KC_NO} */
   
 /* }; */
-/* const uint16_t (**pointer_to_array)[] = { */
+
+/* const uint16_t* names2[] = { */
+
+/*   (uint16_t[]){1,2}, */
+/*   (uint16_t[]){KC_I, KC_E} */
   
 /* }; */
-const uint16_t* names1[] = {
 
-  (uint16_t[]){1,2},
-  (uint16_t[]){KC_I, KC_E, LD_IIE, LD_TERM},
-  (uint16_t[]){0xFFFF}
-  
-};
-
-const uint16_t* names2[] = {
-
-  (uint16_t[]){1,2},
-  (uint16_t[]){KC_I, KC_E}
-  
-};
-/* const uint16_t **fo[] = {names, names1} ; */
-const uint16_t** fo[10];
+/* const uint16_t** fo[10]; */
 
 void bar1qq(uint16_t a) {
   
 } 
 void foo1(void) {
-  fo[1] = names1;
-  fo[2] = names2;
-  uint16_t a;
-  for (int8_t i = 0; i < 10; i++) {
-    /* a = fo[LEADER][SEQUENCE_NUMBER][KEY_POSITION IN SEQUENCE]; */
-    a = fo[i][0][1];
-  }
+  /* fo[1] = names1; */
+  /* fo[2] = names2; */
+  /* uint16_t a; */
+  /* for (int8_t i = 0; i < 10; i++) { */
+  /*   /\* a = fo[LEADER][SEQUENCE_NUMBER][KEY_POSITION IN SEQUENCE]; *\/ */
+  /*   a = fo[i][0][1]; */
+  /* } */
   /* for (uint8_t i = 0; i < 10; i++) { */
   /*   a = fo[i][0]; */
   /* } */
-  bar1qq(a);
+  /* bar1qq(a); */
   /* const uint8_t bar[LL_IIE] PROGMEM = {KC_I, KC_I}; */
 
   /* const uint8_t *bar[] = {LD_IIE, LD_IE}; */
@@ -94,7 +88,7 @@ void foo1(void) {
   /* } */
 }
 
-uint16_t  *seqs[LD_LAST];
+/* uint16_t  *seqs[LD_LAST]; */
 /* seqs[LD_IIE] = {KC_I, KC_I, KC_E, KC_NO}; */
 
 /* const uint8_t RGBLED_RAINBOW_SWIRL_INTERVALS[] PROGMEM = {100, 50, 20}; */
