@@ -22,27 +22,24 @@ extern "C" {
 
 enum foobar {
   LD_FIRST = SAFE_RANGE,
-  LD_IIE, 
-  LD_IEE, 
-  LD_IE,
-  LD_OT,
-  LD_E,
-  LD_R,
-  LD_D,
-  LD_F,
-  LD_LAST
+  LD_LEADER1,
+  LD_LEADER2,
+  LD_LAST,
+  SEQ_IE,
+  SEQ_OT,
+  SEQ_IIE,
+  SEQ_IEE
 };
 
 const uint16_t* leader1[] = {
-  (uint16_t[]){KC_I,KC_E, KC_E, LD_IEE, KC_NO},
-  (uint16_t[]){KC_I, KC_E, LD_IIE, KC_NO},
+  (uint16_t[]){KC_I,KC_E, KC_E, SEQ_IEE, KC_NO},
+  (uint16_t[]){KC_I, KC_E, SEQ_IE, KC_NO},
   (uint16_t[]){KC_NO}
 };
 
 const uint16_t* leader2[] = {
-
-  (uint16_t[]){KC_O,KC_T, LD_OT, KC_NO},
-  (uint16_t[]){KC_I, KC_E, LD_IE, KC_NO},
+  (uint16_t[]){KC_O,KC_T, SEQ_OT, KC_NO},
+  (uint16_t[]){KC_I, KC_E, SEQ_IE, KC_NO},
   (uint16_t[]){KC_NO}
   
 };
