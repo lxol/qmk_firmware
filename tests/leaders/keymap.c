@@ -22,6 +22,7 @@ enum test_keycodes {
   LD_TEST2,
   LD_TEST3
 };
+
 uint16_t ld_test = LD_TEST;
 uint16_t ld_test2 = LD_TEST2;
 uint16_t ld_test3 = LD_TEST3;

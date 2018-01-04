@@ -21,10 +21,11 @@
 
 typedef enum {
   MATCH,
-  PARTIAL,
-  MISS
+  PARTIAL_MATH,
+  DO_NOT_MATCH
 } leaders_match_t;
 
+/* typedef bool (*chain_fun) () */
 leaders_match_t leaders_match_user(uint16_t leader, uint8_t idx);
 
 bool linkeq(uint8_t beg, uint8_t pos, keypos_t key);

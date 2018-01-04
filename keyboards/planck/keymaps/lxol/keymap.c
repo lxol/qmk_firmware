@@ -496,4 +496,55 @@ bool process_sequence_press_user(void) {
   return false;
 }
 
+
+typedef struct {
+  uint8_t SEQQ[2];
+} seq_t;
+
+enum leaders {
+  LL_IIE,
+  LL_IE
+};
+
+const uint16_t bar[] PROGMEM = {KC_A,KC_B,KC_C} ;
+const uint16_t bar1[] PROGMEM = {1,2} ;
+/* const uggchar *names[] = {
+      "Zara Ali",
+      "Hina Ali",
+      "Nuha Ali",
+      "Sara Ali"
+   };int8_t LD_IIE[] PROGMEM = {KC_I, KC_I, KC_E}; */
+/* const uint8_t FOO[2][3] PROGMEM = {{1, 2, 3}, */
+/*                                    {1,2,3}}; */
+
+const uint16_t *names[] = {
+  /* bar, */
+
+  /* bar1, */
+  (uint16_t[]) {KC_I, KC_E},
+  (uint16_t[]) {KC_I, KC_I, KC_E},
+  
+};
+const uint16_t *names1[]= {
+  /* bar, */
+
+  /* bar1, */
+  (uint16_t[]) {KC_I, KC_E},
+  (uint16_t[]) {KC_I, KC_I, KC_E},
+  
+};
+
+/* const uint16_t **fo[] = {names, names1} ; */
+const uint16_t **fo[10];
+
+void foo1(void) {
+  fo[1] = names;
+  fo[2] = names1;
+  /* const uint8_t bar[LL_IIE] PROGMEM = {KC_I, KC_I}; */
+
+  /* const uint8_t *bar[] = {LD_IIE, LD_IE}; */
+  /* for (uint8_t i = 0; i < 2; i++) { */
+  /*   layer_on(bar[i][1]); */
+  /* } */
+}
 #endif
