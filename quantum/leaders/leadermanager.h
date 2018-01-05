@@ -22,6 +22,7 @@
 #define DO_NOT_MATCH 0
 
 
+uint16_t leaders_match(uint8_t leader_idx, uint16_t* seq, const uint16_t*** config);
 /* typedef bool (*chain_fun) () */
 uint16_t leaders_match_user(uint16_t leader, uint8_t idx);
 

@@ -20,8 +20,8 @@ uint16_t leaders_match_user(uint16_t leader, uint8_t idx) {
   return DO_NOT_MATCH;
 }
 
-uint16_t leaders_match(uint8_t leader_idx, uint8_t seq_size, uint16_t* seq, uint16_t*** config) {
-  if (seq_size == 0) {
+uint16_t leaders_match(uint8_t leader_idx, uint16_t* seq, const uint16_t*** config) {
+  if (seq[0] == 0) {
     return PARTIAL_MATCH;
   }
   uint16_t result = DO_NOT_MATCH;
@@ -31,6 +31,7 @@ uint16_t leaders_match(uint8_t leader_idx, uint8_t seq_size, uint16_t* seq, uint
     if (size == 0) {
       return result;
     }
+    uint16_t seq_size = seq[0];
     if (size != seq_size) {
       i++;
       continue;
@@ -38,11 +39,13 @@ uint16_t leaders_match(uint8_t leader_idx, uint8_t seq_size, uint16_t* seq, uint
     uint16_t j = 1;
     do  {
       uint16_t kc = config[leader_idx][i][j];
-      if (j == size) {
+      if (j == size + 1) {
         return  kc;
       }
-      if (seq[j-1] == kc) {
+      if (seq[j] == kc) {
         result = PARTIAL_MATCH;
+      } else {
+        break;
       }
       j++;
     } while (true);

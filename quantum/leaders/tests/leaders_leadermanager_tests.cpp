@@ -17,7 +17,7 @@
 #include <cstdarg>
 #include "quantum_keycodes.h"
 extern "C" {
-#include "leaders/leaderlist.h"
+#include "leaders/leadermanager.h"
 }
 
 enum foobar {
@@ -33,7 +33,7 @@ enum foobar {
 
 const uint16_t* leader1[]  = {
   (uint16_t[]){2, KC_I, KC_E, SEQ_IE },
-  (uint16_t[]){3, KC_I,KC_E, KC_E, SEQ_IEE},
+  (uint16_t[]){3, KC_I, KC_E, KC_E, SEQ_IEE},
   (uint16_t[]){0}
 };
 
@@ -43,24 +43,31 @@ const uint16_t*  leader2[]  = {
   (uint16_t[]){0}
 };
 
-const uint16_t** fo[LD_LAST- LD_FIRST];
+const uint16_t** config[LD_LAST- LD_FIRST -1];
 
 class Leadermanager : public testing::Test {
 
 public:
   Leadermanager() {
     // init_leaderlist();
-    fo[LD_LEADER1 - LD_FIRST] = leader1; 
-    fo[LD_LEADER2 - LD_FIRST] = leader2; 
+    config[LD_LEADER1 - LD_FIRST - 1 ] = leader1; 
+    config[LD_LEADER2 - LD_FIRST - 1] = leader2; 
   }
 
   virtual ~Leadermanager() {
     // You can do clean-up work that doesn't throw exceptions here.
   }
 
-
 };
 
-TEST_F(Leadermanager, foo_bar_test ) {
-  ASSERT_EQ(1, 1);
+TEST_F(Leadermanager, no_match_test ) {
+  uint16_t seq[] = {2, KC_A, KC_B};
+  uint16_t t = leaders_match(0, seq, config);
+  ASSERT_EQ(t, DO_NOT_MATCH );
+}
+
+TEST_F(Leadermanager, match_test ) {
+  uint16_t seq[] = {3, KC_I, KC_E, KC_E };
+  uint16_t t = leaders_match(0, seq, config);
+  ASSERT_EQ(t, SEQ_IEE );
 }
