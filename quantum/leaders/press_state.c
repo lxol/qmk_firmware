@@ -23,11 +23,6 @@ typedef struct {
 uint16_t press_state;
 leaders_press_t presses[LD_PRESS_MAX];
 
-keypos_t leaders_no_key = (keypos_t) {
-  .row = 10,
-  .col = 10
-};
-
 void init_press_state(void) {
   press_state = 0UL;
 }
@@ -35,6 +30,7 @@ void init_press_state(void) {
 uint16_t press_state_get(void) {
   return press_state;
 }
+
 void press_state_put(keypos_t key, uint16_t keycode) {
   for (int8_t i = 0; i < LD_PRESS_MAX; i ++) {
     if (press_state & (1U << i)) {
@@ -47,7 +43,6 @@ void press_state_put(keypos_t key, uint16_t keycode) {
   }
   press_state = 0U;
 }
-
 
 uint8_t press_state_biton16(uint16_t bits)
 {

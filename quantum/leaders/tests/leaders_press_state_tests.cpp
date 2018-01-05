@@ -58,4 +58,6 @@ TEST_F(Pressstate, remove_press_in_the_middle ) {
   press_state_put(keys[3],  42);
   press_state_remove(keys[1]);
   ASSERT_EQ(press_state_get(), 0b0000000000001101);
+  press_state_remove(keys[9]);
+  ASSERT_EQ(press_state_get(), 0b0000000000001101);
 }
