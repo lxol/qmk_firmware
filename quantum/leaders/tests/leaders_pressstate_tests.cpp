@@ -19,7 +19,6 @@
 extern "C" {
 #include "leaders/pressstate.h"
 }
-
 class Pressstate : public testing::Test {
 
 public:
