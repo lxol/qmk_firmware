@@ -32,7 +32,7 @@ uint16_t leaders_match(uint8_t leader_idx, uint16_t* seq, const uint16_t*** conf
       return result;
     }
     uint16_t seq_size = seq[0];
-    if (size != seq_size) {
+    if (size < seq_size) {
       i++;
       continue;
     }

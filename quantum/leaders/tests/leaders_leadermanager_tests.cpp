@@ -71,3 +71,9 @@ TEST_F(Leadermanager, match_test ) {
   uint16_t t = leaders_match(0, seq, config);
   ASSERT_EQ(t, SEQ_IEE );
 }
+
+TEST_F(Leadermanager, partial_match_test ) {
+  uint16_t seq[] = {2, KC_I };
+  uint16_t t = leaders_match(0, seq, config);
+  ASSERT_EQ(t, PARTIAL_MATCH );
+}
