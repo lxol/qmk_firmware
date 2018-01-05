@@ -24,6 +24,7 @@
 
 void init_press_state(void);
 uint16_t press_state_get(void);
+bool press_state_remove(keypos_t key);
 void press_state_put(keypos_t key, uint16_t keycode);
 
 #endif
