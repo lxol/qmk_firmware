@@ -80,13 +80,6 @@ bool press_state_remove(keypos_t key) {
   return true;
 }
 
-/* bool unmemorize_press(keypos_t key) { */
-/*   uint8_t idx = find_press(key); */
-/*   if (idx == LD_PRESS_MAX) {return false;} */
-/*   press_state &= ~(1U << idx); */
-/*   return true; */
-/* } */
-
 /* bool unmemorize_press_by_idx(uint8_t idx) { */
 /*   if (idx == LD_PRESS_MAX) {return false;} */
 /*   press_state &= ~(1U << idx); */
