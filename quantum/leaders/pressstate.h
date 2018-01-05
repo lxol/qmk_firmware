@@ -22,14 +22,8 @@
 
 #include "keycode.h"
 
-typedef struct {
-  keypos_t key;
-  uint16_t leader;
-  uint16_t keycode;
-} leaders_press_t;
-
-void memorize_press(keypos_t key, uint16_t keycode, uint16_t leader);
-bool unmemorize_press(keypos_t key);
-leaders_press_t recall_press(keypos_t key);
+void init_pressstate(void);
+uint16_t pressstate_get(void);
+void pressstate_put(keypos_t key, uint16_t keycode);
 
 #endif

@@ -23,11 +23,12 @@ class Pressstate : public testing::Test {
 
 public:
   Pressstate() {
+    init_pressstate();
   }
   virtual ~Pressstate() {
   }
 };
 
-TEST_F(Pressstate, no_match_test ) {
-  ASSERT_EQ(1, 1 );
+TEST_F(Pressstate, init_pressstate_works ) {
+  ASSERT_EQ(pressstate_get(), 0UL );
 }

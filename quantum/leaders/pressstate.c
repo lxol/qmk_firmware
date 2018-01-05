@@ -15,86 +15,96 @@
  */
 #include "leaders/pressstate.h"
 
+typedef struct {
+  keypos_t key;
+  uint16_t keycode;
+} leaders_press_t;
+
 uint16_t press_state;
-leaders_press_t leaders_presses[LD_PRESS_MAX];
+leaders_press_t presses[LD_PRESS_MAX];
 
 keypos_t leaders_no_key = (keypos_t) {
   .row = 10,
   .col = 10
 };
 
-void memorize_press(keypos_t key, uint16_t keycode, uint16_t leader) {
+void init_pressstate(void) {
+  press_state = 0UL;
+}
+
+uint16_t pressstate_get(void) {
+  return press_state;
+}
+void pressstate_put(keypos_t key, uint16_t keycode) {
   for (int8_t i = 0; i < LD_PRESS_MAX; i ++) {
     if (press_state & (1U << i)) {
       continue;
     }
     press_state |= (1U << i);
-    leaders_presses[i].key = key;
-    leaders_presses[i].keycode = keycode;
-    leaders_presses[i].leader = leader;
-    /* break; */
+    presses[i].key = key;
+    presses[i].keycode = keycode;
     return;
   }
   press_state = 0U;
 }
 
-uint8_t leaders_biton16(uint16_t bits)
-{
-    uint8_t n = 0;
-    if (bits >> 8) { bits >>= 8; n += 8;}
-    if (bits >> 4) { bits >>= 4; n += 4;}
-    if (bits >> 2) { bits >>= 2; n += 2;}
-    if (bits >> 1) { bits >>= 1; n += 1;}
-    if (bits)      { n += 1;}
-    return n;
-}
+/* uint8_t leaders_biton16(uint16_t bits) */
+/* { */
+/*     uint8_t n = 0; */
+/*     if (bits >> 8) { bits >>= 8; n += 8;} */
+/*     if (bits >> 4) { bits >>= 4; n += 4;} */
+/*     if (bits >> 2) { bits >>= 2; n += 2;} */
+/*     if (bits >> 1) { bits >>= 1; n += 1;} */
+/*     if (bits)      { n += 1;} */
+/*     return n; */
+/* } */
 
-uint8_t find_press(keypos_t key) {
-  if (press_state == 0) {return LD_PRESS_MAX;}
-  uint8_t l = leaders_biton16(press_state);
-  for (int8_t i = 0; i < l; i++) {
-    if (press_state & (1U << i)) {
-      if (KEYEQ(leaders_presses[i].key, key)) {
-        return i;
-      }
-    }
-  }
-  return LD_PRESS_MAX;
-}
+/* uint8_t find_press(keypos_t key) { */
+/*   if (press_state == 0) {return LD_PRESS_MAX;} */
+/*   uint8_t l = leaders_biton16(press_state); */
+/*   for (int8_t i = 0; i < l; i++) { */
+/*     if (press_state & (1U << i)) { */
+/*       if (KEYEQ(presses[i].key, key)) { */
+/*         return i; */
+/*       } */
+/*     } */
+/*   } */
+/*   return LD_PRESS_MAX; */
+/* } */
 
-bool unmemorize_press(keypos_t key) {
-  uint8_t idx = find_press(key);
-  if (idx == LD_PRESS_MAX) {return false;}
-  press_state &= ~(1U << idx);
-  return true;
-}
+/* bool unmemorize_press(keypos_t key) { */
+/*   uint8_t idx = find_press(key); */
+/*   if (idx == LD_PRESS_MAX) {return false;} */
+/*   press_state &= ~(1U << idx); */
+/*   return true; */
+/* } */
 
-bool unmemorize_press_by_idx(uint8_t idx) {
-  if (idx == LD_PRESS_MAX) {return false;}
-  press_state &= ~(1U << idx);
-  return true;
-}
+/* bool unmemorize_press_by_idx(uint8_t idx) { */
+/*   if (idx == LD_PRESS_MAX) {return false;} */
+/*   press_state &= ~(1U << idx); */
+/*   return true; */
+/* } */
 
-leaders_press_t recall_press(keypos_t key) {
-  uint8_t idx = find_press(key);
-  if (idx == LD_PRESS_MAX) {
-    return (leaders_press_t) {
-      .key = leaders_no_key,
-        .leader = KC_NO,
-        .keycode = KC_NO
-    };
-  }
-  return leaders_presses[idx];
-}
+/* leaders_press_t recall_press(keypos_t key) { */
+/*   uint8_t idx = find_press(key); */
+/*   if (idx == LD_PRESS_MAX) { */
+/*     return (leaders_press_t) { */
+/*       .key = leaders_no_key, */
+/*         .leader = KC_NO, */
+/*         .keycode = KC_NO */
+/*     }; */
+/*   } */
+/*   return presses[idx]; */
+/* } */
 
 
-leaders_press_t recall_press_by_idx(uint8_t idx) {
-  if (idx == LD_PRESS_MAX) {
-    return (leaders_press_t) {
-      .key = leaders_no_key,
-        .leader = KC_NO,
-        .keycode = KC_NO
-    };
-  }
-  return leaders_presses[idx];
-}
+/* leaders_press_t recall_press_by_idx(uint8_t idx) { */
+/*   if (idx == LD_PRESS_MAX) { */
+/*     return (leaders_press_t) { */
+/*       .key = leaders_no_key, */
+/*         .leader = KC_NO, */
+/*         .keycode = KC_NO */
+/*     }; */
+/*   } */
+/*   return presses[idx]; */
+/* } */
