@@ -10,3 +10,7 @@ leaders_leaderlist_SRC :=\
 leaders_leadermanager_SRC :=\
     $(QUANTUM_DIR)/leaders/tests/leaders_leadermanager_tests.cpp \
     $(QUANTUM_DIR)/leaders/leadermanager.c
+
+leaders_pressstate_SRC :=\
+    $(QUANTUM_DIR)/leaders/tests/leaders_pressstate_tests.cpp \
+    $(QUANTUM_DIR)/leaders/pressstate.c

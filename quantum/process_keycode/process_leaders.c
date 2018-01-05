@@ -403,12 +403,4 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
 }
 
 
-void foo(void) {
-  int addInt(int n, int m) {
-    return n+m;
-  }
-  int (*functionPtr)(int,int);
-  functionPtr = &addInt;
-  (*functionPtr)(2, 3);
-}
 #endif
