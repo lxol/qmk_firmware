@@ -24,7 +24,7 @@
 
 uint16_t leaders_match(uint8_t leader_idx, uint16_t* seq, const uint16_t*** config);
 /* typedef bool (*chain_fun) () */
-uint16_t leaders_match_user(uint16_t leader, uint8_t idx);
+/* uint16_t leaders_match_user(uint16_t leader, uint8_t idx); */
 
 
 /* bool linkeq(uint8_t beg, uint8_t pos, keypos_t key); */
