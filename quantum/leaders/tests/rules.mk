@@ -11,6 +11,6 @@ leaders_leadermanager_SRC :=\
     $(QUANTUM_DIR)/leaders/tests/leaders_leadermanager_tests.cpp \
     $(QUANTUM_DIR)/leaders/leadermanager.c
 
-leaders_pressstate_SRC :=\
-    $(QUANTUM_DIR)/leaders/tests/leaders_pressstate_tests.cpp \
-    $(QUANTUM_DIR)/leaders/pressstate.c
+leaders_press_state_SRC :=\
+    $(QUANTUM_DIR)/leaders/tests/leaders_press_state_tests.cpp \
+    $(QUANTUM_DIR)/leaders/press_state.c

@@ -22,13 +22,26 @@ extern "C" {
 class Pressstate : public testing::Test {
 
 public:
+  keypos_t keys[20];
   Pressstate() {
     init_press_state();
+    for (int8_t i = 0; i < 20; i++) {
+      keys[i] = (keypos_t) {
+        .col = i,
+        .row = i
+      };
+    }
   }
   virtual ~Pressstate() {
   }
+
 };
 
 TEST_F(Pressstate, init_press_state_works ) {
   ASSERT_EQ(press_state_get(), 0UL );
+}
+
+TEST_F(Pressstate, press_state_put_works ) {
+  press_state_put(keys[0],  2);
+  ASSERT_EQ(press_state_get(), 1UL );
 }
