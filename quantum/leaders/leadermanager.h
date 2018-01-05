@@ -18,16 +18,14 @@
 
 #include "keyboard.h"
 #include "keycode.h"
+#define PARTIAL_MATCH 1
+#define DO_NOT_MATCH 0
 
-typedef enum {
-  MATCH,
-  PARTIAL_MATH,
-  DO_NOT_MATCH
-} leaders_match_t;
 
 /* typedef bool (*chain_fun) () */
-leaders_match_t leaders_match_user(uint16_t leader, uint8_t idx);
+uint16_t leaders_match_user(uint16_t leader, uint8_t idx);
 
-bool linkeq(uint8_t beg, uint8_t pos, keypos_t key);
+
+/* bool linkeq(uint8_t beg, uint8_t pos, keypos_t key); */
 
 #endif

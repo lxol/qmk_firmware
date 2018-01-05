@@ -534,6 +534,17 @@ const uint16_t *names1[]= {
   
 };
 
+const uint16_t* leader1[]  = {
+  /* (uint16_t[]){KC_I,KC_E, KC_E, SEQ_IEE, KC_NO}, */
+  /* (uint16_t[]){KC_I, KC_E, SEQ_IE, KC_NO}, */
+  (uint16_t[]){KC_NO}
+};
+
+const uint16_t*  leader2[]  = {
+  /* (uint16_t[]){KC_O,KC_T, SEQ_OT, KC_NO}, */
+  /* (uint16_t[]){KC_I, KC_E, SEQ_IE, KC_NO}, */
+  /* (uint16_t[]){KC_NO} */
+};
 /* const uint16_t **fo[] = {names, names1} ; */
 const uint16_t **fo[10];
 

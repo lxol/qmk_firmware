@@ -32,16 +32,15 @@ enum foobar {
 };
 
 const uint16_t* leader1[]  = {
-  (uint16_t[]){KC_I,KC_E, KC_E, SEQ_IEE, KC_NO},
-  (uint16_t[]){KC_I, KC_E, SEQ_IE, KC_NO},
-  (uint16_t[]){KC_NO}
+  (uint16_t[]){2, KC_I, KC_E, SEQ_IE },
+  (uint16_t[]){3, KC_I,KC_E, KC_E, SEQ_IEE},
+  (uint16_t[]){0}
 };
 
 const uint16_t*  leader2[]  = {
-  (uint16_t[]){KC_O,KC_T, SEQ_OT, KC_NO},
-  (uint16_t[]){KC_I, KC_E, SEQ_IE, KC_NO},
-  (uint16_t[]){KC_NO}
-  
+  (uint16_t[]){2, KC_O, KC_T, SEQ_OT},
+  (uint16_t[]){2, KC_I, KC_E, SEQ_IE},
+  (uint16_t[]){0}
 };
 
 const uint16_t** fo[LD_LAST- LD_FIRST];
@@ -58,7 +57,6 @@ public:
   virtual ~Leadermanager() {
     // You can do clean-up work that doesn't throw exceptions here.
   }
-
 
 
 };

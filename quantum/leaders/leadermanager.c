@@ -16,10 +16,40 @@
 #include "leaders/leadermanager.h"
 
 __attribute__ ((weak))
-leaders_match_t leaders_match_user(uint16_t leader, uint8_t idx) {
+uint16_t leaders_match_user(uint16_t leader, uint8_t idx) {
   return DO_NOT_MATCH;
 }
 
+uint16_t leaders_match(uint8_t leader_idx, uint8_t seq_size, uint16_t* seq, uint16_t*** config) {
+  if (seq_size == 0) {
+    return PARTIAL_MATCH;
+  }
+  uint16_t result = DO_NOT_MATCH;
+  uint16_t i = 0;
+  do {
+    uint16_t size = config[leader_idx][i][0];
+    if (size == 0) {
+      return result;
+    }
+    if (size != seq_size) {
+      i++;
+      continue;
+    }
+    uint16_t j = 1;
+    do  {
+      uint16_t kc = config[leader_idx][i][j];
+      if (j == size) {
+        return  kc;
+      }
+      if (seq[j-1] == kc) {
+        result = PARTIAL_MATCH;
+      }
+      j++;
+    } while (true);
+    i++;
+  } while (true);
+  return DO_NOT_MATCH;
+}
 /* bool linkeq(uint8_t beg, uint8_t num, keypos_t key) { */
 
 /*   return false; */
