@@ -42,7 +42,7 @@ uint16_t leaders_match(uint8_t leader_idx, uint16_t* seq, const uint16_t*** conf
       if (j == size + 1) {
         return  kc;
       }
-      if (seq[j] == kc) {
+      if (seq[j] == kc || kc == KC_TRNS) {
         result = PARTIAL_MATCH;
       } else {
         break;

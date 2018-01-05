@@ -24,11 +24,13 @@ enum foobar {
   LD_FIRST = SAFE_RANGE,
   LD_LEADER1,
   LD_LEADER2,
+  LD_LEADER3,
   LD_LAST,
   SEQ_IE,
   SEQ_OT,
   SEQ_IIE,
-  SEQ_IEE
+  SEQ_IEE,
+  SEQ_LAYER_1
 };
 
 const uint16_t* leader1[]  = {
@@ -43,19 +45,22 @@ const uint16_t*  leader2[]  = {
   (uint16_t[]){0}
 };
 
+const uint16_t*  leader3[]  = {
+  (uint16_t[]){1, KC_TRNS, SEQ_LAYER_1 },
+  (uint16_t[]){0}
+};
 const uint16_t** config[LD_LAST- LD_FIRST -1];
 
 class Leadermanager : public testing::Test {
 
 public:
   Leadermanager() {
-    // init_leaderlist();
     config[LD_LEADER1 - LD_FIRST - 1 ] = leader1; 
     config[LD_LEADER2 - LD_FIRST - 1] = leader2; 
+    config[LD_LEADER3 - LD_FIRST - 1] = leader3; 
   }
 
   virtual ~Leadermanager() {
-    // You can do clean-up work that doesn't throw exceptions here.
   }
 
 };
@@ -76,4 +81,10 @@ TEST_F(Leadermanager, partial_match_test ) {
   uint16_t seq[] = {2, KC_I };
   uint16_t t = leaders_match(0, seq, config);
   ASSERT_EQ(t, PARTIAL_MATCH );
+}
+
+TEST_F(Leadermanager, transparent_match_test ) {
+  uint16_t seq[] = {1, KC_I };
+  uint16_t t = leaders_match(2, seq, config);
+  ASSERT_EQ(t, SEQ_LAYER_1 );
 }
