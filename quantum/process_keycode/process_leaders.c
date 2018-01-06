@@ -63,7 +63,9 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     return process_leaders_user(keycode, record);
   }
   if (!record->event.pressed) {
-
+    uint8_t kc = press_state_remove(record->event.key);
+    if (kc == KC_NO) {return true;}
+    return process_leaders_user(keycode, record);
   }
   return true;
 }

@@ -89,7 +89,10 @@ bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
     case LD_LEADER1:
       if (record->event.pressed) {
-        register_code(KC_T);
+        register_code16(KC_T);
+        return false; break;
+      } else {
+        unregister_code16(KC_T);
         return false; break;
       }
     }

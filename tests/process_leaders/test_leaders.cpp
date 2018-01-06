@@ -40,4 +40,7 @@ TEST_F(Leaders, leader_press_release) {
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_T)));
     press_key(5, 0); //LD_LEADER1
     keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(5, 0); //LD_LEADER1
+    keyboard_task();
 }
