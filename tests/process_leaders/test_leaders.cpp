@@ -33,3 +33,11 @@ TEST_F(Leaders, no_leaders) {
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
     keyboard_task();
 }
+
+TEST_F(Leaders, leader_press_release) {
+    TestDriver driver;
+    InSequence s;
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_T)));
+    press_key(5, 0); //LD_LEADER1
+    keyboard_task();
+}

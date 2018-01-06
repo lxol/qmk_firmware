@@ -24,6 +24,11 @@ uint16_t last_leader;
 __attribute__ ((weak))
 void leaders_init_user(void) {}
 
+__attribute__ ((weak))
+bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
+  return true;
+}
+
 void leaders_range(uint16_t first, uint16_t last) {
   first_leader = first;
   last_leader = last;
@@ -39,6 +44,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     if (keycode >= first_leader && keycode <= last_leader) {
       add_leader(keycode);
     }
+    return process_leaders_user(keycode, record);
   }
   if (!record->event.pressed) {
 
