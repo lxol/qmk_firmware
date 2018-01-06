@@ -21,6 +21,8 @@
 uint16_t first_leader;
 uint16_t last_leader;
 
+uint8_t ref_layer;
+
 __attribute__ ((weak))
 void leaders_init_user(void) {}
 
@@ -38,11 +40,25 @@ void leaders_init(void) {
   init_press_state();
   leaders_init_user();
 }
+void set_ref_layer(uint8_t layer) {
+  ref_layer = layer; 
+}
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     if (keycode >= first_leader && keycode <= last_leader) {
       add_leader(keycode);
+    }
+    if (current_leader() == KC_NO) {
+      return true;
+    } 
+    
+    uint16_t leader = current_leader();
+    if (leader == keycode) {
+      press_state_put(record->event.key, keycode);
+    } else {
+      uint16_t kc = keymap_key_to_keycode(ref_layer, record->event.key);
+      press_state_put(record->event.key, kc);
     }
     return process_leaders_user(keycode, record);
   }

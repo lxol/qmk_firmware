@@ -82,6 +82,7 @@ void leaders_init_user(void) {
     sequence_config[LD_LEADER3 - LD_FIRST] = leader3_seq; 
 
     leaders_range(LD_FIRST, LD_LAST);
+    set_ref_layer(0);
 }
 
 bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
