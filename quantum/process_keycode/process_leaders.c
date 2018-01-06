@@ -18,9 +18,16 @@
 
 #include "process_leaders.h"
 
+uint16_t first_leader;
+uint16_t last_leader;
+
 __attribute__ ((weak))
 void leaders_init_user(void) {}
 
+void leaders_range(uint16_t first, uint16_t last) {
+  first_leader = first;
+  last_leader = last;
+}
 void leaders_init(void) {
   init_leaderlist();
   init_press_state();
@@ -28,6 +35,14 @@ void leaders_init(void) {
 }
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+    if (keycode >= first_leader && keycode <= last_leader) {
+      add_leader(keycode);
+    }
+  }
+  if (!record->event.pressed) {
+
+  }
   return true;
 }
 

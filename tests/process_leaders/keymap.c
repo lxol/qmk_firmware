@@ -27,8 +27,6 @@ enum foobar {
   SEQ_LAYER_1
 };
 
-#define LD_FIRST LD_LEADER1
-#define LD_LAST LD_LEADER3
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = {
@@ -54,25 +52,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-
-
 #ifdef LEADERS_ENABLE
 
+#define LD_FIRST LD_LEADER1
+#define LD_LAST LD_LEADER3
+
 const uint16_t* leader1_seq[]  = {
-  (uint16_t[]){2, KC_I, KC_E, SEQ_IE },
-  (uint16_t[]){3, KC_I, KC_E, KC_E, SEQ_IEE},
-  (uint16_t[]){0}
+  (const uint16_t[]){2, KC_I, KC_E, SEQ_IE },
+  (const uint16_t[]){3, KC_I, KC_E, KC_E, SEQ_IEE},
+  (const uint16_t[]){0}
 };
 
 const uint16_t*  leader2_seq[]  = {
-  (uint16_t[]){2, KC_O, KC_T, SEQ_OT},
-  (uint16_t[]){2, KC_I, KC_E, SEQ_IE},
-  (uint16_t[]){0}
+  (const uint16_t[]){2, KC_O, KC_T, SEQ_OT},
+  (const uint16_t[]){2, KC_I, KC_E, SEQ_IE},
+  (const uint16_t[]){0}
 };
 
 const uint16_t*  leader3_seq[]  = {
-  (uint16_t[]){1, KC_TRNS, SEQ_LAYER_1 },
-  (uint16_t[]){0}
+  (const uint16_t[]){1, KC_TRNS, SEQ_LAYER_1 },
+  (const uint16_t[]){0}
 };
 
 const uint16_t** sequence_config[LD_LAST - LD_FIRST + 1];
@@ -81,6 +80,8 @@ void leaders_init_user(void) {
     sequence_config[LD_LEADER1 - LD_FIRST] = leader1_seq; 
     sequence_config[LD_LEADER2 - LD_FIRST] = leader2_seq; 
     sequence_config[LD_LEADER3 - LD_FIRST] = leader3_seq; 
+
+    leaders_range(LD_FIRST, LD_LAST);
 }
 
 #endif

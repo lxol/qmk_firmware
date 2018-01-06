@@ -22,9 +22,14 @@ using testing::InSequence;
 extern uint16_t ld_test;
 class Leaders : public TestFixture {};
 
-TEST_F(Leaders, Leader_Basic_Test) {
+TEST_F(Leaders, no_leaders) {
     TestDriver driver;
     InSequence s;
 
-    ASSERT_EQ(1,1);
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
+    press_key(0, 0);
+    keyboard_task();
+    release_key(0, 0); 
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    keyboard_task();
 }
