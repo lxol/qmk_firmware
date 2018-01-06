@@ -1,4 +1,4 @@
-/* Copyright 2016 Alex Olkhovskiy
+/* Copyright 2017 Fred Sundvik
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,12 +14,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PROCESS_LEADERS_H
-#define PROCESS_LEADERS_H
+#ifndef TESTS_LEADERS_CONFIG_H_
+#define TESTS_LEADERS_CONFIG_H_
 
-#include "quantum.h"
+#define MATRIX_ROWS 4
+#define MATRIX_COLS 10
 
-bool process_leaders(uint16_t keycode, keyrecord_t *record);
-void leaders_init(void);
 
 #endif
+

@@ -14,12 +14,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TESTS_LEADERS_CONFIG_H_
-#define TESTS_LEADERS_CONFIG_H_
+#include "test_common.hpp"
 
-#define MATRIX_ROWS 4
-#define MATRIX_COLS 10
+using testing::_;
+using testing::InSequence;
 
-/* #define LEADERS_ENABLE */
+extern uint16_t ld_test;
+class Leaders : public TestFixture {};
 
-#endif /* TESTS_BASIC_CONFIG_H_ */
+TEST_F(Leaders, Leader_Basic_Test) {
+    TestDriver driver;
+    InSequence s;
+
+    ASSERT_EQ(1,1);
+}
