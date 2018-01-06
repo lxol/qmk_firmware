@@ -68,11 +68,11 @@ uint8_t find_press(keypos_t key) {
   return LD_PRESS_MAX;
 }
 
-bool press_state_remove(keypos_t key) {
+uint16_t press_state_remove(keypos_t key) {
   uint8_t idx = find_press(key);
-  if (idx == LD_PRESS_MAX) {return false;}
+  if (idx == LD_PRESS_MAX) {return KC_NO;}
   press_state &= ~(1U << idx);
-  return true;
+  return presses[idx].keycode;
 }
 
 /* bool unmemorize_press_by_idx(uint8_t idx) { */
