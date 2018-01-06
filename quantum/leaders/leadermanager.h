@@ -18,6 +18,11 @@
 
 #include "keyboard.h"
 #include "keycode.h"
+
+#ifndef LEADERS_SEQ_MAX
+#define LEADERS_SEQ_MAX 10
+#endif
+
 #define PARTIAL_MATCH 1
 #define DO_NOT_MATCH 0
 

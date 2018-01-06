@@ -49,6 +49,7 @@ const uint16_t*  leader3[]  = {
   (uint16_t[]){1, KC_TRNS, SEQ_LAYER_1 },
   (uint16_t[]){0}
 };
+
 const uint16_t** config[LD_LAST- LD_FIRST -1];
 
 class Leadermanager : public testing::Test {

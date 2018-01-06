@@ -15,10 +15,7 @@
  */
 #include "leaders/leadermanager.h"
 
-/* __attribute__ ((weak)) */
-/* uint16_t leaders_match_user(uint16_t leader, uint8_t idx) { */
-/*   return DO_NOT_MATCH; */
-/* } */
+uint16_t leaders_sequence[LEADERS_SEQ_MAX];
 
 uint16_t leaders_match(uint8_t leader_idx, uint16_t* seq, const uint16_t*** config) {
   if (seq[0] == 0) {

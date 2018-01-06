@@ -16,6 +16,19 @@
 
 #include "quantum.h"
 
+enum foobar {
+  LD_LEADER1 = SAFE_RANGE,
+  LD_LEADER2,
+  LD_LEADER3,
+  SEQ_IE,
+  SEQ_OT,
+  SEQ_IIE,
+  SEQ_IEE,
+  SEQ_LAYER_1
+};
+
+#define LD_FIRST LD_LEADER1
+#define LD_LAST LD_LEADER3
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = {
@@ -30,13 +43,44 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* { KC_NO , KC_NO ,   KC_NO ,    KC_NO ,    KC_NO ,   KC_NO ,   KC_NO ,  KC_NO ,       KC_NO , KC_NO } ,  */
     /* { KC_NO , KC_NO ,   KC_NO ,    KC_NO ,    KC_NO ,   KC_NO ,   KC_NO ,  KC_NO ,       KC_NO , KC_NO } ,  */
     /* { KC_C ,  KC_D ,    KC_NO ,    KC_NO ,    KC_NO ,   KC_NO ,   KC_NO ,  KC_NO ,       KC_NO , KC_NO } ,  */
- } ,          
+  } ,          
   [1] = { 
     //{ 0 ,   1 ,     2 ,     3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       }
     { KC_A ,  KC_B ,  KC_C ,  KC_D ,  KC_E ,  KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
- } ,          
- };
+  } ,          
 
+};
+
+
+
+#ifdef LEADERS_ENABLE
+
+const uint16_t* leader1_seq[]  = {
+  (uint16_t[]){2, KC_I, KC_E, SEQ_IE },
+  (uint16_t[]){3, KC_I, KC_E, KC_E, SEQ_IEE},
+  (uint16_t[]){0}
+};
+
+const uint16_t*  leader2_seq[]  = {
+  (uint16_t[]){2, KC_O, KC_T, SEQ_OT},
+  (uint16_t[]){2, KC_I, KC_E, SEQ_IE},
+  (uint16_t[]){0}
+};
+
+const uint16_t*  leader3_seq[]  = {
+  (uint16_t[]){1, KC_TRNS, SEQ_LAYER_1 },
+  (uint16_t[]){0}
+};
+
+const uint16_t** sequence_config[LD_LAST - LD_FIRST + 1];
+
+void leaders_init_user(void) {
+    sequence_config[LD_LEADER1 - LD_FIRST] = leader1_seq; 
+    sequence_config[LD_LEADER2 - LD_FIRST] = leader2_seq; 
+    sequence_config[LD_LEADER3 - LD_FIRST] = leader3_seq; 
+}
+
+#endif
