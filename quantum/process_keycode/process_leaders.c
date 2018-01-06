@@ -18,7 +18,13 @@
 
 #include "process_leaders.h"
 
+__attribute__ ((weak))
+void leaders_init_user(void) {}
+
 void leaders_init(void) {
+  init_leaderlist();
+  init_press_state();
+  leaders_init_user();
 }
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {

@@ -18,6 +18,9 @@
 #define PROCESS_LEADERS_H
 
 #include "quantum.h"
+#include "leaders/leaderlist.h"
+#include "leaders/leadermanager.h"
+#include "leaders/press_state.h"
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
 void leaders_init(void);

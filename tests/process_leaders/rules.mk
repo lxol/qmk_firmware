@@ -16,4 +16,3 @@
 CUSTOM_MATRIX=yes
 
 LEADERS_ENABLE=yes
-# LEADERS_SRC=$(QUANTUM_DIR)/process_keycode/process_leaders.c
