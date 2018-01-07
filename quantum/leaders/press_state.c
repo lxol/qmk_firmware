@@ -18,6 +18,7 @@
 typedef struct {
   keypos_t key;
   uint16_t keycode;
+  bool ignore;
 } leaders_press_t;
 
 uint16_t press_state;
