@@ -19,43 +19,45 @@ uint16_t sequence[LEADERS_SEQ_MAX];
 
 const uint16_t*** sequence_config;
 
-uint8_t sequence_size = 0;
 
 void leaders_seq_put(uint16_t keycode) {
-  sequence[sequence_size++] = keycode;
+  sequence[0]++;
+  sequence[sequence[0]] = keycode;
 }
 
 void leaders_seq_reset() {
-  sequence_size = 0;
+  sequence[0] = 0;
 }
 
 void leadermanager_set_config(const uint16_t*** config) {
   sequence_config = config;
 }
 
-uint16_t leaders_match(uint8_t leader_idx, uint16_t* seq, const uint16_t*** config) {
-  if (seq[0] == 0) {
+/* uint16_t leaders_match(uint8_t leader_idx, uint16_t* seq, const uint16_t*** config) { */
+uint16_t leaders_match(uint8_t leader_idx) {
+  if (sequence[0] == 0) {
     return PARTIAL_MATCH;
   }
   uint16_t result = DO_NOT_MATCH;
   uint16_t i = 0;
   do {
-    uint16_t size = config[leader_idx][i][0];
+    uint16_t size = sequence_config[leader_idx][i][0];
     if (size == 0) {
       return result;
     }
-    uint16_t seq_size = seq[0];
+    uint16_t seq_size = sequence[0];
     if (size < seq_size) {
       i++;
       continue;
     }
     uint16_t j = 1;
     do  {
-      uint16_t kc = config[leader_idx][i][j];
+      uint16_t kc = sequence_config[leader_idx][i][j];
       if (j == size + 1) {
         return  kc;
       }
-      if (seq[j] == kc || kc == KC_TRNS) {
+      if (j == seq_size + 1) {return result;}
+      if (sequence[j] == kc || kc == KC_TRNS) {
         result = PARTIAL_MATCH;
       } else {
         break;

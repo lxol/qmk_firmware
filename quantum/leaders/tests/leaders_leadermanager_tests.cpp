@@ -59,6 +59,8 @@ public:
     config[LD_LEADER1 - LD_FIRST - 1 ] = leader1; 
     config[LD_LEADER2 - LD_FIRST - 1] = leader2; 
     config[LD_LEADER3 - LD_FIRST - 1] = leader3; 
+    leadermanager_set_config(config);
+    leaders_seq_reset();
   }
 
   virtual ~Leadermanager() {
@@ -67,25 +69,25 @@ public:
 };
 
 TEST_F(Leadermanager, no_match_test ) {
-  uint16_t seq[] = {2, KC_A, KC_B};
-  uint16_t t = leaders_match(0, seq, config);
-  ASSERT_EQ(t, DO_NOT_MATCH );
+  leaders_seq_put(KC_A);
+  leaders_seq_put(KC_B);
+  ASSERT_EQ(leaders_match(0), DO_NOT_MATCH );
 }
 
 TEST_F(Leadermanager, match_test ) {
-  uint16_t seq[] = {3, KC_I, KC_E, KC_E };
-  uint16_t t = leaders_match(0, seq, config);
-  ASSERT_EQ(t, SEQ_IEE );
+  leaders_seq_put(KC_I);
+  leaders_seq_put(KC_E);
+  leaders_seq_put(KC_E);
+  ASSERT_EQ(leaders_match(0), SEQ_IEE );
 }
 
 TEST_F(Leadermanager, partial_match_test ) {
-  uint16_t seq[] = {2, KC_I };
-  uint16_t t = leaders_match(0, seq, config);
+  leaders_seq_put(KC_I);
+  uint16_t t = leaders_match(0);
   ASSERT_EQ(t, PARTIAL_MATCH );
 }
 
 TEST_F(Leadermanager, transparent_match_test ) {
-  uint16_t seq[] = {1, KC_I };
-  uint16_t t = leaders_match(2, seq, config);
-  ASSERT_EQ(t, SEQ_LAYER_1 );
+  leaders_seq_put(KC_I);
+  ASSERT_EQ(leaders_match(2), SEQ_LAYER_1 );
 }

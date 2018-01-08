@@ -28,7 +28,7 @@
 
 void leadermanager_set_config(const uint16_t*** config);
 
-uint16_t leaders_match(uint8_t leader_idx, uint16_t* seq, const uint16_t*** config);
+uint16_t leaders_match(uint8_t leader_idx);
 void leaders_seq_put(uint16_t keycode);
 void leaders_seq_reset(void);
 
