@@ -35,16 +35,21 @@ void leaders_range(uint16_t first, uint16_t last) {
   first_leader = first;
   last_leader = last;
 }
+
 void leaders_init(void) {
   init_leaderlist();
   init_press_state();
   leaders_init_user();
 }
+
 void set_ref_layer(uint8_t layer) {
   ref_layer = layer; 
 }
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
+  /* leader key */
+  /* no sequence leader key */
+  /* sequence key */
   if (record->event.pressed) {
     if (keycode >= first_leader && keycode <= last_leader) {
       add_leader(keycode);

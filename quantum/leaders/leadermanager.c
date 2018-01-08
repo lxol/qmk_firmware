@@ -15,7 +15,23 @@
  */
 #include "leaders/leadermanager.h"
 
-uint16_t leaders_sequence[LEADERS_SEQ_MAX];
+uint16_t sequence[LEADERS_SEQ_MAX];
+
+const uint16_t*** sequence_config;
+
+uint8_t sequence_size = 0;
+
+void leaders_seq_put(uint16_t keycode) {
+  sequence[sequence_size++] = keycode;
+}
+
+void leaders_seq_reset() {
+  sequence_size = 0;
+}
+
+void leadermanager_set_config(const uint16_t*** config) {
+  sequence_config = config;
+}
 
 uint16_t leaders_match(uint8_t leader_idx, uint16_t* seq, const uint16_t*** config) {
   if (seq[0] == 0) {

@@ -26,8 +26,12 @@
 #define PARTIAL_MATCH 1
 #define DO_NOT_MATCH 0
 
+void leadermanager_set_config(const uint16_t*** config);
 
 uint16_t leaders_match(uint8_t leader_idx, uint16_t* seq, const uint16_t*** config);
+void leaders_seq_put(uint16_t keycode);
+void leaders_seq_reset(void);
+
 /* typedef bool (*chain_fun) () */
 /* uint16_t leaders_match_user(uint16_t leader, uint8_t idx); */
 
