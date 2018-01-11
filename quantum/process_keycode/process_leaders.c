@@ -74,10 +74,8 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       /* kc = KC_T; */
       leaders_seq_put(kc);
       uint16_t match_kc = leaders_match(leader -  first_leader);
-      /* return false; */
       if (match_kc == PARTIAL_MATCH) {
         press_state_put(record->event.key, KC_NO);
-        /* print("ASDFASDFASDF"); */
         /* return false; */
       } else if (match_kc == DO_NOT_MATCH) {
         leaders_seq_reset();
@@ -92,9 +90,9 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   }
   if (!record->event.pressed) {
     if (press_state_get() == 0UL) {return true;}
-    uint8_t kc = press_state_remove(record->event.key);
-    if (kc == KC_NO) {return true;}
-    return process_leaders_user(keycode, record);
+    uint16_t kc = press_state_remove(record->event.key);
+    if (kc == KC_NO) {return false;}
+    return process_leaders_user(kc, record);
   }
   return true;
 }

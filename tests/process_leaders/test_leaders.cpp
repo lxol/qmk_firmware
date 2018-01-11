@@ -22,28 +22,28 @@ using testing::InSequence;
 extern uint16_t ld_test;
 class Leaders : public TestFixture {};
 
-// TEST_F(Leaders, no_leaders) {
-//     TestDriver driver;
-//     InSequence s;
+TEST_F(Leaders, no_leaders) {
+    TestDriver driver;
+    InSequence s;
 
-//     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
-//     press_key(0, 0);
-//     keyboard_task();
-//     release_key(0, 0); 
-//     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
-//     keyboard_task();
-// }
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
+    press_key(0, 0);
+    keyboard_task();
+    release_key(0, 0); 
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    keyboard_task();
+}
 
-// TEST_F(Leaders, leader_press_release) {
-//     TestDriver driver;
-//     InSequence s;
-//     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_T)));
-//     press_key(5, 0); //LD_LEADER1
-//     keyboard_task();
-//     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
-//     release_key(5, 0); //LD_LEADER1
-//     keyboard_task();
-// }
+TEST_F(Leaders, leader_press_release) {
+    TestDriver driver;
+    InSequence s;
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_T)));
+    press_key(5, 0); //LD_LEADER1
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(5, 0); //LD_LEADER1
+    keyboard_task();
+}
 
 TEST_F(Leaders, leader_press_sequence) {
     TestDriver driver;
@@ -58,11 +58,9 @@ TEST_F(Leaders, leader_press_sequence) {
     ASSERT_EQ(leaders_seq_debug_get_at(0), 0); 
     press_key(0, 0); //KC_A
     keyboard_task();
-    // uint16_t mkc = leaders_match(0);
-    // ASSERT_EQ(leaders_seq_debug_get_at(0), 1); 
     ASSERT_EQ(leaders_seq_debug_get_at(1), KC_A); 
     ASSERT_EQ(leaders_seq_debug_get_at(0), 1); 
-    release_key(0, 0); //KC_
+    release_key(0, 0); //KC_A release
     keyboard_task();
     ASSERT_EQ(leaders_seq_debug_get_at(1), KC_A); 
     ASSERT_EQ(leaders_seq_debug_get_at(0), 1); 
@@ -72,13 +70,7 @@ TEST_F(Leaders, leader_press_sequence) {
     press_key(1, 0); //KC_B
     keyboard_task();
     ASSERT_EQ(leaders_seq_debug_get_at(2), KC_B); 
-    // ASSERT_EQ(leaders_seq_debug_get_at(0), 2); 
-
-    // ASSERT_EQ(leaders_seq_debug_get_at(2), KC_B); 
-    // uint16_t match_kc = leaders_match(0);
-
-    // ASSERT_EQ(match_kc, 22); 
-    // ASSERT_EQ(leaders_seq_debug_get_at(0), KC_A); 
-    // ASSERT_EQ(leaders_seq_debug_get_at(1), KC_A); 
-
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(1, 0); //KC_B
+    keyboard_task();
 }
