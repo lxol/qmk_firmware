@@ -21,6 +21,7 @@ enum foobar {
   LD_LEADER2,
   LD_LEADER3,
   SEQ_AB,
+  SEQ_A,
   SEQ_OT,
   SEQ_IIE,
   SEQ_IEE,
@@ -66,6 +67,7 @@ uint16_t* leader1_seq[]  = {
 
 uint16_t*  leader2_seq[]  = {
   ( uint16_t[]){2, KC_O, KC_T, SEQ_OT},
+  ( uint16_t[]){1, KC_A, SEQ_A},
   /* (const uint16_t[]){2, KC_I, KC_E, SEQ_}, */
   ( uint16_t[]){0}
 };
@@ -104,6 +106,14 @@ bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
       return false; break;
     } else {
       unregister_code16(KC_I);
+      return false; break;
+    }
+  case SEQ_A:
+    if (record->event.pressed) {
+      register_code16(KC_U);
+      return false; break;
+    } else {
+      unregister_code16(KC_U);
       return false; break;
     }
   }

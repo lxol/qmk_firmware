@@ -79,9 +79,12 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         /* return false; */
       } else if (match_kc == DO_NOT_MATCH) {
         leaders_seq_reset();
+        remove_leader_oneshot(leader);
         press_state_put(record->event.key, KC_NO);
       } else {
         press_state_put(record->event.key, match_kc);
+        leaders_seq_reset();
+        remove_leader_oneshot(leader);
         return process_leaders_user(match_kc, record);
       }
     }
@@ -90,8 +93,15 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   }
   if (!record->event.pressed) {
     if (press_state_get() == 0UL) {return true;}
-    uint16_t kc = press_state_remove(record->event.key);
-    if (kc == KC_NO) {return false;}
+    uint8_t idx = find_press(record->event.key);
+    if (idx == LD_PRESS_MAX) {
+      return true;
+    }
+    uint16_t kc = press_state_remove_by_idx(idx);
+    if (kc == KC_NO) {
+      return false;
+    }
+    remove_leader_momentary(kc);
     return process_leaders_user(kc, record);
   }
   return true;

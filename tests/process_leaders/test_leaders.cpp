@@ -73,4 +73,65 @@ TEST_F(Leaders, leader_press_sequence) {
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
     release_key(1, 0); //KC_B
     keyboard_task();
+    // the leader should be released after that 
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
+    press_key(0, 0); //KC_A
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(0, 0); //KC_A
+    keyboard_task();
+}
+
+TEST_F(Leaders, oneshot) {
+    TestDriver driver;
+    InSequence s;
+    press_key(6, 0); //LD_LEADER2
+    keyboard_task();
+    release_key(6, 0); //LD_LEADER2
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_U)));
+    press_key(0, 0); //KC_A
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(0, 0); //KC_A
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
+    press_key(0, 0); //KC_A
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(0, 0); //KC_A
+    keyboard_task();
+}
+
+TEST_F(Leaders, momentary) {
+    TestDriver driver;
+    InSequence s;
+    press_key(6, 0); //LD_LEADER2
+    keyboard_task();
+
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_U)));
+    press_key(0, 0); //KC_A
+    keyboard_task();
+
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(0, 0); //KC_A
+    keyboard_task();
+
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_U)));
+    press_key(0, 0); //KC_A
+    keyboard_task();
+
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(0, 0); //KC_A
+    keyboard_task();
+
+    release_key(6, 0); //LD_LEADER2
+    keyboard_task();
+    
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
+    press_key(0, 0); //KC_A
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(0, 0); //KC_A
+    keyboard_task();
 }

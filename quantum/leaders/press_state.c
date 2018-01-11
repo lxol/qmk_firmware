@@ -76,6 +76,12 @@ uint16_t press_state_remove(keypos_t key) {
   return presses[idx].keycode;
 }
 
+uint16_t press_state_remove_by_idx(uint8_t idx) {
+  if (idx == LD_PRESS_MAX) {return KC_NO;}
+  press_state &= ~(1U << idx);
+  return presses[idx].keycode;
+}
+
 /* bool unmemorize_press_by_idx(uint8_t idx) { */
 /*   if (idx == LD_PRESS_MAX) {return false;} */
 /*   press_state &= ~(1U << idx); */
