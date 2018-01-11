@@ -17,7 +17,13 @@
 
 uint16_t sequence[LEADERS_SEQ_MAX];
 
-const uint16_t*** sequence_config;
+uint16_t*** seq_config;
+
+/* #if defined(__cplusplus) */
+uint16_t leaders_seq_debug_get_at(uint8_t index) {
+  return sequence[index];
+}
+/* #endif */
 
 
 void leaders_seq_put(uint16_t keycode) {
@@ -29,8 +35,8 @@ void leaders_seq_reset() {
   sequence[0] = 0;
 }
 
-void leadermanager_set_config(const uint16_t*** config) {
-  sequence_config = config;
+void leadermanager_set_config(uint16_t** config[]) {
+  seq_config = config;
 }
 
 /* uint16_t leaders_match(uint8_t leader_idx, uint16_t* seq, const uint16_t*** config) { */
@@ -41,7 +47,7 @@ uint16_t leaders_match(uint8_t leader_idx) {
   uint16_t result = DO_NOT_MATCH;
   uint16_t i = 0;
   do {
-    uint16_t size = sequence_config[leader_idx][i][0];
+    uint16_t size = seq_config[leader_idx][i][0];
     if (size == 0) {
       return result;
     }
@@ -52,7 +58,7 @@ uint16_t leaders_match(uint8_t leader_idx) {
     }
     uint16_t j = 1;
     do  {
-      uint16_t kc = sequence_config[leader_idx][i][j];
+      uint16_t kc = seq_config[leader_idx][i][j];
       if (j == size + 1) {
         return  kc;
       }

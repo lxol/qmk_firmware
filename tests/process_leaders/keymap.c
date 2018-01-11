@@ -20,7 +20,7 @@ enum foobar {
   LD_LEADER1 = SAFE_RANGE,
   LD_LEADER2,
   LD_LEADER3,
-  SEQ_IE,
+  SEQ_AB,
   SEQ_OT,
   SEQ_IIE,
   SEQ_IEE,
@@ -57,24 +57,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define LD_FIRST LD_LEADER1
 #define LD_LAST LD_LEADER3
 
-const uint16_t* leader1_seq[]  = {
-  (const uint16_t[]){2, KC_I, KC_E, SEQ_IE },
-  (const uint16_t[]){3, KC_I, KC_E, KC_E, SEQ_IEE},
-  (const uint16_t[]){0}
+uint16_t* leader1_seq[]  = {
+  /* (const uint16_t[]){1, KC_T,  SEQ_AB }, */
+  ( uint16_t[]){2, KC_A, KC_B, SEQ_AB },
+  ( uint16_t[]){3, KC_I, KC_E, KC_E, SEQ_IEE},
+  ( uint16_t[]){0}
 };
 
-const uint16_t*  leader2_seq[]  = {
-  (const uint16_t[]){2, KC_O, KC_T, SEQ_OT},
-  (const uint16_t[]){2, KC_I, KC_E, SEQ_IE},
-  (const uint16_t[]){0}
+uint16_t*  leader2_seq[]  = {
+  ( uint16_t[]){2, KC_O, KC_T, SEQ_OT},
+  /* (const uint16_t[]){2, KC_I, KC_E, SEQ_}, */
+  ( uint16_t[]){0}
 };
 
-const uint16_t*  leader3_seq[]  = {
-  (const uint16_t[]){1, KC_TRNS, SEQ_LAYER_1 },
-  (const uint16_t[]){0}
+uint16_t*  leader3_seq[]  = {
+  ( uint16_t[]){1, KC_TRNS, SEQ_LAYER_1 },
+  ( uint16_t[]){0}
 };
 
-const uint16_t** sequence_config[LD_LAST - LD_FIRST + 1];
+uint16_t** sequence_config[LD_LAST - LD_FIRST + 1];
 
 void leaders_init_user(void) {
     sequence_config[LD_LEADER1 - LD_FIRST] = leader1_seq; 
@@ -87,16 +88,26 @@ void leaders_init_user(void) {
 }
 
 bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
-    switch(keycode) {
-    case LD_LEADER1:
-      if (record->event.pressed) {
-        register_code16(KC_T);
-        return false; break;
-      } else {
-        unregister_code16(KC_T);
-        return false; break;
-      }
+  switch(keycode) {
+  case LD_LEADER1:
+    if (record->event.pressed) {
+      register_code16(KC_T);
+      return false;
+    } else {
+      unregister_code16(KC_T);
+      return false; 
     }
-    return true;
+    break;
+  case SEQ_AB:
+    if (record->event.pressed) {
+      register_code16(KC_I);
+      return false; break;
+    } else {
+      unregister_code16(KC_I);
+      return false; break;
+    }
+  }
+  return false;
 }
+
 #endif

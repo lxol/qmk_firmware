@@ -20,6 +20,8 @@
 #define MATRIX_ROWS 4
 #define MATRIX_COLS 10
 
+/* #undef NO_PRINT */
+#undef __AVR__
 
 #endif
 

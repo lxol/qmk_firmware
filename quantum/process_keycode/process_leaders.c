@@ -18,6 +18,9 @@
 
 #include "process_leaders.h"
 
+#include "print.h"
+
+/* #include "debug.h" */
 uint16_t first_leader;
 uint16_t last_leader;
 
@@ -68,10 +71,13 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       return process_leaders_user(leader, record);
     } else {
       uint16_t kc = keymap_key_to_keycode(ref_layer, record->event.key);
+      /* kc = KC_T; */
       leaders_seq_put(kc);
       uint16_t match_kc = leaders_match(leader -  first_leader);
+      /* return false; */
       if (match_kc == PARTIAL_MATCH) {
         press_state_put(record->event.key, KC_NO);
+        /* print("ASDFASDFASDF"); */
         /* return false; */
       } else if (match_kc == DO_NOT_MATCH) {
         leaders_seq_reset();
