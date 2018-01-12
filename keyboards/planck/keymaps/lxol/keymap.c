@@ -226,6 +226,7 @@ bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code16(KC_RCBR);
       return false; break;
     }
+    break;
   case SEQ_SYM_D:
     if (record->event.pressed) {
       register_code16(KC_LPRN);
@@ -243,7 +244,7 @@ bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code16(KC_RPRN);
       return false; break;
     }
-    
+    break;
   case SEQ_SYM_C:
     if (record->event.pressed) {
       register_code16(KC_LBRC);
@@ -261,6 +262,18 @@ bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code16(KC_RBRC);
       return false; break;
     }
+    break;
+  case SEQ_ARROWS:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_ARROWS, record->event.key);
+      register_code16(kc);
+      return false; break;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_ARROWS, record->event.key);
+      unregister_code16(kc);
+      return false; break;
+    }
+    break;
   }
   return false;
 
