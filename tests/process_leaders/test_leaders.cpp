@@ -139,3 +139,9 @@ TEST_F(Leaders, momentary) {
     release_key(0, 0); //KC_A
     keyboard_task();
 }
+
+TEST_F(Leaders, multileaders) {
+    TestDriver driver;
+    InSequence s;
+    leaders_init();
+}

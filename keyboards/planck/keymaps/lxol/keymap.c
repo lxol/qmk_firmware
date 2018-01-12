@@ -10,7 +10,7 @@ enum planck_layers {
   /* _RIGHT, */
   _RAISEFUN,
   _RAISE,
-  _MAIN,
+  /* _MAIN, */
   _FUN,
   _SYM,
   _NUM,
@@ -29,20 +29,17 @@ enum planck_keycodes {
   FUN,
   MOUSE,
   BACKLIT,
-  LD_OS_CTL_X,
+  LD_FIRST,
+  LD_SYMBOLS = LD_FIRST,
   LD_ARROWS,
-  LD_LAYER_SYM,
-  LD_MO_RAISE,
-  LD_MO_SYM,
-  LD_OS_MAIN,
-  LD_OS_NUM,
-  LD_OS_TEST,
-  LD_TEST2,
-  LD_OS_SYM,
-  LD_EMACS_SUPER,
-  LD_EMACS_HYPER,
-  LD_SUPER,
-  LD_ARROWS1,
+  LD_LAST = LD_ARROWS,
+  SEQ_SYM_E,
+  SEQ_SYM_R,
+  SEQ_SYM_D,
+  SEQ_SYM_F,
+  SEQ_SYM_C,
+  SEQ_SYM_V,
+  SEQ_ARROWS,
   DYNAMIC_MACRO_RANGE,
 };
 
@@ -60,25 +57,25 @@ enum planck_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = {
-  { KC_ESC ,   KC_Q ,  KC_W , KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,  KC_I ,    KC_O ,   KC_P ,    KC_MINS } , 
-  { KC_TAB ,   KC_A ,  KC_S , KC_D ,    KC_F ,    KC_G ,    KC_H ,   KC_J ,  KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } , 
-  { LD_SUPER , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,  KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } , 
-  { XXXXXXX ,  MOUSE , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , RAISE , KC_LCTL , LEFT ,   KC_BSPC , KC_ENT }
- } ,           
+  { KC_ESC ,  KC_Q ,  KC_W , KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,  KC_I ,    KC_O ,   KC_P ,    KC_MINS } , 
+  { KC_TAB ,  KC_A ,  KC_S , KC_D ,    KC_F ,    KC_G ,    KC_H ,   KC_J ,  KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } , 
+  { XXXXXXX , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,  KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } , 
+  { XXXXXXX , MOUSE , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , RAISE , KC_LCTL , LEFT ,   KC_BSPC , KC_ENT }
+ } ,          
 
 [_RAISE] = { 
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,           KC_5 ,           KC_6 ,    KC_7 ,    KC_8 ,         KC_9 ,     KC_0 ,    _______ } ,        
-  { _______ , KC_LBRC , KC_RBRC , LD_ARROWS , LD_OS_CTL_X ,    KC_BSPC ,        KC_EQL ,  KC_ENT ,  LD_LAYER_SYM , _______ , _______ , _______ } , 
-  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,         KC_PERC ,        KC_CIRC , KC_AMPR , KC_ASTR ,      _______ ,  _______ , _______ } ,        
-  { CALTDEL , KC_DEL ,  _______ , _______ ,   _______ , _______ , _______ , _______ , _______ ,      _______ ,  _______ , _______ }
- } ,          
+  { KC_GRV ,    KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,       KC_9 ,    KC_0 ,    _______ } , 
+  { _______ ,   KC_LBRC , KC_RBRC , LD_ARROWS , XXXXXXX , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_SYMBOLS , _______ , _______ , _______ } , 
+  { KC_TILD ,   KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,    _______ , _______ , _______ } , 
+  { CALTDEL ,   KC_DEL ,  _______ , _______ ,   _______ , _______ , _______ , _______ , _______ ,    _______ , _______ , _______ }
+ } ,            
 
-[_MAIN] = { 
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,           KC_5 ,           KC_6 ,    KC_7 ,    KC_8 ,      KC_9 ,      KC_0 ,    _______ } , 
-  { _______ , KC_LBRC , KC_RBRC , _______ , LD_OS_TEST , KC_BSPC , KC_EQL ,  KC_ENT ,    LD_OS_SYM , LD_OS_NUM , _______ , _______ } , 
-  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,     KC_PERC , KC_CIRC , KC_AMPR ,   KC_ASTR ,   _______ ,   _______ , _______ } , 
-  { CALTDEL , KC_DEL ,  _______ , _______ , _______ ,    _______ , KC_SPC ,  LD_MO_SYM , _______ ,   _______ ,   _______ , _______ }
- } ,          
+/* [_MAIN] = { */
+/*   { KC_GRV , KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,       KC_9 ,    KC_0 ,    _______ } ,  */
+/*   { _______ , KC_LBRC , KC_RBRC , _______ , LD_OS_TEST , KC_BSPC , KC_EQL ,  KC_ENT ,    LD_OS_SYM , LD_OS_NUM , _______ , _______ } ,  */
+/*   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,     KC_PERC , KC_CIRC , KC_AMPR ,   KC_ASTR ,   _______ ,   _______ , _______ } ,  */
+/*   { CALTDEL , KC_DEL ,  _______ , _______ , _______ ,    _______ , KC_SPC ,  LD_MO_SYM , _______ ,   _______ ,   _______ , _______ } */
+/*  } ,           */
 
 [_FUN] = { 
   { KC_F12 ,       KC_F1 ,           KC_F2 ,           KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,    KC_F10 ,  KC_F11 } ,  
@@ -131,37 +128,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return false;
   }
   switch (keycode) {
-    /* case RAISE: */
-    /*   if (record->event.pressed) { */
-    /*     layer_on(_RAISE); */
-    /*     update_tri_layer(_RAISE, _FUN, _RAISEFUN); */
-    /*   } else { */
-    /*     layer_off(_RAISE); */
-    /*     update_tri_layer(_RAISE, _FUN, _RAISEFUN); */
-    /*   } */
-    /*   return false; */
-    /*   break; */
-    /* case FUN: */
-    /*   if (record->event.pressed) { */
-    /*     layer_on(_FUN); */
-    /*     update_tri_layer(_RAISE, _FUN, _RAISEFUN); */
-    /*   } else { */
-    /*     layer_off(_FUN); */
-    /*     update_tri_layer(_RAISE, _FUN, _RAISEFUN); */
-    /*   } */
-    /*   return false; */
-    /*   break; */
-    /* case LEFT: */
-    /*   if (record->event.pressed) { */
-    /*     layer_on(_LEFT); */
-    /*   } else { */
-    /*     layer_off(_LEFT); */
-    /*   } */
-    /*   return false; */
-    /*   break; */
     case RAISE:
       if (record->event.pressed) {
-
         xprintf("           RAISE ON\r\n");
         layer_on(_RAISE);
       } else {
@@ -204,297 +172,97 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 #ifdef LEADERS_ENABLE
 
-LEADERS_EXTERNS();
-leader_t leaders[] = {
-  (leader_t) {
-    .keycode = LD_LAYER_SYM,
-    .oneshot = true,
-    .reference_layer = _QWERTY
-  },
-  (leader_t) {
-    .keycode = LD_ARROWS,
-    .oneshot = false,
-    .reference_layer = _QWERTY
-  },
-  (leader_t) {
-    .keycode = LD_EMACS_HYPER,
-    .oneshot = true,
-    .reference_layer = _QWERTY
-  },
-  (leader_t) {
-    .keycode = LD_EMACS_SUPER,
-    .oneshot = true,
-    .reference_layer = _QWERTY
-  },
-  (leader_t) {
-    .keycode = LD_OS_CTL_X,
-    .oneshot = true,
-    .reference_layer = _QWERTY
-  },
-  (leader_t) {
-    .keycode = LD_SUPER,
-    .oneshot = false,
-    .reference_layer = _QWERTY
-  },
-  /* terminator */
-  (leader_t) {
-    .keycode = KC_NO
-  }
+
+uint16_t* ld_symbols_seq[]  = {
+  /* (const uint16_t[]){1, KC_T,  SEQ_AB }, */
+  ( uint16_t[]){1, KC_E, SEQ_SYM_E },
+  ( uint16_t[]){1, KC_R, SEQ_SYM_R },
+  ( uint16_t[]){1, KC_D, SEQ_SYM_D },
+  ( uint16_t[]){1, KC_F, SEQ_SYM_F },
+  ( uint16_t[]){1, KC_C, SEQ_SYM_C },
+  ( uint16_t[]){1, KC_V, SEQ_SYM_V },
+  ( uint16_t[]){0}
 };
 
+/* uint16_t*  ld_arrows_seq[]  = { */
+/*   ( uint16_t[]){2, KC_O, KC_T, SEQ_OT}, */
+/*   ( uint16_t[]){1, KC_A, SEQ_A}, */
+/*   /\* (const uint16_t[]){2, KC_I, KC_E, SEQ_}, *\/ */
+/*   ( uint16_t[]){0} */
+/* }; */
+
+uint16_t*  ld_arrows_seq[]  = {
+  ( uint16_t[]){1, KC_TRNS, SEQ_ARROWS },
+  ( uint16_t[]){0}
+};
+
+uint16_t** sequence_config[LD_LAST - LD_FIRST + 1];
+
 void leaders_init_user(void) {
-  /* leaders_ref_layer = biton32(default_layer_state); */
+    sequence_config[LD_SYMBOLS - LD_FIRST] = ld_symbols_seq; 
+    sequence_config[LD_ARROWS - LD_FIRST] = ld_arrows_seq; 
+
+    leaders_range(LD_FIRST, LD_LAST);
+    set_ref_layer(_QWERTY);
+    leadermanager_set_config(sequence_config);
 }
 
-bool process_leader_press_user(uint16_t leader) {
-  if (ld_leader_eq(LD_SUPER)) {
-    register_code16(KC_LGUI);
-  }
-  if (ld_leader_eq(LD_ARROWS)) {
-    layer_on(_ARROWS);
+bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
+  switch(keycode) {
+  case SEQ_SYM_E:
+    if (record->event.pressed) {
+      register_code16(KC_LCBR);
+      return false;
+    } else {
+      unregister_code16(KC_LCBR);
+      return false; 
+    }
+    break;
+  case SEQ_SYM_R:
+    if (record->event.pressed) {
+      register_code16(KC_RCBR);
+      return false; break;
+    } else {
+      unregister_code16(KC_RCBR);
+      return false; break;
+    }
+  case SEQ_SYM_D:
+    if (record->event.pressed) {
+      register_code16(KC_LPRN);
+      return false;
+    } else {
+      unregister_code16(KC_LPRN);
+      return false; 
+    }
+    break;
+  case SEQ_SYM_F:
+    if (record->event.pressed) {
+      register_code16(KC_RPRN);
+      return false; break;
+    } else {
+      unregister_code16(KC_RPRN);
+      return false; break;
+    }
+    
+  case SEQ_SYM_C:
+    if (record->event.pressed) {
+      register_code16(KC_LBRC);
+      return false;
+    } else {
+      unregister_code16(KC_LBRC);
+      return false; 
+    }
+    break;
+  case SEQ_SYM_V:
+    if (record->event.pressed) {
+      register_code16(KC_RBRC);
+      return false; break;
+    } else {
+      unregister_code16(KC_RBRC);
+      return false; break;
+    }
   }
   return false;
+
 }
-
-bool process_leader_release_user(uint16_t leader) {
-  if (ld_leader_eq(LD_SUPER)) {
-    unregister_code16(KC_LGUI);
-  }
-
-  if (ld_leader_eq(LD_ARROWS)) {
-    layer_off(_ARROWS);
-  }
-  
-  return false;
-}
-
-bool process_sequence_release_user(void) {
-  if (ld_leader_eq(LD_SUPER)) {
-    return true;
-  }
-
-  if (ld_leader_eq(LD_ARROWS)) {
-    return true;
-  }
-
-  if (ld_leader_eq(LD_EMACS_SUPER)) {
-    return true;
-  }
-
-  if (ld_leader_eq(LD_EMACS_HYPER)) {
-    return true;
-  }
-  
-  return false;
-}
-
-bool process_sequence_press_user(void) {
-  /* Emacs translates "C-x @ s" to super */
-  if (is_leading(LD_EMACS_SUPER)) {
-    register_code16(KC_LCTL);
-    register_code16(KC_X);
-    unregister_code16(KC_X);
-    unregister_code16(KC_LCTL);
-    register_code16(KC_AT);
-    unregister_code16(KC_AT);
-    register_code16(KC_S);
-    unregister_code16(KC_S);
-    leaders_state.sequence_size = 0;
-    ld_remove_current_leader_oneshot();
-    return true;
-  }
-
-  if (is_leading(LD_EMACS_HYPER)) {
-    register_code16(KC_LCTL);
-    register_code16(KC_X);
-    unregister_code16(KC_X);
-    unregister_code16(KC_LCTL);
-    register_code16(KC_AT);
-    unregister_code16(KC_AT);
-    register_code16(KC_H);
-    unregister_code16(KC_H);
-    leaders_state.sequence_size = 0;
-    ld_remove_current_leader_oneshot();
-    return true;
-  }
-  
-  if (is_leading(LD_SUPER)) {
-    leaders_state.sequence_size = 0;
-    return true;
-  }
-
-  if (is_leading(LD_ARROWS)) {
-    leaders_state.sequence_size = 0;
-    return true;
-  }
-
-
-  if (is_leading(LD_MO_RAISE)) {
-    if (peq(1, KC_TRNS)) {
-      LEADERS_SEQ_LAYER(_RAISE)
-        leaders_state.sequence_size = 0;
-      ld_remove_current_leader_oneshot();
-      return false;                 
-    }
-  }
-
-  if (is_leading(LD_LAYER_SYM)) {
-
-    if (peq(1, KC_I)) {
-      if (peq(2, KC_S)) {
-        SEND_STRING("\"\"");
-        register_code16(KC_LEFT);
-        unregister_code16(KC_LEFT);
-        leaders_state.sequence_size = 0;
-        ld_remove_current_leader_oneshot();
-        return false;                 
-      }
-      if (peq(2, KC_O)) {
-        SEND_STRING("works11!");
-        leaders_state.sequence_size = 0;
-        ld_remove_current_leader_oneshot();
-        return false;                 
-      }
-      if (peq(2, KC_W)) {
-        SEND_STRING("''");
-        register_code16(KC_LEFT);
-        unregister_code16(KC_LEFT);
-        leaders_state.sequence_size = 0;
-        ld_remove_current_leader_oneshot();
-        return false;                 
-      }
-      if (peq(2, KC_W)) {
-        SEND_STRING("``");
-        register_code16(KC_LEFT);
-        unregister_code16(KC_LEFT);
-        leaders_state.sequence_size = 0;
-        ld_remove_current_leader_oneshot();
-        return false;                 
-      }
-      if (peq(2, KC_E)) {
-        SEND_STRING("{}");
-        register_code16(KC_LEFT);
-        unregister_code16(KC_LEFT);
-        leaders_state.sequence_size = 0;
-        ld_remove_current_leader_oneshot();
-        return false;                 
-      }
-      if (peq(2, KC_D)) {
-        SEND_STRING("()");
-        register_code16(KC_LEFT);
-        unregister_code16(KC_LEFT);
-        leaders_state.sequence_size = 0;
-        ld_remove_current_leader_oneshot();
-        return false;                 
-      }
-
-      if (peq(2, KC_C)) {
-        SEND_STRING("[]");
-        register_code16(KC_LEFT);
-        unregister_code16(KC_LEFT);
-        leaders_state.sequence_size = 0;
-        ld_remove_current_leader_oneshot();
-        return false;                 
-      }
-      if (peq(2,  KC_I)) {
-        if (peq(3,  KC_E)) {
-          SEND_STRING("{}");
-          register_code16(KC_LEFT);
-          unregister_code16(KC_LEFT);
-          register_code16(KC_ENT);
-          unregister_code16(KC_ENT);
-          register_code16(KC_ENT);
-          unregister_code16(KC_ENT);
-          register_code16(KC_UP);
-          unregister_code16(KC_UP);
-          register_code16(KC_TAB);
-          unregister_code16(KC_TAB);
-          leaders_state.sequence_size = 0;
-          ld_remove_current_leader_oneshot();
-          return false;                 
-        }
-      }
-    }
-
-    if (peq(1,  KC_TRNS)) {
-      LEADERS_SEQ_LAYER(_SYM)
-        leaders_state.sequence_size = 0;
-      ld_remove_current_leader_oneshot();
-      return false;                 
-    }
-  }
-
-  if (is_leading(LD_OS_NUM)) {
-    if (peq(1,  KC_TRNS)) {
-      LEADERS_SEQ_LAYER(_NUM)
-      leaders_state.sequence_size = 0;
-      ld_remove_current_leader_oneshot();
-      return false;                 
-    }
-  }
-
-
-  if (is_leading(LD_OS_CTL_X)) {
-    if (peq(1,  KC_J)) {
-      register_code16(KC_LCTL);
-      register_code16(KC_X);
-      unregister_code16(KC_X);
-      unregister_code16(KC_LCTL);
-      register_code16(KC_1);
-      unregister_code16(KC_1);
-      leaders_state.sequence_size = 0;
-      ld_remove_current_leader_oneshot();
-      return false;                 
-    }
-
-    if (peq(1,  KC_K)) {
-      register_code16(KC_LCTL);
-      register_code16(KC_X);
-      unregister_code16(KC_X);
-      unregister_code16(KC_LCTL);
-      register_code16(KC_2);
-      unregister_code16(KC_2);
-      leaders_state.sequence_size = 0;
-      ld_remove_current_leader_oneshot();
-      return false;                 
-    }
-
-    if (peq(1,  KC_L)) {
-      register_code16(KC_LCTL);
-      register_code16(KC_X);
-      unregister_code16(KC_X);
-      unregister_code16(KC_LCTL);
-      register_code16(KC_3);
-      unregister_code16(KC_3);
-      leaders_state.sequence_size = 0;
-      ld_remove_current_leader_oneshot();
-      return false;                 
-    }
-
-    if (peq(1,  KC_O)) {
-      register_code16(KC_LCTL);
-      register_code16(KC_X);
-      unregister_code16(KC_X);
-      unregister_code16(KC_LCTL);
-      register_code16(KC_O);
-      unregister_code16(KC_O);
-      leaders_state.sequence_size = 0;
-      ld_remove_current_leader_oneshot();
-      return false;                 
-    }
-
-    /* ignore other keys  */
-    if (peq(1,  KC_TRNS)) {
-      leaders_state.sequence_size = 0;
-      ld_remove_current_leader_oneshot();
-      leaders_state.sequence_size = 0;
-      ld_remove_current_leader_oneshot();
-      return false;                 
-    }
-  }
-
-  return false;
-}
-
-
 #endif
