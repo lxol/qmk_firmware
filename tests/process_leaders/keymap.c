@@ -58,26 +58,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define LD_FIRST LD_LEADER1
 #define LD_LAST LD_LEADER3
 
-uint16_t* leader1_seq[]  = {
+const uint16_t PROGMEM * leader1_seq[]  = {
   /* (const uint16_t[]){1, KC_T,  SEQ_AB }, */
   ( uint16_t[]){2, KC_A, KC_B, SEQ_AB },
   ( uint16_t[]){3, KC_I, KC_E, KC_E, SEQ_IEE},
   ( uint16_t[]){0}
 };
 
-uint16_t*  leader2_seq[]  = {
+const uint16_t PROGMEM *  leader2_seq[]  = {
   ( uint16_t[]){2, KC_O, KC_T, SEQ_OT},
   ( uint16_t[]){1, KC_A, SEQ_A},
   /* (const uint16_t[]){2, KC_I, KC_E, SEQ_}, */
   ( uint16_t[]){0}
 };
 
-uint16_t*  leader3_seq[]  = {
+const uint16_t PROGMEM *  leader3_seq[]  = {
   ( uint16_t[]){1, KC_TRNS, SEQ_LAYER_1 },
   ( uint16_t[]){0}
 };
 
-uint16_t** sequence_config[LD_LAST - LD_FIRST + 1];
+const uint16_t** sequence_config[LD_LAST - LD_FIRST + 1];
 
 void leaders_init_user(void) {
     sequence_config[LD_LEADER1 - LD_FIRST] = leader1_seq; 

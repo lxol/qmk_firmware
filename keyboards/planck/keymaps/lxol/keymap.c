@@ -173,7 +173,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef LEADERS_ENABLE
 
 
-uint16_t* ld_symbols_seq[]  = {
+const uint16_t*  ld_symbols_seq[] = {
   /* (const uint16_t[]){1, KC_T,  SEQ_AB }, */
   ( uint16_t[]){1, KC_E, SEQ_SYM_E },
   ( uint16_t[]){1, KC_R, SEQ_SYM_R },
@@ -191,12 +191,12 @@ uint16_t* ld_symbols_seq[]  = {
 /*   ( uint16_t[]){0} */
 /* }; */
 
-uint16_t*  ld_arrows_seq[]  = {
+const uint16_t*  ld_arrows_seq[] = {
   ( uint16_t[]){1, KC_TRNS, SEQ_ARROWS },
   ( uint16_t[]){0}
 };
 
-uint16_t** sequence_config[LD_LAST - LD_FIRST + 1];
+const uint16_t** sequence_config[LD_LAST - LD_FIRST + 1];
 
 void leaders_init_user(void) {
     sequence_config[LD_SYMBOLS - LD_FIRST] = ld_symbols_seq; 

@@ -23,13 +23,13 @@
 #define LEADERS_SEQ_MAX 10
 #endif
 
-#define PARTIAL_MATCH 1
-#define DO_NOT_MATCH 0
+#define PARTIAL_MATCH 254
+#define DO_NOT_MATCH 255
 
 /* #if defined(__cplusplus) */
 /* extern "C" { */
 /* #endif */
-void leadermanager_set_config(uint16_t** config[]);
+void leadermanager_set_config(const uint16_t** config[]);
 
 uint16_t leaders_match(uint8_t leader_idx);
 void leaders_seq_put(uint16_t keycode);

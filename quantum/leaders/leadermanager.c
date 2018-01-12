@@ -17,7 +17,7 @@
 
 uint16_t sequence[LEADERS_SEQ_MAX];
 
-uint16_t*** seq_config;
+const uint16_t*** seq_config;
 
 /* #if defined(__cplusplus) */
 uint16_t leaders_seq_debug_get_at(uint8_t index) {
@@ -35,7 +35,7 @@ void leaders_seq_reset() {
   sequence[0] = 0;
 }
 
-void leadermanager_set_config(uint16_t** config[]) {
+void leadermanager_set_config(const uint16_t** config[]) {
   seq_config = config;
 }
 
