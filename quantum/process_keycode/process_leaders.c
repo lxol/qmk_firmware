@@ -89,7 +89,11 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
             press_state_put(record->event.key, KC_NO);
             return false;
           } else {
-            match_kc = layer_kc;
+            register_code16(layer_kc);
+            press_state_put(record->event.key, layer_kc);
+            leaders_seq_reset();
+            remove_leader_oneshot(ldr);
+            return false;
           }
         }
         press_state_put(record->event.key, match_kc);
@@ -110,6 +114,9 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     uint16_t kc = press_state_remove_by_idx(idx);
     if (kc == KC_NO) {
       return false;
+    }
+    if (kc < SAFE_RANGE) {
+      unregister_code16(kc);
     }
     remove_leader_momentary(kc);
     return process_leaders_user(kc, record);

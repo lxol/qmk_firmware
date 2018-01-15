@@ -28,22 +28,21 @@ enum foobar {
   SEQ_LAYER_1
 };
 
+enum test_layers {
+  _LAYER1,
+  _LAYER2
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [0] = {
+  [_LAYER1] = {
 
     //{ 0 ,     1 ,       2 ,     3 ,     4 ,     5 ,          6 ,          7 ,          8 ,     9 ,       }
     { KC_A ,    KC_B ,    KC_C ,  KC_D ,  KC_E ,  LD_LEADER1 , LD_LEADER2 , LD_LEADER3 , KC_NO , KC_NO } , 
     { KC_NO ,   KC_NO ,   KC_NO , KC_NO , KC_NO , KC_NO ,      KC_NO ,      KC_NO ,      KC_NO , KC_NO } , 
     { KC_NO ,   KC_NO ,   KC_NO , KC_NO , KC_NO , KC_NO ,      KC_NO ,      KC_NO ,      KC_NO , KC_NO } , 
     { KC_NO ,   KC_NO ,   KC_NO , KC_NO , KC_NO , KC_NO ,      KC_NO ,      KC_NO ,      KC_NO , KC_NO } , 
-    /* //{ 0 ,  1 ,       2 ,     3 ,     4 ,     5 ,          6 ,          7 ,          8 ,     9 ,       } */
-    /* { KC_A , LD_TEST , LD_TEST2 , LD_TEST3 , KC_RSFT , KC_LCTL , COMBO1 , SFT_T(KC_P) , M(0) ,  KC_NO } ,  */
-    /* { KC_NO , KC_NO ,   KC_NO ,    KC_NO ,    KC_NO ,   KC_NO ,   KC_NO ,  KC_NO ,       KC_NO , KC_NO } ,  */
-    /* { KC_NO , KC_NO ,   KC_NO ,    KC_NO ,    KC_NO ,   KC_NO ,   KC_NO ,  KC_NO ,       KC_NO , KC_NO } ,  */
-    /* { KC_C ,  KC_D ,    KC_NO ,    KC_NO ,    KC_NO ,   KC_NO ,   KC_NO ,  KC_NO ,       KC_NO , KC_NO } ,  */
   } ,          
-  [1] = { 
+  [_LAYER2] = { 
     //{ 0 ,   1 ,     2 ,     3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       }
     { KC_A ,  KC_B ,  KC_C ,  KC_D ,  KC_E ,  KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
@@ -73,7 +72,7 @@ const uint16_t PROGMEM *  leader2_seq[]  = {
 };
 
 const uint16_t PROGMEM *  leader3_seq[]  = {
-  ( uint16_t[]){1, KC_TRNS, SEQ_LAYER_1 },
+  ( uint16_t[]){1, KC_TRNS, _LAYER2 },
   ( uint16_t[]){0}
 };
 
