@@ -46,7 +46,7 @@ void leaders_init(void) {
 }
 
 void set_ref_layer(uint8_t layer) {
-  ref_layer = layer; 
+  ref_layer = layer;
 }
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
@@ -60,8 +60,8 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     /* no leader -> normal processing */
     if (current_leader() == KC_NO) {
       return true;
-    } 
-    
+    }
+
     /* leader mode after this line */
     uint16_t ldr = current_leader();
     /* keep all presses. */
@@ -73,34 +73,41 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       uint16_t kc = keymap_key_to_keycode(ref_layer, record->event.key);
       /* kc = KC_T; */
       leaders_seq_put(kc);
+
       uint16_t match_kc = leaders_match(ldr -  first_leader);
-      if (match_kc == PARTIAL_MATCH) {
+      switch(match_kc) {
+      case PARTIAL_MATCH: {
         press_state_put(record->event.key, KC_NO);
-        /* return false; */
-      } else if (match_kc == DO_NOT_MATCH) {
+        return false;
+      }
+      case DO_NOT_MATCH: {
         leaders_seq_reset();
         remove_leader_oneshot(ldr);
         press_state_put(record->event.key, KC_NO);
-      } else {
-        if (match_kc < LEADERS_LAYER_MAX) {
-          uint16_t layer_kc = keymap_key_to_keycode(match_kc, record->event.key);
-          if (layer_kc == KC_NO) {
-            leaders_seq_remove_last();
-            press_state_put(record->event.key, KC_NO);
-            return false;
-          } else {
-            register_code16(layer_kc);
-            press_state_put(record->event.key, layer_kc);
-            leaders_seq_reset();
-            remove_leader_oneshot(ldr);
-            return false;
-          }
+        return false;
+      }
+      case 0 ... LEADERS_LAYER_MAX: {
+        uint16_t layer_kc = keymap_key_to_keycode(match_kc, record->event.key);
+        if (layer_kc == KC_NO) {
+          leaders_seq_remove_last();
+          press_state_put(record->event.key, KC_NO);
+          return false;
+        } else {
+          register_code16(layer_kc);
+          press_state_put(record->event.key, layer_kc);
+          leaders_seq_reset();
+          remove_leader_oneshot(ldr);
+          return false;
         }
+      }
+      default: {
         press_state_put(record->event.key, match_kc);
         leaders_seq_reset();
         remove_leader_oneshot(ldr);
         return process_leaders_user(match_kc, record);
       }
+      }
+
     }
     return false;
     /* return process_leaders_user(keycode, record); */
