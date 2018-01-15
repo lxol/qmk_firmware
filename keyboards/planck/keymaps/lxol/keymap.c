@@ -88,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { XXXXXXX , KC_GRV ,  KC_QUOT , KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } , 
   { XXXXXXX , KC_TILD , KC_DQUO , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } , 
   { XXXXXXX , XXXXXXX , XXXXXXX , KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } , 
-  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_TRNS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX }
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX }
  } ,
 
 [_NUM ] = {
@@ -175,12 +175,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 const uint16_t*  ld_symbols_seq[] = {
   /* (const uint16_t[]){1, KC_T,  SEQ_AB }, */
-  ( uint16_t[]){1, KC_E, SEQ_SYM_E },
-  ( uint16_t[]){1, KC_R, SEQ_SYM_R },
-  ( uint16_t[]){1, KC_D, SEQ_SYM_D },
-  ( uint16_t[]){1, KC_F, SEQ_SYM_F },
-  ( uint16_t[]){1, KC_C, SEQ_SYM_C },
-  ( uint16_t[]){1, KC_V, SEQ_SYM_V },
+  ( uint16_t[]){1, KC_TRNS, _SYM },
+  /* ( uint16_t[]){1, KC_R, SEQ_SYM_R }, */
+  /* ( uint16_t[]){1, KC_D, SEQ_SYM_D }, */
+  /* ( uint16_t[]){1, KC_F, SEQ_SYM_F }, */
+  /* ( uint16_t[]){1, KC_C, SEQ_SYM_C }, */
+  /* ( uint16_t[]){1, KC_V, SEQ_SYM_V }, */
   ( uint16_t[]){0}
 };
 
@@ -209,60 +209,60 @@ void leaders_init_user(void) {
 
 bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
-  case SEQ_SYM_E:
-    if (record->event.pressed) {
-      register_code16(KC_LCBR);
-      return false;
-    } else {
-      unregister_code16(KC_LCBR);
-      return false; 
-    }
-    break;
-  case SEQ_SYM_R:
-    if (record->event.pressed) {
-      register_code16(KC_RCBR);
-      return false; break;
-    } else {
-      unregister_code16(KC_RCBR);
-      return false; break;
-    }
-    break;
-  case SEQ_SYM_D:
-    if (record->event.pressed) {
-      register_code16(KC_LPRN);
-      return false;
-    } else {
-      unregister_code16(KC_LPRN);
-      return false; 
-    }
-    break;
-  case SEQ_SYM_F:
-    if (record->event.pressed) {
-      register_code16(KC_RPRN);
-      return false; break;
-    } else {
-      unregister_code16(KC_RPRN);
-      return false; break;
-    }
-    break;
-  case SEQ_SYM_C:
-    if (record->event.pressed) {
-      register_code16(KC_LBRC);
-      return false;
-    } else {
-      unregister_code16(KC_LBRC);
-      return false; 
-    }
-    break;
-  case SEQ_SYM_V:
-    if (record->event.pressed) {
-      register_code16(KC_RBRC);
-      return false; break;
-    } else {
-      unregister_code16(KC_RBRC);
-      return false; break;
-    }
-    break;
+  /* case SEQ_SYM_E: */
+  /*   if (record->event.pressed) { */
+  /*     register_code16(KC_LCBR); */
+  /*     return false; */
+  /*   } else { */
+  /*     unregister_code16(KC_LCBR); */
+  /*     return false;  */
+  /*   } */
+  /*   break; */
+  /* case SEQ_SYM_R: */
+  /*   if (record->event.pressed) { */
+  /*     register_code16(KC_RCBR); */
+  /*     return false; break; */
+  /*   } else { */
+  /*     unregister_code16(KC_RCBR); */
+  /*     return false; break; */
+  /*   } */
+  /*   break; */
+  /* case SEQ_SYM_D: */
+  /*   if (record->event.pressed) { */
+  /*     register_code16(KC_LPRN); */
+  /*     return false; */
+  /*   } else { */
+  /*     unregister_code16(KC_LPRN); */
+  /*     return false;  */
+  /*   } */
+  /*   break; */
+  /* case SEQ_SYM_F: */
+  /*   if (record->event.pressed) { */
+  /*     register_code16(KC_RPRN); */
+  /*     return false; break; */
+  /*   } else { */
+  /*     unregister_code16(KC_RPRN); */
+  /*     return false; break; */
+  /*   } */
+  /*   break; */
+  /* case SEQ_SYM_C: */
+  /*   if (record->event.pressed) { */
+  /*     register_code16(KC_LBRC); */
+  /*     return false; */
+  /*   } else { */
+  /*     unregister_code16(KC_LBRC); */
+  /*     return false;  */
+  /*   } */
+  /*   break; */
+  /* case SEQ_SYM_V: */
+  /*   if (record->event.pressed) { */
+  /*     register_code16(KC_RBRC); */
+  /*     return false; break; */
+  /*   } else { */
+  /*     unregister_code16(KC_RBRC); */
+  /*     return false; break; */
+  /*   } */
+  /*   break; */
   case SEQ_ARROWS:
     if (record->event.pressed) {
       uint16_t kc = keymap_key_to_keycode(_ARROWS, record->event.key);
