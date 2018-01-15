@@ -35,6 +35,11 @@ void leaders_seq_reset() {
   sequence[0] = 0;
 }
 
+void leaders_seq_remove_last() {
+  if (sequence[0] == 0) {return;}
+  sequence[0]--;
+}
+
 void leadermanager_set_config(const uint16_t** config[]) {
   seq_config = config;
 }

@@ -82,6 +82,16 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         remove_leader_oneshot(ldr);
         press_state_put(record->event.key, KC_NO);
       } else {
+        if (match_kc < LEADERS_LAYER_MAX) {
+          uint16_t layer_kc = keymap_key_to_keycode(match_kc, record->event.key);
+          if (layer_kc == KC_NO) {
+            leaders_seq_remove_last();
+            press_state_put(record->event.key, KC_NO);
+            return false;
+          } else {
+            match_kc = layer_kc;
+          }
+        }
         press_state_put(record->event.key, match_kc);
         leaders_seq_reset();
         remove_leader_oneshot(ldr);
