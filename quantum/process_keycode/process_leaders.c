@@ -63,28 +63,28 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     } 
     
     /* leader mode after this line */
-    uint16_t leader = current_leader();
+    uint16_t ldr = current_leader();
     /* keep all presses. */
-    if (leader == keycode) {
+    if (ldr == keycode) {
       press_state_put(record->event.key, keycode);
       leaders_seq_reset();
-      return process_leaders_user(leader, record);
+      return process_leaders_user(ldr, record);
     } else {
       uint16_t kc = keymap_key_to_keycode(ref_layer, record->event.key);
       /* kc = KC_T; */
       leaders_seq_put(kc);
-      uint16_t match_kc = leaders_match(leader -  first_leader);
+      uint16_t match_kc = leaders_match(ldr -  first_leader);
       if (match_kc == PARTIAL_MATCH) {
         press_state_put(record->event.key, KC_NO);
         /* return false; */
       } else if (match_kc == DO_NOT_MATCH) {
         leaders_seq_reset();
-        remove_leader_oneshot(leader);
+        remove_leader_oneshot(ldr);
         press_state_put(record->event.key, KC_NO);
       } else {
         press_state_put(record->event.key, match_kc);
         leaders_seq_reset();
-        remove_leader_oneshot(leader);
+        remove_leader_oneshot(ldr);
         return process_leaders_user(match_kc, record);
       }
     }
