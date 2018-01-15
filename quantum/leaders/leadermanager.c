@@ -51,12 +51,12 @@ uint16_t leaders_match(uint8_t leader_idx) {
   }
   uint16_t result = DO_NOT_MATCH;
   uint16_t i = 0;
+  uint16_t seq_size = sequence[0];
   do {
     uint16_t size = seq_config[leader_idx][i][0];
     if (size == 0) {
       return result;
     }
-    uint16_t seq_size = sequence[0];
     if (size < seq_size) {
       i++;
       continue;

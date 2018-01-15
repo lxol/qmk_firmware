@@ -26,6 +26,7 @@ enum foobar {
   SEQ_IIE,
   SEQ_IEE,
   SEQ_FB,
+  SEQ_FA,
   SEQ_FFB
 };
 
@@ -74,6 +75,7 @@ const uint16_t PROGMEM *  leader2_seq[]  = {
 
 const uint16_t PROGMEM *  leader3_seq[]  = {
   ( uint16_t[]){2, KC_F, KC_B, SEQ_FB },
+  ( uint16_t[]){2, KC_F, KC_A, SEQ_FA },
   ( uint16_t[]){3, KC_F, KC_F, KC_B, SEQ_FFB },
   ( uint16_t[]){1, KC_TRNS, _LAYER2 },
   ( uint16_t[]){0}
