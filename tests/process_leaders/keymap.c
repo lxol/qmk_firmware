@@ -25,7 +25,8 @@ enum foobar {
   SEQ_OT,
   SEQ_IIE,
   SEQ_IEE,
-  SEQ_FB
+  SEQ_FB,
+  SEQ_FFB
 };
 
 enum test_layers {
@@ -73,6 +74,7 @@ const uint16_t PROGMEM *  leader2_seq[]  = {
 
 const uint16_t PROGMEM *  leader3_seq[]  = {
   ( uint16_t[]){2, KC_F, KC_B, SEQ_FB },
+  ( uint16_t[]){3, KC_F, KC_F, KC_B, SEQ_FFB },
   ( uint16_t[]){1, KC_TRNS, _LAYER2 },
   ( uint16_t[]){0}
 };
@@ -122,6 +124,14 @@ bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
       return false; break;
     } else {
       unregister_code16(KC_K);
+      return false; break;
+    }
+  case SEQ_FFB:
+    if (record->event.pressed) {
+      register_code16(KC_L);
+      return false; break;
+    } else {
+      unregister_code16(KC_L);
       return false; break;
     }
   }

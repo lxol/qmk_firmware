@@ -217,16 +217,16 @@ bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
   case SEQ_IIE:
     if (record->event.pressed) {
       SEND_STRING("{}");
-      register_code16(KC_LEFT);
-      unregister_code16(KC_LEFT);
-      register_code16(KC_ENT);
-      unregister_code16(KC_ENT);
-      register_code16(KC_ENT);
-      unregister_code16(KC_ENT);
-      register_code16(KC_UP);
-      unregister_code16(KC_UP);
-      register_code16(KC_TAB);
-      unregister_code16(KC_TAB);
+      /* register_code16(KC_LEFT); */
+      /* unregister_code16(KC_LEFT); */
+      /* register_code16(KC_ENT); */
+      /* unregister_code16(KC_ENT); */
+      /* register_code16(KC_ENT); */
+      /* unregister_code16(KC_ENT); */
+      /* register_code16(KC_UP); */
+      /* unregister_code16(KC_UP); */
+      /* register_code16(KC_TAB); */
+      /* unregister_code16(KC_TAB); */
       return false;
     } else {
       return false;
