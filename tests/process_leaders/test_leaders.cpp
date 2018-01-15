@@ -158,11 +158,27 @@ TEST_F(Leaders, layers) {
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
     release_key(4, 0);
     keyboard_task();
+
     press_key(9, 0);
     keyboard_task();
     release_key(9, 0);
     keyboard_task();
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_K)));
+    press_key(1, 0);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(1, 0);
+    keyboard_task();
+
+    press_key(9, 0);
+    keyboard_task();
+    release_key(9, 0);
+    keyboard_task();
+    press_key(9, 0);
+    keyboard_task();
+    release_key(9, 0);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_L)));
     press_key(1, 0);
     keyboard_task();
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
