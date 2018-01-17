@@ -55,10 +55,10 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   /* sequence key */
   if (record->event.pressed) {
     uint16_t ldr = current_leader();
-    if (keycode >= first_leader && keycode <= last_leader) {
+    if (keycode >= first_leader && keycode <= last_leader && ldr == KC_NO ) {
       if (ldr != keycode) {
         add_leader(keycode);
-        add_leader(keycode);
+        add_guards(keycode, MOMENTARY_GUARD | ONESHOT_GUARD);
         press_state_put(record->event.key, keycode);
         leaders_seq_reset();
         return process_leaders_user(keycode, record);
@@ -81,6 +81,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     }
     case DO_NOT_MATCH: {
       leaders_seq_reset();
+      remove_guards(ldr, ONESHOT_GUARD);
       remove_leader(ldr);
       press_state_put(record->event.key, KC_NO);
       return false;
@@ -95,6 +96,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         register_code16(layer_kc);
         press_state_put(record->event.key, layer_kc);
         leaders_seq_reset();
+        remove_guards(ldr, ONESHOT_GUARD);
         remove_leader(ldr);
         return false;
       }
@@ -103,7 +105,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       if (match_kc >= first_leader && match_kc <= last_leader) {
         if (ldr != match_kc) {
           add_leader(match_kc);
-          add_leader(match_kc);
+          add_guards(keycode, MOMENTARY_GUARD & ONESHOT_GUARD);
           /* press_state_put(record->event.key, match_kc); */
           /* leaders_seq_reset(); */
           /* return process_leaders_user(match_kc, record); */
@@ -111,6 +113,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       }
       press_state_put(record->event.key, match_kc);
       leaders_seq_reset();
+      remove_guards(ldr, ONESHOT_GUARD);
       remove_leader(ldr);
       return process_leaders_user(match_kc, record);
     }
@@ -131,6 +134,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     if (kc < SAFE_RANGE) {
       unregister_code16(kc);
     }
+    remove_guards(kc, MOMENTARY_GUARD);
     remove_leader(kc);
     return process_leaders_user(kc, record);
   }

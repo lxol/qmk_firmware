@@ -65,6 +65,18 @@ TEST_F(Leaderlist, remove_leader_with_unmatching_guard ) {
   ASSERT_EQ(current_leader(), KC_NO);
 }
 
+TEST_F(Leaderlist, remove_leader_with_two_guards ) {
+  add_leader(LEADER1);
+  add_guards(LEADER1, MOMENTARY_GUARD | ONESHOT_GUARD);
+  remove_leader(LEADER1);
+  ASSERT_EQ(current_leader(), LEADER1);
+  remove_guards(LEADER1, ONESHOT_GUARD);
+  ASSERT_EQ(current_leader(), LEADER1);
+  remove_guards(LEADER1, MOMENTARY_GUARD);
+  remove_leader(LEADER1);
+  ASSERT_EQ(current_leader(), KC_NO);
+}
+
 TEST_F(Leaderlist, remove_leader_from_the_middle ) {
   add_leader(LEADER1);
   add_leader(LEADER1);
