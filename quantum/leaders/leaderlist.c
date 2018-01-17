@@ -34,7 +34,7 @@ uint8_t add_leader(uint16_t keycode) {
 bool add_guards(uint16_t keycode, uint16_t guards) {
   for (uint8_t i = 0; i < leader_index; i++) {
     if ((leaders[i] & 0x0000ffff) == keycode) {
-      leaders[i] = leaders[i] | (guards << 16);
+      leaders[i] = leaders[i] | ((uint32_t) guards  << 16);
       return true;
     }
   }
@@ -43,7 +43,7 @@ bool add_guards(uint16_t keycode, uint16_t guards) {
 bool remove_guards(uint16_t keycode, uint16_t guards) {
   for (uint8_t i = 0; i < leader_index; i++) {
     if ((leaders[i] & 0x0000ffff) == keycode) {
-      leaders[i] = leaders[i] & ~(guards << 16);
+      leaders[i] = leaders[i] & ~((uint32_t) guards << 16);
       return true;
     }
   }
