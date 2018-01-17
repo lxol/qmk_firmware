@@ -71,6 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 const uint16_t PROGMEM * leader1_seq[]  = {
   /* (const uint16_t[]){1, KC_T,  SEQ_AB }, */
+  ( uint16_t[]){1, KC_H, LD_LEADER2 },
   ( uint16_t[]){2, KC_A, KC_B, SEQ_AB },
   ( uint16_t[]){3, KC_I, KC_E, KC_E, SEQ_IEE},
   ( uint16_t[]){0}

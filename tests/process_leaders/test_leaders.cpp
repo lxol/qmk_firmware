@@ -22,17 +22,17 @@ using testing::InSequence;
 extern uint16_t ld_test;
 class Leaders : public TestFixture {};
 
-// TEST_F(Leaders, no_leaders) {
-//     TestDriver driver;
-//     InSequence s;
-//     leaders_init();
-//     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
-//     press_key(0, 0);
-//     keyboard_task();
-//     release_key(0, 0);
-//     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
-//     keyboard_task();
-// }
+TEST_F(Leaders, no_leaders) {
+    TestDriver driver;
+    InSequence s;
+    leaders_init();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
+    press_key(0, 0);
+    keyboard_task();
+    release_key(0, 0);
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    keyboard_task();
+}
 
 TEST_F(Leaders, leader_press_release) {
     TestDriver driver;
@@ -218,3 +218,18 @@ TEST_F(Leaders, leader_multiple_press2) {
     release_key(7, 0); //LD_LEADER3
     keyboard_task();
 }
+
+// TEST_F(Leaders, leader_leader_chain) {
+//     TestDriver driver;
+//     InSequence s;
+//     leaders_init();
+//     press_key(5, 0); //LD_LEADER1
+//     keyboard_task();
+//     release_key(5, 0); //LD_LEADER1
+//     keyboard_task();
+//     press_key(6, 0); //LD_LEADER3
+//     keyboard_task();
+//     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_I)));
+//     press_key(0, 0); //KC_A
+//     keyboard_task();
+// }

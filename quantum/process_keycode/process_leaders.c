@@ -58,7 +58,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     if (keycode >= first_leader && keycode <= last_leader) {
       if (ldr != keycode) {
         add_leader(keycode);
-        /* ldr = keycode; */
         press_state_put(record->event.key, keycode);
         leaders_seq_reset();
         return process_leaders_user(keycode, record);
@@ -100,6 +99,14 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       }
     }
     default: {
+      if (match_kc >= first_leader && match_kc <= last_leader) {
+        if (ldr != match_kc) {
+          add_leader(match_kc);
+          /* press_state_put(record->event.key, match_kc); */
+          /* leaders_seq_reset(); */
+          /* return process_leaders_user(match_kc, record); */
+        }
+      }
       press_state_put(record->event.key, match_kc);
       leaders_seq_reset();
       remove_leader_oneshot(ldr);
