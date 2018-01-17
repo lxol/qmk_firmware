@@ -22,17 +22,17 @@ using testing::InSequence;
 extern uint16_t ld_test;
 class Leaders : public TestFixture {};
 
-TEST_F(Leaders, no_leaders) {
-    TestDriver driver;
-    InSequence s;
-    leaders_init();
-    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
-    press_key(0, 0);
-    keyboard_task();
-    release_key(0, 0);
-    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
-    keyboard_task();
-}
+// TEST_F(Leaders, no_leaders) {
+//     TestDriver driver;
+//     InSequence s;
+//     leaders_init();
+//     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
+//     press_key(0, 0);
+//     keyboard_task();
+//     release_key(0, 0);
+//     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+//     keyboard_task();
+// }
 
 TEST_F(Leaders, leader_press_release) {
     TestDriver driver;
@@ -186,16 +186,28 @@ TEST_F(Leaders, layers) {
     keyboard_task();
 }
 
-// TEST_F(Leaders, layers1) {
-//     TestDriver driver;
-//     InSequence s;
-//     leaders_init();
-//     press_key(7, 0); //LD_LEADER3
-//     keyboard_task();
-//     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_E)));
-//     press_key(9, 0);
-//     keyboard_task();
-//     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
-//     release_key(4, 0);
-//     keyboard_task();
-// }
+TEST_F(Leaders, leader_multiple_press) {
+    TestDriver driver;
+    InSequence s;
+    leaders_init();
+    press_key(6, 0); //LD_LEADER2
+    keyboard_task();
+    release_key(6, 0); //LD_LEADER2
+    keyboard_task();
+    press_key(6, 0); //LD_LEADER2
+    keyboard_task();
+    release_key(6, 0); //LD_LEADER2
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_U)));
+    press_key(0, 0); //KC_A
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(0, 0); //KC_A
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_A)));
+    press_key(0, 0); //KC_A
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(0, 0); //KC_A
+    keyboard_task();
+}

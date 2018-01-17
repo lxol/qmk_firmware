@@ -54,16 +54,19 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   /* no sequence leader key */
   /* sequence key */
   if (record->event.pressed) {
+    uint16_t ldr = current_leader();
     if (keycode >= first_leader && keycode <= last_leader) {
-      add_leader(keycode);
+      if (ldr != keycode) {
+        add_leader(keycode);
+        ldr = keycode;
+      }
     }
     /* no leader -> normal processing */
-    if (current_leader() == KC_NO) {
+    if (ldr == KC_NO) {
       return true;
     }
 
     /* leader mode after this line */
-    uint16_t ldr = current_leader();
     /* keep all presses. */
     if (ldr == keycode) {
       press_state_put(record->event.key, keycode);
