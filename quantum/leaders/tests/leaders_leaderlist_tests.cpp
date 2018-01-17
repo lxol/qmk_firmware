@@ -41,24 +41,47 @@ TEST_F(Leaderlist, init_works ) {
 TEST_F(Leaderlist, add_leader_works ) {
   add_leader(LEADER1);
   ASSERT_EQ(current_leader(), LEADER1);
+  remove_leader(LEADER1);
+  ASSERT_EQ(current_leader(), KC_NO);
 }
 
-TEST_F(Leaderlist, remove_leader_scenario1 ) {
+TEST_F(Leaderlist, remove_leader_with_matching_guard ) {
   add_leader(LEADER1);
-  add_leader(LEADER2);
-  remove_leader_oneshot(LEADER2);
-  ASSERT_EQ(current_leader(), LEADER2);
-  remove_leader_oneshot(LEADER2);
-  ASSERT_EQ(current_leader(), LEADER2);
+  add_guards(LEADER1, MOMENTARY_GUARD);
+  remove_leader(LEADER1);
+  remove_guards(LEADER1, MOMENTARY_GUARD);
+  remove_leader(LEADER1);
+  ASSERT_EQ(current_leader(), KC_NO);
 }
-
-TEST_F(Leaderlist, remove_leader_scenario2 ) {
+TEST_F(Leaderlist, remove_leader_with_unmatching_guard ) {
   add_leader(LEADER1);
-  add_leader(LEADER2);
-  remove_leader_momentary(LEADER2);
-  ASSERT_EQ(current_leader(), LEADER2);
-  remove_leader_momentary(LEADER2);
-  ASSERT_EQ(current_leader(), LEADER2);
-  remove_leader_oneshot(LEADER2);
+  add_guards(LEADER1, MOMENTARY_GUARD);
+  remove_leader(LEADER1);
+  remove_guards(LEADER1, ONESHOT_GUARD);
+  remove_leader(LEADER1);
   ASSERT_EQ(current_leader(), LEADER1);
+  remove_guards(LEADER1, MOMENTARY_GUARD);
+  remove_leader(LEADER1);
+  ASSERT_EQ(current_leader(), KC_NO);
+}
+
+TEST_F(Leaderlist, remove_leader_from_the_middle ) {
+  add_leader(LEADER1);
+  add_leader(LEADER1);
+  add_leader(LEADER2);
+  add_leader(LEADER2);
+  remove_leader(LEADER1);
+  add_leader(LEADER3);
+  add_leader(LEADER3);
+  ASSERT_EQ(current_leader(), LEADER3);
+  remove_leader(LEADER2);
+  ASSERT_EQ(current_leader(), LEADER3);
+  remove_leader(LEADER2);
+  ASSERT_EQ(current_leader(), LEADER3);
+  remove_leader(LEADER3);
+  ASSERT_EQ(current_leader(), LEADER3);
+  remove_leader(LEADER3);
+  ASSERT_EQ(current_leader(), LEADER1);
+  remove_leader(LEADER1);
+  ASSERT_EQ(current_leader(), KC_NO);
 }

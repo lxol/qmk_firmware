@@ -22,21 +22,23 @@
 
 
 #ifndef LEADERS_MAX
-#define LEADERS_MAX  10
+#define LEADERS_MAX  20
 #endif
+#define MOMENTARY_GUARD  0x0001
+#define ONESHOT_GUARD  0x0002
 
-typedef struct {
-  uint16_t keycode;
-  bool oneshot;
-  uint8_t reference_layer;
-} leader_t;
+
+/* #if defined(__cplusplus) */
+/* #endif */
 
 void init_leaderlist(void);
 uint16_t current_leader(void);
-void add_leader(uint16_t keycode);
-void remove_leader(uint16_t keycode, bool want_oneshot, bool want_momentary);
-void remove_leader_oneshot(uint16_t keycode);
-void remove_leader_momentary(uint16_t keycode);
-void remove_leader_force(uint16_t keycode);
+uint8_t add_leader(uint16_t keycode);
+bool remove_leader(uint16_t keycode);
+bool add_guards(uint16_t keycode, uint16_t guards);
+bool remove_guards(uint16_t keycode, uint16_t guards);
+/* void remove_leader_oneshot(uint16_t keycode); */
+/* void remove_leader_momentary(uint16_t keycode); */
+/* void remove_leader_force(uint16_t keycode); */
 
 #endif
