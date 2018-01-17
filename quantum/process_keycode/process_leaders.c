@@ -58,7 +58,10 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     if (keycode >= first_leader && keycode <= last_leader) {
       if (ldr != keycode) {
         add_leader(keycode);
-        ldr = keycode;
+        /* ldr = keycode; */
+        press_state_put(record->event.key, keycode);
+        leaders_seq_reset();
+        return process_leaders_user(keycode, record);
       }
     }
     /* no leader -> normal processing */
@@ -66,51 +69,42 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       return true;
     }
 
-    /* leader mode after this line */
-    /* keep all presses. */
-    if (ldr == keycode) {
-      press_state_put(record->event.key, keycode);
+    uint16_t kc = keymap_key_to_keycode(ref_layer, record->event.key);
+    /* kc = KC_T; */
+    leaders_seq_put(kc);
+
+    uint16_t match_kc = leaders_match(ldr -  first_leader);
+    switch(match_kc) {
+    case PARTIAL_MATCH: {
+      press_state_put(record->event.key, KC_NO);
+      return false;
+    }
+    case DO_NOT_MATCH: {
       leaders_seq_reset();
-      return process_leaders_user(ldr, record);
-    } else {
-      uint16_t kc = keymap_key_to_keycode(ref_layer, record->event.key);
-      /* kc = KC_T; */
-      leaders_seq_put(kc);
-
-      uint16_t match_kc = leaders_match(ldr -  first_leader);
-      switch(match_kc) {
-      case PARTIAL_MATCH: {
+      remove_leader_oneshot(ldr);
+      press_state_put(record->event.key, KC_NO);
+      return false;
+    }
+    case 0 ... LEADERS_LAYER_MAX: {
+      uint16_t layer_kc = keymap_key_to_keycode(match_kc, record->event.key);
+      if (layer_kc == KC_NO) {
+        leaders_seq_remove_last();
         press_state_put(record->event.key, KC_NO);
         return false;
-      }
-      case DO_NOT_MATCH: {
+      } else {
+        register_code16(layer_kc);
+        press_state_put(record->event.key, layer_kc);
         leaders_seq_reset();
         remove_leader_oneshot(ldr);
-        press_state_put(record->event.key, KC_NO);
         return false;
       }
-      case 0 ... LEADERS_LAYER_MAX: {
-        uint16_t layer_kc = keymap_key_to_keycode(match_kc, record->event.key);
-        if (layer_kc == KC_NO) {
-          leaders_seq_remove_last();
-          press_state_put(record->event.key, KC_NO);
-          return false;
-        } else {
-          register_code16(layer_kc);
-          press_state_put(record->event.key, layer_kc);
-          leaders_seq_reset();
-          remove_leader_oneshot(ldr);
-          return false;
-        }
-      }
-      default: {
-        press_state_put(record->event.key, match_kc);
-        leaders_seq_reset();
-        remove_leader_oneshot(ldr);
-        return process_leaders_user(match_kc, record);
-      }
-      }
-
+    }
+    default: {
+      press_state_put(record->event.key, match_kc);
+      leaders_seq_reset();
+      remove_leader_oneshot(ldr);
+      return process_leaders_user(match_kc, record);
+    }
     }
     return false;
     /* return process_leaders_user(keycode, record); */

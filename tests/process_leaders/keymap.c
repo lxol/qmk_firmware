@@ -22,6 +22,7 @@ enum foobar {
   LD_LEADER3,
   SEQ_AB,
   SEQ_A,
+  SEQ_I,
   SEQ_OT,
   SEQ_IIE,
   SEQ_IEE,
@@ -32,7 +33,8 @@ enum foobar {
 
 enum test_layers {
   _LAYER1,
-  _LAYER2
+  _LAYER2,
+  _LAYER_REF
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -52,7 +54,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
   } ,          
 
-};
+  [_LAYER_REF] = {
+
+    //{ 0 ,   1 ,     2 ,     3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       }
+    { KC_A ,  KC_B ,  KC_C ,  KC_D ,  KC_E ,  KC_G ,  KC_H ,  KC_I ,  KC_NO , KC_F } ,  
+    { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+    { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+    { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+ } ,          
+ };
 
 #ifdef LEADERS_ENABLE
 
@@ -74,6 +84,7 @@ const uint16_t PROGMEM *  leader2_seq[]  = {
 };
 
 const uint16_t PROGMEM *  leader3_seq[]  = {
+  ( uint16_t[]){1, KC_I, SEQ_I},
   ( uint16_t[]){2, KC_F, KC_B, SEQ_FB },
   ( uint16_t[]){2, KC_F, KC_A, SEQ_FA },
   ( uint16_t[]){3, KC_F, KC_F, KC_B, SEQ_FFB },
@@ -89,7 +100,7 @@ void leaders_init_user(void) {
     sequence_config[LD_LEADER3 - LD_FIRST] = leader3_seq; 
 
     leaders_range(LD_FIRST, LD_LAST);
-    set_ref_layer(0);
+    set_ref_layer(_LAYER_REF);
     leadermanager_set_config(sequence_config);
 }
 
@@ -134,6 +145,14 @@ bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
       return false; break;
     } else {
       unregister_code16(KC_L);
+      return false; break;
+    }
+  case SEQ_I:
+    if (record->event.pressed) {
+      register_code16(KC_X);
+      return false; break;
+    } else {
+      unregister_code16(KC_X);
       return false; break;
     }
   }
