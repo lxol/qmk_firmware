@@ -26,9 +26,9 @@
 #define PARTIAL_MATCH 254
 #define DO_NOT_MATCH 255
 
-/* #if defined(__cplusplus) */
-/* extern "C" { */
-/* #endif */
+#define MOMENTARY_SENTINEL  0x0001
+#define ONESHOT_SENTINEL  0x0002
+
 void leadermanager_set_config(const uint16_t** config[]);
 
 uint16_t leaders_match(uint8_t leader_idx);
@@ -36,18 +36,13 @@ void leaders_seq_put(uint16_t keycode);
 void leaders_seq_reset(void);
 void leaders_seq_remove_last(void);
 
-/* #if defined(__cplusplus) */
-/* } */
-/* #endif */
+void init_leadermanager(void);
+void set_leader(uint16_t l);
+void set_leader_sentinels(uint32_t s);
+void remove_leader_sentinels(uint32_t s);
+bool remove_leader(void);
+uint16_t get_leader(void);
 
-
-/* #if defined(__cplusplus) */
 uint16_t leaders_seq_debug_get_at(uint8_t index);
-/* #endif */
-/* typedef bool (*chain_fun) () */
-/* uint16_t leaders_match_user(uint16_t leader, uint8_t idx); */
-
-
-/* bool linkeq(uint8_t beg, uint8_t pos, keypos_t key); */
 
 #endif

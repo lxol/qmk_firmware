@@ -22,23 +22,20 @@
 
 
 #ifndef LEADERS_MAX
-#define LEADERS_MAX  20
+#define LEADERS_MAX  10
 #endif
-#define MOMENTARY_GUARD  0x0001
-#define ONESHOT_GUARD  0x0002
+#define MOMENTARY_SENTINEL  0x0001
+#define ONESHOT_SENTINEL  0x0002
 
 
 /* #if defined(__cplusplus) */
 /* #endif */
 
 void init_leaderlist(void);
-uint16_t current_leader(void);
-uint8_t add_leader(uint16_t keycode);
-bool remove_leader(uint16_t keycode);
-bool add_guards(uint16_t keycode, uint16_t guards);
-bool remove_guards(uint16_t keycode, uint16_t guards);
-/* void remove_leader_oneshot(uint16_t keycode); */
-/* void remove_leader_momentary(uint16_t keycode); */
-/* void remove_leader_force(uint16_t keycode); */
+uint16_t get_current_leader(void);
+uint8_t set_current_leader(uint16_t l);
+void set_leader_sentinel(uint32_t s);
+void remove_sentinel(uint32_t s);
+bool maybe_remove_leader(void);
 
 #endif

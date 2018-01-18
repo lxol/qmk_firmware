@@ -15,9 +15,16 @@
  */
 #include "leaders/leadermanager.h"
 
+uint16_t current_leader;
+uint32_t leader_sentinels;
 uint16_t sequence[LEADERS_SEQ_MAX];
 
 const uint16_t*** seq_config;
+
+void init_leadermanager() {
+  current_leader = 0x0000;
+  leader_sentinels = 0x00000000;
+}
 
 /* #if defined(__cplusplus) */
 uint16_t leaders_seq_debug_get_at(uint8_t index) {
@@ -78,4 +85,30 @@ uint16_t leaders_match(uint8_t leader_idx) {
     i++;
   } while (true);
   return DO_NOT_MATCH;
+}
+
+void set_leader(uint16_t l) {
+  current_leader = l;
+  return ;
+}
+
+void set_leader_sentinels(uint32_t s) {
+  leader_sentinels = s;
+  return;
+}
+
+void remove_leader_sentinels(uint32_t s) {
+  leader_sentinels &= ~s;
+  return ;
+}
+
+bool remove_leader() {
+  if (leader_sentinels == 0) {
+    current_leader = 0x0000;
+  }
+  return true;
+}
+
+uint16_t get_leader(void) {
+  return current_leader;
 }

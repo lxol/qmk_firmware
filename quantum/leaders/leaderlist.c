@@ -15,68 +15,36 @@
  */
 #include "leaders/leaderlist.h"
 
-uint32_t leaders[LEADERS_MAX];
-/* uint16_t leaders_momentary[LEADERS_MAX]; */
-uint8_t leader_index;
+uint16_t current_leader;
+uint32_t leader_sentinels;
 
 void init_leaderlist() {
-  for (uint8_t i = 0; i < LEADERS_MAX; i ++) {
-    leaders[i] = 0x00000000;
+  curenet_leader = 0x0000;
+  leade_sentinels = 0x00000000;
+}
+
+void set_current_leader(uint16_t l) {
+  current_leader = l;
+  return ;
+}
+
+void set_leader_sentinels(uint32_t s) {
+  leader_sentinels = s;
+  return;
+}
+
+void remove_sentinels(uint32_t s) {
+  leader_sentinels &= ~s;
+  return ;
+}
+
+bool remove_leader() {
+  if (leader_sentinel == 0) {
+    current_leader = 0x0000;
   }
-  leader_index = 0;
+  return true;
 }
 
-uint8_t add_leader(uint16_t keycode) {
-  leaders[leader_index++] = keycode;
-  return leader_index;
-}
-
-bool add_guards(uint16_t keycode, uint16_t guards) {
-  for (uint8_t i = 0; i < leader_index; i++) {
-    if ((leaders[i] & 0x0000ffff) == keycode) {
-      leaders[i] = leaders[i] | ((uint32_t) guards  << 16);
-      return true;
-    }
-  }
-  return false;
-}
-bool remove_guards(uint16_t keycode, uint16_t guards) {
-  for (uint8_t i = 0; i < leader_index; i++) {
-    if ((leaders[i] & 0x0000ffff) == keycode) {
-      leaders[i] = leaders[i] & ~((uint32_t) guards << 16);
-      return true;
-    }
-  }
-  return false;
-}
-
-bool remove_leader(uint16_t keycode) {
-  for (uint8_t i = 0; i < leader_index; i++) {
-
-    if (leaders[i] != keycode) {
-      continue;
-    }
-    /* squash */
-    for (uint8_t j = i; j < (leader_index - 1); j++) {
-      leaders[j] ^= leaders[j+1];
-      leaders[j+1] ^= leaders[j];
-      leaders[j] ^= leaders[j+1];
-    }
-    leader_index--;
-    return true;
-  }
-  return false;
-}
-
-/* bool leader_eq(uint16_t keycode) { */
-/*   if (leader_index == 0) {return false;} */
-/*   if (leaders[leader_index - 1] == keycode) { */
-/*     return true; */
-/*   } */
-/*   return false; */
-/* } */
-
-uint16_t current_leader(void) {
-  if (leader_index == 0) {return KC_NO;}
-  return leaders[leader_index - 1] & 0x0000ffff;
+uint16_t get_leader(void) {
+  return current_leader;
 }

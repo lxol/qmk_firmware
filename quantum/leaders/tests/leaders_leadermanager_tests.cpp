@@ -20,6 +20,10 @@ extern "C" {
 #include "leaders/leadermanager.h"
 }
 
+const uint16_t LEADER1 = 1;
+const uint16_t LEADER2 = 2;
+const uint16_t LEADER3 = 3;
+
 enum foobar {
   LD_FIRST = SAFE_RANGE,
   LD_LEADER1,
@@ -56,6 +60,7 @@ class Leadermanager : public testing::Test {
 
 public:
   Leadermanager() {
+    init_leadermanager();
     config[LD_LEADER1 - LD_FIRST - 1 ] = leader1; 
     config[LD_LEADER2 - LD_FIRST - 1] = leader2; 
     config[LD_LEADER3 - LD_FIRST - 1] = leader3; 
@@ -90,4 +95,25 @@ TEST_F(Leadermanager, partial_match_test ) {
 TEST_F(Leadermanager, transparent_match_test ) {
   leaders_seq_put(KC_I);
   ASSERT_EQ(leaders_match(2), SEQ_LAYER_1 );
+}
+
+TEST_F(Leadermanager, leader_works ) {
+  ASSERT_EQ(get_leader(), KC_NO);
+}
+
+TEST_F(Leadermanager, set_leader_works ) {
+  set_leader(LEADER1);
+  ASSERT_EQ(get_leader(), LEADER1);
+  remove_leader();
+  ASSERT_EQ(get_leader(), 0x0000);
+}
+
+TEST_F(Leadermanager, remove_leader_with_matching_guard ) {
+  set_leader(LEADER1);
+  set_leader_sentinels(MOMENTARY_SENTINEL);
+  remove_leader();
+  ASSERT_EQ(get_leader(), LEADER1);
+  remove_leader_sentinels(MOMENTARY_SENTINEL);
+  remove_leader();
+  ASSERT_EQ(get_leader(), 0x0000);
 }
