@@ -182,7 +182,7 @@ const uint16_t*  ld_symbols_seq[] = {
   ( uint16_t[]){2, KC_O, KC_E, SEQ_OE},
   ( uint16_t[]){2, KC_O, KC_D, SEQ_OD},
   ( uint16_t[]){2, KC_O, KC_C, SEQ_OC},
-  ( uint16_t[]){3, KC_O, KC_I, KC_E, SEQ_IIE},
+  ( uint16_t[]){3, KC_I, KC_I, KC_E, SEQ_IIE},
   ( uint16_t[]){1, KC_TRNS, _SYM },
   ( uint16_t[]){0}
 };
