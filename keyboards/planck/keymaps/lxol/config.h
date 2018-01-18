@@ -5,7 +5,7 @@
 
 /* #define LEADERS_ENABLE */
 
-#define LEADERS_SEQ_MAX 3
+#define LEADERS_SEQ_MAX 8
 
 /* disable debug print */
 //#define NO_DEBUG

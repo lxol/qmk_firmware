@@ -36,6 +36,9 @@ enum planck_keycodes {
   SEQ_IE,
   SEQ_ID,
   SEQ_IC,
+  SEQ_OE,
+  SEQ_OD,
+  SEQ_OC,
   SEQ_IIE,
   SEQ_ARROWS,
   DYNAMIC_MACRO_RANGE,
@@ -209,6 +212,16 @@ bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
   case SEQ_IE:
     if (record->event.pressed) {
       SEND_STRING("{}");
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
+      return false;
+    } else {
+      return false;
+    }
+    break;
+  case SEQ_OE:
+    if (record->event.pressed) {
+      SEND_STRING("{}");
       return false;
     } else {
       return false;
@@ -217,16 +230,16 @@ bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
   case SEQ_IIE:
     if (record->event.pressed) {
       SEND_STRING("{}");
-      /* register_code16(KC_LEFT); */
-      /* unregister_code16(KC_LEFT); */
-      /* register_code16(KC_ENT); */
-      /* unregister_code16(KC_ENT); */
-      /* register_code16(KC_ENT); */
-      /* unregister_code16(KC_ENT); */
-      /* register_code16(KC_UP); */
-      /* unregister_code16(KC_UP); */
-      /* register_code16(KC_TAB); */
-      /* unregister_code16(KC_TAB); */
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
+      register_code16(KC_ENT);
+      unregister_code16(KC_ENT);
+      register_code16(KC_ENT);
+      unregister_code16(KC_ENT);
+      register_code16(KC_UP);
+      unregister_code16(KC_UP);
+      register_code16(KC_TAB);
+      unregister_code16(KC_TAB);
       return false;
     } else {
       return false;
@@ -235,12 +248,32 @@ bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
   case SEQ_ID:
     if (record->event.pressed) {
       SEND_STRING("()");
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
+      return false;
+    } else {
+      return false;
+    }
+    break;
+  case SEQ_OD:
+    if (record->event.pressed) {
+      SEND_STRING("()");
       return false;
     } else {
       return false;
     }
     break;
   case SEQ_IC:
+    if (record->event.pressed) {
+      SEND_STRING("[]");
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
+      return false;
+    } else {
+      return false;
+    }
+    break;
+  case SEQ_OC:
     if (record->event.pressed) {
       SEND_STRING("[]");
       return false;
