@@ -15,100 +15,81 @@
  */
 #include "leaders/leadermanager.h"
 
-uint16_t current_leader;
-uint32_t leader_sentinels;
-uint16_t sequence[LEADERS_SEQ_MAX];
+/* uint16_t current_leader; */
+uint32_t keyseq_sentinels;
+uint16_t keyseq_codes[LEADERS_SEQ_MAX];
+uint8_t keyseq_index;
 
-const uint16_t*** seq_config;
+const uint16_t** keyseq_definitions;
 
-void init_leadermanager() {
-  current_leader = 0x0000;
-  leader_sentinels = 0x00000000;
+void keyseq_init() {
+  keyseq_sentinels = 0x00000000;
+  keyseq_index = 0;
 }
 
-/* #if defined(__cplusplus) */
-uint16_t leaders_seq_debug_get_at(uint8_t index) {
-  return sequence[index];
-}
-/* #endif */
-
-
-void leaders_seq_put(uint16_t keycode) {
-  sequence[0]++;
-  sequence[sequence[0]] = keycode;
-}
-
-void leaders_seq_reset() {
-  sequence[0] = 0;
-}
-
-void leaders_seq_remove_last() {
-  if (sequence[0] == 0) {return;}
-  sequence[0]--;
-}
-
-void leadermanager_set_config(const uint16_t** config[]) {
-  seq_config = config;
-}
-
-/* uint16_t leaders_match(uint8_t leader_idx, uint16_t* seq, const uint16_t*** config) { */
-uint16_t leaders_match(uint8_t leader_idx) {
-  if (sequence[0] == 0) {
-    return PARTIAL_MATCH;
+bool keyseq_reset() {
+  if (keyseq_sentinels == 0x00000000) {
+    keyseq_index = 0;
+    return true;
   }
-  uint16_t result = DO_NOT_MATCH;
-  uint16_t i = 0;
-  uint16_t seq_size = sequence[0];
-  do {
-    uint16_t size = seq_config[leader_idx][i][0];
-    if (size == 0) {
-      return result;
-    }
-    if (size < seq_size) {
-      i++;
-      continue;
-    }
-    uint16_t j = 1;
-    do  {
-      uint16_t kc = seq_config[leader_idx][i][j];
-      if (j == size + 1) {
-        return  kc;
-      }
-      if (j == seq_size + 1) {return result;}
-      if (sequence[j] == kc || kc == KC_TRNS) {
-        result = PARTIAL_MATCH;
-      } else {
-        break;
-      }
-      j++;
-    } while (true);
-    i++;
-  } while (true);
-  return DO_NOT_MATCH;
+  return false;
 }
 
-void set_leader(uint16_t l) {
-  current_leader = l;
-  return ;
+void keyseq_push(uint16_t keycode) {
+  keyseq_codes[keyseq_index++] = keycode;
 }
 
-void set_leader_sentinels(uint32_t s) {
-  leader_sentinels = s;
-  return;
+uint16_t keyseq_pop() {
+  if (keyseq_index == 0) {return 0x0000;}
+  return keyseq_codes[keyseq_index--];
 }
 
-void remove_leader_sentinels(uint32_t s) {
-  leader_sentinels &= ~s;
-  return ;
+void keyseq_set_definitions(const uint16_t** user_keyseq_definitions) {
+  keyseq_definitions = user_keyseq_definitions;
 }
 
-bool remove_leader() {
-  if (leader_sentinels == 0) {
-    current_leader = 0x0000;
+KEYSEQ_ALIGNMENT keyseq_check_alignment() {
+  if (keyseq_index == 0) {
+    return KEYSEQ_PARTIALY_ALIGNED;
   }
-  return true;
+  return KEYSEQ_ALIGNED;
+  /* uint16_t result = DO_NOT_MATCH; */
+  /* uint16_t i = 0; */
+  /* uint16_t seq_size = sequence[0]; */
+  /* do { */
+  /*   uint16_t size = seq_config[leader_idx][i][0]; */
+  /*   if (size == 0) { */
+  /*     return result; */
+  /*   } */
+  /*   if (size < seq_size) { */
+  /*     i++; */
+  /*     continue; */
+  /*   } */
+  /*   uint16_t j = 1; */
+  /*   do  { */
+  /*     uint16_t kc = seq_config[leader_idx][i][j]; */
+  /*     if (j == size + 1) { */
+  /*       return  kc; */
+  /*     } */
+  /*     if (j == seq_size + 1) {return result;} */
+  /*     if (sequence[j] == kc || kc == KC_TRNS) { */
+  /*       result = PARTIAL_MATCH; */
+  /*     } else { */
+  /*       break; */
+  /*     } */
+  /*     j++; */
+  /*   } while (true); */
+  /*   i++; */
+  /* } while (true); */
+  /* return DO_NOT_MATCH; */
 }
 
-uint16_t get_leader(void) {
-  return current_leader;
+uint32_t keyseq_set_sentinels(uint32_t user_keyseq_sentinels) {
+  keyseq_sentinels = user_keyseq_sentinels;
+  return keyseq_sentinels;
+}
+
+uint32_t keyseq_remove_sentinels(uint32_t user_keyseq_sentinels) {
+  keyseq_sentinels &= ~user_keyseq_sentinels;
+  return keyseq_sentinels;
 }

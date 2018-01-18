@@ -29,20 +29,35 @@
 #define MOMENTARY_SENTINEL  0x0001
 #define ONESHOT_SENTINEL  0x0002
 
-void leadermanager_set_config(const uint16_t** config[]);
+/* void key(const uint16_t** config[]); */
 
-uint16_t leaders_match(uint8_t leader_idx);
-void leaders_seq_put(uint16_t keycode);
-void leaders_seq_reset(void);
-void leaders_seq_remove_last(void);
+typedef enum {
+  KEYSEQ_ALIGNED = 0,	
+  KEYSEQ_PARTIALY_ALIGNED,
+  KEYSEQ_UNALIGNED
+} KEYSEQ_ALIGNMENT;
 
-void init_leadermanager(void);
-void set_leader(uint16_t l);
-void set_leader_sentinels(uint32_t s);
-void remove_leader_sentinels(uint32_t s);
-bool remove_leader(void);
-uint16_t get_leader(void);
+void keyseq_init(void);
+bool keyseq_reset(void);
+void keyseq_push(uint16_t keycode);
+uint16_t keyseq_pop(void);
+void keyseq_set_definitions(const uint16_t** user_keyseq_definitions);
+KEYSEQ_ALIGNMENT keyseq_check_alignment(void);
 
-uint16_t leaders_seq_debug_get_at(uint8_t index);
+
+
+/* uint16_t leaders_match(uint8_t leader_idx); */
+/* void leaders_seq_put(uint16_t keycode); */
+/* void leaders_seq_reset(void); */
+/* void leaders_seq_remove_last(void); */
+
+/* void init_leadermanager(void); */
+/* void set_leader(uint16_t l); */
+/* void set_leader_sentinels(uint32_t s); */
+/* void remove_leader_sentinels(uint32_t s); */
+/* bool remove_leader(void); */
+/* uint16_t get_leader(void); */
+
+/* uint16_t leaders_seq_debug_get_at(uint8_t index); */
 
 #endif

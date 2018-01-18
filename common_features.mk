@@ -179,8 +179,8 @@ endif
 
 ifeq ($(strip $(LEADERS_ENABLE)), yes)
     SRC += $(QUANTUM_DIR)/process_keycode/process_leaders.c
-    SRC += $(QUANTUM_DIR)/leaders/keychain.c
-    SRC += $(QUANTUM_DIR)/leaders/leaderlist.c
+    # SRC += $(QUANTUM_DIR)/leaders/keychain.c
+    # SRC += $(QUANTUM_DIR)/leaders/leaderlist.c
     SRC += $(QUANTUM_DIR)/leaders/press_state.c
     SRC += $(QUANTUM_DIR)/leaders/leadermanager.c
     OPT_DEFS += -DLEADERS_ENABLE
