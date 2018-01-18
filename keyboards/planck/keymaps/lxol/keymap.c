@@ -187,13 +187,6 @@ const uint16_t*  ld_symbols_seq[] = {
   ( uint16_t[]){0}
 };
 
-/* uint16_t*  ld_arrows_seq[]  = { */
-/*   ( uint16_t[]){2, KC_O, KC_T, SEQ_OT}, */
-/*   ( uint16_t[]){1, KC_A, SEQ_A}, */
-/*   /\* (const uint16_t[]){2, KC_I, KC_E, SEQ_}, *\/ */
-/*   ( uint16_t[]){0} */
-/* }; */
-
 const uint16_t*  ld_arrows_seq[] = {
   ( uint16_t[]){1, KC_TRNS, SEQ_ARROWS },
   ( uint16_t[]){0}
