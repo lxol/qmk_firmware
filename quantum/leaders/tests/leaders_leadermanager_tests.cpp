@@ -117,3 +117,16 @@ TEST_F(Leadermanager, remove_leader_with_matching_guard ) {
   remove_leader();
   ASSERT_EQ(get_leader(), 0x0000);
 }
+
+TEST_F(Leadermanager, remove_leader_with_2_sentinels ) {
+  set_leader(LEADER1);
+  set_leader_sentinels(MOMENTARY_SENTINEL | ONESHOT_SENTINEL);
+  remove_leader();
+  ASSERT_EQ(get_leader(), LEADER1);
+  remove_leader_sentinels(MOMENTARY_SENTINEL);
+  remove_leader();
+  ASSERT_EQ(get_leader(), LEADER1);
+  remove_leader_sentinels(ONESHOT_SENTINEL);
+  remove_leader();
+  ASSERT_EQ(get_leader(), 0x0000);
+}
