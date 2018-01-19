@@ -29,21 +29,21 @@
 #define MOMENTARY_SENTINEL  0x0001
 #define ONESHOT_SENTINEL  0x0002
 
+#define KEYSEQ_END  0x0000
+
 /* void key(const uint16_t** config[]); */
 
 typedef enum {
-  KEYSEQ_ALIGNED = 0,	
-  KEYSEQ_PARTIALY_ALIGNED,
-  KEYSEQ_UNALIGNED
-} KEYSEQ_ALIGNMENT;
+  KEYSEQ_EQUAL = 0,	
+  KEYSEQ_PARTIAL,
+  KEYSEQ_MISS
+} KEYSEQ_CMP;
 
-void keyseq_init(void);
+void keyseq_init(const uint16_t** user_keyseq_definitions);
 bool keyseq_reset(void);
 void keyseq_push(uint16_t keycode);
 uint16_t keyseq_pop(void);
-void keyseq_set_definitions(const uint16_t** user_keyseq_definitions);
-KEYSEQ_ALIGNMENT keyseq_check_alignment(void);
-
+KEYSEQ_CMP keyseq_compare(void);
 
 
 /* uint16_t leaders_match(uint8_t leader_idx); */

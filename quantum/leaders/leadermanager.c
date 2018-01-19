@@ -22,7 +22,8 @@ uint8_t keyseq_index;
 
 const uint16_t** keyseq_definitions;
 
-void keyseq_init() {
+void keyseq_init(const uint16_t** user_keyseq_definitions) {
+  keyseq_definitions = user_keyseq_definitions;
   keyseq_sentinels = 0x00000000;
   keyseq_index = 0;
 }
@@ -44,43 +45,37 @@ uint16_t keyseq_pop() {
   return keyseq_codes[keyseq_index--];
 }
 
-void keyseq_set_definitions(const uint16_t** user_keyseq_definitions) {
-  keyseq_definitions = user_keyseq_definitions;
-}
-
-KEYSEQ_ALIGNMENT keyseq_check_alignment() {
-  if (keyseq_index == 0) {
-    return KEYSEQ_PARTIALY_ALIGNED;
-  }
-  return KEYSEQ_ALIGNED;
-  /* uint16_t result = DO_NOT_MATCH; */
-  /* uint16_t i = 0; */
-  /* uint16_t seq_size = sequence[0]; */
-  /* do { */
-  /*   uint16_t size = seq_config[leader_idx][i][0]; */
-  /*   if (size == 0) { */
-  /*     return result; */
-  /*   } */
-  /*   if (size < seq_size) { */
-  /*     i++; */
-  /*     continue; */
-  /*   } */
-  /*   uint16_t j = 1; */
-  /*   do  { */
-  /*     uint16_t kc = seq_config[leader_idx][i][j]; */
-  /*     if (j == size + 1) { */
-  /*       return  kc; */
-  /*     } */
-  /*     if (j == seq_size + 1) {return result;} */
-  /*     if (sequence[j] == kc || kc == KC_TRNS) { */
-  /*       result = PARTIAL_MATCH; */
-  /*     } else { */
-  /*       break; */
-  /*     } */
-  /*     j++; */
-  /*   } while (true); */
-  /*   i++; */
-  /* } while (true); */
+KEYSEQ_CMP keyseq_compare() {
+  uint16_t i = 0;
+  do {
+    if (keyseq_definitions[i][0] == KEYSEQ_END) {
+      /* KEYSEQ_END terminates the list of definition */
+      return KEYSEQ_MISS;
+    }
+    if (keyseq_definitions[i][0] != keyseq_codes[0]) {
+      i++;
+      continue;
+    }
+    uint8_t j = 1;
+    do  {
+      if (keyseq_definitions[i][j+1] == KEYSEQ_END) {
+        return  KEYSEQ_EQUAL;
+      }
+      if (j == keyseq_index) {
+        return KEYSEQ_PARTIAL;
+      }
+      if (keyseq_definitions[i][j] == KC_TRNS) {
+        j++;
+        continue;
+      }
+      if (keyseq_definitions[i][j] == keyseq_codes[j]) {
+        j++;
+        continue;
+      }
+      return KEYSEQ_MISS;
+    } while (true);
+    i++;
+  } while (true);
   /* return DO_NOT_MATCH; */
 }
 
