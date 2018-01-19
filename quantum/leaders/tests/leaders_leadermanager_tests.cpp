@@ -20,10 +20,6 @@ extern "C" {
 #include "leaders/leadermanager.h"
 }
 
-// const uint16_t LEADER1 = 1;
-// const uint16_t LEADER2 = 2;
-// const uint16_t LEADER3 = 3;
-
 enum foobar {
   LD_FIRST = SAFE_RANGE,
   LD_LEADER1,
