@@ -110,7 +110,7 @@ keyseq_pos_t keyseq_position(void) {
         j++;
         continue;
       }
-      return (keyseq_pos_t) {.col = j-1, .row = i};
+      return (keyseq_pos_t) {.col = j, .row = i};
     } while (true);
     i++;
   } while (true);
