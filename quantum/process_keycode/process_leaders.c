@@ -41,7 +41,8 @@ void leaders_range(uint16_t first, uint16_t last) {
 
 void leaders_init(void) {
   /* init_leaderlist(); */
-  init_leadermanager();
+  /* init_leadermanager(); */
+  init_keyseq();
   init_press_state();
   leaders_init_user();
 }
@@ -55,7 +56,38 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   /* no sequence leader key */
   /* sequence key */
   if (record->event.pressed) {
-    uint16_t ldr = get_leader();
+    if (keyseq_get_index() == 0) {
+      keyseq_push(keycode);
+    } else {
+      uint16_t kc = keymap_key_to_keycode(ref_layer, record->event.key);
+      keyseq_push(kc);
+    }
+    
+    switch(keyseq_compare()) {
+    case KEYSEQ_MISS: {
+      keyseq_reset();
+      return true;
+    }
+    case KEYSEQ_PARTIAL: {
+      if (keyseq_get_index() == 1) {
+        press_state_put(record->event.key, keycode);
+        process_leaders_user(keycode, record);
+      } else 
+        press_state_put(record->event.key, KC_NO);
+      }
+      return false;
+    }
+    case KEYSEQ_EQUAL: {
+      if (keyseq_get_index() == 1) {
+        press_state_put(record->event.key, keycode);
+        process_leaders_user(keycode, record);
+      } else {
+        
+      }
+      return false;
+    }
+    }
+    
     if (keycode >= first_leader && keycode <= last_leader && ldr == KC_NO ) {
       if (ldr != keycode) {
         set_leader(keycode);

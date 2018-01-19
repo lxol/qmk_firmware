@@ -36,6 +36,10 @@ bool keyseq_reset() {
   return false;
 }
 
+uint8_t keyseq_get_index() {
+  return keyseq_index;
+}
+
 void keyseq_push(uint16_t keycode) {
   keyseq_codes[keyseq_index++] = keycode;
 }
@@ -73,6 +77,40 @@ KEYSEQ_CMP keyseq_compare() {
         continue;
       }
       return KEYSEQ_MISS;
+    } while (true);
+    i++;
+  } while (true);
+  /* return DO_NOT_MATCH; */
+}
+
+/* returns matching position in the definitions */
+keyseq_pos_t keyseq_position(void) {
+  uint16_t i = 0;
+  do {
+    if (keyseq_definitions[i][0] == KEYSEQ_END) {
+      return (keyseq_pos_t) {.col = 0, .row = i};
+    }
+    if (keyseq_definitions[i][0] != keyseq_codes[0]) {
+      i++;
+      continue;
+    }
+    uint8_t j = 1;
+    do  {
+      if (keyseq_definitions[i][j+1] == KEYSEQ_END) {
+        return (keyseq_pos_t) {.col = j, .row = i};
+      }
+      if (j == keyseq_index) {
+        return (keyseq_pos_t) {.col = j, .row = i};
+      }
+      if (keyseq_definitions[i][j] == KC_TRNS) {
+        j++;
+        continue;
+      }
+      if (keyseq_definitions[i][j] == keyseq_codes[j]) {
+        j++;
+        continue;
+      }
+      return (keyseq_pos_t) {.col = j-1, .row = i};
     } while (true);
     i++;
   } while (true);

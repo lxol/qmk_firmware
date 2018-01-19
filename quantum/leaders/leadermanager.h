@@ -26,12 +26,24 @@
 #define PARTIAL_MATCH 254
 #define DO_NOT_MATCH 255
 
-#define MOMENTARY_SENTINEL  0x0001
-#define ONESHOT_SENTINEL  0x0002
+/* define sentinels */
+#define KEYSEQ_MOMENTARY  0b1
+#define KEYSEQ_ONESHOT    0b10
+#define KEYSEQ_SENTINEL1  0b100
+#define KEYSEQ_SENTINEL2  0x1000
+#define KEYSEQ_SENTINEL3  0x10000
+#define KEYSEQ_SENTINEL4  0x100000
+#define KEYSEQ_SENTINEL5  0x1000000
+#define KEYSEQ_SENTINEL6  0x10000000
 
 #define KEYSEQ_END  0x0000
 
 /* void key(const uint16_t** config[]); */
+
+typedef struct {
+    uint16_t col;
+    uint16_t row;
+} keyseq_pos_t;
 
 typedef enum {
   KEYSEQ_EQUAL = 0,	
@@ -41,9 +53,11 @@ typedef enum {
 
 void keyseq_init(const uint16_t** user_keyseq_definitions);
 bool keyseq_reset(void);
+uint8_t keyseq_get_index(void);
 void keyseq_push(uint16_t keycode);
 uint16_t keyseq_pop(void);
 KEYSEQ_CMP keyseq_compare(void);
+keyseq_pos_t keyseq_position(void);
 
 
 /* uint16_t leaders_match(uint8_t leader_idx); */
