@@ -57,7 +57,7 @@ uint8_t keyseq_get_index(void);
 void keyseq_push(uint16_t keycode);
 uint16_t keyseq_pop(void);
 KEYSEQ_CMP keyseq_compare(void);
-keyseq_pos_t keyseq_position(void);
+keyseq_pos_t keyseq_match_position(void);
 KEYSEQ_CMP keyseq_match(keyseq_pos_t pos);
 uint16_t keyseq_get_definition(uint8_t row, uint8_t col);
 

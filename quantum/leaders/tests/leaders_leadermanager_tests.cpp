@@ -58,7 +58,7 @@ TEST_F(Leadermanager, no_match_test_1 ) {
   // no match
   keyseq_push(KC_A);
   keyseq_push(KC_B);
-  keyseq_pos_t pos = keyseq_position();
+  keyseq_pos_t pos = keyseq_match_position();
   ASSERT_EQ(pos.col, 0);
   ASSERT_EQ(pos.row, 4);
   ASSERT_EQ(keyseq_match(pos), KEYSEQ_MISS);
@@ -68,7 +68,7 @@ TEST_F(Leadermanager, no_match_test_2 ) {
   // (uint16_t[]){LD_LEADER1, KC_E, SEQ_IE, KEYSEQ_END },
   keyseq_push(LD_LEADER1);
   keyseq_push(KC_F);
-  keyseq_pos_t pos = keyseq_position();
+  keyseq_pos_t pos = keyseq_match_position();
   ASSERT_EQ(pos.col, 0);
   ASSERT_EQ(pos.row, 0);
   ASSERT_EQ(keyseq_match(pos), KEYSEQ_MISS);
@@ -77,7 +77,7 @@ TEST_F(Leadermanager, no_match_test_2 ) {
 TEST_F(Leadermanager, partial_match_test ) {
   // (uint16_t[]){LD_LEADER1, KC_E, SEQ_IE, KEYSEQ_END },
   keyseq_push(LD_LEADER1);
-  keyseq_pos_t pos = keyseq_position();
+  keyseq_pos_t pos = keyseq_match_position();
   ASSERT_EQ(pos.col, 0);
   ASSERT_EQ(pos.row, 0);
   ASSERT_EQ(keyseq_match(pos), KEYSEQ_PARTIAL);
@@ -87,7 +87,7 @@ TEST_F(Leadermanager, partial_match_test2 ) {
   // (uint16_t[]){LD_LEADER2, KC_E, KC_A,  SEQ_IEE, KEYSEQ_END},
   keyseq_push(LD_LEADER2);
   keyseq_push(KC_E);
-  keyseq_pos_t pos = keyseq_position();
+  keyseq_pos_t pos = keyseq_match_position();
   ASSERT_EQ(pos.col, 1);
   ASSERT_EQ(pos.row, 1);
   ASSERT_EQ(keyseq_match(pos), KEYSEQ_PARTIAL);
@@ -98,7 +98,7 @@ TEST_F(Leadermanager, match_test1 ) {
   keyseq_push(LD_LEADER2);
   keyseq_push(KC_E);
   keyseq_push(KC_A);
-  keyseq_pos_t pos = keyseq_position();
+  keyseq_pos_t pos = keyseq_match_position();
   ASSERT_EQ(pos.col, 2);
   ASSERT_EQ(pos.row, 1);
   ASSERT_EQ(keyseq_match(pos), KEYSEQ_MATCH);
@@ -108,7 +108,7 @@ TEST_F(Leadermanager, match_with_transitives_test1 ) {
   // (uint16_t[]){LD_LEADER3, KC_TRNS, SEQ_IE, KEYSEQ_END },
   keyseq_push(LD_LEADER3);
   keyseq_push(KC_E);
-  keyseq_pos_t pos = keyseq_position();
+  keyseq_pos_t pos = keyseq_match_position();
   ASSERT_EQ(pos.col, 1);
   ASSERT_EQ(pos.row, 2);
   ASSERT_EQ(keyseq_match(pos), KEYSEQ_MATCH);
@@ -119,7 +119,7 @@ TEST_F(Leadermanager, match_with_transitives_test2 ) {
   keyseq_push(LD_LEADER4);
   keyseq_push(KC_A);
   keyseq_push(KC_F);
-  keyseq_pos_t pos = keyseq_position();
+  keyseq_pos_t pos = keyseq_match_position();
   ASSERT_EQ(pos.col, 2);
   ASSERT_EQ(pos.row, 3);
   ASSERT_EQ(keyseq_match(pos), KEYSEQ_PARTIAL);
@@ -131,7 +131,7 @@ TEST_F(Leadermanager, transitives_test3 ) {
   keyseq_push(KC_A);
   keyseq_push(KC_F);
   keyseq_push(KC_B);
-  keyseq_pos_t pos = keyseq_position();
+  keyseq_pos_t pos = keyseq_match_position();
   ASSERT_EQ(pos.col, 3);
   ASSERT_EQ(pos.row, 3);
   ASSERT_EQ(keyseq_match(pos), KEYSEQ_MATCH);
@@ -143,7 +143,7 @@ TEST_F(Leadermanager, transitives_test4 ) {
   keyseq_push(KC_A);
   keyseq_push(KC_F);
   keyseq_push(KC_K);
-  keyseq_pos_t pos = keyseq_position();
+  keyseq_pos_t pos = keyseq_match_position();
   ASSERT_EQ(pos.col, 2);
   ASSERT_EQ(pos.row, 3);
   ASSERT_EQ(keyseq_match(pos), KEYSEQ_MISS);

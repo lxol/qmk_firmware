@@ -70,7 +70,7 @@ KEYSEQ_CMP keyseq_match(keyseq_pos_t pos) {
   }
 }
 
-keyseq_pos_t keyseq_position(void) {
+keyseq_pos_t keyseq_match_position(void) {
   uint16_t i = 0;
   do {
     if (keyseq_definitions[i][0] == KEYSEQ_END) {
