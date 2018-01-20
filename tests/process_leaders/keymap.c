@@ -20,15 +20,8 @@ enum foobar {
   LD_LEADER1 = SAFE_RANGE,
   LD_LEADER2,
   LD_LEADER3,
-  SEQ_AB,
-  SEQ_A,
-  SEQ_I,
-  SEQ_OT,
-  SEQ_IIE,
-  SEQ_IEE,
-  SEQ_FB,
-  SEQ_FA,
-  SEQ_FFB
+  SEQ_1Q
+
 };
 
 enum test_layers {
@@ -40,24 +33,24 @@ enum test_layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_LAYER1] = {
 
-    //{ 0 ,     1 ,       2 ,     3 ,     4 ,     5 ,          6 ,          7 ,          8 ,     9 ,       }
-    { KC_A ,    KC_B ,    KC_C ,  KC_D ,  KC_E ,  LD_LEADER1 , LD_LEADER2 , LD_LEADER3 , KC_NO , KC_F } , 
-    { KC_NO ,   KC_NO ,   KC_NO , KC_NO , KC_NO , KC_NO ,      KC_NO ,      KC_NO ,      KC_NO , KC_NO } , 
-    { KC_NO ,   KC_NO ,   KC_NO , KC_NO , KC_NO , KC_NO ,      KC_NO ,      KC_NO ,      KC_NO , KC_NO } , 
-    { KC_NO ,   KC_NO ,   KC_NO , KC_NO , KC_NO , KC_NO ,      KC_NO ,      KC_NO ,      KC_NO , KC_NO } , 
-  } ,          
+    //{ 0 ,        1 ,          2 ,          3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       }
+    { KC_Z ,       KC_X ,       KC_C ,       KC_V ,  KC_B ,  KC_N ,  KC_M ,  KC_NO , KC_NO , KC_NO } , 
+    { LD_LEADER1 , LD_LEADER2 , LD_LEADER3 , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+    { KC_NO ,      KC_NO ,      KC_NO ,      KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+    { KC_NO ,      KC_NO ,      KC_NO ,      KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+ } ,               
   [_LAYER2] = { 
     //{ 0 ,   1 ,     2 ,     3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       }
-    { KC_A ,  KC_B ,  KC_C ,  KC_D ,  KC_E ,  KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+    { KC_A ,  KC_S ,  KC_D ,  KC_F ,  KC_G ,  KC_H ,  KC_J ,  KC_NO , KC_NO , KC_NO } , 
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
-  } ,          
+ } ,          
 
-  [_LAYER_REF] = {
+  [_LAYER_REF] = { 
 
     //{ 0 ,   1 ,     2 ,     3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       }
-    { KC_A ,  KC_B ,  KC_C ,  KC_D ,  KC_E ,  KC_G ,  KC_H ,  KC_I ,  KC_NO , KC_F } ,  
+    { KC_Q ,  KC_W ,  KC_E ,  KC_R ,  KC_T ,  KC_F ,  KC_U ,  KC_NO , KC_NO , KC_NO } , 
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
@@ -66,98 +59,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #ifdef LEADERS_ENABLE
 
-#define LD_FIRST LD_LEADER1
-#define LD_LAST LD_LEADER3
 
-const uint16_t PROGMEM * leader1_seq[]  = {
-  /* (const uint16_t[]){1, KC_T,  SEQ_AB }, */
-  ( uint16_t[]){1, KC_H, LD_LEADER2 },
-  ( uint16_t[]){2, KC_A, KC_B, SEQ_AB },
-  ( uint16_t[]){3, KC_I, KC_E, KC_E, SEQ_IEE},
-  ( uint16_t[]){0}
+const uint16_t* my_keyseq_definitions[]  = {
+  (uint16_t[]){0x0001, LD_LEADER1, KC_Q, SEQ_1Q, KEYSEQ_END },
+  /* (uint16_t[]){0x0001, LD_LEADER2, KC_E, KC_A,  SEQ_IEE, KEYSEQ_END}, */
+  /* (uint16_t[]){0x0001, LD_LEADER3, KC_TRNS, SEQ_IE, KEYSEQ_END }, */
+  /* (uint16_t[]){0x0001, LD_LEADER4, KC_A, KC_TRNS, KC_B, SEQ_IE, KEYSEQ_END }, */
+  (uint16_t[]){0xffff}
 };
-
-const uint16_t PROGMEM *  leader2_seq[]  = {
-  ( uint16_t[]){2, KC_O, KC_T, SEQ_OT},
-  ( uint16_t[]){1, KC_A, SEQ_A},
-  /* (const uint16_t[]){2, KC_I, KC_E, SEQ_}, */
-  ( uint16_t[]){0}
-};
-
-const uint16_t PROGMEM *  leader3_seq[]  = {
-  ( uint16_t[]){1, KC_I, SEQ_I},
-  ( uint16_t[]){2, KC_F, KC_B, SEQ_FB },
-  ( uint16_t[]){2, KC_F, KC_A, SEQ_FA },
-  ( uint16_t[]){3, KC_F, KC_F, KC_B, SEQ_FFB },
-  ( uint16_t[]){1, KC_TRNS, _LAYER2 },
-  ( uint16_t[]){0}
-};
-
-const uint16_t** sequence_config[LD_LAST - LD_FIRST + 1];
 
 void leaders_init_user(void) {
-    sequence_config[LD_LEADER1 - LD_FIRST] = leader1_seq; 
-    sequence_config[LD_LEADER2 - LD_FIRST] = leader2_seq; 
-    sequence_config[LD_LEADER3 - LD_FIRST] = leader3_seq; 
-
-    leaders_range(LD_FIRST, LD_LAST);
     set_ref_layer(_LAYER_REF);
-    leadermanager_set_config(sequence_config);
+    keyseq_init(my_keyseq_definitions);
 }
 
-bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
+void keyseq_last_user(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
-  case LD_LEADER1:
-    if (record->event.pressed) {
-      register_code16(KC_T);
-      return false;
-    } else {
-      unregister_code16(KC_T);
-      return false; 
-    }
-    break;
-  case SEQ_AB:
-    if (record->event.pressed) {
-      register_code16(KC_I);
-      return false; break;
-    } else {
-      unregister_code16(KC_I);
-      return false; break;
-    }
-  case SEQ_A:
-    if (record->event.pressed) {
-      register_code16(KC_U);
-      return false; break;
-    } else {
-      unregister_code16(KC_U);
-      return false; break;
-    }
-  case SEQ_FB:
-    if (record->event.pressed) {
-      register_code16(KC_K);
-      return false; break;
-    } else {
-      unregister_code16(KC_K);
-      return false; break;
-    }
-  case SEQ_FFB:
+  case SEQ_1Q:
     if (record->event.pressed) {
       register_code16(KC_L);
-      return false; break;
+      return ;
     } else {
       unregister_code16(KC_L);
-      return false; break;
+      return ;
     }
-  case SEQ_I:
-    if (record->event.pressed) {
-      register_code16(KC_X);
-      return false; break;
-    } else {
-      unregister_code16(KC_X);
-      return false; break;
-    }
-  }
-  return false;
+  }    
 }
 
 #endif

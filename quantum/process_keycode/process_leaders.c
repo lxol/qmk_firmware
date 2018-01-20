@@ -21,9 +21,6 @@
 #include "print.h"
 
 /* #include "debug.h" */
-uint16_t first_leader;
-uint16_t last_leader;
-
 uint8_t ref_layer;
 
 __attribute__ ((weak))
@@ -31,28 +28,18 @@ void leaders_init_user(void) {}
 
 __attribute__ ((weak))
 void keyseq_first_user(uint16_t keycode, keyrecord_t *record) {
-  return true;
 }
 
 __attribute__ ((weak))
 void keyseq_around_last_user(uint16_t keycode, keyrecord_t *record) {
-  return true;
 }
 
 __attribute__ ((weak))
 void keyseq_last_user(uint16_t keycode, keyrecord_t *record) {
-  return true;
-}
-
-void leaders_range(uint16_t first, uint16_t last) {
-  first_leader = first;
-  last_leader = last;
 }
 
 void leaders_init(void) {
-  /* init_leaderlist(); */
-  /* init_leadermanager(); */
-  init_keyseq();
+  /* keyseq_init(); */
   init_press_state();
   leaders_init_user();
 }
@@ -68,10 +55,9 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     } else {
       uint16_t kc = keymap_key_to_keycode(ref_layer, record->event.key);
       keyseq_push(kc);
-      keyseq_set_sentinels(MOMENTARY_SENTINEL | ONESHOT_SENTINEL);
     }
-    keyseq_pos_t keyseq_pos = keyseq_match_position();
-    KEYSEQ_STATE keyseq_state = keyseq_match_state(keyseq_pos);
+    keyseq_pos_t dpos = keyseq_match_position();
+    KEYSEQ_STATE keyseq_state = keyseq_match_state(dpos);
     
     switch(keyseq_state) {
     case KEYSEQ_MISS: {
@@ -80,86 +66,26 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     }
     case KEYSEQ_PARTIAL: {
       if (keyseq_get_index() == 1) {
+        keyseq_set_sentinels(keyseq_get_definition(dpos.row, 0));
         press_state_put(record->event.key, keycode);
-        process_leaders_first_user(keycode, record);
+        keyseq_first_user(keycode, record);
       } else 
         press_state_put(record->event.key, KC_NO);
       }
       return false;
-    }
-    case KEYSEQ_EQUAL: {
+    case KEYSEQ_MATCH: {
       if (keyseq_get_index() == 1) {
-        press_state_put(record->event.key, keycode);
-        process_leaders_user(keycode, record);
+        keyseq_set_sentinels(keyseq_get_definition(dpos.row,0));
+        press_state_put(record->event.key, keyseq_get_definition(dpos.row, dpos.col + 1));
+        keyseq_first_user(keycode, record);
+        keyseq_last_user(keyseq_get_definition(dpos.row, dpos.col + 1), record);
       } else {
-        
+        press_state_put(record->event.key, keyseq_get_definition(dpos.row, dpos.col + 1));
+        keyseq_last_user(keyseq_get_definition(dpos.row, dpos.col + 1), record);
       }
       return false;
     }
     }
-    
-    if (keycode >= first_leader && keycode <= last_leader && ldr == KC_NO ) {
-      if (ldr != keycode) {
-        set_leader(keycode);
-        set_leader_sentinels(MOMENTARY_SENTINEL | ONESHOT_SENTINEL);
-        leaders_seq_reset();
-        press_state_put(record->event.key, keycode);
-        return process_leaders_user(keycode, record);
-      }
-    }
-    /* no leader -> normal processing */
-    if (ldr == KC_NO) {
-      return true;
-    }
-
-    uint16_t kc = keymap_key_to_keycode(ref_layer, record->event.key);
-    /* kc = KC_T; */
-    leaders_seq_put(kc);
-
-    uint16_t match_kc = leaders_match(ldr -  first_leader);
-    switch(match_kc) {
-    case PARTIAL_MATCH: {
-      press_state_put(record->event.key, KC_NO);
-      return false;
-    }
-    case DO_NOT_MATCH: {
-      leaders_seq_reset();
-      remove_leader_sentinels(ONESHOT_SENTINEL);
-      remove_leader();
-      press_state_put(record->event.key, KC_NO);
-      return false;
-    }
-    case 0 ... LEADERS_LAYER_MAX: {
-      uint16_t layer_kc = keymap_key_to_keycode(match_kc, record->event.key);
-      if (layer_kc == KC_NO) {
-        leaders_seq_remove_last();
-        press_state_put(record->event.key, KC_NO);
-        return false;
-      } else {
-        register_code16(layer_kc);
-        press_state_put(record->event.key, layer_kc);
-        leaders_seq_reset();
-        remove_leader_sentinels(ONESHOT_SENTINEL);
-        remove_leader();
-        return false;
-      }
-    }
-    default: {
-      remove_leader_sentinels(ONESHOT_SENTINEL);
-      if (match_kc >= first_leader && match_kc <= last_leader) {
-        if (ldr != match_kc) {
-          set_leader(match_kc);
-          set_leader_sentinels(MOMENTARY_SENTINEL | ONESHOT_SENTINEL);
-        }
-      }
-      press_state_put(record->event.key, match_kc);
-      leaders_seq_reset();
-      remove_leader();
-      return process_leaders_user(match_kc, record);
-    }
-    }
-    return false;
-    /* return process_leaders_user(keycode, record); */
   }
   if (!record->event.pressed) {
     if (press_state_get() == 0UL) {return true;}
@@ -171,12 +97,10 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     if (kc == KC_NO) {
       return false;
     }
-    if (kc < SAFE_RANGE) {
-      unregister_code16(kc);
-    }
-    remove_leader_sentinels(MOMENTARY_SENTINEL);
-    remove_leader();
-    return process_leaders_user(kc, record);
+    keyseq_remove_sentinels(KEYSEQ_MOMENTARY);
+    keyseq_reset();
+    keyseq_last_user(kc, record);
+    return false;
   }
   return true;
 }
