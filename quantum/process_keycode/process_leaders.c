@@ -97,7 +97,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     if (kc == KC_NO) {
       return false;
     }
-    keyseq_remove_sentinels(KEYSEQ_MOMENTARY);
+    keyseq_remove_sentinels(KEYSEQ_ONESHOT);
     keyseq_reset();
     keyseq_last_user(kc, record);
     return false;

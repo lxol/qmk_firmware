@@ -20,7 +20,8 @@ enum foobar {
   LD_LEADER1 = SAFE_RANGE,
   LD_LEADER2,
   LD_LEADER3,
-  SEQ_1Q
+  SEQ_1Q,
+  SEQ_1W
 
 };
 
@@ -61,7 +62,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 const uint16_t* my_keyseq_definitions[]  = {
-  (uint16_t[]){0x0001, LD_LEADER1, KC_Q, SEQ_1Q, KEYSEQ_END },
+  (uint16_t[]){KEYSEQ_ONESHOT, LD_LEADER1, KC_Q, SEQ_1Q, KEYSEQ_END },
+  (uint16_t[]){KEYSEQ_MOMENTARY | KEYSEQ_ONESHOT, LD_LEADER2, KC_W, SEQ_1W, KEYSEQ_END },
   /* (uint16_t[]){0x0001, LD_LEADER2, KC_E, KC_A,  SEQ_IEE, KEYSEQ_END}, */
   /* (uint16_t[]){0x0001, LD_LEADER3, KC_TRNS, SEQ_IE, KEYSEQ_END }, */
   /* (uint16_t[]){0x0001, LD_LEADER4, KC_A, KC_TRNS, KC_B, SEQ_IE, KEYSEQ_END }, */
@@ -81,6 +83,14 @@ void keyseq_last_user(uint16_t keycode, keyrecord_t *record) {
       return ;
     } else {
       unregister_code16(KC_L);
+      return ;
+    }
+  case SEQ_1W:
+    if (record->event.pressed) {
+      register_code16(KC_K);
+      return ;
+    } else {
+      unregister_code16(KC_K);
       return ;
     }
   }    

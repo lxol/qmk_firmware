@@ -34,7 +34,7 @@ TEST_F(Leaders, no_leaders) {
     keyboard_task();
 }
 
-TEST_F(Leaders, leader_simple_sequence) {
+TEST_F(Leaders, leader_simple_sequence_oneshot) {
     TestDriver driver;
     InSequence s;
     leaders_init();
