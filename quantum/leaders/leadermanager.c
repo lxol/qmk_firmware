@@ -53,16 +53,15 @@ uint16_t keyseq_get_definition(uint8_t row, uint8_t col) {
   return keyseq_definitions[row][col];
 }
 
-
 KEYSEQ_STATE keyseq_match_state(keyseq_pos_t pos) {
   uint16_t val = keyseq_definitions[pos.row][pos.col];
-  if (pos.col == 0 && val == KC_NO) {
+  if (pos.col == 0 && val == KEYSEQ_END) {
     return KEYSEQ_MISS;
   }
   if ((pos.col + 2) == keyseq_index ) {
     return KEYSEQ_MISS;
   }
-  bool is_terminator = keyseq_definitions[pos.row][pos.col + 2] == KC_NO;
+  bool is_terminator = keyseq_definitions[pos.row][pos.col + 2] == KEYSEQ_END;
   if (is_terminator) {
     return KEYSEQ_MATCH;
   } else {
@@ -100,7 +99,6 @@ keyseq_pos_t keyseq_match_position(void) {
     } while (true);
     i++;
   } while (true);
-  /* return DO_NOT_MATCH; */
 }
 
 uint32_t keyseq_set_sentinels(uint32_t user_keyseq_sentinels) {
