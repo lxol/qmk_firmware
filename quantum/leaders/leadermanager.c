@@ -54,7 +54,7 @@ uint16_t keyseq_get_definition(uint8_t row, uint8_t col) {
 }
 
 
-KEYSEQ_CMP keyseq_match(keyseq_pos_t pos) {
+KEYSEQ_CMP keyseq_match_state(keyseq_pos_t pos) {
   uint16_t val = keyseq_definitions[pos.row][pos.col];
   if (pos.col == 0 && val == KC_NO) {
     return KEYSEQ_MISS;
