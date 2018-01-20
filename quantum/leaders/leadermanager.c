@@ -16,7 +16,7 @@
 #include "leaders/leadermanager.h"
 
 /* uint16_t current_leader; */
-uint32_t keyseq_sentinels;
+uint16_t keyseq_sentinels;
 uint16_t keyseq_codes[LEADERS_SEQ_MAX];
 uint8_t keyseq_index;
 
@@ -72,26 +72,26 @@ KEYSEQ_STATE keyseq_match_state(keyseq_pos_t pos) {
 keyseq_pos_t keyseq_match_position(void) {
   uint16_t i = 0;
   do {
-    if (keyseq_definitions[i][0] == KEYSEQ_END) {
+    if (keyseq_definitions[i][0] == 0xffff) {
       return (keyseq_pos_t) {.col = 0, .row = i};
     }
-    if (keyseq_definitions[i][0] != keyseq_codes[0]) {
+    if (keyseq_definitions[i][1] != keyseq_codes[0]) {
       i++;
       continue;
     }
-    uint8_t j = 1;
+    uint8_t j = 2;
     do  {
       if (keyseq_definitions[i][j+1] == KEYSEQ_END) {
         return (keyseq_pos_t) {.col = j-1, .row = i};
       }
-      if (j == keyseq_index) {
+      if (j == keyseq_index + 1) {
         return (keyseq_pos_t) {.col = j-1, .row = i};
       }
       if (keyseq_definitions[i][j] == KC_TRNS) {
         j++;
         continue;
       }
-      if (keyseq_definitions[i][j] == keyseq_codes[j]) {
+      if (keyseq_definitions[i][j] == keyseq_codes[j-1]) {
         j++;
         continue;
       }
@@ -101,12 +101,12 @@ keyseq_pos_t keyseq_match_position(void) {
   } while (true);
 }
 
-uint32_t keyseq_set_sentinels(uint32_t user_keyseq_sentinels) {
+uint16_t keyseq_set_sentinels(uint32_t user_keyseq_sentinels) {
   keyseq_sentinels = user_keyseq_sentinels;
   return keyseq_sentinels;
 }
 
-uint32_t keyseq_remove_sentinels(uint32_t user_keyseq_sentinels) {
+uint16_t keyseq_remove_sentinels(uint32_t user_keyseq_sentinels) {
   keyseq_sentinels &= ~user_keyseq_sentinels;
   return keyseq_sentinels;
 }

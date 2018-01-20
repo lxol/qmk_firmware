@@ -30,7 +30,17 @@ __attribute__ ((weak))
 void leaders_init_user(void) {}
 
 __attribute__ ((weak))
-bool process_leaders_user(uint16_t keycode, keyrecord_t *record) {
+void keyseq_first_user(uint16_t keycode, keyrecord_t *record) {
+  return true;
+}
+
+__attribute__ ((weak))
+void keyseq_around_last_user(uint16_t keycode, keyrecord_t *record) {
+  return true;
+}
+
+__attribute__ ((weak))
+void keyseq_last_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
@@ -52,18 +62,18 @@ void set_ref_layer(uint8_t layer) {
 }
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
-  /* leader key */
-  /* no sequence leader key */
-  /* sequence key */
   if (record->event.pressed) {
     if (keyseq_get_index() == 0) {
       keyseq_push(keycode);
     } else {
       uint16_t kc = keymap_key_to_keycode(ref_layer, record->event.key);
       keyseq_push(kc);
+      keyseq_set_sentinels(MOMENTARY_SENTINEL | ONESHOT_SENTINEL);
     }
+    keyseq_pos_t keyseq_pos = keyseq_match_position();
+    KEYSEQ_STATE keyseq_state = keyseq_match_state(keyseq_pos);
     
-    switch(keyseq_compare()) {
+    switch(keyseq_state) {
     case KEYSEQ_MISS: {
       keyseq_reset();
       return true;
@@ -71,7 +81,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     case KEYSEQ_PARTIAL: {
       if (keyseq_get_index() == 1) {
         press_state_put(record->event.key, keycode);
-        process_leaders_user(keycode, record);
+        process_leaders_first_user(keycode, record);
       } else 
         press_state_put(record->event.key, KC_NO);
       }
