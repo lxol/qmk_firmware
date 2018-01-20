@@ -55,10 +55,10 @@ uint16_t keyseq_get_definition(uint8_t row, uint8_t col) {
 
 KEYSEQ_STATE keyseq_match_state(keyseq_pos_t pos) {
   uint16_t val = keyseq_definitions[pos.row][pos.col];
-  if (pos.col == 0 && val == KEYSEQ_END) {
+  if (pos.col == 0 && val == 0xffff) {
     return KEYSEQ_MISS;
   }
-  if ((pos.col + 2) == keyseq_index ) {
+  if ((pos.col + 1) == keyseq_index ) {
     return KEYSEQ_MISS;
   }
   bool is_terminator = keyseq_definitions[pos.row][pos.col + 2] == KEYSEQ_END;
