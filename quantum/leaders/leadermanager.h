@@ -46,7 +46,7 @@ typedef struct {
 } keyseq_pos_t;
 
 typedef enum {
-  KEYSEQ_MATCH = 0,	
+  KEYSEQ_MATCH = 0,
   KEYSEQ_PARTIAL,
   KEYSEQ_MISS
 } KEYSEQ_CMP;
@@ -58,6 +58,6 @@ void keyseq_push(uint16_t keycode);
 uint16_t keyseq_pop(void);
 KEYSEQ_CMP keyseq_compare(void);
 keyseq_pos_t keyseq_position(void);
-
+KEYSEQ_CMP keyseq_match(keyseq_pos_t pos);
 
 #endif

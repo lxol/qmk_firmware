@@ -49,18 +49,20 @@ uint16_t keyseq_pop() {
   return keyseq_codes[keyseq_index--];
 }
 
-KEYSEQ_CMP keyseq_match(keyseq_pos pos) {
+KEYSEQ_CMP keyseq_match(keyseq_pos_t pos) {
   uint16_t val = keyseq_definitions[pos.row][pos.col];
   if (pos.col == 0 && val == KC_NO) {
     return KEYSEQ_MISS;
   }
-  bool is_terminator = keyseq_definitions[pos.row][pos.col + 1] == KC_NO;
+  if ((pos.col + 2) == keyseq_index ) {
+    return KEYSEQ_MISS;
+  }
+  bool is_terminator = keyseq_definitions[pos.row][pos.col + 2] == KC_NO;
   if (is_terminator) {
     return KEYSEQ_MATCH;
   } else {
-    return KEYSEQ_MISS;
+    return KEYSEQ_PARTIAL;
   }
-
 }
 
 keyseq_pos_t keyseq_position(void) {
@@ -76,10 +78,10 @@ keyseq_pos_t keyseq_position(void) {
     uint8_t j = 1;
     do  {
       if (keyseq_definitions[i][j+1] == KEYSEQ_END) {
-        return (keyseq_pos_t) {.col = j, .row = i};
+        return (keyseq_pos_t) {.col = j-1, .row = i};
       }
       if (j == keyseq_index) {
-        return (keyseq_pos_t) {.col = j, .row = i};
+        return (keyseq_pos_t) {.col = j-1, .row = i};
       }
       if (keyseq_definitions[i][j] == KC_TRNS) {
         j++;
@@ -89,7 +91,7 @@ keyseq_pos_t keyseq_position(void) {
         j++;
         continue;
       }
-      return (keyseq_pos_t) {.col = j, .row = i};
+      return (keyseq_pos_t) {.col = j-1, .row = i };
     } while (true);
     i++;
   } while (true);
