@@ -34,7 +34,7 @@ TEST_F(Leaders, no_leaders) {
     keyboard_task();
 }
 
-TEST_F(Leaders, leader_press_release) {
+TEST_F(Leaders, leader_simple_sequence) {
     TestDriver driver;
     InSequence s;
     leaders_init();
@@ -45,6 +45,14 @@ TEST_F(Leaders, leader_press_release) {
     keyboard_task();
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
     release_key(0, 0);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_Z)));
+    press_key(0, 0);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(0, 0);
+    keyboard_task();
+    release_key(0, 1); //release LD_LEADER1
     keyboard_task();
 }
 
