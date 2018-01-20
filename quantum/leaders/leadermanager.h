@@ -49,16 +49,16 @@ typedef enum {
   KEYSEQ_MATCH = 0,
   KEYSEQ_PARTIAL,
   KEYSEQ_MISS
-} KEYSEQ_CMP;
+} KEYSEQ_STATE;
 
 void keyseq_init(const uint16_t** user_keyseq_definitions);
 bool keyseq_reset(void);
 uint8_t keyseq_get_index(void);
 void keyseq_push(uint16_t keycode);
 uint16_t keyseq_pop(void);
-KEYSEQ_CMP keyseq_compare(void);
+KEYSEQ_STATE keyseq_compare(void);
 keyseq_pos_t keyseq_match_position(void);
-KEYSEQ_CMP keyseq_match_state(keyseq_pos_t pos);
+KEYSEQ_STATE keyseq_match_state(keyseq_pos_t pos);
 uint16_t keyseq_get_definition(uint8_t row, uint8_t col);
 
 #endif
