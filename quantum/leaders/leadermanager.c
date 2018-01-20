@@ -49,6 +49,11 @@ uint16_t keyseq_pop() {
   return keyseq_codes[keyseq_index--];
 }
 
+uint16_t keyseq_get_definition(uint8_t row, uint8_t col) {
+  return keyseq_definitions[row][col];
+}
+
+
 KEYSEQ_CMP keyseq_match(keyseq_pos_t pos) {
   uint16_t val = keyseq_definitions[pos.row][pos.col];
   if (pos.col == 0 && val == KC_NO) {

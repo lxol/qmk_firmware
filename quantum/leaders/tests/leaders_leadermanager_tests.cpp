@@ -144,6 +144,7 @@ TEST_F(Leadermanager, transitives_test4 ) {
   keyseq_push(KC_F);
   keyseq_push(KC_K);
   keyseq_pos_t pos = keyseq_position();
-  ASSERT_EQ(pos.col, 4);
+  ASSERT_EQ(pos.col, 2);
   ASSERT_EQ(pos.row, 3);
+  ASSERT_EQ(keyseq_match(pos), KEYSEQ_MISS);
 }

@@ -59,5 +59,6 @@ uint16_t keyseq_pop(void);
 KEYSEQ_CMP keyseq_compare(void);
 keyseq_pos_t keyseq_position(void);
 KEYSEQ_CMP keyseq_match(keyseq_pos_t pos);
+uint16_t keyseq_get_definition(uint8_t row, uint8_t col);
 
 #endif
