@@ -49,41 +49,20 @@ uint16_t keyseq_pop() {
   return keyseq_codes[keyseq_index--];
 }
 
-KEYSEQ_CMP keyseq_compare() {
-  uint16_t i = 0;
-  do {
-    if (keyseq_definitions[i][0] == KEYSEQ_END) {
-      /* KEYSEQ_END terminates the list of definition */
-      return KEYSEQ_MISS;
-    }
-    if (keyseq_definitions[i][0] != keyseq_codes[0]) {
-      i++;
-      continue;
-    }
-    uint8_t j = 1;
-    do  {
-      if (keyseq_definitions[i][j+1] == KEYSEQ_END) {
-        return  KEYSEQ_EQUAL;
-      }
-      if (j == keyseq_index) {
-        return KEYSEQ_PARTIAL;
-      }
-      if (keyseq_definitions[i][j] == KC_TRNS) {
-        j++;
-        continue;
-      }
-      if (keyseq_definitions[i][j] == keyseq_codes[j]) {
-        j++;
-        continue;
-      }
-      return KEYSEQ_MISS;
-    } while (true);
-    i++;
-  } while (true);
-  /* return DO_NOT_MATCH; */
+KEYSEQ_CMP keyseq_match(keyseq_pos pos) {
+  uint16_t val = keyseq_definitions[pos.row][pos.col];
+  if (pos.col == 0 && val == KC_NO) {
+    return KEYSEQ_MISS;
+  }
+  bool is_terminator = keyseq_definitions[pos.row][pos.col + 1] == KC_NO;
+  if (is_terminator) {
+    return KEYSEQ_MATCH;
+  } else {
+    return KEYSEQ_MISS;
+  }
+
 }
 
-/* returns matching position in the definitions */
 keyseq_pos_t keyseq_position(void) {
   uint16_t i = 0;
   do {

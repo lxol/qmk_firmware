@@ -46,7 +46,7 @@ typedef struct {
 } keyseq_pos_t;
 
 typedef enum {
-  KEYSEQ_EQUAL = 0,	
+  KEYSEQ_MATCH = 0,	
   KEYSEQ_PARTIAL,
   KEYSEQ_MISS
 } KEYSEQ_CMP;
@@ -59,19 +59,5 @@ uint16_t keyseq_pop(void);
 KEYSEQ_CMP keyseq_compare(void);
 keyseq_pos_t keyseq_position(void);
 
-
-/* uint16_t leaders_match(uint8_t leader_idx); */
-/* void leaders_seq_put(uint16_t keycode); */
-/* void leaders_seq_reset(void); */
-/* void leaders_seq_remove_last(void); */
-
-/* void init_leadermanager(void); */
-/* void set_leader(uint16_t l); */
-/* void set_leader_sentinels(uint32_t s); */
-/* void remove_leader_sentinels(uint32_t s); */
-/* bool remove_leader(void); */
-/* uint16_t get_leader(void); */
-
-/* uint16_t leaders_seq_debug_get_at(uint8_t index); */
 
 #endif
