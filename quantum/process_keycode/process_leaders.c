@@ -67,20 +67,48 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     case KEYSEQ_PARTIAL: {
       if (keyseq_get_index() == 1) {
         keyseq_set_sentinels(keyseq_get_definition(dpos.row, 0));
-        press_state_put(record->event.key, keycode);
+        press_state_put((press_t)
+                        {.key = record->event.key,
+                            .keycode = keycode,
+                            .ignore = false,
+                            .sentinels = KEYSEQ_MOMENTARY
+                            }
+                        );
+        /* press_state_put(record->event.key, keycode); */
         keyseq_first_user(keycode, record);
       } else 
-        press_state_put(record->event.key, KC_NO);
+        press_state_put((press_t)
+                        {.key=record->event.key,
+                            .keycode = KC_NO,
+                            .ignore = true,
+                            .sentinels = 0x0000
+                            }
+                        );
+        /* press_state_put(record->event.key, KC_NO); */
       }
       return false;
     case KEYSEQ_MATCH: {
       if (keyseq_get_index() == 1) {
         keyseq_set_sentinels(keyseq_get_definition(dpos.row,0));
-        press_state_put(record->event.key, keyseq_get_definition(dpos.row, dpos.col + 1));
+        press_state_put((press_t)
+                        {.key=record->event.key,
+                            .keycode = keyseq_get_definition(dpos.row, dpos.col + 1),
+                            .ignore = false,
+                            .sentinels = KEYSEQ_MOMENTARY
+                            }
+                        );
+        /* press_state_put(record->event.key, keyseq_get_definition(dpos.row, dpos.col + 1)); */
         keyseq_first_user(keycode, record);
         keyseq_last_user(keyseq_get_definition(dpos.row, dpos.col + 1), record);
       } else {
-        press_state_put(record->event.key, keyseq_get_definition(dpos.row, dpos.col + 1));
+        press_state_put((press_t)
+                        {.key=record->event.key,
+                            .keycode = keyseq_get_definition(dpos.row, dpos.col + 1),
+                            .ignore = false,
+                            .sentinels = 0x0000
+                            }
+                        );
+        /* press_state_put(record->event.key, keyseq_get_definition(dpos.row, dpos.col + 1)); */
         keyseq_last_user(keyseq_get_definition(dpos.row, dpos.col + 1), record);
       }
       keyseq_reset();
@@ -93,18 +121,22 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     }
   }
   if (!record->event.pressed) {
-    if (press_state_get() == 0UL) {return true;}
+    if (press_state_get() == 0UL) {
+      return true;
+    }
     uint8_t idx = find_press(record->event.key);
     if (idx == LD_PRESS_MAX) {
       return true;
-    }
-    uint16_t kc = press_state_remove_by_idx(idx);
-    if (kc == KC_NO) {
+    } 
+    press_t press = press_state_get_press(idx);
+    press_state_remove_by_idx(idx);
+    if (press.ignore) {
       return false;
     }
+    keyseq_remove_sentinels(press.sentinels);
     /* keyseq_remove_sentinels(KEYSEQ_ONESHOT); */
     keyseq_reset();
-    keyseq_last_user(kc, record);
+    keyseq_last_user(press.keycode, record);
     return false;
   }
   return true;

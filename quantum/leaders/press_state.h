@@ -27,13 +27,14 @@ typedef struct {
   uint16_t keycode;
   bool ignore;
   uint16_t sentinels;
-} press_state_t;
+} press_t;
 
 void init_press_state(void);
 uint16_t press_state_get(void);
 uint8_t find_press(keypos_t key);
-uint16_t press_state_remove(keypos_t key);
-uint16_t press_state_remove_by_idx(uint8_t idx);
-void press_state_put(keypos_t key, uint16_t keycode);
+/* press_t press_state_remove(keypos_t key); */
+bool press_state_remove_by_idx(uint8_t idx);
+void press_state_put(press_t press);
+press_t press_state_get_press(uint8_t idx);
 
 #endif
