@@ -84,6 +84,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         keyseq_last_user(keyseq_get_definition(dpos.row, dpos.col + 1), record);
       }
       keyseq_reset();
+      keyseq_remove_sentinels(KEYSEQ_ONESHOT);
       /* if (!keyseq_reset()) { */
       /*   keyseq_set_index(1); */
       /* }  */
@@ -101,7 +102,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     if (kc == KC_NO) {
       return false;
     }
-    keyseq_remove_sentinels(KEYSEQ_ONESHOT);
+    /* keyseq_remove_sentinels(KEYSEQ_ONESHOT); */
     keyseq_reset();
     keyseq_last_user(kc, record);
     return false;
