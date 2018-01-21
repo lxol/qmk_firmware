@@ -15,14 +15,9 @@
  */
 #include "leaders/press_state.h"
 
-typedef struct {
-  keypos_t key;
-  uint16_t keycode;
-  bool ignore;
-} leaders_press_t;
 
 uint16_t press_state;
-leaders_press_t presses[LD_PRESS_MAX];
+press_state_t presses[LD_PRESS_MAX];
 
 void init_press_state(void) {
   press_state = 0UL;
@@ -40,7 +35,8 @@ void press_state_put(keypos_t key, uint16_t keycode) {
     press_state |= (1U << i);
     presses[i].key = key;
     presses[i].keycode = keycode;
-    return;
+    presses[i].sentinels = 0x0000;
+    return ;
   }
   press_state = 0U;
 }
@@ -88,10 +84,10 @@ uint16_t press_state_remove_by_idx(uint8_t idx) {
 /*   return true; */
 /* } */
 
-/* leaders_press_t recall_press(keypos_t key) { */
+/* press_state_t recall_press(keypos_t key) { */
 /*   uint8_t idx = find_press(key); */
 /*   if (idx == LD_PRESS_MAX) { */
-/*     return (leaders_press_t) { */
+/*     return (press_state_t) { */
 /*       .key = leaders_no_key, */
 /*         .leader = KC_NO, */
 /*         .keycode = KC_NO */
@@ -101,9 +97,9 @@ uint16_t press_state_remove_by_idx(uint8_t idx) {
 /* } */
 
 
-/* leaders_press_t recall_press_by_idx(uint8_t idx) { */
+/* press_state_t recall_press_by_idx(uint8_t idx) { */
 /*   if (idx == LD_PRESS_MAX) { */
-/*     return (leaders_press_t) { */
+/*     return (press_state_t) { */
 /*       .key = leaders_no_key, */
 /*         .leader = KC_NO, */
 /*         .keycode = KC_NO */

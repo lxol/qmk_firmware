@@ -22,6 +22,13 @@
 
 #include "keycode.h"
 
+typedef struct {
+  keypos_t key;
+  uint16_t keycode;
+  bool ignore;
+  uint16_t sentinels;
+} press_state_t;
+
 void init_press_state(void);
 uint16_t press_state_get(void);
 uint8_t find_press(keypos_t key);
