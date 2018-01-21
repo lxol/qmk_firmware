@@ -77,12 +77,12 @@ TEST_F(Leaders, leader_simple_sequence_momentary) {
 
     release_key(1, 1); //LD_LEADER2
     keyboard_task();
-    // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_X)));
-    // press_key(1, 0);
-    // keyboard_task();
-    // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
-    // release_key(1, 0);
-    // keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_X)));
+    press_key(1, 0);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(1, 0);
+    keyboard_task();
 }
 
 // TEST_F(Leaders, leader_press_sequence) {
