@@ -33,11 +33,15 @@ bool keyseq_reset() {
     keyseq_index = 0;
     return true;
   }
+  keyseq_index = 1;
   return false;
 }
 
 uint8_t keyseq_get_index() {
   return keyseq_index;
+}
+void keyseq_set_index(uint8_t index) {
+  keyseq_index = index;
 }
 
 void keyseq_push(uint16_t keycode) {

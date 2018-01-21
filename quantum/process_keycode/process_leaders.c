@@ -83,6 +83,10 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         press_state_put(record->event.key, keyseq_get_definition(dpos.row, dpos.col + 1));
         keyseq_last_user(keyseq_get_definition(dpos.row, dpos.col + 1), record);
       }
+      keyseq_reset();
+      /* if (!keyseq_reset()) { */
+      /*   keyseq_set_index(1); */
+      /* }  */
       return false;
     }
     }

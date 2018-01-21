@@ -54,6 +54,7 @@ typedef enum {
 void keyseq_init(const uint16_t** user_keyseq_definitions);
 bool keyseq_reset(void);
 uint8_t keyseq_get_index(void);
+void keyseq_set_index(uint8_t index);
 void keyseq_push(uint16_t keycode);
 uint16_t keyseq_pop(void);
 keyseq_pos_t keyseq_match_position(void);
