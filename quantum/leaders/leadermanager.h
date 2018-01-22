@@ -40,16 +40,18 @@
 
 /* void key(const uint16_t** config[]); */
 
-typedef struct {
-    uint16_t col;
-    uint16_t row;
-} keyseq_pos_t;
-
 typedef enum {
   KEYSEQ_MATCH = 0,
   KEYSEQ_PARTIAL,
+  KEYSEQ_MATCH_PREFIX,
   KEYSEQ_MISS
 } KEYSEQ_STATE;
+
+typedef struct {
+  uint16_t col;
+  uint16_t row;
+  KEYSEQ_STATE state;
+} keyseq_pos_t;
 
 void keyseq_init(const uint16_t** user_keyseq_definitions);
 bool keyseq_reset(void);

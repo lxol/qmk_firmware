@@ -62,11 +62,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 const uint16_t* my_keyseq_definitions[]  = {
-  (uint16_t[]){KEYSEQ_ONESHOT, LD_LEADER1, KC_Q, SEQ_1Q, KEYSEQ_END },
-  (uint16_t[]){KEYSEQ_MOMENTARY | KEYSEQ_ONESHOT, LD_LEADER2, KC_W, SEQ_1W, KEYSEQ_END },
+
+  (uint16_t[]){KEYSEQ_ONESHOT                    , LD_LEADER1, KC_Q, SEQ_1Q, KEYSEQ_END },
+  (uint16_t[]){KEYSEQ_MOMENTARY | KEYSEQ_ONESHOT , LD_LEADER2, KC_W, SEQ_1W, KEYSEQ_END },
   /* (uint16_t[]){0x0001, LD_LEADER2, KC_E, KC_A,  SEQ_IEE, KEYSEQ_END}, */
   /* (uint16_t[]){0x0001, LD_LEADER3, KC_TRNS, SEQ_IE, KEYSEQ_END }, */
   /* (uint16_t[]){0x0001, LD_LEADER4, KC_A, KC_TRNS, KC_B, SEQ_IE, KEYSEQ_END }, */
+  
+  /* .sentinels = KEYSEQ_ONESHOT, */
+  /* .leader = LD_LEADER1, */
+  /* .sequence = (uint16_t[]){KC_Q, KC_}, */
+  /* .keycode = SEQ_1Q */
+
   (uint16_t[]){0xffff}
 };
 

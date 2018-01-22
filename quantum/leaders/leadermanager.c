@@ -22,6 +22,34 @@ uint8_t keyseq_index;
 
 const uint16_t** keyseq_definitions;
 
+/* void sort_definitions() { */
+/*   uint16_t* prev_definition; */
+/*   uint16_t i = 0; */
+/*   do { */
+/*     if (keyseq_definitions[i][0] == 0xffff) { */
+/*       return; */
+/*     } */
+/*     uint8_t j = 1; */
+/*     do  { */
+/*       if (keyseq_definitions[i][j+1] == KEYSEQ_END) { */
+/*         break; */
+/*       } */
+      
+
+/*       if (keyseq_definitions[i][j] == KC_TRNS) { */
+/*         j++; */
+/*         continue; */
+/*       } */
+/*       if (keyseq_definitions[i][j] == keyseq_codes[j-1]) { */
+/*         j++; */
+/*         continue; */
+/*       } */
+/*       return (keyseq_pos_t) {.col = j-1, .row = i }; */
+/*     } while (true); */
+/*     i++; */
+/*   } while (true); */
+/* } */
+
 void keyseq_init(const uint16_t** user_keyseq_definitions) {
   keyseq_definitions = user_keyseq_definitions;
   keyseq_sentinels = 0x00000000;
@@ -66,11 +94,16 @@ KEYSEQ_STATE keyseq_match_state(keyseq_pos_t pos) {
     return KEYSEQ_MISS;
   }
   bool is_terminator = keyseq_definitions[pos.row][pos.col + 2] == KEYSEQ_END;
-  if (is_terminator) {
-    return KEYSEQ_MATCH;
-  } else {
+  if (!is_terminator) {
     return KEYSEQ_PARTIAL;
   }
+  /* TODO: check if  PREFIX */
+  /* do { */
+  /*   if (keyseq_definitions[i][0] == 0xffff) { */
+  /*     return (keyseq_pos_t) {.col = 0, .row = i}; */
+  /*   } */
+  /* } */
+  return KEYSEQ_MATCH;
 }
 
 keyseq_pos_t keyseq_match_position(void) {
