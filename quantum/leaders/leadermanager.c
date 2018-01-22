@@ -62,7 +62,7 @@ KEYSEQ_STATE keyseq_match_state(keyseq_pos_t pos) {
   if (pos.col == 0 && val == 0xffff) {
     return KEYSEQ_MISS;
   }
-  if ((pos.col + 1) < keyseq_index ) {
+  if ((pos.col + 1) <= keyseq_index ) {
     return KEYSEQ_MISS;
   }
   bool is_terminator = keyseq_definitions[pos.row][pos.col + 2] == KEYSEQ_END;
