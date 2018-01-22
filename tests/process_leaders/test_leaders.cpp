@@ -85,6 +85,40 @@ TEST_F(Leaders, leader_simple_sequence_momentary) {
     keyboard_task();
 }
 
+TEST_F(Leaders, leader_test3) {
+    TestDriver driver;
+    InSequence s;
+    leaders_init();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_C)));
+    press_key(2, 0);
+    keyboard_task();
+    press_key(1, 1); //LD_LEADER2
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_K,KC_C)));
+    press_key(1, 0);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_K)));
+    release_key(2, 0);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(1, 0);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_K)));
+    press_key(1, 0);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(1, 0);
+    keyboard_task();
+
+    release_key(1, 1); //LD_LEADER2
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_X)));
+    press_key(1, 0);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(1, 0);
+    keyboard_task();
+}
 // TEST_F(Leaders, leader_press_sequence) {
 //     TestDriver driver;
 //     InSequence s;
