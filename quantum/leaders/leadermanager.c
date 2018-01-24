@@ -65,6 +65,24 @@ bool keyseq_reset() {
   return false;
 }
 
+bool keyseq_set(uint16_t leader) {
+  /* find sentinels for the leader */
+  /*  */
+
+  uint16_t i = 0;
+  do {
+    
+    i++;
+  } while (true);
+  if (keyseq_sentinels == 0x00000000) {
+    keyseq_index = 0;
+    return true;
+  }
+  keyseq_index = 1;
+  return false;
+}
+
+
 uint8_t keyseq_get_index() {
   return keyseq_index;
 }

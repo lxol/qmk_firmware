@@ -65,6 +65,7 @@ const uint16_t* my_keyseq_definitions[]  = {
 
   (uint16_t[]){KEYSEQ_ONESHOT                    , LD_LEADER1, KC_Q, SEQ_1Q, KEYSEQ_END },
   (uint16_t[]){KEYSEQ_MOMENTARY | KEYSEQ_ONESHOT , LD_LEADER2, KC_W, SEQ_1W, KEYSEQ_END },
+  (uint16_t[]){LD_LEADER2, KC_W, SEQ_1W, KEYSEQ_END, KEYSEQ_ONESHOT|KEYSEQ_MOMENTARY|KEYSEQ_PREFIX },
   /* (uint16_t[]){0x0001, LD_LEADER2, KC_E, KC_A,  SEQ_IEE, KEYSEQ_END}, */
   /* (uint16_t[]){0x0001, LD_LEADER3, KC_TRNS, SEQ_IE, KEYSEQ_END }, */
   /* (uint16_t[]){0x0001, LD_LEADER4, KC_A, KC_TRNS, KC_B, SEQ_IE, KEYSEQ_END }, */
