@@ -134,7 +134,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       return false;
     }
     keyseq_remove_sentinels(press.sentinels);
-    /* keyseq_remove_sentinels(KEYSEQ_ONESHOT); */
     keyseq_reset();
     keyseq_last_user(press.keycode, record);
     return false;

@@ -20,7 +20,7 @@ enum planck_layers {
 };
 
 #undef LEADERS_REFERENCE_LAYER
-#define LEADERS_REFERENCE_LAYER = _QUERTY
+#define LEADERS_REFERENCE_LAYER  _QWERTY
 
 enum planck_keycodes {
   LEFT = SAFE_RANGE,
@@ -30,7 +30,7 @@ enum planck_keycodes {
   MOUSE,
   BACKLIT,
   LD_SYMBOLS, 
-  LD_SYMBOLS_PREFIX_I, 
+  LD_SYM_PREFIX_I, 
   LD_ARROWS,
   SEQ_SYMBOLS,
   SEQ_IE,
@@ -39,7 +39,9 @@ enum planck_keycodes {
   SEQ_OE,
   SEQ_OD,
   SEQ_OC,
-  SEQ_PREFIX_I_IE,
+  SEQ_SYM_PREFIX_I,
+  SEQ_SYM_PREFIX_I_E,
+  SEQ_SYM_PREFIX_I_IE,
   SEQ_ARROWS,
   DYNAMIC_MACRO_RANGE,
 };
@@ -174,7 +176,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef LEADERS_ENABLE
 
 const uint16_t* my_keyseq_definitions[]  = {
+  /* (uint16_t[]){KEYSEQ_ONESHOT|KEYSEQ_MOMENTARY, LD_SYMBOLS, KC_K, SEQ_SYM_PREFIX_I, KEYSEQ_END }, */
   (uint16_t[]){KEYSEQ_ONESHOT|KEYSEQ_MOMENTARY, LD_SYMBOLS, KC_TRNS, SEQ_SYMBOLS, KEYSEQ_END },
+  (uint16_t[]){KEYSEQ_ONESHOT, LD_SYM_PREFIX_I, KC_E, SEQ_SYM_PREFIX_I_E, KEYSEQ_END },
   /* (uint16_t[]){KEYSEQ_MOMENTARY | KEYSEQ_ONESHOT, LD_LEADER2, KC_W, SEQ_1W, KEYSEQ_END }, */
   /* (uint16_t[]){0x0001, LD_LEADER2, KC_E, KC_A,  SEQ_IEE, KEYSEQ_END}, */
   /* (uint16_t[]){0x0001, LD_LEADER3, KC_TRNS, SEQ_IE, KEYSEQ_END }, */
@@ -191,26 +195,44 @@ void keyseq_last_user(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
   case SEQ_SYMBOLS:
     if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_SYM, record->event.key);
-      if (kc != KC_NO) {
-        register_code16(kc);
+      uint16_t kc = keymap_key_to_keycode(LEADERS_REFERENCE_LAYER, record->event.key);
+      if (kc == KC_I) {
+        keyseq_remove_sentinels(0xffff);
+        keyseq_reset();
+        keyseq_push(LD_SYM_PREFIX_I);
+        keyseq_set_sentinels(KEYSEQ_ONESHOT);
+        return ;
+      }
+      uint16_t kc1 = keymap_key_to_keycode(_SYM, record->event.key);
+      if (kc1 != KC_NO) {
+        register_code16(kc1);
       }
       return ;
     } else {
       uint16_t kc = keymap_key_to_keycode(_SYM, record->event.key);
       if (kc != KC_NO) {
-        register_code16(kc);
+        unregister_code16(kc);
       }
       return ;
     }
-  /* case SEQ_1W: */
+  /* case SEQ_SYM_PREFIX_I: */
   /*   if (record->event.pressed) { */
-  /*     register_code16(KC_K); */
+  /*     keyseq_reset(); */
+  /*     keyseq_push(LD_SYM_PREFIX_I); */
+  /*     keyseq_set_sentinels(KEYSEQ_ONESHOT); */
   /*     return ; */
   /*   } else { */
-  /*     unregister_code16(KC_K); */
   /*     return ; */
   /*   } */
+  case SEQ_SYM_PREFIX_I_E:
+    if (record->event.pressed) {
+      SEND_STRING("{}");
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
+      return ;
+    } else {
+      return ;
+    }
   }    
 }
 
