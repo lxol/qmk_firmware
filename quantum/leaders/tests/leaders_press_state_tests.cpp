@@ -66,3 +66,12 @@ TEST_F(Pressstate, remove_press_in_the_middle ) {
   press_state_remove_by_idx(find_press(keys[9]));
   ASSERT_EQ(press_state_get(), 0b0000000000001101);
 }
+
+TEST_F(Pressstate, biton16_test1 ) {
+  ASSERT_EQ(biton16(0b000), 0 );
+  ASSERT_EQ(biton16(0b001), 0 );
+  ASSERT_EQ(biton16(0b011), 1 );
+  ASSERT_EQ(biton16(0b101), 2 );
+  ASSERT_EQ(biton16(0b100), 2 );
+  ASSERT_EQ(biton16(0b1100), 3 );
+}

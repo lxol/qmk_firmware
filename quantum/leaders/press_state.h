@@ -21,6 +21,7 @@
 #include "keyboard.h"
 
 #include "keycode.h"
+#include "util.h"
 
 typedef struct {
   keypos_t key;

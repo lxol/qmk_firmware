@@ -35,24 +35,13 @@ void press_state_put(press_t press) {
     presses[i] = press;
     return;
   }
-  press_state = 0U;
-}
-
-uint8_t press_state_biton16(uint16_t bits)
-{
-    uint8_t n = 0;
-    if (bits >> 8) { bits >>= 8; n += 8;}
-    if (bits >> 4) { bits >>= 4; n += 4;}
-    if (bits >> 2) { bits >>= 2; n += 2;}
-    if (bits >> 1) { bits >>= 1; n += 1;}
-    if (bits)      { n += 1;}
-    return n;
+  return;
 }
 
 uint8_t find_press(keypos_t key) {
   if (press_state == 0) {return LD_PRESS_MAX;}
-  uint8_t l = press_state_biton16(press_state);
-  for (int8_t i = 0; i < l; i++) {
+  uint8_t l = biton16(press_state);
+  for (int8_t i = 0; i <= l; i++) {
     if (press_state & (1U << i)) {
       if (KEYEQ(presses[i].key, key)) {
         return i;
