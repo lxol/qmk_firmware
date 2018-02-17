@@ -34,20 +34,20 @@ enum foobar {
   SEQ_LAYER_1
 };
 
-const uint16_t* my_keyseq_definitions[]  = {
-  (uint16_t[]){0x0001, LD_LEADER1, KC_E, SEQ_IE, KEYSEQ_END },
-  (uint16_t[]){0x0001, LD_LEADER2, KC_E, KC_A,  SEQ_IEE, KEYSEQ_END},
-  (uint16_t[]){0x0001, LD_LEADER3, KC_TRNS, SEQ_IE, KEYSEQ_END },
-  (uint16_t[]){0x0001, LD_LEADER4, KC_A, KC_TRNS, KC_B, SEQ_IE, KEYSEQ_END },
-  (uint16_t[]){0xffff}
-};
+// const uint16_t* my_keyseq_definitions[]  = {
+//   (uint16_t[]){0x0001, LD_LEADER1, KC_E, SEQ_IE, KEYSEQ_END },
+//   (uint16_t[]){0x0001, LD_LEADER2, KC_E, KC_A,  SEQ_IEE, KEYSEQ_END},
+//   (uint16_t[]){0x0001, LD_LEADER3, KC_TRNS, SEQ_IE, KEYSEQ_END },
+//   (uint16_t[]){0x0001, LD_LEADER4, KC_A, KC_TRNS, KC_B, SEQ_IE, KEYSEQ_END },
+//   (uint16_t[]){0xffff}
+// };
 
 
 class Leadermanager : public testing::Test {
 
 public:
   Leadermanager() {
-    keyseq_init(my_keyseq_definitions);
+    keyseq_init();
   }
   virtual ~Leadermanager() {
   }

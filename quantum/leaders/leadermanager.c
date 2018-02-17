@@ -16,25 +16,13 @@
 #include "leaders/leadermanager.h"
 
 /* uint16_t current_leader; */
-uint16_t keyseq_sentinels;
+/* uint16_t keyseq_sentinels; */
 uint16_t momentary_sentinels;
 bool oneshot_sentinel;
 uint16_t keyseq_codes[LEADERS_SEQ_MAX];
 uint8_t keyseq_index;
 
-__attribute__ ((weak))
-void keyseq_press_user(uint16_t keycode) {
-}
-
-__attribute__ ((weak))
-void keyseq_release_user(uint16_t keycode) {
-}
-
-const uint16_t** keyseq_definitions;
-
-void keyseq_init(const uint16_t** user_keyseq_definitions) {
-  keyseq_definitions = user_keyseq_definitions;
-  /* keyseq_sentinels = 0x00000000; */
+void keyseq_init() {
   momentary_sentinels = 0x0000;
   oneshot_sentinel = true;
   keyseq_index = 0;
@@ -69,31 +57,31 @@ void keyseq_reset_momentary(uint8_t pos) {
   return ;
 }
 
-void keyseq_on_matches(bool press) {
-  uint16_t i = 0;
-  do {
-    if (keyseq_definitions[i][0] == 0xffff) {
-      return;
-    }
-    uint8_t j = 0;
-    do  {
-      if (keyseq_definitions[i][j] != keyseq_codes[j] &&
-          keyseq_definitions[i][j] != KC_TRNS) {
-        break;
-      }
-      if (keyseq_definitions[i][j+1] == KEYSEQ_END) {
-        if (press) {
-          keyseq_press_user(keyseq_definitions[i][j]);
-        } else {
-          /* TODO: reset momentary sentinel */
-          keyseq_release_user(keyseq_definitions[i][j]);
-        }
-      }
-      /* TODO: set momentary sentinel position */
-    } while (true);
-    i++;
-  } while (true);
-}
+/* void keyseq_match(bool press) { */
+/*   uint16_t i = 0; */
+/*   do { */
+/*     if (keyseq_definitions[i][0] == 0xffff) { */
+/*       return; */
+/*     } */
+/*     uint8_t j = 0; */
+/*     do  { */
+/*       if (keyseq_definitions[i][j] != keyseq_codes[j] && */
+/*           keyseq_definitions[i][j] != KC_TRNS) { */
+/*         break; */
+/*       } */
+/*       if (keyseq_definitions[i][j+1] == KEYSEQ_END) { */
+/*         if (press) { */
+/*           keyseq_press_user(keyseq_definitions[i][j]); */
+/*         } else { */
+/*           /\* TODO: reset momentary sentinel *\/ */
+/*           keyseq_release_user(keyseq_definitions[i][j]); */
+/*         } */
+/*       } */
+/*       /\* TODO: set momentary sentinel position *\/ */
+/*     } while (true); */
+/*     i++; */
+/*   } while (true); */
+/* } */
 
 /* bool keyseq_reset() { */
 /*   if (keyseq_sentinels == 0x00000000) { */
