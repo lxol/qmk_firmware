@@ -34,14 +34,18 @@ const uint16_t** keyseq_definitions;
 
 void keyseq_init(const uint16_t** user_keyseq_definitions) {
   keyseq_definitions = user_keyseq_definitions;
-  keyseq_sentinels = 0x00000000;
+  /* keyseq_sentinels = 0x00000000; */
   momentary_sentinels = 0x0000;
   oneshot_sentinel = true;
   keyseq_index = 0;
 }
 
+void keyseq_push(uint16_t keycode) {
+  momentary_sentinels |= (1U << keyseq_index );
+  keyseq_codes[keyseq_index++] = keycode;
+}
+
 void keyseq_reset_oneshot() {
-  /* oneshot_sentinel = false; */
   if (momentary_sentinels == 0) {
     oneshot_sentinel = true;
     keyseq_index = 0;
@@ -63,117 +67,6 @@ void keyseq_reset_momentary(uint8_t pos) {
     keyseq_index = 1 + biton16(momentary_sentinels);
   }
   return ;
-}
-
-bool keyseq_reset() {
-  if (keyseq_sentinels == 0x00000000) {
-    keyseq_index = 0;
-    return true;
-  }
-  keyseq_index = 1;
-  return false;
-}
-
-bool keyseq_set(uint16_t leader) {
-  /* find sentinels for the leader */
-  /*  */
-
-  uint16_t i = 0;
-  do {
-
-    i++;
-  } while (true);
-  if (keyseq_sentinels == 0x00000000) {
-    keyseq_index = 0;
-    return true;
-  }
-  keyseq_index = 1;
-  return false;
-}
-
-
-/* uint8_t keyseq_get_index() { */
-/*   return keyseq_index; */
-/* } */
-void keyseq_set_index(uint8_t index) {
-  keyseq_index = index;
-}
-
-void keyseq_push(uint16_t keycode) {
-  momentary_sentinels |= (1U << keyseq_index );
-  keyseq_codes[keyseq_index++] = keycode;
-}
-
-uint16_t keyseq_pop() {
-  if (keyseq_index == 0) {return 0x0000;}
-  return keyseq_codes[keyseq_index--];
-}
-
-uint16_t keyseq_get_definition(uint8_t row, uint8_t col) {
-  return keyseq_definitions[row][col];
-}
-
-KEYSEQ_STATE keyseq_match_state(keyseq_pos_t pos) {
-  uint16_t val = keyseq_definitions[pos.row][pos.col];
-  if (pos.col == 0 && val == 0xffff) {
-    return KEYSEQ_MISS;
-  }
-  if ((pos.col + 1) <= keyseq_index ) {
-    return KEYSEQ_MISS;
-  }
-  bool is_terminator = keyseq_definitions[pos.row][pos.col + 2] == KEYSEQ_END;
-  if (!is_terminator) {
-    return KEYSEQ_PARTIAL;
-  }
-  /* TODO: check if  PREFIX */
-  /* do { */
-  /*   if (keyseq_definitions[i][0] == 0xffff) { */
-  /*     return (keyseq_pos_t) {.col = 0, .row = i}; */
-  /*   } */
-  /* } */
-  return KEYSEQ_MATCH;
-}
-
-keyseq_pos_t keyseq_match_position(void) {
-  uint16_t i = 0;
-  do {
-    if (keyseq_definitions[i][0] == 0xffff) {
-      return (keyseq_pos_t) {.col = 0, .row = i};
-    }
-    if (keyseq_definitions[i][1] != keyseq_codes[0]) {
-      i++;
-      continue;
-    }
-    uint8_t j = 2;
-    do  {
-      if (keyseq_definitions[i][j+1] == KEYSEQ_END) {
-        return (keyseq_pos_t) {.col = j-1, .row = i};
-      }
-      if (j == keyseq_index + 1) {
-        return (keyseq_pos_t) {.col = j-1, .row = i};
-      }
-      if (keyseq_definitions[i][j] == KC_TRNS) {
-        j++;
-        continue;
-      }
-      if (keyseq_definitions[i][j] == keyseq_codes[j-1]) {
-        j++;
-        continue;
-      }
-      return (keyseq_pos_t) {.col = j-1, .row = i };
-    } while (true);
-    i++;
-  } while (true);
-}
-
-uint16_t keyseq_set_sentinels(uint32_t user_keyseq_sentinels) {
-  keyseq_sentinels = user_keyseq_sentinels;
-  return keyseq_sentinels;
-}
-
-uint16_t keyseq_remove_sentinels(uint32_t user_keyseq_sentinels) {
-  keyseq_sentinels &= ~user_keyseq_sentinels;
-  return keyseq_sentinels;
 }
 
 void keyseq_on_matches(bool press) {
@@ -201,3 +94,111 @@ void keyseq_on_matches(bool press) {
     i++;
   } while (true);
 }
+
+/* bool keyseq_reset() { */
+/*   if (keyseq_sentinels == 0x00000000) { */
+/*     keyseq_index = 0; */
+/*     return true; */
+/*   } */
+/*   keyseq_index = 1; */
+/*   return false; */
+/* } */
+
+/* bool keyseq_set(uint16_t leader) { */
+/*   /\* find sentinels for the leader *\/ */
+/*   /\*  *\/ */
+
+/*   uint16_t i = 0; */
+/*   do { */
+
+/*     i++; */
+/*   } while (true); */
+/*   if (keyseq_sentinels == 0x00000000) { */
+/*     keyseq_index = 0; */
+/*     return true; */
+/*   } */
+/*   keyseq_index = 1; */
+/*   return false; */
+/* } */
+
+
+/* uint8_t keyseq_get_index() { */
+/*   return keyseq_index; */
+/* } */
+/* void keyseq_set_index(uint8_t index) { */
+/*   keyseq_index = index; */
+/* } */
+
+
+/* uint16_t keyseq_pop() { */
+/*   if (keyseq_index == 0) {return 0x0000;} */
+/*   return keyseq_codes[keyseq_index--]; */
+/* } */
+
+/* uint16_t keyseq_get_definition(uint8_t row, uint8_t col) { */
+/*   return keyseq_definitions[row][col]; */
+/* } */
+
+/* KEYSEQ_STATE keyseq_match_state(keyseq_pos_t pos) { */
+/*   uint16_t val = keyseq_definitions[pos.row][pos.col]; */
+/*   if (pos.col == 0 && val == 0xffff) { */
+/*     return KEYSEQ_MISS; */
+/*   } */
+/*   if ((pos.col + 1) <= keyseq_index ) { */
+/*     return KEYSEQ_MISS; */
+/*   } */
+/*   bool is_terminator = keyseq_definitions[pos.row][pos.col + 2] == KEYSEQ_END; */
+/*   if (!is_terminator) { */
+/*     return KEYSEQ_PARTIAL; */
+/*   } */
+/*   /\* TODO: check if  PREFIX *\/ */
+/*   /\* do { *\/ */
+/*   /\*   if (keyseq_definitions[i][0] == 0xffff) { *\/ */
+/*   /\*     return (keyseq_pos_t) {.col = 0, .row = i}; *\/ */
+/*   /\*   } *\/ */
+/*   /\* } *\/ */
+/*   return KEYSEQ_MATCH; */
+/* } */
+
+/* keyseq_pos_t keyseq_match_position(void) { */
+/*   uint16_t i = 0; */
+/*   do { */
+/*     if (keyseq_definitions[i][0] == 0xffff) { */
+/*       return (keyseq_pos_t) {.col = 0, .row = i}; */
+/*     } */
+/*     if (keyseq_definitions[i][1] != keyseq_codes[0]) { */
+/*       i++; */
+/*       continue; */
+/*     } */
+/*     uint8_t j = 2; */
+/*     do  { */
+/*       if (keyseq_definitions[i][j+1] == KEYSEQ_END) { */
+/*         return (keyseq_pos_t) {.col = j-1, .row = i}; */
+/*       } */
+/*       if (j == keyseq_index + 1) { */
+/*         return (keyseq_pos_t) {.col = j-1, .row = i}; */
+/*       } */
+/*       if (keyseq_definitions[i][j] == KC_TRNS) { */
+/*         j++; */
+/*         continue; */
+/*       } */
+/*       if (keyseq_definitions[i][j] == keyseq_codes[j-1]) { */
+/*         j++; */
+/*         continue; */
+/*       } */
+/*       return (keyseq_pos_t) {.col = j-1, .row = i }; */
+/*     } while (true); */
+/*     i++; */
+/*   } while (true); */
+/* } */
+
+/* uint16_t keyseq_set_sentinels(uint32_t user_keyseq_sentinels) { */
+/*   keyseq_sentinels = user_keyseq_sentinels; */
+/*   return keyseq_sentinels; */
+/* } */
+
+/* uint16_t keyseq_remove_sentinels(uint32_t user_keyseq_sentinels) { */
+/*   keyseq_sentinels &= ~user_keyseq_sentinels; */
+/*   return keyseq_sentinels; */
+/* } */
+

@@ -62,7 +62,7 @@ void keyseq_push(uint16_t keycode);
 uint16_t keyseq_pop(void);
 keyseq_pos_t keyseq_match_position(void);
 KEYSEQ_STATE keyseq_match_state(keyseq_pos_t pos);
-uint16_t keyseq_get_definition(uint8_t row, uint8_t col);
+/* uint16_t keyseq_get_definition(uint8_t row, uint8_t col); */
 
 uint16_t keyseq_set_sentinels(uint32_t user_keyseq_sentinels);
 uint16_t keyseq_remove_sentinels(uint32_t user_keyseq_sentinels);
