@@ -19,7 +19,7 @@
 extern "C" {
 #include "leaders/leadermanager.h"
 }
-
+LEADERMANAGER_EXTERNS();
 enum foobar {
   LD_FIRST = SAFE_RANGE,
   LD_LEADER1,
@@ -146,4 +146,59 @@ TEST_F(Leadermanager, transitives_test4 ) {
   ASSERT_EQ(pos.col, 3);
   ASSERT_EQ(pos.row, 3);
   ASSERT_EQ(keyseq_match_state(pos), KEYSEQ_MISS);
+}
+
+TEST_F(Leadermanager, reset_test ) {
+  keyseq_push(LD_LEADER4);
+  keyseq_push(KC_A);
+  keyseq_push(KC_F);
+  keyseq_push(KC_K);
+  keyseq_pos_t pos = keyseq_match_position();
+  ASSERT_EQ(pos.col, 3);
+  ASSERT_EQ(pos.row, 3);
+  ASSERT_EQ(keyseq_match_state(pos), KEYSEQ_MISS);
+}
+
+// TEST_F(Leadermanager, reset_momentary_with_oneshot_test1 ) {
+//   keyseq_push(KC_A);
+//   keyseq_push(KC_A);
+//   keyseq_push(KC_A);
+//   ASSERT_EQ(keyseq_get_index(), 3);
+//   keyseq_reset_momentary(2);
+//   ASSERT_EQ(keyseq_get_index(), 3);
+// }
+
+TEST_F(Leadermanager, reset_momentary_with_oneshot_test1 ) {
+  keyseq_push(KC_A);
+  keyseq_push(KC_A);
+  keyseq_push(KC_A);
+  ASSERT_EQ(keyseq_index, 3);
+  keyseq_reset_momentary(3);
+  ASSERT_EQ(keyseq_index, 3);
+  keyseq_reset_momentary(1);
+  ASSERT_EQ(keyseq_index, 3);
+  keyseq_reset_momentary(2);
+  ASSERT_EQ(keyseq_index, 3);
+  keyseq_reset_oneshot();
+  ASSERT_EQ(keyseq_index, 0);
+}
+
+TEST_F(Leadermanager, reset_momentary_no_oneshot_test1 ) {
+  ASSERT_EQ(momentary_sentinels, 0);
+  ASSERT_EQ(oneshot_sentinel, true);
+  ASSERT_EQ(keyseq_index, 0);
+  keyseq_push(KC_A);
+  ASSERT_EQ(keyseq_index, 1);
+  ASSERT_EQ(momentary_sentinels, 0b1);
+  keyseq_push(KC_A);
+  keyseq_push(KC_A);
+  ASSERT_EQ(keyseq_index, 3);
+  keyseq_reset_oneshot();
+  ASSERT_EQ(keyseq_index, 3);
+  keyseq_reset_momentary(3);
+  ASSERT_EQ(keyseq_index, 2);
+  keyseq_reset_momentary(1);
+  ASSERT_EQ(keyseq_index, 2);
+  keyseq_reset_momentary(2);
+  ASSERT_EQ(keyseq_index, 0);
 }

@@ -18,6 +18,7 @@
 
 #include "keyboard.h"
 #include "keycode.h"
+#include "util.h"
 
 #ifndef LEADERS_SEQ_MAX
 #define LEADERS_SEQ_MAX 10
@@ -55,7 +56,7 @@ typedef struct {
 
 void keyseq_init(const uint16_t** user_keyseq_definitions);
 bool keyseq_reset(void);
-uint8_t keyseq_get_index(void);
+/* uint8_t keyseq_get_index(void); */
 void keyseq_set_index(uint8_t index);
 void keyseq_push(uint16_t keycode);
 uint16_t keyseq_pop(void);
@@ -65,8 +66,16 @@ uint16_t keyseq_get_definition(uint8_t row, uint8_t col);
 
 uint16_t keyseq_set_sentinels(uint32_t user_keyseq_sentinels);
 uint16_t keyseq_remove_sentinels(uint32_t user_keyseq_sentinels);
+void keyseq_reset_oneshot(void);
 
-KEYSEQ_STATE asdfasdfasdf(uint8_t row);
+void keyseq_reset_momentary(uint8_t pos);
+/* KEYSEQ_STATE asdfasdfasdf(uint8_t row); */
 
+#ifdef __cplusplus
+#define LEADERMANAGER_EXTERNS()  \
+  extern uint16_t  momentary_sentinels;   \
+  extern bool oneshot_sentinel; \
+  extern bool keyseq_index;
+#endif
 
 #endif
