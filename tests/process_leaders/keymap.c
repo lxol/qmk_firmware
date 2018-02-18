@@ -78,11 +78,11 @@ const uint16_t* my_keyseq_definitions[]  = {
   (uint16_t[]){0xffff}
 };
 
-void leaders_init_user(void) {
-    set_ref_layer(_LAYER_REF);
-    keyseq_init();
-    leaders_init(my_keyseq_definitions);
-}
+/* void leaders_init_user(void) { */
+    /* set_ref_layer(_LAYER_REF); */
+    /* keyseq_init(); */
+    /* leaders_init(my_keyseq_definitions); */
+/* } */
 
 void keyseq_last_user(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {

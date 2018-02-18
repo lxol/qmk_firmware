@@ -24,19 +24,6 @@
 #define LEADERS_SEQ_MAX 10
 #endif
 
-/* #define PARTIAL_MATCH 254 */
-/* #define DO_NOT_MATCH 255 */
-
-/* define sentinels */
-/* #define KEYSEQ_MOMENTARY  0b1 */
-/* #define KEYSEQ_ONESHOT    0b10 */
-/* #define KEYSEQ_SENTINEL1  0b100 */
-/* #define KEYSEQ_SENTINEL2  0x1000 */
-/* #define KEYSEQ_SENTINEL3  0x10000 */
-/* #define KEYSEQ_SENTINEL4  0x100000 */
-/* #define KEYSEQ_SENTINEL5  0x1000000 */
-/* #define KEYSEQ_SENTINEL6  0x10000000 */
-
 #define KEYSEQ_END  0x0000
 void keyseq_init(void);
 void keyseq_push(uint16_t keycode);

@@ -19,15 +19,31 @@
 
 #include "quantum.h"
 /* #include "leaders/leaderlist.h" */
-#include "leaders/leadermanager.h"
+/* #include "leaders/leadermanager.h" */
 #include "leaders/press_state.h"
 
 #define LEADERS_LAYER_MAX 32
+#ifndef LEADERS_SEQ_MAX
+#define LEADERS_SEQ_MAX 10
+#endif
+
+#define KEYSEQ_END  0x0000
+void keyseq_init(void);
+void keyseq_push(uint16_t keycode);
+void keyseq_reset_oneshot(void);
+void keyseq_reset_momentary(uint8_t pos);
+/* void keyseq_match(bool press); */
 
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
 void leaders_init(const uint16_t** user_keyseq_definitions);
-void leaders_range(uint16_t first, uint16_t last);
-void set_ref_layer(uint8_t layer);
+/* void leaders_range(uint16_t first, uint16_t last); */
+/* void set_ref_layer(uint8_t layer); */
+#ifdef __cplusplus
+#define LEADERMANAGER_EXTERNS()  \
+  extern uint16_t  momentary_sentinels;   \
+  extern bool oneshot_sentinel; \
+  extern bool keyseq_index;
+#endif
 
 #endif
