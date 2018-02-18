@@ -27,7 +27,9 @@ uint16_t keyseq_codes[LEADERS_SEQ_MAX];
 uint8_t keyseq_index;
 uint8_t ref_layer;
 
-const uint16_t** keyseq_definitions;
+const uint16_t* keyseq_definitions[]  = {
+  (uint16_t[]){0xffff}
+};
 
 __attribute__ ((weak))
 void keyseq_press_user(uint16_t keycode) {
@@ -37,14 +39,11 @@ __attribute__ ((weak))
 void keyseq_release_user(uint16_t keycode) {
 }
 
-void leaders_init(const uint16_t** user_keyseq_definitions) {
-  keyseq_definitions = user_keyseq_definitions;
-  /* keyseq_init(); */
+void leaders_init() {
   init_press_state();
   momentary_sentinels = 0x0000;
   oneshot_sentinel = true;
   keyseq_index = 0;
-  /* leaders_init_user(); */
 }
 
 void keyseq_push(uint16_t keycode) {
@@ -76,9 +75,9 @@ void keyseq_reset_momentary(uint8_t pos) {
   return ;
 }
 
-void set_ref_layer(uint8_t layer) {
-  ref_layer = layer;
-}
+/* void set_ref_layer(uint8_t layer) { */
+/*   ref_layer = layer; */
+/* } */
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   /* if (record->event.pressed) { */
