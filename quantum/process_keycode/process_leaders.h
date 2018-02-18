@@ -26,7 +26,7 @@
 
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
-void leaders_init(void);
+void leaders_init(const uint16_t** user_keyseq_definitions);
 void leaders_range(uint16_t first, uint16_t last);
 void set_ref_layer(uint8_t layer);
 

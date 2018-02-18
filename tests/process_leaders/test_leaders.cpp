@@ -25,7 +25,7 @@ class Leaders : public TestFixture {};
 TEST_F(Leaders, no_leaders) {
     TestDriver driver;
     InSequence s;
-    leaders_init();
+    // leaders_init();
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_Z)));
     press_key(0, 0);
     keyboard_task();
@@ -37,7 +37,7 @@ TEST_F(Leaders, no_leaders) {
 TEST_F(Leaders, leader_simple_sequence_oneshot) {
     TestDriver driver;
     InSequence s;
-    leaders_init();
+    // leaders_init();
     press_key(0, 1); //LD_LEADER1
     keyboard_task();
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_L)));
@@ -59,7 +59,7 @@ TEST_F(Leaders, leader_simple_sequence_oneshot) {
 TEST_F(Leaders, leader_simple_sequence_momentary) {
     TestDriver driver;
     InSequence s;
-    leaders_init();
+    // leaders_init();
     press_key(1, 1); //LD_LEADER2
     keyboard_task();
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_K)));
@@ -88,7 +88,7 @@ TEST_F(Leaders, leader_simple_sequence_momentary) {
 TEST_F(Leaders, leader_test3) {
     TestDriver driver;
     InSequence s;
-    leaders_init();
+    // leaders_init();
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_C)));
     press_key(2, 0);
     keyboard_task();

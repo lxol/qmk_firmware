@@ -807,9 +807,9 @@ void matrix_init_quantum() {
   #ifdef AUDIO_ENABLE
     audio_init();
   #endif
-  #ifdef LEADERS_ENABLE
-    leaders_init();
-  #endif
+  /* #ifdef LEADERS_ENABLE */
+  /*   leaders_init(); */
+  /* #endif */
   matrix_init_kb();
 }
 
