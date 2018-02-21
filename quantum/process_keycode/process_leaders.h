@@ -36,11 +36,15 @@ void keyseq_reset_momentary(uint8_t pos);
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
 void leaders_init(void);
+void set_keyseq_definitions(uint16_t** kd);
+
+/* void leaders_init(const uint16_t** user_keyseq_definitions); */
 
 #ifdef __cplusplus
 #define LEADERMANAGER_EXTERNS()  \
   extern uint16_t  momentary_sentinels;   \
   extern bool oneshot_sentinel; \
+  extern uint16_t keyseq_codes[LEADERS_SEQ_MAX]; \
   extern bool keyseq_index;
 #endif
 
