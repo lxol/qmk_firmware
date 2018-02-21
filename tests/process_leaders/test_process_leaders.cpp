@@ -70,10 +70,15 @@ keyrecord_t pressed_record = (keyrecord_t) {
 //   .col = i,
 //   .row = i
 // };
+uint16_t* k[]  = {
+  (uint16_t[]){KC_A, KC_B, KEYSEQ_END }, 
+  (uint16_t[]){0xffff}
+};
 class ProcessLeadersTest : public ::testing::Test {
  protected:
   virtual void SetUp() {
     leaders_init();
+    keyseq_definitionsinit(k);
     // keyseq_definitions = _keyseq_definitions;
   }
 };

@@ -26,20 +26,19 @@ bool oneshot_sentinel;
 uint16_t keyseq_codes[LEADERS_SEQ_MAX];
 
 /* array of pointers to uint16_t (first element of the array) */
-/* uint16_t** keyseq_definitions; */
 
-uint16_t* keyseq_definitions[]  = {
-  /* (uint16_t[]){KC_A, KC_B, KEYSEQ_END }, */
-  (uint16_t[]){0xffff}
-};
+uint16_t** keyseq_definitions;
 /* uint16_t* keyseq_definitions[]  = { */
+/*   /\* (uint16_t[]){KC_A, KC_B, KEYSEQ_END }, *\/ */
 /*   (uint16_t[]){0xffff} */
 /* }; */
+
 uint8_t keyseq_index;
 uint8_t ref_layer;
 
 __attribute__ ((weak))
-void keyseq_definitionsinit(void) {
+void keyseq_definitionsinit(uint16_t* k[]) {
+  keyseq_definitions = k;
   /* uint16_t foo1[1] = (uint16_t[]) {0xffff}; */
   /* keyseq_definitions = &foo1[0]; */
   /* keyseq_definitions[0]  = { */
