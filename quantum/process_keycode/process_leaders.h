@@ -38,7 +38,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record);
 void leaders_init(void);
 void set_keyseq_definitions(uint16_t** kd);
 
-void keyseq_definitionsinit(uint16_t* k[]);
+void keyseq_set_definitions(uint16_t* k[]);
 /* void leaders_init(const uint16_t** user_keyseq_definitions); */
 
 #ifdef __cplusplus

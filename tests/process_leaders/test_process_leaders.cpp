@@ -21,28 +21,6 @@ using testing::InSequence;
 
 LEADERMANAGER_EXTERNS();
 
-// extern uint16_t* keyseq_definitions[];
-
-
-// uint16_t** _keyseq_definitions[]  = {
-
-//   (uint16_t[]){0xffff}
-// };
-
-
-// extern const uint16_t* keyseq_definitions[] =
-
-//    (const uint16_t*) {
-//     // (uint16_t[3]){KC_A, KC_B, KC_C },
-//     (uint16_t[1]){0xffff}
-//   };
-// // extern "C" {
-//   {
-//     (uint16_t []){KC_A, KC_B, KC_C},
-//     (uint16_t[]){0xffff}
-//   };
-// // }
-
 keypos_t key = (keypos_t) {
   // .col = 0,
   // .row = 0
@@ -55,31 +33,17 @@ keyevent_t press_event = keyevent_t {
 keyrecord_t pressed_record = (keyrecord_t) {
   .event = press_event
 };
-// typedef struct {
-//     keypos_t key;
-//     bool     pressed;
-//     uint16_t time;
-// } keyevent_t;
-// typedef struct {
-//     keyevent_t  event;
-// #ifndef NO_ACTION_TAPPING
-//     tap_t tap;
-// #endif
-// } keyrecord_t;
-// keys[i] = (xxxos_t) {
-//   .col = i,
-//   .row = i
-// };
+
 uint16_t* k[]  = {
-  (uint16_t[]){KC_A, KC_B, KEYSEQ_END }, 
-  (uint16_t[]){0xffff}
+  (uint16_t[]){3, KC_A, KC_B}, 
+  (uint16_t[]){1}
 };
+
 class ProcessLeadersTest : public ::testing::Test {
  protected:
   virtual void SetUp() {
     leaders_init();
-    keyseq_definitionsinit(k);
-    // keyseq_definitions = _keyseq_definitions;
+    keyseq_set_definitions(k);
   }
 };
 

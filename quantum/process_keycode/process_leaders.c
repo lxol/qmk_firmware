@@ -25,25 +25,14 @@ uint16_t momentary_sentinels;
 bool oneshot_sentinel;
 uint16_t keyseq_codes[LEADERS_SEQ_MAX];
 
-/* array of pointers to uint16_t (first element of the array) */
-
 uint16_t** keyseq_definitions;
-/* uint16_t* keyseq_definitions[]  = { */
-/*   /\* (uint16_t[]){KC_A, KC_B, KEYSEQ_END }, *\/ */
-/*   (uint16_t[]){0xffff} */
-/* }; */
 
 uint8_t keyseq_index;
 uint8_t ref_layer;
 
 __attribute__ ((weak))
-void keyseq_definitionsinit(uint16_t* k[]) {
+void keyseq_set_definitions(uint16_t* k[]) {
   keyseq_definitions = k;
-  /* uint16_t foo1[1] = (uint16_t[]) {0xffff}; */
-  /* keyseq_definitions = &foo1[0]; */
-  /* keyseq_definitions[0]  = { */
-  /*   (uint16_t[]){0xffff} */
-  /* }; */
 }
 
 __attribute__ ((weak))
@@ -54,17 +43,8 @@ __attribute__ ((weak))
 void keyseq_release_user(uint16_t keycode) {
 }
 
-/* void leaders_init(const uint16_t** user_keyseq_definitions) { */
-/*   keyseq_definitions = user_keyseq_definitions; */
-/* void set_keyseq_definitions(uint16_t* kd[]) { */
-/*   keyseq_definitions = kd; */
-/* } */
-
 void leaders_init() {
-  /* keyseq_definitions = _keyseq_definitions; */
-  
   init_press_state();
-  /* momentary_sentinels = strlen(foobaraaa); */
   momentary_sentinels = 0x0000;
   oneshot_sentinel = true;
   keyseq_index = 0;
@@ -99,20 +79,15 @@ void keyseq_reset_momentary(uint8_t pos) {
   return ;
 }
 
-/* void set_ref_layer(uint8_t layer) { */
-/*   ref_layer = layer; */
-/* } */
-
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     uint16_t i = 0;
     do {
-      if (keyseq_definitions[i][0] == 0xffff) {
-        /* break; */
+      uint8_t size = keyseq_definitions[i][0];
+      if (size == 1) {
         return false;
       }
       uint8_t j = 0;
-      uint8_t size = sizeof(keyseq_definitions[i]);
       do  {
         if (size != keyseq_index) {
           break;
