@@ -36,6 +36,7 @@ keyrecord_t pressed_record = (keyrecord_t) {
 
 uint16_t* k[]  = {
   (uint16_t[]){3, KC_A, KC_B}, 
+  (uint16_t[]){4, KC_B, KC_C, KC_D}, 
   (uint16_t[]){1}
 };
 
@@ -55,14 +56,18 @@ TEST_F(ProcessLeadersTest, process_leaders_basic_test) {
 }
 
 TEST_F(ProcessLeadersTest, process_leaders_basic_match_test) {
-  
-  // keyseq_definitions  = (const uint16_t*) {
-  //   // (uint16_t[3]){KC_A, KC_B, KC_C },
-  //   (uint16_t[1]){0xffff}
-  // };
-
-// // extern "C" {
-  // fixtures
-  // test
+  keyseq_index = 0;
+  keyseq_push(KC_A);
   process_leaders(KC_A, &pressed_record);
+  ASSERT_EQ(oneshot_sentinel, false);
+  ASSERT_EQ(keyseq_index, 1);
+}
+
+TEST_F(ProcessLeadersTest, process_leaders_basic_match_test1) {
+  keyseq_index = 0;
+  keyseq_push(KC_A);
+  keyseq_reset_momentary(1);
+  process_leaders(KC_A, &pressed_record);
+  ASSERT_EQ(oneshot_sentinel, true);
+  ASSERT_EQ(keyseq_index, 0);
 }

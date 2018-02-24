@@ -85,19 +85,21 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     do {
       uint8_t size = keyseq_definitions[i][0];
       if (size == 1) {
-        return false;
+        return true;
       }
       uint8_t j = 0;
       do  {
-        if (size != keyseq_index) {
+        if (size != (keyseq_index + 2)) {
           break;
         }
-        if (keyseq_definitions[i][j] != keyseq_codes[j] &&
-            keyseq_definitions[i][j] != KC_TRNS) {
+        if (keyseq_definitions[i][j+1] != keyseq_codes[j] &&
+            keyseq_definitions[i][j+1] != KC_TRNS) {
           break;
         }
-        if (i == size) {
-          keyseq_press_user(keyseq_definitions[i][j]);
+        if (j == size - 3) {
+          /* bingo!  */
+          keyseq_reset_oneshot();
+          keyseq_press_user(keyseq_definitions[i][j+1]);
           return false;
         }
         /* TODO: set momentary sentinel position */
