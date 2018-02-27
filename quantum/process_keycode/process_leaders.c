@@ -73,6 +73,7 @@ void keyseq_reset_momentary(uint8_t pos) {
   }
   if (momentary_sentinels == 0) {
     keyseq_index = 0;
+    oneshot_sentinel = true;
   } else {
     keyseq_index = 1 + biton16(momentary_sentinels);
   }
@@ -85,6 +86,14 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     do {
       uint8_t size = keyseq_definitions[i][0];
       if (size == 1) {
+        momentary_sentinels = 0x0000;
+        oneshot_sentinel = true;
+        keyseq_index = 0;
+        press_state_put(
+                        (press_t) {
+                          .key=record->event.key,
+                            .ignore=true,
+                            });
         return true;
       }
       uint8_t j = 0;
@@ -99,7 +108,15 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         if (j == size - 3) {
           /* bingo!  */
           keyseq_reset_oneshot();
-          keyseq_press_user(keyseq_definitions[i][j+1]);
+          uint16_t k = keyseq_definitions[i][j+1];
+          keyseq_press_user(k);
+          press_state_put(
+                          (press_t) {
+                            .key=record->event.key,
+                              .keycode=k,
+                              .ignore=false,
+                              .pos = j 
+                            });
           return false;
         }
         /* TODO: set momentary sentinel position */
@@ -107,6 +124,14 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       i++;
     } while (true);
   } else {
+    uint8_t idx = find_press(record->event.key);
+    press_t press = press_state_get_press(idx);
+    if (! press.ignore) {
+      return true;
+    }
+    keyseq_release_user(press.keycode);
+    keyseq_reset_momentary(press.pos);
+    return false;
   }
   return true;
 }

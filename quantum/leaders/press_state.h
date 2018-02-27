@@ -28,6 +28,7 @@ typedef struct {
   uint16_t keycode;
   bool ignore;
   uint16_t sentinels;
+  uint8_t pos;
 } press_t;
 
 void init_press_state(void);
