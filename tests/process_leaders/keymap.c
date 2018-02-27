@@ -27,31 +27,31 @@ enum foobar {
 
 enum test_layers {
   _LAYER1,
-  _LAYER2,
+  /* _LAYER2, */
   _LAYER_REF
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_LAYER1] = {
 
-    //{ 0 ,        1 ,          2 ,          3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       }
-    { KC_Z ,       KC_X ,       KC_C ,       KC_V ,  KC_B ,  KC_N ,  KC_M ,  KC_NO , KC_NO , KC_NO } , 
-    { LD_LEADER1 , LD_LEADER2 , LD_LEADER3 , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
-    { KC_NO ,      KC_NO ,      KC_NO ,      KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
-    { KC_NO ,      KC_NO ,      KC_NO ,      KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+    /* { 0 ,          1 ,     2 ,     3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       } */
+    { KC_Q ,       KC_W ,  KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+    { LD_LEADER1 , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+    { KC_NO ,      KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+    { KC_NO ,      KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
  } ,               
-  [_LAYER2] = { 
-    //{ 0 ,   1 ,     2 ,     3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       }
-    { KC_A ,  KC_S ,  KC_D ,  KC_F ,  KC_G ,  KC_H ,  KC_J ,  KC_NO , KC_NO , KC_NO } , 
-    { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
-    { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
-    { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
- } ,          
+ /*  [_LAYER2] = { */
+ /*    //{ 0 ,     1 ,     2 ,     3 ,     4 ,     5 ,     6 ,     7 ,        8 ,     9 ,       } */
+ /*    { KC_A ,  KC_S ,  KC_D ,  KC_F ,  KC_G ,  KC_H ,  KC_J ,  KC_NO , KC_NO , KC_NO } ,  */
+ /*    { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,  */
+ /*    { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,  */
+ /*    { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,  */
+ /* } ,           */
 
   [_LAYER_REF] = { 
 
     //{ 0 ,   1 ,     2 ,     3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       }
-    { KC_Q ,  KC_W ,  KC_E ,  KC_R ,  KC_T ,  KC_F ,  KC_U ,  KC_NO , KC_NO , KC_NO } , 
+    { KC_A ,  KC_S ,  KC_NO , KC_NO , KC_NO ,  KC_G ,  KC_H ,  KC_NO , KC_NO , KC_NO } , 
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
@@ -60,50 +60,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #ifdef LEADERS_ENABLE
 
-
-const uint16_t* my_keyseq_definitions[]  = {
-
-  (uint16_t[3]){LD_LEADER1, KC_Q, SEQ_1Q },
-  (uint16_t[3]){LD_LEADER2, KC_Q, SEQ_1Q },
-  /* (uint16_t[]){KEYSEQ_MOMENTARY | KEYSEQ_ONESHOT , LD_LEADER2, KC_W, SEQ_1W, KEYSEQ_END }, */
-  /* (uint16_t[]){LD_LEADER2, KC_W, SEQ_1W, KEYSEQ_END, KEYSEQ_ONESHOT|KEYSEQ_MOMENTARY|KEYSEQ_PREFIX }, */
-  /* (uint16_t[]){0x0001, LD_LEADER2, KC_E, KC_A,  SEQ_IEE, KEYSEQ_END}, */
-  /* (uint16_t[]){0x0001, LD_LEADER3, KC_TRNS, SEQ_IE, KEYSEQ_END }, */
-  /* (uint16_t[]){0x0001, LD_LEADER4, KC_A, KC_TRNS, KC_B, SEQ_IE, KEYSEQ_END }, */
-  
-  /* .sentinels = KEYSEQ_ONESHOT, */
-  /* .leader = LD_LEADER1, */
-  /* .sequence = (uint16_t[]){KC_Q, KC_}, */
-  /* .keycode = SEQ_1Q */
-
-  (uint16_t[]){0xffff}
+uint16_t* user_definitions[]  = {
+  (uint16_t[]){3, KC_A, KC_B},
+  (uint16_t[]){4, KC_B, KC_C, KC_D},
+  (uint16_t[]){1}
 };
 
-/* void leaders_init_user(void) { */
-    /* set_ref_layer(_LAYER_REF); */
-    /* keyseq_init(); */
-    /* leaders_init(my_keyseq_definitions); */
-/* } */
+void leaders_init_user(void) {
+  keyseq_set_definitions(user_definitions);
+  
+}
+
 
 void keyseq_last_user(uint16_t keycode, keyrecord_t *record) {
-  switch(keycode) {
-  case SEQ_1Q:
-    if (record->event.pressed) {
-      register_code16(KC_L);
-      return ;
-    } else {
-      unregister_code16(KC_L);
-      return ;
-    }
-  case SEQ_1W:
-    if (record->event.pressed) {
-      register_code16(KC_K);
-      return ;
-    } else {
-      unregister_code16(KC_K);
-      return ;
-    }
-  }    
+  /* switch(keycode) { */
+  /* case SEQ_1Q: */
+  /*   if (record->event.pressed) { */
+  /*     register_code16(KC_L); */
+  /*     return ; */
+  /*   } else { */
+  /*     unregister_code16(KC_L); */
+  /*     return ; */
+  /*   } */
+  /* case SEQ_1W: */
+  /*   if (record->event.pressed) { */
+  /*     register_code16(KC_K); */
+  /*     return ; */
+  /*   } else { */
+  /*     unregister_code16(KC_K); */
+  /*     return ; */
+  /*   } */
+  /* }     */
 }
 
 #endif

@@ -34,9 +34,9 @@ keyrecord_t pressed_record = (keyrecord_t) {
   .event = press_event
 };
 
-uint16_t* k[]  = {
-  (uint16_t[]){3, KC_A, KC_B}, 
-  (uint16_t[]){4, KC_B, KC_C, KC_D}, 
+uint16_t* test_definitions[]  = {
+  (uint16_t[]){3, KC_A, KC_B},
+  (uint16_t[]){4, KC_B, KC_C, KC_D},
   (uint16_t[]){1}
 };
 
@@ -44,7 +44,7 @@ class ProcessLeadersTest : public ::testing::Test {
  protected:
   virtual void SetUp() {
     leaders_init();
-    keyseq_set_definitions(k);
+    keyseq_set_definitions(test_definitions);
   }
 };
 

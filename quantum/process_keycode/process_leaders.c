@@ -31,6 +31,10 @@ uint8_t keyseq_index;
 uint8_t ref_layer;
 
 __attribute__ ((weak))
+void leaders_init_user(void) {
+}
+
+__attribute__ ((weak))
 void keyseq_set_definitions(uint16_t* k[]) {
   keyseq_definitions = k;
 }
@@ -48,6 +52,7 @@ void leaders_init() {
   momentary_sentinels = 0x0000;
   oneshot_sentinel = true;
   keyseq_index = 0;
+  leaders_init_user();
 }
 
 void keyseq_push(uint16_t keycode) {
@@ -126,7 +131,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   } else {
     uint8_t idx = find_press(record->event.key);
     press_t press = press_state_get_press(idx);
-    if (! press.ignore) {
+    if (press.ignore) {
       return true;
     }
     keyseq_release_user(press.keycode);
