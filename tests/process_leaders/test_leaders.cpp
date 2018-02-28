@@ -19,26 +19,23 @@
 using testing::_;
 using testing::InSequence;
 
-uint16_t* definitions[]  = {
-  (uint16_t[]){3, KC_A, KC_B},
-  (uint16_t[]){4, KC_B, KC_C, KC_D},
-  (uint16_t[]){1}
-};
-
 extern uint16_t ld_test;
 class KeyseqTest : public TestFixture {};
 
 TEST_F(KeyseqTest, test1) {
-    leaders_init();
-    keyseq_set_definitions(definitions);
     TestDriver driver;
     InSequence s;
-    // leaders_init();
-    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_Q)));
-    press_key(0, 0);
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_W)));
+    press_key(1, 0);
     keyboard_task();
-    release_key(0, 0);
+    release_key(1, 0);
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_1)));
+    press_key(0, 1);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(0, 1);
     keyboard_task();
 }
 
