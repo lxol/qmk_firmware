@@ -104,7 +104,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       }
       uint8_t j = 0;
       do  {
-        if (size != (keyseq_index + 2)) {
+        if (size > (keyseq_index + 2)) {
           break;
         }
         if (keyseq_definitions[i][j+1] != keyseq_codes[j] &&

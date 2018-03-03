@@ -19,36 +19,25 @@
 enum foobar {
   LD_LEADER1 = SAFE_RANGE,
   LD_LEADER2,
-  /* LD_LEADER3, */
   SEQ_1,
   SEQ_2
 };
 
 enum test_layers {
   _LAYER1,
-  /* _LAYER2, */
   _LAYER_REF
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_LAYER1] = {
-    /* { 0 ,          1 ,     2 ,     3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       } */
-    { KC_Q ,       KC_W ,  KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,
-    { LD_LEADER1 , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,
-    { KC_NO ,      KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,
-    { KC_NO ,      KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,
- } ,
-
- /*  [_LAYER2] = { */
- /*    //{ 0 ,     1 ,     2 ,     3 ,     4 ,     5 ,     6 ,     7 ,        8 ,     9 ,       } */
- /*    { KC_A ,  KC_S ,  KC_D ,  KC_F ,  KC_G ,  KC_H ,  KC_J ,  KC_NO , KC_NO , KC_NO } ,  */
- /*    { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,  */
- /*    { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,  */
- /*    { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,  */
- /* } ,           */
+    /* { 0 ,       1 ,          2 ,     3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       } */
+    { KC_Q ,       KC_W ,       KC_E ,  KC_R ,  KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+    { LD_LEADER1 , LD_LEADER2 , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+    { KC_NO ,      KC_NO ,      KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+    { KC_NO ,      KC_NO ,      KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+ } ,               
 
   [_LAYER_REF] = {
-
     //{ 0 ,   1 ,     2 ,     3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       }
     { KC_A ,  KC_S ,  KC_NO , KC_NO , KC_NO ,  KC_G ,  KC_H ,  KC_NO , KC_NO , KC_NO } ,
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,
@@ -61,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 uint16_t* user_definitions[]  = {
   (uint16_t[]){3, LD_LEADER1, SEQ_1},
-  (uint16_t[]){4, KC_B, KC_C, KC_D},
+  (uint16_t[]){5, LD_LEADER2, KC_E, KC_R, SEQ_2 },
   (uint16_t[]){1}
 };
 

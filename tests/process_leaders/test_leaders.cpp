@@ -22,7 +22,18 @@ using testing::InSequence;
 extern uint16_t ld_test;
 class KeyseqTest : public TestFixture {};
 
-TEST_F(KeyseqTest, test_two_conseq_leaders  ) {
+TEST_F(KeyseqTest, test_non_leader  ) {
+    TestDriver driver;
+    InSequence s;
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_W)));
+    press_key(1, 0);
+    keyboard_task();
+    release_key(1, 0);
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    keyboard_task();
+}
+
+TEST_F(KeyseqTest, test_two_consecutive_leaders  ) {
     TestDriver driver;
     InSequence s;
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_1)));
@@ -39,13 +50,20 @@ TEST_F(KeyseqTest, test_two_conseq_leaders  ) {
     keyboard_task();
 }
 
-TEST_F(KeyseqTest, test_non_leader  ) {
+TEST_F(KeyseqTest, test_long_sequence_leader) {
     TestDriver driver;
     InSequence s;
-    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_W)));
-    press_key(1, 0);
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_2)));
+    press_key(1, 1);
     keyboard_task();
-    release_key(1, 0);
-    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(1, 1);
     keyboard_task();
+    press_key(2, 0);
+    keyboard_task();
+    release_key(2, 0);
+    keyboard_task();
+    press_key(3, 0);
+    keyboard_task();
+    // release_key(3, 1);
+    // keyboard_task();
 }
