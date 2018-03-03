@@ -121,7 +121,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
                             .key=record->event.key,
                               .keycode=k,
                               .ignore=false,
-                              .pos = j 
+                              .pos = j + 1 
                             });
           return false;
         }
