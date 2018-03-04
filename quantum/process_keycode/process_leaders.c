@@ -150,7 +150,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     press_state_remove_by_idx(idx);
     keyseq_reset_momentary(press.pos);
     if (press.ignore) {
-      return true;
+      return false;
     }
     keyseq_press_user(press.keycode, false);
     return false;

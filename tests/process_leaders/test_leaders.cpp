@@ -84,7 +84,24 @@ TEST_F(KeyseqTest, test_long_sequence_with_momentary) {
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_2)));
     press_key(3, 0);
     keyboard_task();
-    // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
-    // release_key(3, 0);
-    // keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(3, 0);
+    keyboard_task();
+
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_3)));
+    press_key(4, 0);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(4, 0);
+    keyboard_task();
+
+    
+    release_key(2, 0);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_W)));
+    press_key(1, 0);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(1, 0);
+    keyboard_task();
 }

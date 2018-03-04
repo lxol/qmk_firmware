@@ -52,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 uint16_t* user_definitions[]  = {
   (uint16_t[]){3, LD_LEADER1, SEQ_1},
   (uint16_t[]){5, LD_LEADER2, KC_E, KC_R, SEQ_2 },
-  (uint16_t[]){5, LD_LEADER2, KC_E, KC_T, SEQ_2 },
+  (uint16_t[]){5, LD_LEADER2, KC_E, KC_T, SEQ_3 },
   (uint16_t[]){1}
 };
 
