@@ -113,6 +113,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
           press_state_put(
                           (press_t) {
                             .key=record->event.key,
+                              .pos = j - 1, 
                               .ignore=true,
                             });
           return false;
@@ -146,11 +147,12 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       return true;
     }
     press_t press = press_state_get_press(idx);
+    press_state_remove_by_idx(idx);
+    keyseq_reset_momentary(press.pos);
     if (press.ignore) {
       return true;
     }
     keyseq_press_user(press.keycode, false);
-    keyseq_reset_momentary(press.pos);
     return false;
   }
   return true;
