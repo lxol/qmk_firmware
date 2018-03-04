@@ -92,45 +92,59 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     do {
       uint8_t size = keyseq_definitions[i][0];
       if (size == 1) {
+        /* reset, as we reach the end of the definition */
         momentary_sentinels = 0x0000;
         oneshot_sentinel = true;
         keyseq_index = 0;
-        press_state_put(
-                        (press_t) {
-                          .key=record->event.key,
-                            .ignore=true,
-                            });
+        /* press_state_put( */
+        /*                 (press_t) { */
+        /*                   .key=record->event.key, */
+        /*                     .ignore=true, */
+        /*                     }); */
         return true;
       }
-      uint8_t j = 0;
+      uint8_t j = 1;
       do  {
-        if (size > (keyseq_index + 2)) {
+        if (size < (keyseq_index + 2)) {
           break;
         }
-        if (keyseq_definitions[i][j+1] != keyseq_codes[j] &&
-            keyseq_definitions[i][j+1] != KC_TRNS) {
+        /* partial match  */
+        if (j > 1 && j > keyseq_index) {
+          press_state_put(
+                          (press_t) {
+                            .key=record->event.key,
+                              .ignore=true,
+                            });
+          return false;
+        }
+        if (keyseq_definitions[i][j] != keyseq_codes[j-1] && 
+            keyseq_definitions[i][j] != KC_TRNS) {
           break;
         }
-        if (j == size - 3) {
+        if (j == size - 2) {
           /* bingo!  */
           keyseq_reset_oneshot();
-          uint16_t k = keyseq_definitions[i][j+2];
+          uint16_t k = keyseq_definitions[i][j+1];
           keyseq_press_user(k, true);
           press_state_put(
                           (press_t) {
                             .key=record->event.key,
                               .keycode=k,
                               .ignore=false,
-                              .pos = j + 1 
+                              .pos = j 
                             });
           return false;
         }
+        j++;
         /* TODO: set momentary sentinel position */
       } while (true);
       i++;
     } while (true);
   } else {
     uint8_t idx = find_press(record->event.key);
+    if (idx == LD_PRESS_MAX) {
+      return true;
+    }
     press_t press = press_state_get_press(idx);
     if (press.ignore) {
       return true;
