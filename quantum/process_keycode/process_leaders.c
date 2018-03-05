@@ -40,7 +40,7 @@ void keyseq_set_definitions(uint16_t* k[]) {
 }
 
 __attribute__ ((weak))
-void keyseq_press_user(uint16_t keycode, bool pressed) {
+void keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 __attribute__ ((weak))
@@ -127,7 +127,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
           /* bingo!  */
           keyseq_reset_oneshot();
           uint16_t k = keyseq_definitions[i][j+1];
-          keyseq_press_user(k, true);
+          keyseq_press_user(k, record);
           press_state_put(
                           (press_t) {
                             .key=record->event.key,
@@ -153,7 +153,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
     if (press.ignore) {
       return false;
     }
-    keyseq_press_user(press.keycode, false);
+    keyseq_press_user(press.keycode, record);
     return false;
   }
   return true;

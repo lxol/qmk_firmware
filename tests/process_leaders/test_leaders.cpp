@@ -106,7 +106,7 @@ TEST_F(KeyseqTest, test_long_sequence_with_momentary) {
     keyboard_task();
 }
 
-TEST_F(KeyseqTest, test_long_sequence_with_transitive_leader) {
+TEST_F(KeyseqTest, test_long_sequence_with_transitive) {
     TestDriver driver;
     InSequence s;
     press_key(1, 1);
