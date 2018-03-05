@@ -62,43 +62,44 @@ void leaders_init_user(void) {
   keyseq_set_definitions(user_definitions);
 }
 
-void keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
+bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
   case SEQ_1:
     if (record->event.pressed) {
       register_code16(KC_1);
-      return ;
+      return false ;
     } else {
       unregister_code16(KC_1);
-      return ;
+      return false ;
     }
   case SEQ_2:
     if (record->event.pressed) {
       register_code16(KC_2);
-      return ;
+      return false ;
     } else {
       unregister_code16(KC_2);
-      return ;
+      return false ;
     }
   case SEQ_3:
     if (record->event.pressed) {
       register_code16(KC_3);
-      return ;
+      return false ;
     } else {
       unregister_code16(KC_3);
-      return ;
+      return false ;
     }
   case SEQ_4: {
     uint16_t ref_kc = keymap_key_to_keycode(_LAYER_REF, record->event.key);
     if (record->event.pressed) {
       register_code16(ref_kc);
-      return ;
+      return false ;
     } else {
       unregister_code16(ref_kc);
-      return ;
+      return false ;
     }
   }
   }
+  return false;
 }
 
 #endif

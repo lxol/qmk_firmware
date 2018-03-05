@@ -40,8 +40,7 @@ void keyseq_set_definitions(uint16_t* k[]) {
 }
 
 __attribute__ ((weak))
-void keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
-}
+bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) { return true;}
 
 __attribute__ ((weak))
 void keyseq_release_user(uint16_t keycode) {
@@ -127,15 +126,19 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
           /* bingo!  */
           keyseq_reset_oneshot();
           uint16_t k = keyseq_definitions[i][j+1];
-          keyseq_press_user(k, record);
-          press_state_put(
-                          (press_t) {
-                            .key=record->event.key,
-                              .keycode=k,
-                              .ignore=false,
-                              .pos = j 
-                            });
-          return false;
+          if (keyseq_press_user(k, record)) {
+            keyseq_index--;
+            return true;
+          } else {
+            press_state_put(
+                            (press_t) {
+                              .key=record->event.key,
+                                .keycode=k,
+                                .ignore=false,
+                                .pos = j 
+                                });
+            return false;
+          }
         }
         j++;
         /* TODO: set momentary sentinel position */
