@@ -41,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_LAYER_REF] = {
     //{ 0 ,   1 ,     2 ,     3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       }
-    { KC_A ,  KC_S ,  KC_NO , KC_NO , KC_NO ,  KC_G ,  KC_H ,  KC_NO , KC_NO , KC_NO } ,
+    { KC_A ,  KC_S ,  KC_NO , KC_NO , KC_NO , KC_G ,  KC_H ,  KC_NO , KC_NO , KC_NO } ,
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,
     { KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } ,
@@ -90,8 +90,8 @@ void keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
     }
   case SEQ_4:
     if (record->event.pressed) {
-      /* uint16_t ref_kc = keymap_key_to_keycode(leaders_ref_layer, record->event.key); */
-      register_code16(KC_4);
+      uint16_t ref_kc = keymap_key_to_keycode(_LAYER_REF, record->event.key);
+      register_code16(ref_kc);
       return ;
     } else {
       unregister_code16(KC_4);
