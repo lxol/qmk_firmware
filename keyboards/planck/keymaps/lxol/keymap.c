@@ -7,10 +7,8 @@ extern keymap_config_t keymap_config;
 enum planck_layers {
   _QWERTY,
   _LEFT,
-  /* _RIGHT, */
   _RAISEFUN,
   _RAISE,
-  /* _MAIN, */
   _FUN,
   _SYM,
   _NUM,
@@ -65,7 +63,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { XXXXXXX , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,  KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } , 
   { XXXXXXX , MOUSE , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , RAISE , KC_LCTL , LEFT ,   KC_BSPC , KC_ENT }
  } ,          
-
 [_RAISE] = { 
   { KC_GRV ,    KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,       KC_9 ,    KC_0 ,    _______ } , 
   { _______ ,   KC_LBRC , KC_RBRC , LD_ARROWS , XXXXXXX , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_SYMBOLS , _______ , _______ , _______ } , 
@@ -175,69 +172,55 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 #ifdef LEADERS_ENABLE
 
-const uint16_t* my_keyseq_definitions[]  = {
-  /* (uint16_t[]){KEYSEQ_ONESHOT|KEYSEQ_MOMENTARY, LD_SYMBOLS, KC_K, SEQ_SYM_PREFIX_I, KEYSEQ_END }, */
-  (uint16_t[]){KEYSEQ_ONESHOT|KEYSEQ_MOMENTARY, LD_SYMBOLS, KC_TRNS, SEQ_SYMBOLS, KEYSEQ_END },
-  (uint16_t[]){KEYSEQ_ONESHOT, LD_SYM_PREFIX_I, KC_E, SEQ_SYM_PREFIX_I_E, KEYSEQ_END },
-  /* (uint16_t[]){KEYSEQ_MOMENTARY | KEYSEQ_ONESHOT, LD_LEADER2, KC_W, SEQ_1W, KEYSEQ_END }, */
-  /* (uint16_t[]){0x0001, LD_LEADER2, KC_E, KC_A,  SEQ_IEE, KEYSEQ_END}, */
-  /* (uint16_t[]){0x0001, LD_LEADER3, KC_TRNS, SEQ_IE, KEYSEQ_END }, */
-  /* (uint16_t[]){0x0001, LD_LEADER4, KC_A, KC_TRNS, KC_B, SEQ_IE, KEYSEQ_END }, */
-  (uint16_t[]){0xffff}
+uint16_t* user_definitions[]  = {
+  (uint16_t[]){5, LD_SYMBOLS, KC_I, KC_E, SEQ_IE },
+  (uint16_t[]){4, LD_SYMBOLS, KC_TRNS, SEQ_SYMBOLS },
+  (uint16_t[]){1}
 };
+/* const uint16_t* my_keyseq_definitions[]  = { */
+/*   /\* (uint16_t[]){KEYSEQ_ONESHOT|KEYSEQ_MOMENTARY, LD_SYMBOLS, KC_K, SEQ_SYM_PREFIX_I, KEYSEQ_END }, *\/ */
+/*   (uint16_t[]){KEYSEQ_ONESHOT|KEYSEQ_MOMENTARY, LD_SYMBOLS, KC_TRNS, SEQ_SYMBOLS, KEYSEQ_END }, */
+/*   (uint16_t[]){KEYSEQ_ONESHOT, LD_SYM_PREFIX_I, KC_E, SEQ_SYM_PREFIX_I_E, KEYSEQ_END }, */
+/*   /\* (uint16_t[]){KEYSEQ_MOMENTARY | KEYSEQ_ONESHOT, LD_LEADER2, KC_W, SEQ_1W, KEYSEQ_END }, *\/ */
+/*   /\* (uint16_t[]){0x0001, LD_LEADER2, KC_E, KC_A,  SEQ_IEE, KEYSEQ_END}, *\/ */
+/*   /\* (uint16_t[]){0x0001, LD_LEADER3, KC_TRNS, SEQ_IE, KEYSEQ_END }, *\/ */
+/*   /\* (uint16_t[]){0x0001, LD_LEADER4, KC_A, KC_TRNS, KC_B, SEQ_IE, KEYSEQ_END }, *\/ */
+/*   (uint16_t[]){0xffff} */
+/* }; */
 
 void leaders_init_user(void) {
-    set_ref_layer(_QWERTY);
-    keyseq_init(my_keyseq_definitions);
+  keyseq_set_definitions(user_definitions);
 }
 
-void keyseq_last_user(uint16_t keycode, keyrecord_t *record) {
+bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
   case SEQ_SYMBOLS:
     if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(LEADERS_REFERENCE_LAYER, record->event.key);
-      if (kc == KC_I) {
-        keyseq_remove_sentinels(0xffff);
-        keyseq_reset();
-        keyseq_push(LD_SYM_PREFIX_I);
-        keyseq_set_sentinels(KEYSEQ_ONESHOT);
-        return ;
+      uint16_t kc = keymap_key_to_keycode(_SYM, record->event.key);
+      if (kc != KC_NO) {
+        register_code16(kc);
       }
-      uint16_t kc1 = keymap_key_to_keycode(_SYM, record->event.key);
-      if (kc1 != KC_NO) {
-        register_code16(kc1);
-      }
-      return ;
+      return false ;
     } else {
       uint16_t kc = keymap_key_to_keycode(_SYM, record->event.key);
       if (kc != KC_NO) {
         unregister_code16(kc);
       }
-      return ;
+      return false;
     }
-  /* case SEQ_SYM_PREFIX_I: */
-  /*   if (record->event.pressed) { */
-  /*     keyseq_reset(); */
-  /*     keyseq_push(LD_SYM_PREFIX_I); */
-  /*     keyseq_set_sentinels(KEYSEQ_ONESHOT); */
-  /*     return ; */
-  /*   } else { */
-  /*     return ; */
-  /*   } */
-  case SEQ_SYM_PREFIX_I_E:
+  case SEQ_IE:
     if (record->event.pressed) {
       SEND_STRING("{}");
       register_code16(KC_LEFT);
       unregister_code16(KC_LEFT);
-      return ;
+      return false;
     } else {
-      return ;
+      return false;
     }
   }    
+  return false;
 }
 
-/* bool process_leaders_user(uint16_t keycode, keyrecord_t *record) { */
-/*   switch(keycode) { */
 /*   case SEQ_IE: */
 /*     if (record->event.pressed) { */
 /*       SEND_STRING("{}"); */

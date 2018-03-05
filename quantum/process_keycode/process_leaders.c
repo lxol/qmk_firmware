@@ -86,7 +86,13 @@ void keyseq_reset_momentary(uint8_t pos) {
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
-    keyseq_push(keycode);
+    if (keyseq_index == 0) {
+      keyseq_push(keycode);
+    } else {
+      uint16_t kc = keymap_key_to_keycode(0, record->event.key);
+      keyseq_push(kc);
+    }
+    
     uint16_t i = 0;
     do {
       uint8_t size = keyseq_definitions[i][0];
@@ -125,6 +131,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         if (j == size - 2) {
           /* bingo!  */
           keyseq_reset_oneshot();
+          keyseq_reset_momentary(j);
           uint16_t k = keyseq_definitions[i][j+1];
           if (keyseq_press_user(k, record)) {
             keyseq_index--;
