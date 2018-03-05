@@ -120,7 +120,7 @@ TEST_F(KeyseqTest, test_long_sequence_with_transitive) {
     EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_G)));
     press_key(5, 0);
     keyboard_task();
-    // EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
-    // release_key(5, 0);
-    // keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(5, 0);
+    keyboard_task();
 }

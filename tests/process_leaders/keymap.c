@@ -88,15 +88,16 @@ void keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code16(KC_3);
       return ;
     }
-  case SEQ_4:
+  case SEQ_4: {
+    uint16_t ref_kc = keymap_key_to_keycode(_LAYER_REF, record->event.key);
     if (record->event.pressed) {
-      uint16_t ref_kc = keymap_key_to_keycode(_LAYER_REF, record->event.key);
       register_code16(ref_kc);
       return ;
     } else {
-      unregister_code16(KC_4);
+      unregister_code16(ref_kc);
       return ;
     }
+  }
   }
 }
 
