@@ -21,7 +21,8 @@ enum foobar {
   LD_LEADER2,
   SEQ_1,
   SEQ_2,
-  SEQ_3
+  SEQ_3,
+  SEQ_4
 };
 
 enum test_layers {
@@ -32,7 +33,7 @@ enum test_layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_LAYER1] = {
     /* { 0 ,       1 ,          2 ,     3 ,     4 ,     5 ,     6 ,     7 ,     8 ,     9 ,       } */
-    { KC_Q ,       KC_W ,       KC_E ,  KC_R ,  KC_T  , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
+    { KC_Q ,       KC_W ,       KC_E ,  KC_R ,  KC_T  , KC_Y , KC_NO , KC_NO , KC_NO , KC_NO } , 
     { LD_LEADER1 , LD_LEADER2 , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
     { KC_NO ,      KC_NO ,      KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
     { KC_NO ,      KC_NO ,      KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO , KC_NO } , 
@@ -53,6 +54,7 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){3, LD_LEADER1, SEQ_1},
   (uint16_t[]){5, LD_LEADER2, KC_E, KC_R, SEQ_2 },
   (uint16_t[]){5, LD_LEADER2, KC_E, KC_T, SEQ_3 },
+  (uint16_t[]){5, LD_LEADER2, KC_E, KC_TRNS, SEQ_4 },
   (uint16_t[]){1}
 };
 
@@ -84,6 +86,14 @@ void keyseq_press_user(uint16_t keycode, bool pressed) {
       return ;
     } else {
       unregister_code16(KC_3);
+      return ;
+    }
+  case SEQ_4:
+    if (pressed) {
+      register_code16(KC_4);
+      return ;
+    } else {
+      unregister_code16(KC_4);
       return ;
     }
   }

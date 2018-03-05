@@ -109,7 +109,8 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
           break;
         }
         /* partial match  */
-        if (j > 1 && j > keyseq_index) {
+        /* if (j > 1 && j > keyseq_index) { */
+        if (j > keyseq_index) {
           press_state_put(
                           (press_t) {
                             .key=record->event.key,
