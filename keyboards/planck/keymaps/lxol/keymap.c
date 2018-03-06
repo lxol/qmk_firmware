@@ -28,12 +28,18 @@ enum planck_keycodes {
   MOUSE,
   BACKLIT,
   LD_SYMBOLS, 
-  LD_SYM_PREFIX_I, 
-  LD_ARROWS,
+  
   SEQ_SYMBOLS,
   SEQ_IE,
   SEQ_ID,
   SEQ_IC,
+
+
+  
+  LD_SYM_PREFIX_I, 
+  LD_ARROWS,
+  SEQ_LSFT,
+  SEQ_LSFT_O,
   SEQ_OE,
   SEQ_OD,
   SEQ_OC,
@@ -174,7 +180,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 uint16_t* user_definitions[]  = {
   (uint16_t[]){5, LD_SYMBOLS, KC_I, KC_E, SEQ_IE },
+  (uint16_t[]){5, LD_SYMBOLS, KC_I, KC_D, SEQ_ID },
+  (uint16_t[]){5, LD_SYMBOLS, KC_I, KC_C, SEQ_IC },
   (uint16_t[]){4, LD_SYMBOLS, KC_TRNS, SEQ_SYMBOLS },
+  /* (uint16_t[]){3, KC_LSFT, SEQ_LSFT }, */
+  /* (uint16_t[]){5, KC_LSFT, KC_LSFT, KC_O,  SEQ_LSFT_O }, */
   (uint16_t[]){1}
 };
 /* const uint16_t* my_keyseq_definitions[]  = { */
@@ -215,6 +225,40 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code16(KC_LEFT);
       return false;
     } else {
+      return false;
+    }
+  case SEQ_ID:
+    if (record->event.pressed) {
+      SEND_STRING("()");
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
+      return false;
+    } else {
+      return false;
+    }
+  case SEQ_IC:
+    if (record->event.pressed) {
+      SEND_STRING("[]");
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
+      return false;
+    } else {
+      return false;
+    }
+  case SEQ_LSFT:
+    if (record->event.pressed) {
+      keyseq_push(KC_NO);
+      keyseq_set_oneshot();
+      return true;
+    } else {
+      return true;
+    }
+  case SEQ_LSFT_O:
+    if (record->event.pressed) {
+      register_code16(KC_A);
+      return false;
+    } else {
+      unregister_code16(KC_A);
       return false;
     }
   }    

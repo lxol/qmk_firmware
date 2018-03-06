@@ -70,6 +70,10 @@ void keyseq_reset_oneshot() {
   return ;
 }
 
+void keyseq_set_oneshot() {
+  oneshot_sentinel = true;
+}
+
 void keyseq_reset_momentary(uint8_t pos) {
   momentary_sentinels &= ~(1U << (pos - 1));
   if (oneshot_sentinel) {
@@ -101,11 +105,6 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         momentary_sentinels = 0x0000;
         oneshot_sentinel = true;
         keyseq_index = 0;
-        /* press_state_put( */
-        /*                 (press_t) { */
-        /*                   .key=record->event.key, */
-        /*                     .ignore=true, */
-        /*                     }); */
         return true;
       }
       uint8_t j = 1;
@@ -115,7 +114,7 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         }
         /* partial match  */
         /* if (j > 1 && j > keyseq_index) { */
-        if (j > keyseq_index) {
+        if (j > keyseq_index ) {
           press_state_put(
                           (press_t) {
                             .key=record->event.key,

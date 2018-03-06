@@ -31,6 +31,7 @@
 void keyseq_init(void);
 void keyseq_push(uint16_t keycode);
 void keyseq_reset_oneshot(void);
+void keyseq_set_oneshot(void);
 void keyseq_reset_momentary(uint8_t pos);
 
 
