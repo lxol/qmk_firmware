@@ -33,6 +33,7 @@ enum planck_keycodes {
   SEQ_IE,
   SEQ_ID,
   SEQ_IC,
+  SEQ_2LSFT,
 
 
   
@@ -67,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { KC_ESC ,  KC_Q ,  KC_W , KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,  KC_I ,    KC_O ,   KC_P ,    KC_MINS } , 
   { KC_TAB ,  KC_A ,  KC_S , KC_D ,    KC_F ,    KC_G ,    KC_H ,   KC_J ,  KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } , 
   { XXXXXXX , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,  KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } , 
-  { XXXXXXX , MOUSE , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , RAISE , KC_LCTL , LEFT ,   KC_BSPC , KC_ENT }
+  { XXXXXXX , KC_RGUI , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , RAISE , KC_LCTL , FUN ,   KC_RGUI , KC_ENT }
  } ,          
 [_RAISE] = { 
   { KC_GRV ,    KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,       KC_9 ,    KC_0 ,    _______ } , 
@@ -83,11 +84,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*   { CALTDEL , KC_DEL ,  _______ , _______ , _______ ,    _______ , KC_SPC ,  LD_MO_SYM , _______ ,   _______ ,   _______ , _______ } */
 /*  } ,           */
 
+/* [_FUN] = {  */
+/*   { KC_F12 ,       KC_F1 ,           KC_F2 ,           KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,    KC_F10 ,  KC_F11 } ,   */
+/*   { DYN_REC_STOP , DYN_REC_START1 ,  DYN_REC_START2 ,  BACKLIT , BL_DEC ,  BL_INC ,  KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_BSLS , KC_PIPE } ,  */
+/*   { KC_CAPS ,      DYN_MACRO_PLAY1 , DYN_MACRO_PLAY2 , KC_VOLU , KC_VOLD , KC_MPLY , _______ , KC_PGDN , KC_PGUP , _______ ,  _______ , _______ } ,  */
+/*   { AG_NORM ,      AG_SWAP ,         _______ ,         _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ } */
+/*  } ,                */
 [_FUN] = { 
   { KC_F12 ,       KC_F1 ,           KC_F2 ,           KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,    KC_F10 ,  KC_F11 } ,  
   { DYN_REC_STOP , DYN_REC_START1 ,  DYN_REC_START2 ,  BACKLIT , BL_DEC ,  BL_INC ,  KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_BSLS , KC_PIPE } , 
   { KC_CAPS ,      DYN_MACRO_PLAY1 , DYN_MACRO_PLAY2 , KC_VOLU , KC_VOLD , KC_MPLY , _______ , KC_PGDN , KC_PGUP , _______ ,  _______ , _______ } , 
-  { AG_NORM ,      AG_SWAP ,         _______ ,         _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ }
+  { _______ ,      _______ ,         _______ ,         _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ }
  } ,               
 
 [_SYM] = { 
@@ -184,19 +191,10 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){5, LD_SYMBOLS, KC_I, KC_C, SEQ_IC },
   (uint16_t[]){4, LD_SYMBOLS, KC_TRNS, SEQ_SYMBOLS },
   /* (uint16_t[]){3, KC_LSFT, SEQ_LSFT }, */
-  /* (uint16_t[]){5, KC_LSFT, KC_LSFT, KC_O,  SEQ_LSFT_O }, */
+  /* /\* (uint16_t[]){5, KC_LSFT, KC_LSFT, KC_O,  SEQ_LSFT_O }, *\/ */
+  /* (uint16_t[]){4, KC_LSFT, KC_LSFT,  SEQ_2LSFT }, */
   (uint16_t[]){1}
 };
-/* const uint16_t* my_keyseq_definitions[]  = { */
-/*   /\* (uint16_t[]){KEYSEQ_ONESHOT|KEYSEQ_MOMENTARY, LD_SYMBOLS, KC_K, SEQ_SYM_PREFIX_I, KEYSEQ_END }, *\/ */
-/*   (uint16_t[]){KEYSEQ_ONESHOT|KEYSEQ_MOMENTARY, LD_SYMBOLS, KC_TRNS, SEQ_SYMBOLS, KEYSEQ_END }, */
-/*   (uint16_t[]){KEYSEQ_ONESHOT, LD_SYM_PREFIX_I, KC_E, SEQ_SYM_PREFIX_I_E, KEYSEQ_END }, */
-/*   /\* (uint16_t[]){KEYSEQ_MOMENTARY | KEYSEQ_ONESHOT, LD_LEADER2, KC_W, SEQ_1W, KEYSEQ_END }, *\/ */
-/*   /\* (uint16_t[]){0x0001, LD_LEADER2, KC_E, KC_A,  SEQ_IEE, KEYSEQ_END}, *\/ */
-/*   /\* (uint16_t[]){0x0001, LD_LEADER3, KC_TRNS, SEQ_IE, KEYSEQ_END }, *\/ */
-/*   /\* (uint16_t[]){0x0001, LD_LEADER4, KC_A, KC_TRNS, KC_B, SEQ_IE, KEYSEQ_END }, *\/ */
-/*   (uint16_t[]){0xffff} */
-/* }; */
 
 void leaders_init_user(void) {
   keyseq_set_definitions(user_definitions);
@@ -253,7 +251,7 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
     } else {
       return true;
     }
-  case SEQ_LSFT_O:
+  case SEQ_2LSFT:
     if (record->event.pressed) {
       register_code16(KC_A);
       return false;
