@@ -75,20 +75,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { XXXXXXX , KC_RGUI , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , LD_RAISE , KC_LCTL , RAISE ,  KC_RGUI , KC_ENT }
  } , 
 [_RAISE] = { 
-  { KC_GRV , KC_1 , KC_2 , KC_3 , KC_4 , KC_5 ,     KC_6 ,    KC_7 ,    KC_8 ,       KC_9 ,    KC_0 ,    _______ } , 
-  { _______ ,   KC_LBRC , KC_RBRC , LD_ARROWS , XXXXXXX , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_SYMBOLS , _______ , _______ , _______ } , 
-  { KC_TILD ,   KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,    _______ , _______ , _______ } , 
-  { CALTDEL ,   KC_DEL ,  _______ , _______ ,   _______ , _______ , _______ , _______ , _______ ,    _______ , _______ , _______ }
- } ,            
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,       KC_9 ,    KC_0 ,    _______ } , 
+  { _______ , KC_LBRC , KC_RBRC , _______ , _______ , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_SYMBOLS , _______ , _______ , _______ } , 
+  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,    _______ , _______ , _______ } , 
+  { CALTDEL , KC_DEL ,  _______ , _______ , _______ , _______ , _______ , _______ , _______ ,    _______ , _______ , _______ }
+ } ,          
 
 [_LOWER] = { 
-  { KC_GRV ,    KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,     KC_0 ,    _______ } , 
-  { _______ ,   _______ , _______ , _______ ,   _______ , _______ , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , _______ , _______ } , 
-  { KC_TILD ,   KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , _______ ,  _______ , _______ } , 
-  { _______ ,   _______ , _______ , _______ ,   _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ }
- } ,            
+  { _______ ,  KC_1,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,     KC_0 ,    _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , _______ , _______ } , 
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ } ,
+  { _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ }
+ } , 
 /* [_MAIN] = { */
-/*   { KC_GRV , KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,       KC_9 ,    KC_0 ,    _______ } ,  */
+/*   { KC_GRV , KC_1 , KC_2 ,     KC_3 ,      KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,       KC_9 ,    KC_0 ,    _______ } ,  */
 /*   { _______ , KC_LBRC , KC_RBRC , _______ , LD_OS_TEST , KC_BSPC , KC_EQL ,  KC_ENT ,    LD_OS_SYM , LD_OS_NUM , _______ , _______ } ,  */
 /*   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,     KC_PERC , KC_CIRC , KC_AMPR ,   KC_ASTR ,   _______ ,   _______ , _______ } ,  */
 /*   { CALTDEL , KC_DEL ,  _______ , _______ , _______ ,    _______ , KC_SPC ,  LD_MO_SYM , _______ ,   _______ ,   _______ , _______ } */
@@ -250,14 +250,17 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
       uint16_t kc = keymap_key_to_keycode(_LOWER, record->event.key);
       if (kc != KC_NO) {
+        register_code16(KC_RGUI);
         register_code16(kc);
+        unregister_code16(kc);
+        unregister_code16(KC_RGUI);
       }
       return false ;
     } else {
-      uint16_t kc = keymap_key_to_keycode(_LOWER, record->event.key);
-      if (kc != KC_NO) {
-        unregister_code16(kc);
-      }
+      /* uint16_t kc = keymap_key_to_keycode(_LOWER, record->event.key); */
+      /* if (kc != KC_NO) { */
+      /*   unregister_code16(kc); */
+      /* } */
       return false;
     }
   case SEQ_IE:
