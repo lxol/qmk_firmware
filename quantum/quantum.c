@@ -316,6 +316,11 @@ bool process_record_quantum(keyrecord_t *record) {
   #endif
   #ifdef LEADER_ENABLE
     process_leader(keycode, record) &&
+  #ifdef LEADERS_ENABLE
+    process_leaders(keycode, record) &&
+  #endif
+  #ifndef DISABLE_CHORDING
+    process_chording(keycode, record) &&
   #endif
   #ifdef COMBO_ENABLE
     process_combo(keycode, record) &&
@@ -1095,6 +1100,9 @@ void matrix_init_quantum() {
   #endif
   #ifdef OLED_DRIVER_ENABLE
     oled_init(OLED_ROTATION_0);
+  #endif
+  #ifdef LEADERS_ENABLE
+    leaders_init();
   #endif
   matrix_init_kb();
 }
