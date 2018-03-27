@@ -9,6 +9,7 @@ enum planck_layers {
   _LEFT,
   _RAISEFUN,
   _RAISE,
+  _LOWER,
   _FUN,
   _SYM,
   _NUM,
@@ -32,6 +33,7 @@ enum planck_keycodes {
   
   SEQ_SYMBOLS,
   SEQ_RAISE,
+  SEQ_LOWER,
   SEQ_IE,
   SEQ_ID,
   SEQ_IC,
@@ -79,6 +81,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { CALTDEL ,   KC_DEL ,  _______ , _______ ,   _______ , _______ , _______ , _______ , _______ ,    _______ , _______ , _______ }
  } ,            
 
+[_LOWER] = { 
+  { KC_GRV ,    KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,     KC_0 ,    _______ } , 
+  { _______ ,   _______ , _______ , _______ ,   _______ , _______ , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , _______ , _______ } , 
+  { KC_TILD ,   KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , _______ ,  _______ , _______ } , 
+  { _______ ,   _______ , _______ , _______ ,   _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ }
+ } ,            
 /* [_MAIN] = { */
 /*   { KC_GRV , KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,       KC_9 ,    KC_0 ,    _______ } ,  */
 /*   { _______ , KC_LBRC , KC_RBRC , _______ , LD_OS_TEST , KC_BSPC , KC_EQL ,  KC_ENT ,    LD_OS_SYM , LD_OS_NUM , _______ , _______ } ,  */
@@ -196,6 +204,7 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_D, SEQ_ID },
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_C, SEQ_IC },
   (uint16_t[]){5, LD_RAISE, KC_K, KC_TRNS, SEQ_SYMBOLS },
+  (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_LOWER },
   (uint16_t[]){4, LD_RAISE, KC_TRNS, SEQ_RAISE },
   /* (uint16_t[]){3, KC_LSFT, SEQ_LSFT }, */
   /* /\* (uint16_t[]){5, KC_LSFT, KC_LSFT, KC_O,  SEQ_LSFT_O }, *\/ */
@@ -232,6 +241,20 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       return false ;
     } else {
       uint16_t kc = keymap_key_to_keycode(_RAISE, record->event.key);
+      if (kc != KC_NO) {
+        unregister_code16(kc);
+      }
+      return false;
+    }
+  case SEQ_LOWER:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_LOWER, record->event.key);
+      if (kc != KC_NO) {
+        register_code16(kc);
+      }
+      return false ;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_LOWER, record->event.key);
       if (kc != KC_NO) {
         unregister_code16(kc);
       }
