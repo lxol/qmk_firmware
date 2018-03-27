@@ -129,7 +129,9 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         }
         if (j == size - 2) {
           /* bingo!  */
+          /* the last key in sequence  */
           keyseq_reset_oneshot();
+          /* no need to hold the last key */
           keyseq_reset_momentary(j);
           uint16_t k = keyseq_definitions[i][j+1];
           if (keyseq_press_user(k, record)) {

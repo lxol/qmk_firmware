@@ -124,3 +124,19 @@ TEST_F(KeyseqTest, test_long_sequence_with_transitive) {
     release_key(5, 0);
     keyboard_task();
 }
+
+TEST_F(KeyseqTest, test_double_shift) {
+    TestDriver driver;
+    InSequence s;
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_LSFT)));
+    press_key(0, 2);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport()));
+    release_key(0, 2);
+    keyboard_task();
+    press_key(0, 2);
+    keyboard_task();
+    EXPECT_CALL(driver, send_keyboard_mock(KeyboardReport(KC_0)));
+    press_key(0, 0);
+    keyboard_task();
+}
