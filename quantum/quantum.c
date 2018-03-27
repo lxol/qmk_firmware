@@ -251,6 +251,9 @@ bool process_record_quantum(keyrecord_t *record) {
   #ifndef DISABLE_LEADER
     process_leader(keycode, record) &&
   #endif
+  #ifdef LEADERS_ENABLE
+    process_leaders(keycode, record) &&
+  #endif
   #ifndef DISABLE_CHORDING
     process_chording(keycode, record) &&
   #endif
@@ -850,6 +853,9 @@ void matrix_init_quantum() {
   #endif
   #ifdef RGB_MATRIX_ENABLE
     rgb_matrix_init_drivers();
+  #endif
+  #ifdef LEADERS_ENABLE
+    leaders_init();
   #endif
   matrix_init_kb();
 }
