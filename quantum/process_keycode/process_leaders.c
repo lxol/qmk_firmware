@@ -89,6 +89,14 @@ void keyseq_reset_momentary(uint8_t pos) {
 }
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record) {
+  if (keycode == KC_LCTL ||
+      keycode == KC_RCTL ||
+      keycode == KC_LGUI ||
+      keycode == KC_RGUI ||
+      keycode == KC_LALT ||
+      keycode == KC_RALT ) {
+    return true;
+  }
   if (record->event.pressed) {
     if (keyseq_index == 0) {
       keyseq_push(keycode);

@@ -28,8 +28,10 @@ enum planck_keycodes {
   MOUSE,
   BACKLIT,
   LD_SYMBOLS, 
+  LD_RAISE, 
   
   SEQ_SYMBOLS,
+  SEQ_RAISE,
   SEQ_IE,
   SEQ_ID,
   SEQ_IC,
@@ -65,13 +67,13 @@ enum planck_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = {
-  { KC_ESC ,  KC_Q ,  KC_W , KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,  KC_I ,    KC_O ,   KC_P ,    KC_MINS } , 
-  { KC_TAB ,  KC_A ,  KC_S , KC_D ,    KC_F ,    KC_G ,    KC_H ,   KC_J ,  KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } , 
-  { XXXXXXX , KC_Z ,  KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,  KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } , 
-  { XXXXXXX , KC_RGUI , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , RAISE , KC_LCTL , FUN ,   KC_RGUI , KC_ENT }
- } ,          
+  { KC_ESC ,  KC_Q ,    KC_W , KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,     KC_I ,    KC_O ,   KC_P ,    KC_MINS } , 
+  { KC_TAB ,  KC_A ,    KC_S , KC_D ,    KC_F ,    KC_G ,    KC_H ,   KC_J ,     KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } , 
+  { XXXXXXX , KC_Z ,    KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } , 
+  { XXXXXXX , KC_RGUI , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , LD_RAISE , KC_LCTL , RAISE ,  KC_RGUI , KC_ENT }
+ } , 
 [_RAISE] = { 
-  { KC_GRV ,    KC_1 ,    KC_2 ,    KC_3 ,      KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,       KC_9 ,    KC_0 ,    _______ } , 
+  { KC_GRV , KC_1 , KC_2 , KC_3 , KC_4 , KC_5 ,     KC_6 ,    KC_7 ,    KC_8 ,       KC_9 ,    KC_0 ,    _______ } , 
   { _______ ,   KC_LBRC , KC_RBRC , LD_ARROWS , XXXXXXX , KC_BSPC , KC_EQL ,  KC_ENT ,  LD_SYMBOLS , _______ , _______ , _______ } , 
   { KC_TILD ,   KC_EXLM , KC_AT ,   KC_HASH ,   KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR ,    _______ , _______ , _______ } , 
   { CALTDEL ,   KC_DEL ,  _______ , _______ ,   _______ , _______ , _______ , _______ , _______ ,    _______ , _______ , _______ }
@@ -190,6 +192,11 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){5, LD_SYMBOLS, KC_I, KC_D, SEQ_ID },
   (uint16_t[]){5, LD_SYMBOLS, KC_I, KC_C, SEQ_IC },
   (uint16_t[]){4, LD_SYMBOLS, KC_TRNS, SEQ_SYMBOLS },
+  (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_E, SEQ_IE },
+  (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_D, SEQ_ID },
+  (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_C, SEQ_IC },
+  (uint16_t[]){5, LD_RAISE, KC_K, KC_TRNS, SEQ_SYMBOLS },
+  (uint16_t[]){4, LD_RAISE, KC_TRNS, SEQ_RAISE },
   /* (uint16_t[]){3, KC_LSFT, SEQ_LSFT }, */
   /* /\* (uint16_t[]){5, KC_LSFT, KC_LSFT, KC_O,  SEQ_LSFT_O }, *\/ */
   /* (uint16_t[]){4, KC_LSFT, KC_LSFT,  SEQ_2LSFT }, */
@@ -211,6 +218,20 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       return false ;
     } else {
       uint16_t kc = keymap_key_to_keycode(_SYM, record->event.key);
+      if (kc != KC_NO) {
+        unregister_code16(kc);
+      }
+      return false;
+    }
+  case SEQ_RAISE:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_RAISE, record->event.key);
+      if (kc != KC_NO) {
+        register_code16(kc);
+      }
+      return false ;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_RAISE, record->event.key);
       if (kc != KC_NO) {
         unregister_code16(kc);
       }
