@@ -36,6 +36,8 @@ enum planck_keycodes {
   SEQ_IE,
   SEQ_ID,
   SEQ_IC,
+  SEQ_EXPAND,
+  SEQ_CONTRACT,
   DYNAMIC_MACRO_RANGE,
 };
 
@@ -152,6 +154,8 @@ uint16_t* user_definitions[]  = {
   /* (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_J, SEQ_DOWN }, */
   /* (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_K, SEQ_UP }, */
   /* (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_L, SEQ_RIGHT }, */
+  (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_K, SEQ_EXPAND },
+  (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_J, SEQ_CONTRACT },
   (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
   (uint16_t[]){4, LD_RAISE, KC_TRNS, SEQ_RAISE },
   (uint16_t[]){1}
@@ -235,6 +239,31 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code16(KC_LEFT);
       return false;
     } else {
+      return false;
+    }
+    // emacs er/expand-region C-s-u C-s-d
+  case SEQ_EXPAND:
+    if (record->event.pressed) {
+      register_code16(KC_LGUI);
+      register_code16(KC_LCTL);
+      register_code16(KC_U);
+      return false;
+    } else {
+      unregister_code16(KC_U);
+      unregister_code16(KC_LCTL);
+      unregister_code16(KC_LGUI);
+      return false;
+    }
+  case SEQ_CONTRACT:
+    if (record->event.pressed) {
+      register_code16(KC_LGUI);
+      register_code16(KC_LCTL);
+      register_code16(KC_D);
+      return false;
+    } else {
+      unregister_code16(KC_D);
+      unregister_code16(KC_LCTL);
+      unregister_code16(KC_LGUI);
       return false;
     }
   /* case SEQ_LEFT: */
