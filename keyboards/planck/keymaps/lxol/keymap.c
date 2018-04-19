@@ -59,9 +59,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { KC_PIPE , KC_Z ,    KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } ,
   { KC_BSLS , KC_RGUI , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , LD_RAISE , KC_LCTL , KC_DEL , KC_RGUI , KC_ENT }
  } ,
+
 [_RAISE] = {
   { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    XXXXXXX } ,
-  { XXXXXXX , KC_LBRC , KC_RBRC , KC_LPRN , KC_RPRN , KC_BSPC , KC_EQL ,  KC_ENT ,  XXXXXXX , KC_LCBR , KC_RCBR , XXXXXXX } ,
+  { XXXXXXX , KC_LBRC , KC_RBRC , XXXXXXX , XXXXXXX , KC_BSPC , KC_EQL ,  KC_ENT ,  XXXXXXX , KC_LCBR , KC_RCBR , XXXXXXX } ,
   { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , XXXXXXX , XXXXXXX , XXXXXXX } ,
   { CALTDEL , KC_DEL ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX }
  } ,
@@ -155,11 +156,13 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_E, SEQ_IE },
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_D, SEQ_ID },
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_C, SEQ_IC },
+  (uint16_t[]){5, LD_RAISE, KC_F, KC_TRNS, SEQ_DOUBLERAISE },
+  (uint16_t[]){5, LD_RAISE, KC_D, KC_TRNS, SEQ_DOUBLERAISE },
   (uint16_t[]){5, LD_RAISE, KC_K, KC_TRNS, SEQ_SYMBOLS },
   (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_K, SEQ_EXPAND },
   (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_J, SEQ_CONTRACT },
   (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
-  (uint16_t[]){5, LD_RAISE, KC_L, KC_TRNS, SEQ_MODIFIERS },
+  /* (uint16_t[]){5, LD_RAISE, KC_L, KC_TRNS, SEQ_MODIFIERS }, */
   (uint16_t[]){4, LD_RAISE, KC_TRNS, SEQ_RAISE },
   (uint16_t[]){1}
 };
