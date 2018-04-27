@@ -92,6 +92,8 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
       keycode == KC_RCTL ||
       keycode == KC_LGUI ||
       keycode == KC_RGUI ||
+      keycode == KC_LSFT ||
+      keycode == KC_RSFT ||
       keycode == KC_LALT ||
       keycode == KC_RALT ) {
     return true;
