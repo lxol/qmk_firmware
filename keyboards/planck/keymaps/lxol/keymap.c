@@ -8,6 +8,7 @@ enum planck_layers {
   _QWERTY,
   _LEFT,
   _RAISE,
+  _LOWER,
   _DOUBLERAISE,
   _FUN,
   _SYM,
@@ -21,13 +22,16 @@ enum planck_layers {
 enum planck_keycodes {
   LEFT = SAFE_RANGE,
   RAISE,
+  LOWER,
   FUN,
   MOUSE,
   BACKLIT,
   LD_RAISE,
+  LD_LOWER,
 
   SEQ_SYMBOLS,
   SEQ_RAISE,
+  SEQ_LOWER,
   SEQ_DOUBLERAISE,
   SEQ_MODIFIERS,
   SEQ_LEFT,
@@ -54,18 +58,18 @@ enum planck_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = {
-  { KC_ESC ,  KC_Q ,    KC_W , KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,     KC_I ,    KC_O ,   KC_P ,    KC_MINS } ,
-  { KC_TAB ,  KC_A ,    KC_S , KC_D ,    KC_F ,    KC_G ,    KC_H ,   KC_J ,     KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } ,
-  { KC_PIPE , KC_Z ,    KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } ,
-  { KC_BSLS , KC_RGUI , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , LD_RAISE , KC_LCTL , KC_DEL , KC_RGUI , KC_ENT }
- } ,
+  { KC_ESC ,   KC_Q ,    KC_W , KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,     KC_I ,    KC_O ,   KC_P ,    KC_MINS } , 
+  { KC_TAB ,   KC_A ,    KC_S , KC_D ,    KC_F ,    KC_G ,    KC_H ,   KC_J ,     KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } , 
+  { LD_LOWER , KC_Z ,    KC_X , KC_C ,    KC_V ,    KC_B ,    KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } , 
+  { LD_LOWER ,   KC_RGUI , FUN ,  KC_LGUI , KC_LSFT , KC_LALT , KC_SPC , LD_RAISE , KC_LCTL , KC_DEL , KC_RGUI , KC_ENT }
+ } , 
 
 [_RAISE] = {
-  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    XXXXXXX } ,
-  { XXXXXXX , KC_LBRC , KC_RBRC , XXXXXXX , XXXXXXX , KC_BSPC , KC_EQL ,  KC_ENT ,  XXXXXXX , KC_LCBR , KC_RCBR , XXXXXXX } ,
-  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , XXXXXXX , XXXXXXX , XXXXXXX } ,
+  { KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    XXXXXXX } , 
+  { XXXXXXX , KC_LBRC , KC_RBRC , KC_LPRN , KC_RPRN , KC_BSPC , KC_EQL ,  KC_ENT ,  XXXXXXX , KC_LCBR , KC_RCBR , XXXXXXX } , 
+  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , XXXXXXX , XXXXXXX , XXXXXXX } , 
   { CALTDEL , KC_DEL ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX }
- } ,
+ } ,          
 
 [_DOUBLERAISE] = {
   { XXXXXXX , KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,     KC_0 ,    XXXXXXX } ,
@@ -81,7 +85,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { _______ ,      _______ ,         _______ ,         _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ }
  } ,
 
-[_SYM] = {
+[_LOWER] = {
+  { KC_F12 ,  KC_F1 ,   KC_F2 ,   KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,    KC_F10 ,  KC_F11 } ,  
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , XXXXXXX , XXXXXXX } , 
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX } , 
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LCBR , KC_RCBR , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX }
+ } ,          
+
+[_SYM] = { 
   { XXXXXXX , KC_GRV ,  KC_QUOT , KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } ,
   { XXXXXXX , KC_TILD , KC_DQUO , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } ,
   { XXXXXXX , XXXXXXX , XXXXXXX , KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } ,
@@ -94,6 +105,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { XXXXXXX , XXXXXXX , XXXXXXX ,    XXXXXXX ,    XXXXXXX ,    XXXXXXX , XXXXXXX , XXXXXXX ,    XXXXXXX ,    XXXXXXX ,    XXXXXXX , XXXXXXX } ,
   { XXXXXXX , XXXXXXX , XXXXXXX ,    XXXXXXX ,    XXXXXXX ,    XXXXXXX , XXXXXXX , XXXXXXX ,    XXXXXXX ,    XXXXXXX ,    XXXXXXX , XXXXXXX }
  } ,
+
 [_MOUSE] = {
   { _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_WH_D , KC_WH_U , _______ , _______ , _______ } ,
   { _______ , KC_ACL0 , KC_ACL1 , KC_ACL2 , _______ , _______ , KC_MS_L , KC_MS_D , KC_MS_U , KC_MS_R , _______ , _______ } ,
@@ -156,14 +168,15 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_E, SEQ_IE },
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_D, SEQ_ID },
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_C, SEQ_IC },
-  (uint16_t[]){5, LD_RAISE, KC_F, KC_TRNS, SEQ_DOUBLERAISE },
-  (uint16_t[]){5, LD_RAISE, KC_D, KC_TRNS, SEQ_DOUBLERAISE },
+  /* (uint16_t[]){5, LD_RAISE, KC_F, KC_TRNS, SEQ_DOUBLERAISE }, */
+  /* (uint16_t[]){5, LD_RAISE, KC_D, KC_TRNS, SEQ_DOUBLERAISE }, */
   (uint16_t[]){5, LD_RAISE, KC_K, KC_TRNS, SEQ_SYMBOLS },
-  (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_K, SEQ_EXPAND },
-  (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_J, SEQ_CONTRACT },
+  /* (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_K, SEQ_EXPAND }, */
+  /* (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_J, SEQ_CONTRACT }, */
   (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
   /* (uint16_t[]){5, LD_RAISE, KC_L, KC_TRNS, SEQ_MODIFIERS }, */
   (uint16_t[]){4, LD_RAISE, KC_TRNS, SEQ_RAISE },
+  (uint16_t[]){4, LD_LOWER, KC_TRNS, SEQ_LOWER },
   (uint16_t[]){1}
 };
 
@@ -173,6 +186,20 @@ void leaders_init_user(void) {
 
 bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
+  case SEQ_LOWER:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_LOWER, record->event.key);
+      if (kc != KC_NO) {
+        register_code16(kc);
+      }
+      return false ;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_LOWER, record->event.key);
+      if (kc != KC_NO) {
+        unregister_code16(kc);
+      }
+      return false;
+    }
   case SEQ_SYMBOLS:
     if (record->event.pressed) {
       uint16_t kc = keymap_key_to_keycode(_SYM, record->event.key);
