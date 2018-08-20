@@ -39,6 +39,7 @@ enum planck_keycodes {
   SEQ_MODIFIERS,
   SEQ_LEFT,
   SEQ_RIGHT,
+  SEQ_VIM_CLI,
   SEQ_UP,
   SEQ_DOWN,
   SEQ_CBRCPAIR,
@@ -177,6 +178,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef LEADERS_ENABLE
 
 uint16_t* user_definitions[]  = {
+  (uint16_t[]){4, LD_RAISE, KC_SCLN, SEQ_VIM_CLI },
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_E, SEQ_CBRCPAIR },
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_D, SEQ_PRNPAIR },
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_C, SEQ_BRCPAIR },
@@ -282,6 +284,14 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
     }
+  case SEQ_VIM_CLI:
+    if (record->event.pressed) {
+      register_code16(KC_ESC);
+      unregister_code16(KC_ESC);
+      register_code16(KC_COLN);
+      unregister_code16(KC_COLN);
+    } 
+    return false;
   case SEQ_CBRCPAIR:
     if (record->event.pressed) {
       SEND_STRING("{}");
