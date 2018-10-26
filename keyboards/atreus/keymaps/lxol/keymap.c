@@ -14,7 +14,10 @@ enum planck_layers {
   _QWERTY,
   _LEFT,
   _RAISE,
+  _RAISE1,
+  _RAISE2,
   _LOWER,
+  _LOWER1,
   _DOUBLERAISE,
   _FUN,
   _PAIRS,
@@ -36,11 +39,15 @@ enum planck_keycodes {
   LD_RAISE,
   LD_PAIRS,
   LD_LOWER,
+  LD_LOWER1,
   LD_SYM,
 
   SEQ_SYMBOLS,
   SEQ_RAISE,
+  SEQ_RAISE1,
+  SEQ_RAISE2,
   SEQ_LOWER,
+  SEQ_LOWER1,
   SEQ_PAIRS,
   SEQ_DOUBLERAISE,
   SEQ_MODIFIERS,
@@ -71,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P    ,
     KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN ,
     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                      KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH ,
-    KC_ESC, LD_LOWER, KC_LGUI,  KC_LSFT, KC_LALT,  KC_LALT, KC_LCTL, KC_SPC,  LD_RAISE, KC_LCTL, XXXXXXX, KC_ENT
+    KC_ESC, LD_LOWER1, LD_LOWER1,  KC_LSFT, KC_LALT,  KC_, KC_ESC, LD_SPC,  LD_RAISE, KC_LCTL, XXXXXXX, KC_ENT
   ),
 
   /*
@@ -84,7 +91,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_RAISE] = LAYOUT( /* [> RAISE <] */
     KC_1, KC_2,   KC_3,   KC_4, KC_5,                              KC_6, KC_7,    KC_8,   KC_9, KC_0 ,
     KC_TAB, KC_GRV, KC_LBRC, KC_RBRC, KC_BSPC,                    KC_ESC, KC_ENT,    XXXXXXX,   KC_QUOT, XXXXXXX,
-    KC_EXLM, KC_AT,   KC_HASH,   KC_DLR, KC_PERC,                  KC_CIRC, KC_AMPR,    KC_ASTR,   XXXXXXX, XXXXXXX ,
+    KC_EXLM, KC_AT,   KC_HASH,   KC_DLR, KC_PERC,                  KC_CIRC, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX ,
     /* KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, XXXXXXX,                   XXXXXXX,  XXXXXXX,    XXXXXXX,   KC_EQL, KC_BSLS, */
     XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_SPC,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX),
 
@@ -102,16 +109,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
   [_LOWER] = LAYOUT( /* [> RAISE <] */
+    KC_EXLM, KC_AT,   KC_HASH,   KC_DLR, KC_PERC,                  KC_CIRC, KC_AMPR, KC_ASTR,   KC_PLUS, KC_MINS ,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX,  XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX,  XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX  ),
+
+  [_LOWER1] = LAYOUT( /* [> RAISE <] */
     XXXXXXX, XXXXXXX,   XXXXXXX,   XXXXXXX, XXXXXXX,                KC_EQL, KC_MINS,    KC_PLUS,   KC_DEL, KC_BSPC,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                    KC_LEFT, KC_DOWN,    KC_UP,   KC_RIGHT, KC_ENT,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX,  XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX  )
+    XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX  ),
 
-  /* [_SYM] = LAYOUT( /\* [> RAISE <] *\/ */
-  /*   XXXXXXX, XXXXXXX,   XXXXXXX,   XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX, */
-  /*   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                    XXXXXXX, XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX, */
-  /*   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX,  XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX, */
-  /*   XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX  ) */
+  [_RAISE1] = LAYOUT( /* [> RAISE <] */
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, KC_MINS, KC_PLUS, KC_BSPC,                    XXXXXXX, XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, KC_UNDS, KC_EQL,  XXXXXXX,                   XXXXXXX,  XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX  ),
+
+  [_RAISE2] = LAYOUT( /* [> RAISE <] */
+    KC_GRV,  KC_UNDS, KC_LCBR, KC_RCBR, KC_PIPE,                   XXXXXXX, XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX,
+    KC_TILD, KC_MINS, KC_LPRN, KC_RPRN, KC_BSPC,                    XXXXXXX, XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX,
+    KC_EQL,  KC_PLUS, KC_LBRC, KC_RBRC, KC_BSLS,                   XXXXXXX,  XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX  ),
+
+  [_SYM] = LAYOUT( 
+    XXXXXXX, XXXXXXX,   XXXXXXX,   XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                    XXXXXXX, XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX,  XXXXXXX,    XXXXXXX,   XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX  )
   /*
    * insert home   up  end   pgup       ||      up     F7    F8    F9   F10
    *  del   left  down right pgdn       ||     down    F4    F5    F6   F11
@@ -151,13 +176,19 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_C, SEQ_BRCPAIR },
   /* (uint16_t[]){5, LD_RAISE, KC_F, KC_TRNS, SEQ_DOUBLERAISE }, */
   /* (uint16_t[]){5, LD_RAISE, KC_D, KC_TRNS, SEQ_DOUBLERAISE }, */
-  (uint16_t[]){5, LD_RAISE, KC_K, KC_TRNS, SEQ_SYMBOLS },
+  /* (uint16_t[]){5, LD_RAISE, KC_K, KC_TRNS, SEQ_SYMBOLS }, */
+  (uint16_t[]){5, LD_RAISE, KC_M, KC_TRNS, SEQ_RAISE2 },
+  (uint16_t[]){5, LD_RAISE, KC_COMM, KC_TRNS, SEQ_RAISE2 },
+  (uint16_t[]){5, LD_RAISE, KC_K, KC_TRNS, SEQ_RAISE2 },
+  /* (uint16_t[]){5, LD_RAISE, KC_J, KC_TRNS, SEQ_RAISE2 }, */
   /* (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_K, SEQ_EXPAND }, */
   /* (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_J, SEQ_CONTRACT }, */
-  (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
+  /* (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE }, */
+  (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_RAISE2 },
   /* (uint16_t[]){5, LD_RAISE, KC_L, KC_TRNS, SEQ_MODIFIERS }, */
   (uint16_t[]){4, LD_RAISE, KC_TRNS, SEQ_RAISE },
   (uint16_t[]){4, LD_LOWER, KC_TRNS, SEQ_LOWER },
+  (uint16_t[]){4, LD_LOWER1, KC_TRNS, SEQ_LOWER1 },
   (uint16_t[]){5, LD_PAIRS, KC_I, KC_O, SEQ_PRNPAIR },
   /* (uint16_t[]){5, LD_PAIRS, KC_I, KC_P, SEQ_PRNPAIR }, */
   (uint16_t[]){5, LD_PAIRS, KC_I, KC_L, SEQ_CBRCPAIR },
@@ -190,6 +221,20 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
     }
+  case SEQ_LOWER1:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_LOWER1, record->event.key);
+      if (kc != KC_NO) {
+        register_code16(kc);
+      }
+      return false ;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_LOWER1, record->event.key);
+      if (kc != KC_NO) {
+        unregister_code16(kc);
+      }
+      return false;
+    }
   case SEQ_SYMBOLS:
     if (record->event.pressed) {
       uint16_t kc = keymap_key_to_keycode(_SYM, record->event.key);
@@ -213,6 +258,34 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       return false ;
     } else {
       uint16_t kc = keymap_key_to_keycode(_RAISE, record->event.key);
+      if (kc != KC_NO) {
+        unregister_code16(kc);
+      }
+      return false;
+    }
+  case SEQ_RAISE1:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_RAISE1, record->event.key);
+      if (kc != KC_NO) {
+        register_code16(kc);
+      }
+      return false ;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_RAISE1, record->event.key);
+      if (kc != KC_NO) {
+        unregister_code16(kc);
+      }
+      return false;
+    }
+  case SEQ_RAISE2:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_RAISE2, record->event.key);
+      if (kc != KC_NO) {
+        register_code16(kc);
+      }
+      return false ;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_RAISE2, record->event.key);
       if (kc != KC_NO) {
         unregister_code16(kc);
       }
