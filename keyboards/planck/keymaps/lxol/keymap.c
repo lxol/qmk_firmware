@@ -57,7 +57,7 @@ enum planck_keycodes {
   DYNAMIC_MACRO_RANGE,
 };
 
-#include "dynamic_macro.h"
+/* #include "dynamic_macro.h" */
 
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
