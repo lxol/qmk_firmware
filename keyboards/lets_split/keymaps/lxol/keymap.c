@@ -226,7 +226,7 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
   case SEQ_DOUBLERAISE:
     if (record->event.pressed) {
       uint16_t kc = keymap_key_to_keycode(_DOUBLERAISE, record->event.key);
-      if (kc != KC_NO && record->event.key.row == 0) {
+      if (kc != KC_NO ) {
         register_code16(KC_RGUI);
         register_code16(kc);
         unregister_code16(kc);
