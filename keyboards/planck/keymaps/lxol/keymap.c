@@ -37,6 +37,7 @@ enum planck_keycodes {
   SEQ_LOWER,
   SEQ_PAIRS,
   SEQ_DOUBLERAISE,
+  SEQ_TRIPLERAISE,
   SEQ_DOUBLELOWER,
   SEQ_MODIFIERS,
   SEQ_LEFT,
@@ -80,10 +81,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,
 
 [_DOUBLERAISE] = {
-  { XXXXXXX , KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    XXXXXXX } ,
-  { XXXXXXX , KC_ESC ,  KC_ESC ,  KC_LCBR , KC_LPRN , KC_BSPC , KC_LEFT , KC_RPRN , KC_RCBR , KC_RBRC , KC_PIPE , KC_BSLS } ,
-  { KC_F12 ,  KC_F1 ,   KC_F2 ,   KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,   KC_F10 ,  KC_F11 } ,
-  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX }
+  { XXXXXXX ,  KC_Q ,    KC_W ,    KC_E ,     KC_R ,    KC_T ,    KC_Y ,   KC_U ,     KC_I ,    KC_O ,   KC_P ,    KC_MINS } ,
+  { KC_TAB ,   KC_A ,    KC_S ,    KC_D ,     KC_F ,    KC_G ,    KC_H ,   KC_J ,     KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } ,
+  { XXXXXXX ,  KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,    KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } ,
+  { XXXXXXX ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX }
  } ,
 
 [_LOWER] = {
@@ -197,6 +198,7 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){5, LD_RAISE, KC_K, KC_TRNS, SEQ_SYMBOLS },
   /* (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_K, SEQ_EXPAND }, */
   /* (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_J, SEQ_CONTRACT }, */
+  (uint16_t[]){6, LD_RAISE, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_TRIPLERAISE },
   (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
   /* (uint16_t[]){5, LD_RAISE, LD_LOWER, KC_TRNS, SEQ_LOWER }, */
   /* (uint16_t[]){5, LD_RAISE, KC_L, KC_TRNS, SEQ_MODIFIERS }, */
@@ -267,20 +269,33 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
   case SEQ_DOUBLERAISE:
     if (record->event.pressed) {
       uint16_t kc = keymap_key_to_keycode(_DOUBLERAISE, record->event.key);
-      if (kc != KC_NO && record->event.key.row == 0) {
-        register_code16(KC_RGUI);
-        register_code16(kc);
-        unregister_code16(kc);
-        unregister_code16(KC_RGUI);
-      } else {
-        register_code16(kc);
-      }
+      register_code16(KC_RGUI);
+      register_code16(KC_SLSH);
+      unregister_code16(KC_SLSH);
+      unregister_code16(KC_RGUI);
+      register_code16(kc);
       return false ;
     } else {
       uint16_t kc = keymap_key_to_keycode(_DOUBLERAISE, record->event.key);
-      if (kc != KC_NO && record->event.key.row != 0) {
-        unregister_code16(kc);
-      }
+      unregister_code16(kc);
+      register_code16(KC_ESC);
+      unregister_code16(KC_ESC);
+      return false;
+    }
+  case SEQ_TRIPLERAISE:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_DOUBLERAISE, record->event.key);
+      register_code16(KC_RGUI);
+      register_code16(KC_MINS);
+      unregister_code16(KC_MINS);
+      unregister_code16(KC_RGUI);
+      register_code16(kc);
+      return false ;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_DOUBLERAISE, record->event.key);
+      unregister_code16(kc);
+      register_code16(KC_ESC);
+      unregister_code16(KC_ESC);
       return false;
     }
   case SEQ_DOUBLELOWER:
