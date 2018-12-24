@@ -198,7 +198,7 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){5, LD_RAISE, KC_K, KC_TRNS, SEQ_SYMBOLS },
   /* (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_K, SEQ_EXPAND }, */
   /* (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_J, SEQ_CONTRACT }, */
-  (uint16_t[]){6, LD_RAISE, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_TRIPLERAISE },
+  (uint16_t[]){5, LD_RAISE, KC_SPC, KC_TRNS, SEQ_TRIPLERAISE },
   (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
   /* (uint16_t[]){5, LD_RAISE, LD_LOWER, KC_TRNS, SEQ_LOWER }, */
   /* (uint16_t[]){5, LD_RAISE, KC_L, KC_TRNS, SEQ_MODIFIERS }, */
