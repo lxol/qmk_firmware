@@ -322,15 +322,15 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
   case SEQ_CTL_ALT_QWERTY:
     if (record->event.pressed) {
       uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
+      register_code16(KC_LALT);
       register_code16(KC_LCTL);
-      register_code16(KC_LGUI);
       register_code16(kc);
       return false;
     } else {
       uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
       unregister_code16(kc);
-      unregister_code16(KC_LGUI);
       unregister_code16(KC_LCTL);
+      unregister_code16(KC_LALT);
       return false;
     }
   case SEQ_CTL_SFT_QWERTY:
