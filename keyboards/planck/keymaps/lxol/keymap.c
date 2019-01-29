@@ -38,6 +38,9 @@ enum planck_keycodes {
   SEQ_PAIRS,
   SEQ_DOUBLERAISE,
   SEQ_FUN,
+  SEQ_CTL_SFT_FUN,
+  SEQ_CTL_SFT_QWERTY,
+  SEQ_CTL_ALT_QWERTY,
   SEQ_DOUBLELOWER,
   SEQ_MODIFIERS,
   SEQ_LEFT,
@@ -88,11 +91,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  } ,
 
 [_LOWER] = {
-  { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , KC_LPRN , KC_RPRN ,  KC_BSLS } ,
-  { XXXXXXX , KC_TILD , KC_ESC , KC_ESC , KC_ESC , KC_BSPC , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_COLON , KC_PIPE } ,
-  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LCBR , KC_LBRC , KC_RBRC , KC_RCBR ,  KC_BSLS , XXXXXXX } ,
-  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX }
- } ,
+
+  /* { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , KC_LPRN , KC_RPRN ,  KC_BSLS } , */
+  { XXXXXXX , XXXXXXX , XXXXXXX , KC_END  , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , KC_INS ,  KC_HOME ,  XXXXXXX ,   KC_DEL } ,  
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_COLON , KC_PIPE } , 
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_PGDN , KC_PGUP , XXXXXXX ,  XXXXXXX ,  XXXXXXX } , 
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX ,  XXXXXXX }
+ } ,          
 
 /* [_DOUBLELOWER] = { */
 /*   { XXXXXXX , KC_Q ,    KC_W ,    KC_E ,    KC_R ,    KC_T ,    KC_Y ,   KC_U ,    KC_I ,    KC_O ,    KC_P ,    KC_MINS } , */
@@ -102,13 +107,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*  } , */
 
 [_FUN] = {
-  { KC_F12 ,       KC_F1 ,           KC_F2 ,           KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,    KC_F10 ,  KC_F11 } ,
-  { KC_F12 ,       KC_F1 ,           KC_F2 ,           KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,    KC_F10 ,  KC_F11 } ,
-  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX },
-  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX }
- } ,
+  { KC_F12 ,          KC_F1 ,          KC_F2 ,          KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,   KC_F10 ,  KC_F11 } ,  
+  { KC_F12 ,          KC_F1 ,          KC_F2 ,          KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,   KC_F10 ,  KC_F11 } ,  
+  { XXXXXXX ,         XXXXXXX ,        XXXXXXX ,        XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } , 
+  { XXXXXXX ,         XXXXXXX ,        XXXXXXX ,        XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX }
+ } ,                  
 
-  /* { DYN_REC_STOP , DYN_REC_START1 ,  DYN_REC_START2 ,  BACKLIT , BL_DEC ,  BL_INC ,  KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_BSLS , KC_PIPE } , */
+  /* { DYN_REC_STOP , DYN_REC_START1 , DYN_REC_START2 , BACKLIT , BL_DEC ,  BL_INC ,  KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_BSLS , KC_PIPE } , */
   /* { KC_CAPS ,      DYN_MACRO_PLAY1 , DYN_MACRO_PLAY2 , KC_VOLU , KC_VOLD , KC_MPLY , _______ , KC_PGDN , KC_PGUP , _______ ,  _______ , _______ } , */
   /* { _______ ,      _______ ,         _______ ,         _______ , _______ , _______ , _______ , _______ , _______ , _______ ,  _______ , _______ } */
 
@@ -202,12 +207,17 @@ uint16_t* user_definitions[]  = {
   /* (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_K, SEQ_EXPAND }, */
   /* (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_J, SEQ_CONTRACT }, */
   (uint16_t[]){5, LD_RAISE, KC_SPC, KC_TRNS, SEQ_FUN },
+  (uint16_t[]){6, LD_RAISE, KC_F, KC_S, KC_TRNS, SEQ_CTL_SFT_FUN },
+  (uint16_t[]){5, LD_RAISE, KC_F, KC_TRNS, SEQ_FUN },
+  (uint16_t[]){5, LD_RAISE, KC_S, KC_TRNS, SEQ_CTL_SFT_QWERTY },
+  (uint16_t[]){5, LD_RAISE, KC_A, KC_TRNS, SEQ_CTL_ALT_QWERTY },
   (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
   /* (uint16_t[]){5, LD_RAISE, LD_LOWER, KC_TRNS, SEQ_LOWER }, */
   /* (uint16_t[]){5, LD_RAISE, KC_L, KC_TRNS, SEQ_MODIFIERS }, */
   (uint16_t[]){4, LD_RAISE, KC_TRNS, SEQ_RAISE },
   /* (uint16_t[]){5, LD_LOWER, LD_LOWER, KC_TRNS, SEQ_DOUBLELOWER }, */
   (uint16_t[]){5, LD_LOWER, LD_RAISE, KC_TRNS, SEQ_RAISE },
+  /* (uint16_t[]){5, LD_LOWER, KC_F, KC_TRNS, SEQ_FUN }, */
   (uint16_t[]){4, LD_LOWER, KC_TRNS, SEQ_LOWER },
   (uint16_t[]){5, LD_PAIRS, KC_I, KC_O, SEQ_PRNPAIR },
   /* (uint16_t[]){5, LD_PAIRS, KC_I, KC_P, SEQ_PRNPAIR }, */
@@ -293,6 +303,48 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
     } else {
       uint16_t kc = keymap_key_to_keycode(_FUN, record->event.key);
       unregister_code16(kc);
+      return false;
+    }
+  case SEQ_CTL_SFT_FUN:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_FUN, record->event.key);
+      register_code16(KC_LSFT);
+      register_code16(KC_LCTL);
+      register_code16(kc);
+      return false;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_FUN, record->event.key);
+      unregister_code16(kc);
+      unregister_code16(KC_LCTL);
+      unregister_code16(KC_LSFT);
+      return false;
+    }
+  case SEQ_CTL_ALT_QWERTY:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
+      register_code16(KC_LCTL);
+      register_code16(KC_LGUI);
+      register_code16(kc);
+      return false;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
+      unregister_code16(kc);
+      unregister_code16(KC_LGUI);
+      unregister_code16(KC_LCTL);
+      return false;
+    }
+  case SEQ_CTL_SFT_QWERTY:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
+      register_code16(KC_LCTL);
+      register_code16(KC_LSFT);
+      register_code16(kc);
+      return false;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
+      unregister_code16(kc);
+      unregister_code16(KC_LSFT);
+      unregister_code16(KC_LCTL);
       return false;
     }
   case SEQ_DOUBLELOWER:
