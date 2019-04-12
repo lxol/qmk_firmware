@@ -300,8 +300,6 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       register_code16(kc);
       return false ;
     } else {
-      uint16_t kc = keymap_key_to_keycode(_DOUBLERAISE, record->event.key);
-      unregister_code16(kc);
       register_code16(KC_ESC);
       unregister_code16(KC_ESC);
       return false;
