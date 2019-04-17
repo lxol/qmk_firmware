@@ -61,6 +61,7 @@ enum planck_keycodes {
   SEQ_GUIALT,
   SEQ_TMUX1,
   SEQ_TMUX2,
+  SEQ_SFT_ALT_CTL,
   DYNAMIC_MACRO_RANGE,
 };
 
@@ -216,7 +217,7 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){5, LD_RAISE, KC_K, KC_TRNS, SEQ_SYMBOLS },
   /* (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_K, SEQ_EXPAND }, */
   /* (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_LSFT, KC_J, SEQ_CONTRACT }, */
-  (uint16_t[]){5, LD_RAISE, KC_SPC, KC_TRNS, SEQ_FUN },
+  (uint16_t[]){5, LD_RAISE, KC_SPC, KC_TRNS, SEQ_SFT_ALT_CTL },
   (uint16_t[]){6, LD_RAISE, KC_F, KC_S, KC_TRNS, SEQ_CTL_SFT_FUN },
   (uint16_t[]){5, LD_RAISE, KC_F, KC_TRNS, SEQ_FUN },
   /* (uint16_t[]){5, LD_RAISE, KC_S, KC_TRNS, SEQ_CTL_SFT_QWERTY }, */
@@ -300,6 +301,8 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       register_code16(kc);
       return false ;
     } else {
+      uint16_t kc = keymap_key_to_keycode(_DOUBLERAISE, record->event.key);
+      unregister_code16(kc);
       register_code16(KC_ESC);
       unregister_code16(KC_ESC);
       return false;
@@ -462,6 +465,26 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code16(KC_D);
       unregister_code16(KC_LCTL);
       unregister_code16(KC_LGUI);
+      return false;
+    }
+  case SEQ_SFT_ALT_CTL:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
+      if (kc != KC_NO) {
+        register_code16(KC_LALT);
+        register_code16(KC_LCTL);
+        register_code16(KC_LSFT);
+        register_code16(kc);
+      } 
+      return false;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
+      if (kc != KC_NO) {
+        unregister_code16(kc);
+        unregister_code16(KC_LSFT);
+        unregister_code16(KC_LCTL);
+        unregister_code16(KC_LALT);
+      }
       return false;
     }
   case SEQ_TMUX1:
