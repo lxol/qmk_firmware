@@ -316,6 +316,7 @@ bool process_record_quantum(keyrecord_t *record) {
   #endif
   #ifdef LEADER_ENABLE
     process_leader(keycode, record) &&
+  #endif
   #ifdef LEADERS_ENABLE
     process_leaders(keycode, record) &&
   #endif
