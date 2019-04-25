@@ -9,6 +9,7 @@ enum planck_layers {
   _LEFT,
   _RAISE,
   _LOWER,
+  _DEEP,
   _DOUBLERAISE,
   _DOUBLELOWER,
   _FUN,
@@ -32,10 +33,12 @@ enum planck_keycodes {
   LD_RAISE,
   LD_PAIRS,
   LD_LOWER,
+  LD_DEEP,
 
   SEQ_SYMBOLS,
   SEQ_RAISE,
   SEQ_LOWER,
+  SEQ_DEEP,
   SEQ_PAIRS,
   SEQ_DOUBLERAISE,
   SEQ_FUN,
@@ -81,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { KC_ESC ,   KC_Q ,    KC_W ,    KC_E ,     KC_R ,    KC_T ,    KC_Y ,   KC_U ,     KC_I ,    KC_O ,   KC_P ,    KC_MINS } ,
   { KC_TAB ,   KC_A ,    KC_S ,    KC_D ,     KC_F ,    KC_G ,    KC_H ,   KC_J ,     KC_K ,    KC_L ,   KC_SCLN , KC_QUOT } ,
   { LD_LOWER , KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,    KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_PLUS } ,
-  { FUN ,      KC_LGUI , KC_RGUI,  LD_LOWER , KC_LSFT , KC_LALT , KC_SPC , LD_RAISE , KC_LCTL , KC_DEL , KC_RGUI , KC_ENT }
+  { FUN ,      KC_LGUI , LD_DEEP,  LD_LOWER , KC_LSFT , KC_LALT , KC_SPC , LD_RAISE , KC_LCTL , KC_DEL , KC_RGUI , KC_ENT }
  } ,
 
 [_RAISE] = {
@@ -101,10 +104,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_LOWER] = {
 
   /* { KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , KC_LPRN , KC_RPRN ,  KC_BSLS } , */
-  { XXXXXXX , XXXXXXX , XXXXXXX , KC_END  , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , KC_INS ,  KC_HOME ,  XXXXXXX ,   KC_DEL } ,  
-  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_COLON , KC_PIPE } , 
+  { XXXXXXX , XXXXXXX , XXXXXXX , KC_END  , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , KC_INS ,  KC_LPRN ,  KC_RPRN ,   KC_DEL } ,  
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_LBRC , KC_RBRC } , 
   { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_PGDN , KC_PGUP , XXXXXXX ,  XXXXXXX ,  XXXXXXX } , 
   { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX ,  XXXXXXX }
+ } ,          
+
+[_DEEP] = {
+  { XXXXXXX ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LPRN , KC_RPRN , KC_PIPE },
+  { XXXXXXX ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LBRC , KC_RBRC , KC_BSLS },
+  { XXXXXXX ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LCBR , KC_RCBR , XXXXXXX },
+  { XXXXXXX ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX }
  } ,          
 
 /* [_DOUBLELOWER] = { */
@@ -238,6 +248,11 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){5, LD_LOWER, LD_RAISE, KC_TRNS, SEQ_RAISE },
   /* (uint16_t[]){5, LD_LOWER, KC_F, KC_TRNS, SEQ_FUN }, */
   (uint16_t[]){4, LD_LOWER, KC_TRNS, SEQ_LOWER },
+
+  (uint16_t[]){5, LD_DEEP, KC_I, KC_O, SEQ_PRNPAIR },
+  (uint16_t[]){5, LD_DEEP, KC_I, KC_L, SEQ_BRCPAIR },
+  (uint16_t[]){5, LD_DEEP, KC_I, KC_DOT, SEQ_CBRCPAIR },
+  (uint16_t[]){4, LD_DEEP, KC_TRNS, SEQ_DEEP },
   (uint16_t[]){5, LD_PAIRS, KC_I, KC_O, SEQ_PRNPAIR },
   /* (uint16_t[]){5, LD_PAIRS, KC_I, KC_P, SEQ_PRNPAIR }, */
   (uint16_t[]){5, LD_PAIRS, KC_I, KC_L, SEQ_CBRCPAIR },
@@ -265,6 +280,20 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       return false ;
     } else {
       uint16_t kc = keymap_key_to_keycode(_LOWER, record->event.key);
+      if (kc != KC_NO) {
+        unregister_code16(kc);
+      }
+      return false;
+    }
+  case SEQ_DEEP:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_DEEP, record->event.key);
+      if (kc != KC_NO) {
+        register_code16(kc);
+      }
+      return false ;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_DEEP, record->event.key);
       if (kc != KC_NO) {
         unregister_code16(kc);
       }
