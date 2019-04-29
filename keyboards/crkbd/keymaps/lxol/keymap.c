@@ -154,7 +154,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_LBRC , KC_RBRC   , \
   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_PGDN , KC_PGUP , XXXXXXX ,  XXXXXXX ,  XXXXXXX  , \
    XXXXXXX , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , XXXXXXX \
- )  \
+),\
+[_SYM] = LAYOUT(\
+   XXXXXXX , XXXXXXX , XXXXXXX ,  KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
+   XXXXXXX , KC_LEFT , KC_RIGHT , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
+   XXXXXXX , XXXXXXX , XXXXXXX ,  KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
+    XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX \
+ ) 
 };
 
 int RGB_current_mode;
@@ -313,6 +319,7 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){5, LD_RAISE, KC_F, KC_TRNS, SEQ_FUN },
   (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
   (uint16_t[]){4, LD_RAISE, KC_TRNS, SEQ_RAISE },
+  (uint16_t[]){5, LD_LOWER, LD_LOWER, KC_TRNS, SEQ_DOUBLELOWER },
   (uint16_t[]){5, LD_LOWER, LD_RAISE, KC_TRNS, SEQ_RAISE },
   (uint16_t[]){4, LD_LOWER, KC_TRNS, SEQ_LOWER },
 
@@ -461,14 +468,14 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
     }
   case SEQ_DOUBLELOWER:
     if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_DOUBLELOWER, record->event.key);
+      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
       if (kc != KC_NO ) {
         register_code16(KC_RGUI);
         register_code16(kc);
       }
       return false ;
     } else {
-      uint16_t kc = keymap_key_to_keycode(_DOUBLELOWER, record->event.key);
+      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
       if (kc != KC_NO) {
         unregister_code16(kc);
         unregister_code16(KC_RGUI);
