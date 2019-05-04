@@ -155,6 +155,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_PGDN , KC_PGUP , XXXXXXX ,  XXXXXXX ,  XXXXXXX  , \
    XXXXXXX , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , XXXXXXX \
 ),\
+[_FUN] = LAYOUT( \
+   KC_F12 ,          KC_F1 ,          KC_F2 ,          KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,   KC_F10 ,  KC_F11  ,  \
+   KC_F12 ,          KC_F1 ,          KC_F2 ,          KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,   KC_F10 ,  KC_F11  ,  \
+   XXXXXXX ,         XXXXXXX ,        XXXXXXX ,        XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  , \
+           XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  \
+ ) ,                  \
 [_SYM] = LAYOUT(\
    XXXXXXX , XXXXXXX , XXXXXXX ,  KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
    XXXXXXX , KC_LEFT , KC_RIGHT , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
@@ -237,14 +243,16 @@ void iota_gfx_task_user(void) {
 }
 #endif//SSD1306OLED
 
-/* bool process_record_user(uint16_t keycode, keyrecord_t *record) { */
-/*   if (record->event.pressed) { */
-/* #ifdef SSD1306OLED */
-/*     set_keylog(keycode, record); */
-/* #endif */
-/*     // set_timelog(); */
-/*   } */
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+#ifdef SSD1306OLED
+    set_keylog(keycode, record);
+#endif
+    // set_timelog();
+  }
 
+  return true;
+}
 /*   switch (keycode) { */
 /*     case QWERTY: */
 /*       if (record->event.pressed) { */
