@@ -976,11 +976,22 @@ void oled_task_user(void) {
         oled_write_char(press_state_to_name[keycode], false);
         /* oled_write_ln("", false); */
       } else {
-        oled_write_P(PSTR("q"), false);
+        switch (keycode) {
+        case LD_RAISE:
+          oled_write_P(PSTR("r"), false);
+          break;
+        case LD_LOWER:
+          oled_write_P(PSTR("l"), false);
+          break;
+        default:
+          oled_write_P(PSTR("u"), false);
+          break;
+        }
       }
       continue ;
     } else {
         oled_write_P(PSTR(" "), false);
+        continue ;
     }
   }
 
