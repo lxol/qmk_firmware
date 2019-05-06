@@ -151,7 +151,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    XXXXXXX , KC_LEFT , KC_RIGHT , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
    XXXXXXX , XXXXXXX , XXXXXXX ,  KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
     XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX \
- ) 
+ )
 };
 
 #ifdef LEADERS_ENABLE
@@ -193,8 +193,6 @@ void leaders_init_user(void) {
 
 void set_press_state_str(void);
 bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
-
-  set_press_state_str();
   switch(keycode) {
   case SEQ_LOWER:
     if (record->event.pressed) {
@@ -603,7 +601,6 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
 
 
 void matrix_init_keymap(void) {
-  //SSD1306 OLED init, make sure to add #define SSD1306OLED in config.h
   #ifdef SSD1306OLED
     iota_gfx_init(!has_usb());   // turns on the display
   #endif
@@ -617,62 +614,11 @@ void matrix_init_keymap(void) {
   #endif
 }
 
-//SSD1306 OLED update loop, make sure to add #define SSD1306OLED in config.h
 #ifdef SSD1306OLED
 
-// When add source files to SRC in rules.mk, you can use functions.
-
 const char *read_logo(void);
-char layer_state_str[24];
 char modifier_state_str[24];
 char host_led_state_str[24];
-char keylog_str[24] = {};
-char keylogs_str[21] = {};
-int keylogs_str_idx = 0;
-int press_state_str_idx = 0;
-
-// const char *read_mode_icon(bool swap);
-// void set_timelog(void);
-// const char *read_timelog(void);
-
-const char code_to_name[60] = {
-    ' ', ' ', ' ', ' ', 'a', 'b', 'c', 'd', 'e', 'f',
-    'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-    'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-    '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
-    'R', 'E', 'B', 'T', '_', '-', '=', '[', ']', '\\',
-    '#', ';', '\'', '`', ',', '.', '/', ' ', ' ', ' '};
-
-void set_keylog(uint16_t keycode, keyrecord_t *record) {
-  char name = ' ';
-  if ((keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) || (keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX)) { keycode = keycode & 0xFF; }
-  if (keycode < 60) {
-    name = code_to_name[keycode];
-  }
-  // update keylog
-  snprintf(keylog_str, sizeof(keylog_str), "%dx%d, k%2d : %c",
-           record->event.key.row, record->event.key.col,
-           keycode, name);
-
-  // update keylogs
-  if (keylogs_str_idx == sizeof(keylogs_str) - 1) {
-    keylogs_str_idx = 0;
-    for (int i = 0; i < sizeof(keylogs_str) - 1; i++) {
-      keylogs_str[i] = ' ';
-    }
-  }
-
-  keylogs_str[keylogs_str_idx] = name;
-  keylogs_str_idx++;
-}
-
-const char *read_keylog(void) {
-  return keylog_str;
-}
-
-const char *read_keylogs(void) {
-  return keylogs_str;
-}
 
 
 const char* read_modifier_state(void) {
@@ -701,64 +647,13 @@ const char *read_host_led_state(void) {
   return host_led_state_str;
 }
 
-const char* read_layer_state(void) {
-  switch (biton32(layer_state)) {
-    case _QWERTY:
-      snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Raise  ");
-      break;
-    case _LOWER:
-      snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Lower  ");
-      break;
-    case _RAISE:
-      snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Raise ");
-      break;
-    default:
-      switch (biton32(default_layer_state)) {
-        case _QWERTY:
-          snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Qwerty ");
-          break;
-        case _LOWER:
-          snprintf(layer_state_str, sizeof(layer_state_str), "Layer: LOWER");
-          break;
-      }
-      break;
-  }
 
-    return layer_state_str;
-}
-
-void matrix_scan_keymap(void) {
-   iota_gfx_task();
-}
-
-void matrix_render_user(struct CharacterMatrix *matrix) {
-  if (is_master) {
-    //If you want to change the display of OLED, you need to change here
-    matrix_write_ln(matrix, read_layer_state());
-    matrix_write_ln(matrix, read_modifier_state());
-    // matrix_write_ln(matrix, read_keylog());
-    matrix_write_ln(matrix, read_keylogs());
-    // matrix_write_ln(matrix, read_mode_icon(keymap_config.swap_lalt_lgui));
-    // matrix_write(matrix, read_host_led_state());
-    //matrix_write_ln(matrix, read_timelog());
-  } else {
-    matrix_write(matrix, read_logo());
-  }
-}
-
-void matrix_update(struct CharacterMatrix *dest, const struct CharacterMatrix *source) {
-  if (memcmp(dest->display, source->display, sizeof(dest->display))) {
-    memcpy(dest->display, source->display, sizeof(dest->display));
-    dest->dirty = true;
-  }
-}
-
-void iota_gfx_task_user(void) {
-  struct CharacterMatrix matrix;
-  matrix_clear(&matrix);
-  matrix_render_user(&matrix);
-  matrix_update(&display, &matrix);
-}
+/* void matrix_update(struct CharacterMatrix *dest, const struct CharacterMatrix *source) { */
+/*   if (memcmp(dest->display, source->display, sizeof(dest->display))) { */
+/*     memcpy(dest->display, source->display, sizeof(dest->display)); */
+/*     dest->dirty = true; */
+/*   } */
+/* } */
 
 const char press_state_to_name[60] = {
     ' ', ' ', ' ', ' ', 'A', 'B', 'C', 'D', 'E', 'F',
@@ -767,40 +662,6 @@ const char press_state_to_name[60] = {
     '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
     'R', 'E', 'B', 'T', '_', '-', '=', '[', ']', '\\',
     '#', ';', '\'', '`', ',', '.', '/', ' ', ' ', ' '};
-char press_state_str[8] = {};
-void set_press_state_str() {
-
-  uint16_t current_press_state = press_state_get();
-  uint8_t l = biton16(current_press_state);
-  for (int8_t i = 0; i <= l; i++) {
-    uint16_t keycode = press_state_get_press(i).keycode  ;
-    if (keycode < 60) {
-      press_state_str[i] = press_state_to_name[keycode];
-    } else {
-      press_state_str[i] = 'G';
-    }
-  }
-  for (int8_t i = l; i <= sizeof(press_state_str); i++) {
-      press_state_str[i] = ' ';
-  }
-}
-
-bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case KC_A ... KC_SLASH:
-    case KC_F1 ... KC_F12:
-    case KC_INSERT ... KC_UP:
-    case KC_KP_SLASH ... KC_KP_DOT:
-    case KC_F13 ... KC_F24:
-    if (record->event.pressed) {
-      set_keylog(keycode, record);
-    }
-      break;
-    // set_timelog();
-  }
-  return true;
-}
-
 #endif
 
 
@@ -810,61 +671,11 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_270;
   } else {
     return OLED_ROTATION_270;
-    //return rotation;
   }
-}
-
-void render_crkbd_logo(void) {
-  static const char PROGMEM crkbd_logo[] = {
-      0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
-      0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4,
-      0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4,
-      0};
-  oled_write_P(crkbd_logo, false);
 }
 
 
 void render_status(void) {
-
-  /* oled_write_P(PSTR("Layer"), false); */
-  /* switch (biton32(layer_state)) { */
-  /*   case 0: */
-  /*     oled_write_P(PSTR("Base "), false); */
-  /*     break; */
-  /*   case _RAISE: */
-  /*     oled_write_P(PSTR("Raise"), false); */
-  /*     break; */
-  /*   case _DOUBLERAISE: */
-  /*     oled_write_P(PSTR("Doubleraise"), false); */
-  /*     break; */
-  /*   case _LOWER: */
-  /*     oled_write_P(PSTR("LOWER"), false); */
-  /*     break; */
-  /*   default: */
-  /*     oled_write_P(PSTR("Unkn "), false); */
-  /*     break; */
-  /* } */
-  /* oled_write_P(PSTR("Lyout"), false); */
-  /* switch (biton32(default_layer_state)) { */
-  /*   case _QWERTY: */
-  /*     oled_write_P(PSTR("QWRTY"), false); */
-  /*     break; */
-  /*   case _RAISE: */
-  /*     oled_write_P(PSTR("RAISE"), false); */
-  /*     break; */
-  /*   case _DOUBLERAISE: */
-  /*     oled_write_P(PSTR("DBLRAISE"), false); */
-  /*     break; */
-  /*   case _LOWER: */
-  /*     oled_write_P(PSTR("LOWER"), false); */
-  /*     break; */
-  /*   case _FUN: */
-  /*     oled_write_P(PSTR("FUN"), false); */
-  /*     break; */
-  /*   case _SYM: */
-  /*     oled_write_P(PSTR("SYM"), false); */
-  /*     break; */
-  /* } */
 
   uint8_t modifiers = get_mods();
   uint8_t one_shot = get_oneshot_mods();
@@ -876,21 +687,6 @@ void render_status(void) {
   oled_write_P( (modifiers & MOD_MASK_SHIFT || one_shot & MOD_MASK_SHIFT) ? PSTR(" SFT ") : PSTR("     "), false);
 
 
-  /* oled_write_P(PSTR("BTMGK"), false); */
-  /* static const char PROGMEM mode_logo[4][4] = { */
-  /*   {0x95,0x96,0x0a,0}, */
-  /*   {0xb5,0xb6,0x0a,0}, */
-  /*   {0x97,0x98,0x0a,0}, */
-  /*   {0xb7,0xb8,0x0a,0} }; */
-
-  /* if (keymap_config.swap_lalt_lgui != false) { */
-    /* oled_write_P(mode_logo[0], false); */
-    /* oled_write_P(mode_logo[1], false); */
-  /* } else { */
-    /* oled_write_P(mode_logo[2], false); */
-    /* oled_write_P(mode_logo[3], false); */
-  /* } */
-
   uint8_t led_usb_state = host_keyboard_leds();
   oled_write_P(PSTR("Lock:"), false);
   oled_write_P(led_usb_state & (1<<USB_LED_NUM_LOCK)    ? PSTR(" NUM ") : PSTR("     "), false);
@@ -899,43 +695,17 @@ void render_status(void) {
 }
 
 
-char chain_str[8] = {};
-/* void set_chain_str() { */
-/*   // update keylog */
-/*   snprintf(chain_str, sizeof(chain_str), "%d", press_state_get()) */
-
-/*   // update keylogs */
-/*   /\* if (keylogs_str_idx == sizeof(keylogs_str) - 1) { *\/ */
-/*   /\*   keylogs_str_idx = 0; *\/ */
-/*   /\*   for (int i = 0; i < sizeof(keylogs_str) - 1; i++) { *\/ */
-/*   /\*     keylogs_str[i] = ' '; *\/ */
-/*   /\*   } *\/ */
-/*   /\* } *\/ */
-
-/*   /\* keylogs_str[keylogs_str_idx] = name; *\/ */
-/*   /\* keylogs_str_idx++; *\/ */
-/* } */
 
 void oled_task_user(void) {
   if (is_master) {
-    render_status();     // Renders the current keyboard state (layer, lock, caps, scroll, etc)
+    render_status();
   } else {
-
-    /* snprintf(chain_str, sizeof(chain_str), "%d", press_state_get()); */
-    /* oled_write_P(PSTR(chain_str), false); */
-    /* press_state_str[0] = '6'; */
-    /* press_state_str[1] = '5'; */
-    /* press_state_str[3] = '0'; */
-
-    //uint16_t current_press_state = press_state_get();
 
   oled_write_P(PSTR("Seq: "), false);
   uint8_t l = keyseq_index_get();
   for (int8_t i = 0; i < l; i++) {
-    /* uint16_t keycode = press_state_get_press(i).keycode  ; */
-    
+
     uint16_t* keyseq_keycodes = keyseq_codes_get();
-    /* uint16_t keycode = keymap_key_to_keycode(_QWERTY, keyseq_keycodes[i]); */
     uint16_t keycode = keyseq_keycodes[i];
 
     if (keycode < 60) {
@@ -995,27 +765,7 @@ void oled_task_user(void) {
     }
   }
 
-  /* for (int8_t i = l; i <= sizeof(press_state_str); i++) { */
-  /*     press_state_str[i] = ' '; */
-  /* } */
-    /* oled_write_ln(press_state_str, false); */
-    /* oled_write_ln("qwe", false); */
-    /* oled_write_ln("qwe", true); */
-    //oled_write_P(PSTR("asdfasd"), false);
-    
-    //render_crkbd_logo();
-    //oled_scroll_left();  // Turns on scrolling
   }
 }
 
 #endif
-
-uint16_t get_tapping_term(uint16_t keycode) {
-  switch (keycode) {
-    case ALT_T(KC_A):
-      return TAPPING_TERM + 100;
-    default:
-      return TAPPING_TERM;
-  }
-}
-
