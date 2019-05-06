@@ -17,6 +17,9 @@
 
 uint16_t press_state;
 press_t presses[LD_PRESS_MAX];
+press_t* presses_get() {
+  return presses;
+}
 
 void init_press_state(void) {
   press_state = 0UL;

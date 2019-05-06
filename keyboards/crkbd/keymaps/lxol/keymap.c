@@ -963,6 +963,27 @@ void oled_task_user(void) {
   for (int8_t i = l; i < 6; i++) {
         oled_write_P(PSTR("     "), false);
   }
+
+  oled_write_P(PSTR("Press"), false);
+  oled_write_P(PSTR("     "), false);
+  uint16_t press_state  = press_state_get();
+  press_t* presses =  presses_get();
+  for (int8_t i = 0; i < LD_PRESS_MAX; i ++) {
+    if (press_state & (1U << i)) {
+      uint16_t keycode = keymap_key_to_keycode(_QWERTY, presses[i].key);
+      if (keycode < 60) {
+        /* oled_write_P(PSTR("  "), false); */
+        oled_write_char(press_state_to_name[keycode], false);
+        /* oled_write_ln("", false); */
+      } else {
+        oled_write_P(PSTR("q"), false);
+      }
+      continue ;
+    } else {
+        oled_write_P(PSTR(" "), false);
+    }
+  }
+
   /* for (int8_t i = l; i <= sizeof(press_state_str); i++) { */
   /*     press_state_str[i] = ' '; */
   /* } */

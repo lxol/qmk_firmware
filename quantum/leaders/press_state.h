@@ -37,5 +37,6 @@ uint8_t find_press(keypos_t key);
 bool press_state_remove_by_idx(uint8_t idx);
 void press_state_put(press_t press);
 press_t press_state_get_press(uint8_t idx);
+press_t* presses_get(void);
 
 #endif
