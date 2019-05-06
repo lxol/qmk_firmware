@@ -24,27 +24,6 @@ extern rgblight_config_t rgblight_config;
 
 extern uint8_t is_master;
 
-// Each layer gets a name for readability, which is then used in the keymap matrix below.
-// The underscores don't mean anything - you can have a layer called STUFF or any other name.
-// Layer names don't all need to be of the same length, obviously, and you can also skip them
-// entirely and just use numbers.
-
-/* enum lxol_layers { */
-/*   _QWERTY, */
-/*   _LEFT, */
-/*   _RAISE, */
-/*   _LOWER, */
-/*   _DEEP, */
-/*   _DOUBLERAISE, */
-/*   _DOUBLELOWER, */
-/*   _FUN, */
-/*   _PAIRS, */
-/*   _TMUX, */
-/*   _SYM, */
-/*   _MODIFIER, */
-/*   _MOUSE */
-/* }; */
-
 
 enum custom_keycodes {
   LEFT = SAFE_RANGE,
@@ -847,45 +826,45 @@ void render_crkbd_logo(void) {
 
 void render_status(void) {
 
-  oled_write_P(PSTR("Layer"), false);
-  switch (biton32(layer_state)) {
-    case 0:
-      oled_write_P(PSTR("Base "), false);
-      break;
-    case _RAISE:
-      oled_write_P(PSTR("Raise"), false);
-      break;
-    case _DOUBLERAISE:
-      oled_write_P(PSTR("Doubleraise"), false);
-      break;
-    case _LOWER:
-      oled_write_P(PSTR("LOWER"), false);
-      break;
-    default:
-      oled_write_P(PSTR("Unkn "), false);
-      break;
-  }
-  oled_write_P(PSTR("Lyout"), false);
-  switch (biton32(default_layer_state)) {
-    case _QWERTY:
-      oled_write_P(PSTR("QWRTY"), false);
-      break;
-    case _RAISE:
-      oled_write_P(PSTR("RAISE"), false);
-      break;
-    case _DOUBLERAISE:
-      oled_write_P(PSTR("DBLRAISE"), false);
-      break;
-    case _LOWER:
-      oled_write_P(PSTR("LOWER"), false);
-      break;
-    case _FUN:
-      oled_write_P(PSTR("FUN"), false);
-      break;
-    case _SYM:
-      oled_write_P(PSTR("SYM"), false);
-      break;
-  }
+  /* oled_write_P(PSTR("Layer"), false); */
+  /* switch (biton32(layer_state)) { */
+  /*   case 0: */
+  /*     oled_write_P(PSTR("Base "), false); */
+  /*     break; */
+  /*   case _RAISE: */
+  /*     oled_write_P(PSTR("Raise"), false); */
+  /*     break; */
+  /*   case _DOUBLERAISE: */
+  /*     oled_write_P(PSTR("Doubleraise"), false); */
+  /*     break; */
+  /*   case _LOWER: */
+  /*     oled_write_P(PSTR("LOWER"), false); */
+  /*     break; */
+  /*   default: */
+  /*     oled_write_P(PSTR("Unkn "), false); */
+  /*     break; */
+  /* } */
+  /* oled_write_P(PSTR("Lyout"), false); */
+  /* switch (biton32(default_layer_state)) { */
+  /*   case _QWERTY: */
+  /*     oled_write_P(PSTR("QWRTY"), false); */
+  /*     break; */
+  /*   case _RAISE: */
+  /*     oled_write_P(PSTR("RAISE"), false); */
+  /*     break; */
+  /*   case _DOUBLERAISE: */
+  /*     oled_write_P(PSTR("DBLRAISE"), false); */
+  /*     break; */
+  /*   case _LOWER: */
+  /*     oled_write_P(PSTR("LOWER"), false); */
+  /*     break; */
+  /*   case _FUN: */
+  /*     oled_write_P(PSTR("FUN"), false); */
+  /*     break; */
+  /*   case _SYM: */
+  /*     oled_write_P(PSTR("SYM"), false); */
+  /*     break; */
+  /* } */
 
   uint8_t modifiers = get_mods();
   uint8_t one_shot = get_oneshot_mods();
@@ -897,16 +876,16 @@ void render_status(void) {
   oled_write_P( (modifiers & MOD_MASK_SHIFT || one_shot & MOD_MASK_SHIFT) ? PSTR(" SFT ") : PSTR("     "), false);
 
 
-  oled_write_P(PSTR("BTMGK"), false);
-  static const char PROGMEM mode_logo[4][4] = {
-    {0x95,0x96,0x0a,0},
-    {0xb5,0xb6,0x0a,0},
-    {0x97,0x98,0x0a,0},
-    {0xb7,0xb8,0x0a,0} };
+  /* oled_write_P(PSTR("BTMGK"), false); */
+  /* static const char PROGMEM mode_logo[4][4] = { */
+  /*   {0x95,0x96,0x0a,0}, */
+  /*   {0xb5,0xb6,0x0a,0}, */
+  /*   {0x97,0x98,0x0a,0}, */
+  /*   {0xb7,0xb8,0x0a,0} }; */
 
   /* if (keymap_config.swap_lalt_lgui != false) { */
-    oled_write_P(mode_logo[0], false);
-    oled_write_P(mode_logo[1], false);
+    /* oled_write_P(mode_logo[0], false); */
+    /* oled_write_P(mode_logo[1], false); */
   /* } else { */
     /* oled_write_P(mode_logo[2], false); */
     /* oled_write_P(mode_logo[3], false); */
