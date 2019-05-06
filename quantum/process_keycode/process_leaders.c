@@ -23,10 +23,19 @@
 uint16_t momentary_sentinels;
 bool oneshot_sentinel;
 uint16_t keyseq_codes[LEADERS_SEQ_MAX];
+uint16_t* keyseq_codes_get() {
+  return keyseq_codes;
+  
+}
 
 uint16_t** keyseq_definitions;
 
 uint8_t keyseq_index;
+uint8_t keyseq_index_get() {
+  return keyseq_index;
+  
+}
+
 uint8_t ref_layer;
 
 __attribute__ ((weak))

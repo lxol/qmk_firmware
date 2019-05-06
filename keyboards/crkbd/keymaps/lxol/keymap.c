@@ -12,6 +12,8 @@
   #include "oled_driver.h"
 #endif
 
+#include "leaders/press_state.h"
+#include "process_leaders.h"
 extern keymap_config_t keymap_config;
 
 
@@ -210,7 +212,10 @@ void leaders_init_user(void) {
   keyseq_set_definitions(user_definitions);
 }
 
+void set_press_state_str(void);
 bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
+
+  set_press_state_str();
   switch(keycode) {
   case SEQ_LOWER:
     if (record->event.pressed) {
@@ -637,6 +642,7 @@ void matrix_init_keymap(void) {
 #ifdef SSD1306OLED
 
 // When add source files to SRC in rules.mk, you can use functions.
+
 const char *read_logo(void);
 char layer_state_str[24];
 char modifier_state_str[24];
@@ -644,6 +650,7 @@ char host_led_state_str[24];
 char keylog_str[24] = {};
 char keylogs_str[21] = {};
 int keylogs_str_idx = 0;
+int press_state_str_idx = 0;
 
 // const char *read_mode_icon(bool swap);
 // void set_timelog(void);
@@ -774,6 +781,31 @@ void iota_gfx_task_user(void) {
   matrix_update(&display, &matrix);
 }
 
+const char press_state_to_name[60] = {
+    'A', 'B', 'C', 'D', 'a', 'b', 'c', 'd', 'e', 'f',
+    'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+    'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+    'R', 'E', 'B', 'T', '_', '-', '=', '[', ']', '\\',
+    '#', ';', '\'', '`', ',', '.', '/', ' ', ' ', ' '};
+char press_state_str[8] = {};
+void set_press_state_str() {
+
+  uint16_t current_press_state = press_state_get();
+  uint8_t l = biton16(current_press_state);
+  for (int8_t i = 0; i <= l; i++) {
+    uint16_t keycode = press_state_get_press(i).keycode  ;
+    if (keycode < 60) {
+      press_state_str[i] = press_state_to_name[keycode];
+    } else {
+      press_state_str[i] = 'G';
+    }
+  }
+  for (int8_t i = l; i <= sizeof(press_state_str); i++) {
+      press_state_str[i] = ' ';
+  }
+}
+
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case KC_A ... KC_SLASH:
@@ -781,7 +813,9 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     case KC_INSERT ... KC_UP:
     case KC_KP_SLASH ... KC_KP_DOT:
     case KC_F13 ... KC_F24:
-    if (record->event.pressed) { set_keylog(keycode, record); }
+    if (record->event.pressed) {
+      set_keylog(keycode, record);
+    }
       break;
     // set_timelog();
   }
@@ -796,7 +830,8 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   if (is_master) {
     return OLED_ROTATION_270;
   } else {
-    return rotation;
+    return OLED_ROTATION_270;
+    //return rotation;
   }
 }
 
@@ -869,13 +904,13 @@ void render_status(void) {
     {0x97,0x98,0x0a,0},
     {0xb7,0xb8,0x0a,0} };
 
-  if (keymap_config.swap_lalt_lgui != false) {
+  /* if (keymap_config.swap_lalt_lgui != false) { */
     oled_write_P(mode_logo[0], false);
     oled_write_P(mode_logo[1], false);
-  } else {
-    oled_write_P(mode_logo[2], false);
-    oled_write_P(mode_logo[3], false);
-  }
+  /* } else { */
+    /* oled_write_P(mode_logo[2], false); */
+    /* oled_write_P(mode_logo[3], false); */
+  /* } */
 
   uint8_t led_usb_state = host_keyboard_leds();
   oled_write_P(PSTR("Lock:"), false);
@@ -885,14 +920,61 @@ void render_status(void) {
 }
 
 
+char chain_str[8] = {};
+/* void set_chain_str() { */
+/*   // update keylog */
+/*   snprintf(chain_str, sizeof(chain_str), "%d", press_state_get()) */
+
+/*   // update keylogs */
+/*   /\* if (keylogs_str_idx == sizeof(keylogs_str) - 1) { *\/ */
+/*   /\*   keylogs_str_idx = 0; *\/ */
+/*   /\*   for (int i = 0; i < sizeof(keylogs_str) - 1; i++) { *\/ */
+/*   /\*     keylogs_str[i] = ' '; *\/ */
+/*   /\*   } *\/ */
+/*   /\* } *\/ */
+
+/*   /\* keylogs_str[keylogs_str_idx] = name; *\/ */
+/*   /\* keylogs_str_idx++; *\/ */
+/* } */
+
 void oled_task_user(void) {
   if (is_master) {
     render_status();     // Renders the current keyboard state (layer, lock, caps, scroll, etc)
   } else {
-    render_crkbd_logo();
-    oled_scroll_left();  // Turns on scrolling
+
+    /* snprintf(chain_str, sizeof(chain_str), "%d", press_state_get()); */
+    /* oled_write_P(PSTR(chain_str), false); */
+    /* press_state_str[0] = '6'; */
+    /* press_state_str[1] = '5'; */
+    /* press_state_str[3] = '0'; */
+
+  uint16_t current_press_state = press_state_get();
+  uint8_t l = biton16(current_press_state);
+  for (int8_t i = 0; i < l; i++) {
+    /* uint16_t keycode = press_state_get_press(i).keycode  ; */
+
+    uint16_t keycode = keymap_key_to_keycode(_QWERTY, press_state_get_press(i).key);
+    if (keycode < 60) {
+      oled_write_char(press_state_to_name[keycode], false);
+      oled_write_ln("", false);
+    } else {
+      oled_write_char('G',  false);
+      oled_write_ln("", false);
+    }
+  }
+  /* for (int8_t i = l; i <= sizeof(press_state_str); i++) { */
+  /*     press_state_str[i] = ' '; */
+  /* } */
+    /* oled_write_ln(press_state_str, false); */
+    oled_write_ln("qwe", false);
+    oled_write_ln("qwe", true);
+    //oled_write_P(PSTR("asdfasd"), false);
+    
+    //render_crkbd_logo();
+    //oled_scroll_left();  // Turns on scrolling
   }
 }
+
 #endif
 
 uint16_t get_tapping_term(uint16_t keycode) {
@@ -903,3 +985,4 @@ uint16_t get_tapping_term(uint16_t keycode) {
       return TAPPING_TERM;
   }
 }
+

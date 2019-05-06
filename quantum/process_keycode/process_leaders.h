@@ -32,6 +32,8 @@ void keyseq_reset_oneshot(void);
 void keyseq_set_oneshot(void);
 void keyseq_reset_momentary(uint8_t pos);
 
+uint16_t* keyseq_codes_get(void);
+uint8_t keyseq_index_get(void);
 
 bool process_leaders(uint16_t keycode, keyrecord_t *record);
 void leaders_init(void);
