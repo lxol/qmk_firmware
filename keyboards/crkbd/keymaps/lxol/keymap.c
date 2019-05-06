@@ -782,9 +782,9 @@ void iota_gfx_task_user(void) {
 }
 
 const char press_state_to_name[60] = {
-    'A', 'B', 'C', 'D', 'a', 'b', 'c', 'd', 'e', 'f',
-    'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-    'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+    ' ', ' ', ' ', ' ', 'A', 'B', 'C', 'D', 'E', 'F',
+    'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+    'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
     '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
     'R', 'E', 'B', 'T', '_', '-', '=', '[', ']', '\\',
     '#', ';', '\'', '`', ',', '.', '/', ' ', ' ', ' '};
@@ -948,26 +948,48 @@ void oled_task_user(void) {
     /* press_state_str[1] = '5'; */
     /* press_state_str[3] = '0'; */
 
-  uint16_t current_press_state = press_state_get();
-  uint8_t l = biton16(current_press_state);
+    //uint16_t current_press_state = press_state_get();
+
+  oled_write_P(PSTR("Seq: "), false);
+  uint8_t l = keyseq_index_get();
   for (int8_t i = 0; i < l; i++) {
     /* uint16_t keycode = press_state_get_press(i).keycode  ; */
+    
+    uint16_t* keyseq_keycodes = keyseq_codes_get();
+    /* uint16_t keycode = keymap_key_to_keycode(_QWERTY, keyseq_keycodes[i]); */
+    uint16_t keycode = keyseq_keycodes[i];
 
-    uint16_t keycode = keymap_key_to_keycode(_QWERTY, press_state_get_press(i).key);
     if (keycode < 60) {
+      oled_write_P(PSTR("  "), false);
       oled_write_char(press_state_to_name[keycode], false);
       oled_write_ln("", false);
     } else {
-      oled_write_char('G',  false);
-      oled_write_ln("", false);
+      switch (keycode) {
+      case LD_RAISE:
+        oled_write_P(PSTR("RAISE"), false);
+        /* oled_write_ln("RAISE", false); */
+        break;
+      case LD_LOWER:
+        oled_write_P(PSTR("LOWER"), false);
+        /* oled_write_ln("LOWER", false); */
+        break;
+      default:
+        oled_write_char('G',  false);
+        oled_write_ln("", false);
+        break;
+      }
     }
+  }
+
+  for (int8_t i = l; i < 6; i++) {
+        oled_write_P(PSTR("     "), false);
   }
   /* for (int8_t i = l; i <= sizeof(press_state_str); i++) { */
   /*     press_state_str[i] = ' '; */
   /* } */
     /* oled_write_ln(press_state_str, false); */
-    oled_write_ln("qwe", false);
-    oled_write_ln("qwe", true);
+    /* oled_write_ln("qwe", false); */
+    /* oled_write_ln("qwe", true); */
     //oled_write_P(PSTR("asdfasd"), false);
     
     //render_crkbd_logo();
