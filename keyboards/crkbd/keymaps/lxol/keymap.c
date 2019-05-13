@@ -120,15 +120,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = LAYOUT( \
   KC_ESC ,   KC_Q ,    KC_W ,    KC_E ,     KC_R ,    KC_T ,             KC_Y ,   KC_U ,     KC_I ,    KC_O ,   KC_P ,    KC_MINS, \
   KC_TAB ,   KC_A ,    KC_S ,    KC_D ,     KC_F ,    KC_G ,             KC_H ,   KC_J ,     KC_K ,    KC_L ,   KC_SCLN , KC_QUOT, \
-  LD_LOWER , KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,             KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_PLUS, \
+  LD_LOWER , KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,             KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_MINS, \
                                     LD_LOWER ,   KC_LSFT, KC_LALT ,   KC_SPC , LD_RAISE ,   KC_LCTL  \
    ),\
 [_RAISE] = LAYOUT( \
-  KC_GRV ,                      KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    XXXXXXX , \
-  XXXXXXX ,                     SEQ_CTLALT , SEQ_SFT_ALT , XXXXXXX , XXXXXXX , KC_BSPC ,  KC_ENT ,  XXXXXXX , SEQ_SFT_ALT , SEQ_CTLALT, XXXXXXX , \
-  KC_TILD ,                     KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_RCTL , KC_RALT , KC_RSFT , KC_RGUI , XXXXXXX , \
-                      XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  \
-  ) ,                           \
+  KC_GRV ,    KC_1 ,       KC_2 ,        KC_3 ,    KC_4 ,    KC_5 ,                    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    XXXXXXX , \
+  XXXXXXX ,   XXXXXXX ,    XXXXXXX ,     XXXXXXX , XXXXXXX , KC_BSPC ,                 KC_EQL ,  KC_ENT , XXXXXXX , XXXXXXX ,   XXXXXXX , XXXXXXX , \
+  KC_TILD ,   KC_EXLM ,    KC_AT ,       KC_HASH , KC_DLR ,  KC_PERC ,                 KC_CIRC , KC_RCTL , KC_RALT , KC_RSFT , KC_RGUI ,XXXXXXX , \
+                                              XXXXXXX , XXXXXXX , XXXXXXX ,       XXXXXXX , XXXXXXX , XXXXXXX  \
+  ) , \
 [_DOUBLERAISE] = LAYOUT( \
   XXXXXXX ,  KC_Q ,    KC_W ,    KC_E ,     KC_R ,    KC_T ,    KC_Y ,   KC_U ,     KC_I ,    KC_O ,   KC_P ,    KC_MINS  ,\
   KC_TAB ,   KC_A ,    KC_S ,    KC_D ,     KC_F ,    KC_G ,    KC_H ,   KC_J ,     KC_K ,    KC_L ,   KC_SCLN , KC_QUOT  ,\
@@ -136,9 +136,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  \
                          ), \
 [_LOWER] = LAYOUT( \
-  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LPRN , KC_LBRC , KC_RBRC , KC_RPRN ,  KC_EQL ,  KC_PLUS  , \
-  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_ESC , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_PIPE ,  XXXXXXX   , \
-  XXXXXXX , KC_LGUI , KC_LSFT , KC_LALT , KC_LCTL , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX ,  XXXXXXX  , \
+  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,   KC_LPRN ,  KC_RPRN ,  KC_PLUS  , \
+  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,   KC_ESC ,  KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_LBRC ,  KC_RBRC   , \
+  XXXXXXX , KC_LGUI , KC_LSFT , KC_LALT , KC_LCTL ,   XXXXXXX , XXXXXXX , XXXXXXX , KC_LCBR , KC_RCBR ,  XXXXXXX ,  XXXXXXX  , \
   XXXXXXX , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , XXXXXXX \
 ),\
 [_FUN] = LAYOUT( \
@@ -148,8 +148,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  \
  ) ,                  \
 [_SYM] = LAYOUT(\
-   XXXXXXX , KC_MINS , KC_PLUS ,  KC_LPRN , KC_RPRN , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
-   XXXXXXX , KC_LEFT , KC_RIGHT , KC_LCBR , KC_RCBR , KC_BSPC , XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
+   XXXXXXX , KC_MINS , KC_PLUS ,  KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
+   XXXXXXX , KC_LEFT , KC_RIGHT , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
    XXXXXXX , KC_UNDS ,  KC_EQL ,  KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
     XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX \
  )
@@ -251,7 +251,7 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
         return false;
       case KC_NO:
         return false;
-      default:   
+      default:
         register_code16(kc);
       }
       return false ;
@@ -268,7 +268,7 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
         return false;
       case KC_NO:
         return false;
-      default:   
+      default:
         unregister_code16(kc);
       }
       return false;
