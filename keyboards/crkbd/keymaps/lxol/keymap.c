@@ -16,111 +16,49 @@
 #include "process_leaders.h"
 extern keymap_config_t keymap_config;
 
-
 #ifdef RGBLIGHT_ENABLE
-//Following line allows macro to read current RGB settings
 extern rgblight_config_t rgblight_config;
 #endif
 
 extern uint8_t is_master;
 
-
 enum custom_keycodes {
   LEFT = SAFE_RANGE,
-  RAISE,
   LOWER,
   FUN,
-  MOUSE,
-  BACKLIT,
   LD_RAISE,
-  LD_PAIRS,
   LD_LOWER,
-  LD_DEEP,
 
   SEQ_SYMBOLS,
   SEQ_RAISE,
   SEQ_LOWER,
-  SEQ_DEEP,
-  SEQ_PAIRS,
   SEQ_DOUBLERAISE,
   SEQ_FUN,
-  SEQ_CTL_SFT_FUN,
-  SEQ_CTL_SFT_QWERTY,
-  SEQ_CTL_ALT_QWERTY,
   SEQ_DOUBLELOWER,
-  SEQ_MODIFIERS,
-  SEQ_LEFT,
-  SEQ_RIGHT,
-  SEQ_VIM_CLI,
-  SEQ_UP,
-  SEQ_DOWN,
   SEQ_CBRCPAIR,
   SEQ_PRNPAIR,
   SEQ_BRCPAIR,
-  SEQ_QUOTPAIR,
-  SEQ_DQUOPAIR,
-  SEQ_EXPAND,
-  SEQ_CONTRACT,
-  SEQ_CTLALT,
-  SEQ_CTLGUI,
-  SEQ_GUIALT,
-  SEQ_SFT_ALT,
-  SEQ_SFT_ALT_CTL,
-  SEQ_TMUX1,
-  SEQ_TMUX2,
-  SEQ_CTL_X_SFT_CTL_ALT,
-  SEQ_CTL_X_CTL_ALT,
-  SEQ_CTL_C_CTL_ALT,
-  SEQ_CTL_C_SFT_CTL_ALT,
   DYNAMIC_MACRO_RANGE,
 };
 
 enum lxol_crkbd_keycodes {
   _QWERTY,
-  _LEFT,
   _RAISE,
   _LOWER,
-  _DEEP,
   _DOUBLERAISE,
-  _DOUBLELOWER,
   _FUN,
-  _PAIRS,
-  _TMUX,
-  _SYM,
-  _MODIFIER,
-  _MOUSE
+  _SYM
 };
 
 #undef LEADERS_REFERENCE_LAYER
 #define LEADERS_REFERENCE_LAYER  _QWERTY
 
-enum macro_keycodes {
-  KC_SAMPLEMACRO,
-};
-
-#define KC______ KC_TRNS
-#define KC_XXXXX KC_NO
-#define KC_LOWER LOWER
-#define KC_RAISE RAISE
-#define KC_RST   RESET
-#define KC_LRST  RGBRST
-#define KC_LTOG  RGB_TOG
-#define KC_LHUI  RGB_HUI
-#define KC_LHUD  RGB_HUD
-#define KC_LSAI  RGB_SAI
-#define KC_LSAD  RGB_SAD
-#define KC_LVAI  RGB_VAI
-#define KC_LVAD  RGB_VAD
-#define KC_LMOD  RGB_MOD
-#define KC_CTLTB CTL_T(KC_TAB)
-#define KC_GUIEI GUI_T(KC_LANG2)
-#define KC_ALTKN ALT_T(KC_LANG1)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = LAYOUT( \
   KC_ESC ,   KC_Q ,    KC_W ,    KC_E ,     KC_R ,    KC_T ,             KC_Y ,   KC_U ,     KC_I ,    KC_O ,   KC_P ,    KC_MINS, \
   KC_TAB ,   KC_A ,    KC_S ,    KC_D ,     KC_F ,    KC_G ,             KC_H ,   KC_J ,     KC_K ,    KC_L ,   KC_SCLN , KC_QUOT, \
-  LD_LOWER , KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,             KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_MINS, \
+  LD_LOWER , KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,             KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_PLUS, \
                                     LD_LOWER ,   KC_LSFT, KC_LALT ,   KC_SPC , LD_RAISE ,   KC_LCTL  \
    ),\
 [_RAISE] = LAYOUT( \
@@ -163,11 +101,6 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_D, SEQ_CBRCPAIR },
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_C, SEQ_BRCPAIR },
   (uint16_t[]){5, LD_RAISE, KC_K, KC_TRNS, SEQ_SYMBOLS },
-  (uint16_t[]){7, LD_RAISE, LD_RAISE, KC_SPC, KC_SPC, KC_TRNS, SEQ_CTL_C_SFT_CTL_ALT },
-  (uint16_t[]){6, LD_RAISE, LD_RAISE, KC_SPC, KC_TRNS, SEQ_CTL_C_CTL_ALT },
-  (uint16_t[]){6, LD_RAISE, KC_SPC, KC_SPC, KC_TRNS, SEQ_CTL_X_SFT_CTL_ALT },
-  (uint16_t[]){5, LD_RAISE, KC_SPC, KC_TRNS, SEQ_CTL_X_CTL_ALT },
-  (uint16_t[]){6, LD_RAISE, KC_F, KC_S, KC_TRNS, SEQ_CTL_SFT_FUN },
   (uint16_t[]){5, LD_RAISE, KC_F, KC_TRNS, SEQ_FUN },
   (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
   (uint16_t[]){4, LD_RAISE, KC_TRNS, SEQ_RAISE },
@@ -175,16 +108,6 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){4, LD_LOWER, LD_LOWER, SEQ_DOUBLELOWER },
   (uint16_t[]){4, LD_LOWER, KC_TRNS, SEQ_LOWER },
 
-  (uint16_t[]){5, LD_DEEP, KC_I, KC_O, SEQ_PRNPAIR },
-  (uint16_t[]){5, LD_DEEP, KC_I, KC_L, SEQ_BRCPAIR },
-  (uint16_t[]){5, LD_DEEP, KC_I, KC_DOT, SEQ_CBRCPAIR },
-  (uint16_t[]){4, LD_DEEP, KC_TRNS, SEQ_DEEP },
-  (uint16_t[]){5, LD_PAIRS, KC_I, KC_O, SEQ_PRNPAIR },
-  (uint16_t[]){5, LD_PAIRS, KC_I, KC_L, SEQ_CBRCPAIR },
-  (uint16_t[]){5, LD_PAIRS, KC_I, KC_DOT, SEQ_BRCPAIR },
-  (uint16_t[]){5, LD_PAIRS, KC_I, KC_SCLN, SEQ_QUOTPAIR },
-  (uint16_t[]){5, LD_PAIRS, KC_I, KC_QUOT, SEQ_DQUOPAIR },
-  (uint16_t[]){4, LD_PAIRS, KC_TRNS, SEQ_PAIRS },
   (uint16_t[]){1}
 };
 
@@ -209,20 +132,6 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
     }
-  case SEQ_DEEP:
-    if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_DEEP, record->event.key);
-      if (kc != KC_NO) {
-        register_code16(kc);
-      }
-      return false ;
-    } else {
-      uint16_t kc = keymap_key_to_keycode(_DEEP, record->event.key);
-      if (kc != KC_NO) {
-        unregister_code16(kc);
-      }
-      return false;
-    }
   case SEQ_SYMBOLS:
     if (record->event.pressed) {
       uint16_t kc = keymap_key_to_keycode(_SYM, record->event.key);
@@ -241,15 +150,7 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
       uint16_t kc = keymap_key_to_keycode(_RAISE, record->event.key);
       switch (kc) {
-      case SEQ_CTLALT:
-        register_code16(KC_LCTL);
-        register_code16(KC_LALT);
-        return false;
-      case SEQ_SFT_ALT:
-        register_code16(KC_LALT);
-        register_code16(KC_LSFT);
-        return false;
-      case KC_NO:
+     case KC_NO:
         return false;
       default:
         register_code16(kc);
@@ -258,14 +159,6 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
     } else {
       uint16_t kc = keymap_key_to_keycode(_RAISE, record->event.key);
       switch (kc) {
-      case SEQ_CTLALT:
-        unregister_code16(KC_LALT);
-        unregister_code16(KC_LCTL);
-        return false;
-      case SEQ_SFT_ALT:
-        unregister_code16(KC_LSFT);
-        unregister_code16(KC_LALT);
-        return false;
       case KC_NO:
         return false;
       default:
@@ -299,86 +192,14 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code16(kc);
       return false;
     }
-  case SEQ_CTL_SFT_FUN:
-    if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_FUN, record->event.key);
-      register_code16(KC_LSFT);
-      register_code16(KC_LCTL);
-      register_code16(kc);
-      return false;
-    } else {
-      uint16_t kc = keymap_key_to_keycode(_FUN, record->event.key);
-      unregister_code16(kc);
-      unregister_code16(KC_LCTL);
-      unregister_code16(KC_LSFT);
-      return false;
-    }
-  case SEQ_CTL_ALT_QWERTY:
-    if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      register_code16(KC_LALT);
-      register_code16(KC_LCTL);
-      register_code16(kc);
-      return false;
-    } else {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      unregister_code16(kc);
-      unregister_code16(KC_LCTL);
-      unregister_code16(KC_LALT);
-      return false;
-    }
-  case SEQ_CTL_SFT_QWERTY:
-    if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      register_code16(KC_LCTL);
-      register_code16(KC_LSFT);
-      register_code16(kc);
-      return false;
-    } else {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      unregister_code16(kc);
-      unregister_code16(KC_LSFT);
-      unregister_code16(KC_LCTL);
-      return false;
-    }
   case SEQ_DOUBLELOWER:
     if (record->event.pressed) {
-      //uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      /* if (kc != KC_NO ) { */
       register_code16(KC_RGUI);
-        // register_code16(kc);
-      /* } */
       return false ;
     } else {
-      //uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      /* if (kc != KC_NO) { */
-        //unregister_code16(kc);
       unregister_code16(KC_RGUI);
-      /* } */
       return false;
     }
-  case SEQ_PAIRS:
-    if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_PAIRS, record->event.key);
-      if (kc != KC_NO) {
-        register_code16(kc);
-      }
-      return false ;
-    } else {
-      uint16_t kc = keymap_key_to_keycode(_PAIRS, record->event.key);
-      if (kc != KC_NO) {
-        unregister_code16(kc);
-      }
-      return false;
-    }
-  case SEQ_VIM_CLI:
-    if (record->event.pressed) {
-      register_code16(KC_ESC);
-      unregister_code16(KC_ESC);
-      register_code16(KC_COLN);
-      unregister_code16(KC_COLN);
-    }
-    return false;
   case SEQ_CBRCPAIR:
     if (record->event.pressed) {
       SEND_STRING("{}");
@@ -404,205 +225,6 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code16(KC_LEFT);
       return false;
     } else {
-      return false;
-    }
-  case SEQ_QUOTPAIR:
-    if (record->event.pressed) {
-      SEND_STRING("''");
-      register_code16(KC_LEFT);
-      unregister_code16(KC_LEFT);
-      return false;
-    } else {
-      return false;
-    }
-  case SEQ_DQUOPAIR:
-    if (record->event.pressed) {
-      SEND_STRING("\"\"");
-      register_code16(KC_LEFT);
-      unregister_code16(KC_LEFT);
-      return false;
-    } else {
-      return false;
-    }
-    // emacs er/expand-region C-s-u C-s-d
-  case SEQ_EXPAND:
-    if (record->event.pressed) {
-      register_code16(KC_LGUI);
-      register_code16(KC_LCTL);
-      register_code16(KC_U);
-      return false;
-    } else {
-      unregister_code16(KC_U);
-      unregister_code16(KC_LCTL);
-      unregister_code16(KC_LGUI);
-      return false;
-    }
-  case SEQ_CONTRACT:
-    if (record->event.pressed) {
-      register_code16(KC_LGUI);
-      register_code16(KC_LCTL);
-      register_code16(KC_D);
-      return false;
-    } else {
-      unregister_code16(KC_D);
-      unregister_code16(KC_LCTL);
-      unregister_code16(KC_LGUI);
-      return false;
-    }
-  case SEQ_CTLALT:
-    if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      if (kc != KC_NO) {
-        register_code16(KC_LCTL);
-        register_code16(KC_X);
-        unregister_code16(KC_X);
-        unregister_code16(KC_LCTL);
-        register_code16(KC_LALT);
-        register_code16(KC_LCTL);
-        /* register_code16(KC_LSFT); */
-        register_code16(kc);
-      }
-      return false;
-    } else {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      if (kc != KC_NO) {
-        unregister_code16(kc);
-        /* unregister_code16(KC_LSFT); */
-        unregister_code16(KC_LCTL);
-        unregister_code16(KC_LALT);
-      }
-      return false;
-    }
-  case SEQ_CTL_X_CTL_ALT:
-    if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      if (kc != KC_NO) {
-        register_code16(KC_LCTL);
-        register_code16(KC_X);
-        unregister_code16(KC_X);
-        unregister_code16(KC_LCTL);
-        register_code16(KC_LALT);
-        register_code16(KC_LCTL);
-        /* register_code16(KC_LSFT); */
-        register_code16(kc);
-      }
-      return false;
-    } else {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      if (kc != KC_NO) {
-        unregister_code16(kc);
-        /* unregister_code16(KC_LSFT); */
-        unregister_code16(KC_LCTL);
-        unregister_code16(KC_LALT);
-      }
-      return false;
-    }
-  case SEQ_CTL_X_SFT_CTL_ALT:
-    if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      if (kc != KC_NO) {
-        register_code16(KC_LCTL);
-        register_code16(KC_X);
-        unregister_code16(KC_X);
-        unregister_code16(KC_LCTL);
-        register_code16(KC_LALT);
-        register_code16(KC_LCTL);
-        register_code16(KC_LSFT);
-        register_code16(kc);
-      }
-      return false;
-    } else {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      if (kc != KC_NO) {
-        unregister_code16(kc);
-        unregister_code16(KC_LSFT);
-        unregister_code16(KC_LCTL);
-        unregister_code16(KC_LALT);
-      }
-      return false;
-    }
-  case SEQ_CTL_C_CTL_ALT:
-    if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      if (kc != KC_NO) {
-        register_code16(KC_LCTL);
-        register_code16(KC_C);
-        unregister_code16(KC_C);
-        unregister_code16(KC_LCTL);
-        register_code16(KC_LALT);
-        register_code16(KC_LCTL);
-        /* register_code16(KC_LSFT); */
-        register_code16(kc);
-      }
-      return false;
-    } else {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      if (kc != KC_NO) {
-        unregister_code16(kc);
-        /* unregister_code16(KC_LSFT); */
-        unregister_code16(KC_LCTL);
-        unregister_code16(KC_LALT);
-      }
-      return false;
-    }
-  case SEQ_CTL_C_SFT_CTL_ALT:
-    if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      if (kc != KC_NO) {
-        register_code16(KC_LCTL);
-        register_code16(KC_C);
-        unregister_code16(KC_C);
-        unregister_code16(KC_LCTL);
-        register_code16(KC_LALT);
-        register_code16(KC_LCTL);
-        register_code16(KC_LSFT);
-        register_code16(kc);
-      }
-      return false;
-    } else {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      if (kc != KC_NO) {
-        unregister_code16(kc);
-        unregister_code16(KC_LSFT);
-        unregister_code16(KC_LCTL);
-        unregister_code16(KC_LALT);
-      }
-      return false;
-    }
-  case SEQ_TMUX1:
-    if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_TMUX, record->event.key);
-      if (kc != KC_NO) {
-        register_code16(KC_LCTL);
-        register_code16(KC_A);
-        unregister_code16(KC_A);
-        unregister_code16(KC_LCTL);
-        register_code16(kc);
-      }
-      return false;
-    } else {
-      uint16_t kc = keymap_key_to_keycode(_TMUX, record->event.key);
-      if (kc != KC_NO) {
-        unregister_code16(kc);
-      }
-      return false;
-    }
-  case SEQ_TMUX2:
-    if (record->event.pressed) {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      if (kc != KC_NO) {
-        register_code16(KC_LCTL);
-        register_code16(KC_A);
-        unregister_code16(KC_A);
-        unregister_code16(KC_LCTL);
-        register_code16(kc);
-      }
-      return false;
-    } else {
-      uint16_t kc = keymap_key_to_keycode(_QWERTY, record->event.key);
-      if (kc != KC_NO) {
-        unregister_code16(kc);
-      }
       return false;
     }
   }
