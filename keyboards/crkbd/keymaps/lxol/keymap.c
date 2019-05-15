@@ -150,7 +150,7 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
       uint16_t kc = keymap_key_to_keycode(_RAISE, record->event.key);
       switch (kc) {
-     case KC_NO:
+      case KC_NO:
         return false;
       default:
         register_code16(kc);
