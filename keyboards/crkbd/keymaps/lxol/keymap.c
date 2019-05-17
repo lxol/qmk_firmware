@@ -58,38 +58,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = LAYOUT( \
   KC_ESC ,   KC_Q ,    KC_W ,    KC_E ,     KC_R ,    KC_T ,             KC_Y ,   KC_U ,     KC_I ,    KC_O ,   KC_P ,    KC_MINS, \
   KC_TAB ,   KC_A ,    KC_S ,    KC_D ,     KC_F ,    KC_G ,             KC_H ,   KC_J ,     KC_K ,    KC_L ,   KC_SCLN , KC_QUOT, \
-  KC_LSFT, KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,             KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_PLUS, \
+  KC_TILD,   KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,             KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_PLUS, \
                                     LD_LOWER ,   KC_LSFT, KC_LALT ,   KC_SPC , LD_RAISE ,   KC_LCTL  \
    ),\
 [_RAISE] = LAYOUT( \
-  KC_GRV ,    KC_1 ,       KC_2 ,        KC_3 ,    KC_4 ,    KC_5 ,                    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    XXXXXXX , \
-  XXXXXXX ,   KC_TAB ,    XXXXXXX ,     XXXXXXX ,  XXXXXXX , KC_BSPC ,                 KC_EQL ,  KC_ENT , XXXXXXX , KC_ESC ,   XXXXXXX , XXXXXXX , \
-  KC_TILD ,   KC_EXLM ,    KC_AT ,       KC_HASH , KC_DLR ,  KC_PERC ,                 KC_CIRC , KC_RCTL , KC_RALT , KC_RSFT , KC_RGUI ,XXXXXXX , \
-                                              XXXXXXX , XXXXXXX , XXXXXXX ,       XXXXXXX , XXXXXXX , XXXXXXX  \
+  KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,                KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    XXXXXXX , \
+  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_BSPC ,             KC_EQL ,  KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , \
+  KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC ,             KC_CIRC , KC_RCTL , KC_RALT , KC_RSFT , KC_RGUI , XXXXXXX , \
+                                     XXXXXXX , XXXXXXX , XXXXXXX ,   XXXXXXX , XXXXXXX , XXXXXXX  \
   ) , \
 [_DOUBLERAISE] = LAYOUT( \
-  XXXXXXX ,  KC_Q ,    KC_W ,    KC_E ,     KC_R ,    KC_T ,    KC_Y ,   KC_U ,     KC_I ,    KC_O ,   KC_P ,    KC_MINS  ,\
-  KC_TAB ,   KC_A ,    KC_S ,    KC_D ,     KC_F ,    KC_G ,    KC_H ,   KC_J ,     KC_K ,    KC_L ,   KC_SCLN , KC_QUOT  ,\
-  XXXXXXX ,  KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,    KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_PLUS  ,\
-   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  \
+  XXXXXXX , KC_Q , KC_W , KC_E , KC_R , KC_T ,                 KC_Y , KC_U , KC_I ,    KC_O ,   KC_P ,    KC_MINS  , \
+  KC_TAB ,  KC_A , KC_S , KC_D , KC_F , KC_G ,                 KC_H , KC_J , KC_K ,    KC_L ,   KC_SCLN , KC_QUOT  , \
+  XXXXXXX , KC_Z , KC_X , KC_C , KC_V , KC_B ,                 KC_N , KC_M , KC_COMM , KC_DOT , KC_SLSH , KC_PLUS  , \
+                        XXXXXXX , XXXXXXX , XXXXXXX ,     XXXXXXX , XXXXXXX , XXXXXXX  \
                          ), \
 [_LOWER] = LAYOUT( \
-  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,   KC_LPRN ,  KC_RPRN ,  KC_PLUS  , \
-  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,   KC_ESC ,  KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_BSPC ,  XXXXXXX   , \
-  XXXXXXX , KC_LGUI , KC_LSFT , KC_LALT , KC_LCTL ,   XXXXXXX , XXXXXXX , XXXXXXX , KC_LCBR , KC_RCBR ,  XXXXXXX ,  XXXXXXX  , \
-  XXXXXXX , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , XXXXXXX \
+  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,          XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX  , \
+  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_ESC ,           KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , XXXXXXX , XXXXXXX   , \
+  XXXXXXX , KC_LGUI , KC_LSFT , KC_LALT , KC_LCTL , XXXXXXX ,          KC_CIRC , KC_AMPR , KC_ASTR , XXXXXXX ,  XXXXXXX , XXXXXXX  , \
+                                     XXXXXXX , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , XXXXXXX \
 ),\
 [_FUN] = LAYOUT( \
-   KC_F12 ,          KC_F1 ,          KC_F2 ,          KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,   KC_F10 ,  KC_F11  ,  \
-   KC_F12 ,          KC_F1 ,          KC_F2 ,          KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,   KC_F10 ,  KC_F11  ,  \
-   XXXXXXX ,         XXXXXXX ,        XXXXXXX ,        XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  , \
-           XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  \
+   KC_F12 ,  KC_F1 ,   KC_F2 ,   KC_F3 ,   KC_F4 ,   KC_F5 ,               KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,   KC_F10 ,  KC_F11  , \
+   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,             XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  , \
+   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,             XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  , \
+                                          XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  \
  ) ,                  \
 [_SYM] = LAYOUT(\
-   XXXXXXX , KC_GRV ,  XXXXXXX ,  KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
-   XXXXXXX , KC_LEFT , KC_RIGHT , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
-   XXXXXXX , KC_UNDS ,  KC_EQL ,  KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
-    XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX \
+   XXXXXXX , XXXXXXX , XXXXXXX ,  KC_LCBR , KC_RCBR , KC_BSLS ,              XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  , \
+   XXXXXXX , KC_LEFT , KC_RIGHT , KC_LPRN , KC_RPRN , KC_BSPC ,              XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  , \
+   XXXXXXX , XXXXXXX , XXXXXXX ,  KC_LBRC , KC_RBRC , KC_PIPE ,              XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  , \
+                                            XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX \
  )
 };
 
@@ -281,13 +281,6 @@ const char *read_host_led_state(void) {
 }
 
 
-/* void matrix_update(struct CharacterMatrix *dest, const struct CharacterMatrix *source) { */
-/*   if (memcmp(dest->display, source->display, sizeof(dest->display))) { */
-/*     memcpy(dest->display, source->display, sizeof(dest->display)); */
-/*     dest->dirty = true; */
-/*   } */
-/* } */
-
 const char press_state_to_name[60] = {
     ' ', ' ', ' ', ' ', 'A', 'B', 'C', 'D', 'E', 'F',
     'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
@@ -307,7 +300,6 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   }
 }
 
-
 void render_status(void) {
 
   uint8_t modifiers = get_mods();
@@ -326,8 +318,6 @@ void render_status(void) {
   oled_write_P(led_usb_state & (1<<USB_LED_CAPS_LOCK)   ? PSTR(" CAPS") : PSTR("     "), false);
   oled_write_P(led_usb_state & (1<<USB_LED_SCROLL_LOCK) ? PSTR(" SCRL") : PSTR("     "), false);
 }
-
-
 
 void oled_task_user(void) {
   if (is_master) {
