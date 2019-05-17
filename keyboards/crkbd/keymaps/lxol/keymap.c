@@ -58,12 +58,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = LAYOUT( \
   KC_ESC ,   KC_Q ,    KC_W ,    KC_E ,     KC_R ,    KC_T ,             KC_Y ,   KC_U ,     KC_I ,    KC_O ,   KC_P ,    KC_MINS, \
   KC_TAB ,   KC_A ,    KC_S ,    KC_D ,     KC_F ,    KC_G ,             KC_H ,   KC_J ,     KC_K ,    KC_L ,   KC_SCLN , KC_QUOT, \
-  LD_LOWER , KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,             KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_PLUS, \
+  KC_LSFT, KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,             KC_N ,   KC_M ,     KC_COMM , KC_DOT , KC_SLSH , KC_PLUS, \
                                     LD_LOWER ,   KC_LSFT, KC_LALT ,   KC_SPC , LD_RAISE ,   KC_LCTL  \
    ),\
 [_RAISE] = LAYOUT( \
   KC_GRV ,    KC_1 ,       KC_2 ,        KC_3 ,    KC_4 ,    KC_5 ,                    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    XXXXXXX , \
-  XXXXXXX ,   XXXXXXX ,    XXXXXXX ,     XXXXXXX , XXXXXXX , KC_BSPC ,                 KC_EQL ,  KC_ENT , XXXXXXX , XXXXXXX ,   XXXXXXX , XXXXXXX , \
+  XXXXXXX ,   KC_TAB ,    XXXXXXX ,     XXXXXXX ,  XXXXXXX , KC_BSPC ,                 KC_EQL ,  KC_ENT , XXXXXXX , KC_ESC ,   XXXXXXX , XXXXXXX , \
   KC_TILD ,   KC_EXLM ,    KC_AT ,       KC_HASH , KC_DLR ,  KC_PERC ,                 KC_CIRC , KC_RCTL , KC_RALT , KC_RSFT , KC_RGUI ,XXXXXXX , \
                                               XXXXXXX , XXXXXXX , XXXXXXX ,       XXXXXXX , XXXXXXX , XXXXXXX  \
   ) , \
@@ -75,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                          ), \
 [_LOWER] = LAYOUT( \
   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,   KC_LPRN ,  KC_RPRN ,  KC_PLUS  , \
-  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,   KC_ESC ,  KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_LBRC ,  KC_RBRC   , \
+  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,   KC_ESC ,  KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_BSPC ,  XXXXXXX   , \
   XXXXXXX , KC_LGUI , KC_LSFT , KC_LALT , KC_LCTL ,   XXXXXXX , XXXXXXX , XXXXXXX , KC_LCBR , KC_RCBR ,  XXXXXXX ,  XXXXXXX  , \
   XXXXXXX , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , XXXXXXX \
 ),\
@@ -86,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  \
  ) ,                  \
 [_SYM] = LAYOUT(\
-   XXXXXXX , KC_MINS , KC_PLUS ,  KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
+   XXXXXXX , KC_GRV ,  XXXXXXX ,  KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
    XXXXXXX , KC_LEFT , KC_RIGHT , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
    XXXXXXX , KC_UNDS ,  KC_EQL ,  KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,\
     XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX \
@@ -96,9 +96,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #ifdef LEADERS_ENABLE
 
 uint16_t* user_definitions[]  = {
-  /* (uint16_t[]){4, LD_RAISE, KC_SCLN, SEQ_VIM_CLI }, */
-  (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_E, SEQ_PRNPAIR },
-  (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_D, SEQ_CBRCPAIR },
+  (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_E, SEQ_CBRCPAIR },
+  (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_D, SEQ_PRNPAIR },
   (uint16_t[]){6, LD_RAISE, KC_K, KC_I, KC_C, SEQ_BRCPAIR },
   (uint16_t[]){5, LD_RAISE, KC_K, KC_TRNS, SEQ_SYMBOLS },
   (uint16_t[]){5, LD_RAISE, KC_F, KC_TRNS, SEQ_FUN },
