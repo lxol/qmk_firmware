@@ -31,6 +31,7 @@ enum custom_keycodes {
 
   SEQ_SYMBOLS,
   SEQ_RAISE,
+  SEQ_RMODIFIERS,
   SEQ_LOWER,
   SEQ_DOUBLERAISE,
   SEQ_FUN,
@@ -47,6 +48,7 @@ enum lxol_crkbd_keycodes {
   _LOWER,
   _DOUBLERAISE,
   _FUN,
+  _RMODIFIERS,
   _SYM
 };
 
@@ -85,6 +87,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,             XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  , \
                                           XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  \
  ) ,                  \
+[_RMODIFIERS] = LAYOUT( \
+  KC_ESC ,   KC_Q ,    KC_W ,    KC_E ,     KC_R ,    KC_T ,             KC_Y ,   KC_U ,     KC_I ,    KC_O ,   KC_P ,    KC_MINS, \
+  KC_TAB ,   KC_A ,    KC_S ,    KC_D ,     KC_F ,    KC_G ,             KC_H ,   KC_J ,     KC_K ,    KC_L ,   KC_SCLN , KC_QUOT, \
+  KC_TILD,   KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,             KC_N ,   KC_RCTL ,     KC_RALT , KC_RSFT , KC_RGUI , KC_PLUS, \
+                                    LD_LOWER ,   KC_LSFT, KC_LALT ,   KC_SPC , LD_RAISE ,   KC_LCTL  \
+   ),\
 [_SYM] = LAYOUT(\
    XXXXXXX , XXXXXXX , XXXXXXX ,  KC_LCBR , KC_RCBR , KC_BSLS ,              XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  , \
    XXXXXXX , KC_LEFT , KC_RIGHT , KC_LPRN , KC_RPRN , KC_BSPC ,              XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  , \
@@ -103,6 +111,7 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){5, LD_RAISE, KC_F, KC_TRNS, SEQ_FUN },
   (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
   (uint16_t[]){4, LD_RAISE, KC_TRNS, SEQ_RAISE },
+  (uint16_t[]){5, LD_RAISE, KC_TRNS,  KC_TRNS, SEQ_RMODIFIERS },
   (uint16_t[]){5, LD_LOWER, LD_RAISE, KC_TRNS, SEQ_RAISE },
   (uint16_t[]){4, LD_LOWER, LD_LOWER, SEQ_DOUBLELOWER },
   (uint16_t[]){4, LD_LOWER, KC_TRNS, SEQ_LOWER },
@@ -151,12 +160,56 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       switch (kc) {
       case KC_NO:
         return false;
+      case KC_RCTL:
+        register_code16(KC_RCTL);
+        return true;
+      case KC_RALT:
+        register_code16(KC_RALT);
+        return true;
+      case KC_RSFT:
+        register_code16(KC_RSFT);
+        return true;
+      case KC_RGUI:
+        register_code16(KC_RGUI);
+        return true;
       default:
         register_code16(kc);
       }
       return false ;
     } else {
       uint16_t kc = keymap_key_to_keycode(_RAISE, record->event.key);
+      switch (kc) {
+      case KC_NO:
+        return false;
+      case KC_RCTL:
+        unregister_code16(KC_RCTL);
+        return false;
+      case KC_RALT:
+        unregister_code16(KC_RALT);
+        return false;
+      case KC_RSFT:
+        unregister_code16(KC_RSFT);
+        return true;
+      case KC_RGUI:
+        unregister_code16(KC_RGUI);
+        return true;
+      default:
+        unregister_code16(kc);
+      }
+      return false;
+    }
+  case SEQ_RMODIFIERS:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_RMODIFIERS, record->event.key);
+      switch (kc) {
+      case KC_NO:
+        return false;
+      default:
+        register_code16(kc);
+      }
+      return false ;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_RMODIFIERS, record->event.key);
       switch (kc) {
       case KC_NO:
         return false;

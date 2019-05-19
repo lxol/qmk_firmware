@@ -146,23 +146,23 @@ bool process_leaders(uint16_t keycode, keyrecord_t *record) {
         if (j == size - 2) {
           /* bingo!  */
           /* the last key in sequence  */
-          keyseq_reset_oneshot();
+          /* keyseq_reset_oneshot(); */
           /* no need to hold the last key */
-          keyseq_reset_momentary(j);
+          /* keyseq_reset_momentary(j); */
           uint16_t k = keyseq_definitions[i][j+1];
-          if (keyseq_press_user(k, record)) {
-            keyseq_index--;
-            return true;
-          } else {
-            press_state_put(
-                            (press_t) {
+          if (!keyseq_press_user(k, record)) {
+            keyseq_reset_oneshot();
+            keyseq_reset_momentary(j);
+          }
+          press_state_put(
+                          (press_t) {
                               .key=record->event.key,
                                 .keycode=k,
                                 .ignore=false,
                                 .pos = j
                                 });
             return false;
-          }
+
         }
         j++;
       } while (true);
