@@ -113,6 +113,7 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){5, LD_RAISE, KC_F,     KC_TRNS, SEQ_FUN },
   (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
   (uint16_t[]){4, LD_RAISE, KC_TRNS,  SEQ_RAISE },
+  (uint16_t[]){5, LD_RAISE, KC_TRNS,  KC_TRNS, SEQ_RMODIFIERS },
   (uint16_t[]){5, LD_LOWER, LD_RAISE, KC_TRNS, SEQ_RAISE },
   (uint16_t[]){5, LD_LOWER, LD_RAISE, KC_TRNS, SEQ_RAISE },
   (uint16_t[]){4, LD_LOWER, LD_LOWER, SEQ_DOUBLELOWER },
