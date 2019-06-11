@@ -40,15 +40,15 @@ void press_state_put(press_t press);
 press_t press_state_get_press(uint8_t idx);
 press_t* presses_get(void);
 
-uint16_t get_press_state_mods(void);
-void set_press_state_mods(uint16_t mods);
-void remove_press_state_mods(uint16_t mods);
+/* uint16_t get_press_state_mods(void); */
+/* void set_press_state_mods(uint16_t mods); */
+/* void remove_press_state_mods(uint16_t mods); */
 
-void press_state_guard_mods(void);
+/* void press_state_guard_mods(void); */
 
-void press_state_unguard_mods(void);
+/* void press_state_unguard_mods(void); */
 
-bool press_state_is_mods_guraded(void);
+/* bool press_state_is_mods_guraded(void); */
 
 #define M_RSFT 0x0001
 #define M_LSFT 0x0002

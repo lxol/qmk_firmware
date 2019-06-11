@@ -357,10 +357,10 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       switch (kc) {
       /* case KC_NO: */
       /*   return false; */
-      case KC_LSFT:
-        register_code16(KC_LSFT);
-        set_press_state_mods(M_LSFT);
-        return true;
+      /* case KC_LSFT: */
+      /*   register_code16(KC_LSFT); */
+      /*   set_press_state_mods(M_LSFT); */
+      /*   return true; */
       default:
         register_code16(kc1);
       }
@@ -371,13 +371,13 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       switch (kc) {
       case KC_NO:
         return false;
-      case KC_LSFT:
-        if (press_state_is_mods_guraded()) {
-        } else {
-          unregister_code16(KC_LSFT);
-          remove_press_state_mods(M_LSFT);
-        } 
-        return true;
+      /* case KC_LSFT: */
+      /*   if (press_state_is_mods_guraded()) { */
+      /*   } else { */
+      /*     unregister_code16(KC_LSFT); */
+      /*     remove_press_state_mods(M_LSFT); */
+      /*   }  */
+      /*   return true; */
       default:
         unregister_code16(kc1);
       }
@@ -386,10 +386,10 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
   case SEQ_TEST:
     if (record->event.pressed) {
       keyseq_push(KC_NO);
-      press_state_guard_mods();
+      /* press_state_guard_mods(); */
       return true ;
     } else {
-      press_state_unguard_mods();
+      /* press_state_unguard_mods(); */
       return false;
     }
   }
