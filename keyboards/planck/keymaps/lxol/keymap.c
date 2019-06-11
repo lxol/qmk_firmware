@@ -2,6 +2,9 @@
 #include "action_layer.h"
 #include "eeconfig.h"
 
+#include "leaders/press_state.h"
+#include "process_leaders.h"
+
 extern keymap_config_t keymap_config;
 
 enum planck_layers {
@@ -12,6 +15,7 @@ enum planck_layers {
   _FUN,
   _RMODIFIERS,
   _LMODIFIERS,
+  _TEST,
   _SYM
 };
 
@@ -24,6 +28,7 @@ enum planck_keycodes {
   FUN,
   LD_RAISE,
   LD_LOWER,
+  LD_TEST,
 
   SEQ_SYMBOLS,
   SEQ_RAISE,
@@ -36,6 +41,9 @@ enum planck_keycodes {
   SEQ_CBRCPAIR,
   SEQ_PRNPAIR,
   SEQ_BRCPAIR,
+  SEQ_TEST,
+  SEQ_TEST_ONE,
+  SEQ_TEST_TWO,
   DYNAMIC_MACRO_RANGE,
 };
 
@@ -50,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { KC_ESC ,  KC_Q ,    KC_W ,    KC_E ,     KC_R ,    KC_T ,    KC_Y ,   KC_U ,     KC_I ,    KC_O ,    KC_P ,    KC_MINS } ,
   { KC_TAB ,  KC_A ,    KC_S ,    KC_D ,     KC_F ,    KC_G ,    KC_H ,   KC_J ,     KC_K ,    KC_L ,    KC_SCLN , KC_QUOT } ,
   { KC_TILD , KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,    KC_N ,   KC_M ,     KC_COMM , KC_DOT ,  KC_SLSH , KC_PLUS } ,
-  { XXXXXXX , XXXXXXX , XXXXXXX , LD_LOWER , KC_LSFT , KC_LALT , KC_SPC , LD_RAISE , KC_LCTL , XXXXXXX , XXXXXXX , XXXXXXX }
+  { XXXXXXX , XXXXXXX , XXXXXXX , LD_LOWER , KC_LSFT , KC_LALT , KC_SPC , LD_RAISE , KC_LCTL , LD_TEST , XXXXXXX , XXXXXXX }
  } ,
 
 [_RAISE] = {
@@ -74,6 +82,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX }
  } ,
 
+[_TEST] = {
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX } ,
+  { XXXXXXX , KC_LGUI , KC_LSFT , KC_LALT , KC_LCTL , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX } ,
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX } ,
+  { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX }
+ } ,
 [_FUN] = {
   { KC_F12 ,  KC_F1 ,   KC_F2 ,   KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,   KC_F10 ,  KC_F11 } ,
   { XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX } ,
@@ -119,6 +133,9 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){4, LD_LOWER, LD_LOWER, SEQ_DOUBLELOWER },
   (uint16_t[]){4, LD_LOWER, KC_TRNS,  SEQ_LOWER },
   (uint16_t[]){5, LD_LOWER, KC_TRNS,  KC_TRNS, SEQ_LMODIFIERS },
+  (uint16_t[]){3, LD_TEST,  SEQ_TEST },
+  (uint16_t[]){4, LD_TEST,  KC_TRNS,  SEQ_TEST_ONE },
+  (uint16_t[]){5, LD_TEST,  KC_TRNS, KC_TRNS,  SEQ_TEST_TWO },
 
   (uint16_t[]){1}
 };
@@ -330,6 +347,49 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code16(KC_LEFT);
       return false;
     } else {
+      return false;
+    }
+
+  case SEQ_TEST_ONE:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_TEST, record->event.key);
+      uint16_t kc1 = keymap_key_to_keycode(_QWERTY, record->event.key);
+      switch (kc) {
+      /* case KC_NO: */
+      /*   return false; */
+      case KC_LSFT:
+        register_code16(KC_LSFT);
+        set_press_state_mods(M_LSFT);
+        return true;
+      default:
+        register_code16(kc1);
+      }
+      return false ;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_TEST, record->event.key);
+      uint16_t kc1 = keymap_key_to_keycode(_QWERTY, record->event.key);
+      switch (kc) {
+      case KC_NO:
+        return false;
+      case KC_LSFT:
+        if (press_state_is_mods_guraded()) {
+        } else {
+          unregister_code16(KC_LSFT);
+          remove_press_state_mods(M_LSFT);
+        } 
+        return true;
+      default:
+        unregister_code16(kc1);
+      }
+      return false;
+    }
+  case SEQ_TEST:
+    if (record->event.pressed) {
+      keyseq_push(KC_NO);
+      press_state_guard_mods();
+      return true ;
+    } else {
+      press_state_unguard_mods();
       return false;
     }
   }

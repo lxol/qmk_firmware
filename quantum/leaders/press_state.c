@@ -15,8 +15,40 @@
  */
 #include "leaders/press_state.h"
 
+bool press_state_mods_guarded = false;
+uint16_t press_state_mods = 0x0000;
+
+uint16_t get_press_state_mods() {
+  return press_state_mods;
+}
+void set_press_state_mods(uint16_t mods) {
+  press_state_mods |= mods;
+}
+
+void remove_press_state_mods(uint16_t mods) {
+  press_state_mods &= ~mods;
+}
+
+void press_state_guard_mods() {
+  press_state_mods_guarded = true;
+}
+
+void press_state_unguard_mods() {
+  press_state_mods_guarded = false;
+}
+
+bool press_state_is_mods_guraded() {
+  return press_state_mods_guarded;
+}
+
 uint16_t press_state;
 press_t presses[LD_PRESS_MAX];
+
+uint16_t releases[LD_RELEASES_MAX];
+
+uint16_t delayed_releases[LD_RELEASES_MAX];
+
+uint16_t releases[LD_RELEASES_MAX]
 press_t* presses_get() {
   return presses;
 }
@@ -57,6 +89,7 @@ uint8_t find_press(keypos_t key) {
 press_t press_state_get_press(uint8_t idx) {
   return presses[idx];
 }
+
 bool press_state_remove_by_idx(uint8_t idx) {
   if (idx == LD_PRESS_MAX) {return false;}
   press_state &= ~(1U << idx);
