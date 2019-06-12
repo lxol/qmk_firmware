@@ -44,10 +44,85 @@
 uint16_t press_state;
 press_t presses[LD_PRESS_MAX];
 
+bool release_guard = false;
+
 uint16_t releases[LD_RELEASES_MAX];
 
 uint16_t delayed_releases[LD_RELEASES_MAX];
 
+void replace_keycode(uint16_t from, uint16_t to,  uint16_t *array) {
+  for (int8_t i = 0; i < LD_RELEASES_MAX; i ++) {
+    if (array[i] != from) {
+      continue;
+    }
+    releases[i] = to;
+    return;
+  }
+  return;
+}
+
+void press_state_replace_releases_keycode(uint16_t from, uint16_t to) {
+  replace_keycode(from, to, releases);
+}
+
+void press_state_replace_delayed_releases_keycode(uint16_t from, uint16_t to) {
+  replace_keycode(from, to, delayed_releases);
+}
+
+void press_state_init_releases() {
+  for (int8_t i = 0; i < LD_RELEASES_MAX; i ++) {
+    releases[i] = KC_NO;
+  }
+}
+
+void press_state_init_delayed_releases() {
+  for (int8_t i = 0; i < LD_RELEASES_MAX; i ++) {
+    delayed_releases[i] = KC_NO;
+  }
+}
+
+bool press_state_releases_has_keycode(uint16_t keycode) {
+  for (int8_t i = 0; i < LD_RELEASES_MAX; i ++) {
+    if (releases[i] == keycode) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool press_state_delayed_releases_is_empty(uint16_t keycode) {
+  for (int8_t i = 0; i < LD_RELEASES_MAX; i ++) {
+    if (delayed_releases[i] != KC_NO) {
+      return false;
+    }
+  }
+  return true;
+}
+
+uint16_t* press_state_get_delayed_release(void) {
+  return delayed_releases;
+}
+/* void press_state_release_put(uint16_t keycode) { */
+/*   for (int8_t i = 0; i < LD_RELEASES_MAX; i ++) { */
+/*     if (releases[i] != KC_NO) { */
+/*       continue; */
+/*     } */
+/*     releases[i] = keycode; */
+/*     return; */
+/*   } */
+/*   return; */
+/* } */
+
+/* void press_state_delayed_release_put(uint16_t keycode) { */
+/*   for (int8_t i = 0; i < LD_RELEASES_MAX; i ++) { */
+/*     if (delayed_releases[i] != KC_NO) { */
+/*       continue; */
+/*     } */
+/*     delayed_releases[i] = keycode; */
+/*     return; */
+/*   } */
+/*   return; */
+/* } */
 
 press_t* presses_get() {
   return presses;
