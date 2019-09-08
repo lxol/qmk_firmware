@@ -58,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { KC_ESC ,  KC_Q ,    KC_W ,    KC_E ,     KC_R ,    KC_T ,    KC_Y ,   KC_U ,     KC_I ,    KC_O ,    KC_P ,    KC_MINS } ,
   { KC_TAB ,  KC_A ,    KC_S ,    KC_D ,     KC_F ,    KC_G ,    KC_H ,   KC_J ,     KC_K ,    KC_L ,    KC_SCLN , KC_QUOT } ,
   { KC_TILD , KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,    KC_N ,   KC_M ,     KC_COMM , KC_DOT ,  KC_SLSH , KC_PLUS } ,
-  { XXXXXXX , XXXXXXX , XXXXXXX , LD_LOWER , KC_LSFT , KC_LALT , KC_SPC , LD_RAISE , KC_LCTL , LD_TEST , XXXXXXX , XXXXXXX }
+  { XXXXXXX , XXXXXXX , KC_RGUI , LD_LOWER , KC_LSFT , KC_LALT , KC_SPC , LD_RAISE , KC_LCTL , XXXXXXX , KC_LGUI , KC_ENT }
  } ,
 
 [_RAISE] = {
@@ -355,14 +355,24 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       uint16_t kc = keymap_key_to_keycode(_TEST, record->event.key);
       uint16_t kc1 = keymap_key_to_keycode(_QWERTY, record->event.key);
       switch (kc) {
-      /* case KC_NO: */
-      /*   return false; */
+      case KC_NO:
+        register_code16(kc1);
+        return false;
       /* case KC_LSFT: */
       /*   register_code16(KC_LSFT); */
       /*   set_press_state_mods(M_LSFT); */
       /*   return true; */
       default:
-        register_code16(kc1);
+        if (get_release_guard()) {
+          if (press_state_releases_has_keycode(kc)) {
+            register_code16(kc1);
+          } else {
+            press_state_replace_releases_keycode(KC_NO, kc);
+            register_code16(kc);
+          }
+        } else {
+            register_code16(kc1);
+        }
       }
       return false ;
     } else {
@@ -370,6 +380,7 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       uint16_t kc1 = keymap_key_to_keycode(_QWERTY, record->event.key);
       switch (kc) {
       case KC_NO:
+        unregister_code16(kc1);
         return false;
       /* case KC_LSFT: */
       /*   if (press_state_is_mods_guraded()) { */
@@ -379,7 +390,12 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       /*   }  */
       /*   return true; */
       default:
-        unregister_code16(kc1);
+          if (press_state_releases_has_keycode(kc)) {
+            register_code16(kc1);
+          } else {
+            press_state_replace_releases_keycode(KC_NO, kc);
+            register_code16(kc);
+          }
       }
       return false;
     }

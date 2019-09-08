@@ -27,6 +27,7 @@
 typedef struct {
   keypos_t key;
   uint16_t keycode;
+  uint16_t release_keycode;
   bool ignore;
   uint16_t sentinels;
   uint8_t pos;
@@ -40,12 +41,13 @@ void press_state_put(press_t press);
 press_t press_state_get_press(uint8_t idx);
 press_t* presses_get(void);
 
+bool get_release_guard(void);
 void press_state_replace_releases_keycode(uint16_t from, uint16_t to);
 void press_state_replace_delayed_releases_keycode(uint16_t from, uint16_t to);
 void press_state_init_releases(void);
 void press_state_init_delayed_releases(void);
 bool press_state_releases_has_keycode(uint16_t keycode);
-bool press_state_delayed_releases_is_empty(uint16_t keycode);
+bool press_state_delayed_releases_is_empty(void);
 uint16_t* press_state_get_delayed_release(void);
 /* uint16_t get_press_state_mods(void); */
 /* void set_press_state_mods(uint16_t mods); */

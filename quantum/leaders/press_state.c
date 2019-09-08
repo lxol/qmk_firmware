@@ -46,6 +46,10 @@ press_t presses[LD_PRESS_MAX];
 
 bool release_guard = false;
 
+bool get_release_guard() {
+  return release_guard;
+}
+
 uint16_t releases[LD_RELEASES_MAX];
 
 uint16_t delayed_releases[LD_RELEASES_MAX];
@@ -90,7 +94,7 @@ bool press_state_releases_has_keycode(uint16_t keycode) {
   return false;
 }
 
-bool press_state_delayed_releases_is_empty(uint16_t keycode) {
+bool press_state_delayed_releases_is_empty() {
   for (int8_t i = 0; i < LD_RELEASES_MAX; i ++) {
     if (delayed_releases[i] != KC_NO) {
       return false;
