@@ -164,6 +164,18 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       switch (kc) {
       case KC_NO:
         return false;
+      case KC_RCTL:
+        register_code16(kc);
+        return true;
+      /* case KC_RALT: */
+      /*   register_code16(kc); */
+      /*   return true; */
+      /* case KC_RSFT: */
+      /*   register_code16(kc); */
+      /*   return true; */
+      /* case KC_RGUI: */
+      /*   register_code16(kc); */
+      /*   return true; */
       default:
         register_code16(kc);
       }
@@ -173,6 +185,18 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       switch (kc) {
       case KC_NO:
         return false;
+      case KC_RCTL:
+        unregister_code16(kc);
+        return true;
+      /* case KC_RALT: */
+      /*   unregister_code16(kc); */
+      /*   return true; */
+      /* case KC_RSFT: */
+      /*   unregister_code16(kc); */
+      /*   return true; */
+      /* case KC_RGUI: */
+      /*   unregister_code16(kc); */
+      /*   return true; */
       default:
         unregister_code16(kc);
       }
