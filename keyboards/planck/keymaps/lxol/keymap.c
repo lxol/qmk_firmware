@@ -24,6 +24,7 @@ enum planck_layers {
   _QWERTY,
   _RAISE,
   _LOWER,
+  _LOWER2,
   _DOUBLERAISE,
   _FUN,
   _SYM
@@ -38,10 +39,12 @@ enum planck_keycodes {
   FUN,
   LD_RAISE,
   LD_LOWER,
+  LD_LOWER2,
 
   SEQ_SYMBOLS,
   SEQ_RAISE,
   SEQ_LOWER,
+  SEQ_LOWER2,
   SEQ_DOUBLERAISE,
   SEQ_FUN,
   SEQ_DOUBLELOWER,
@@ -59,11 +62,10 @@ enum planck_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = LAYOUT_planck_grid(
-
-   KC_ESC ,  KC_Q ,    KC_W ,    KC_E ,     KC_R ,    KC_T ,    KC_Y ,   KC_U ,     KC_I ,    KC_O ,    KC_P ,    KC_MINS  ,
-   KC_TAB ,  KC_A ,    KC_S ,    KC_D ,     KC_F ,    KC_G ,    KC_H ,   KC_J ,     KC_K ,    KC_L ,    KC_SCLN , KC_QUOT  ,
-   KC_TILD , KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,    KC_N ,   KC_M ,     KC_COMM , KC_DOT ,  KC_SLSH , KC_PLUS  ,
-   XXXXXXX , XXXXXXX , XXXXXXX , LD_LOWER , KC_LSFT , KC_LALT , KC_SPC , LD_RAISE , KC_LCTL , XXXXXXX , XXXXXXX , XXXXXXX 
+   KC_ESC ,  KC_Q ,    KC_W ,    KC_E ,     KC_R ,    KC_T ,     KC_Y ,   KC_U ,     KC_I ,    KC_O ,    KC_P ,    KC_MINS  ,
+   KC_TAB ,  KC_A ,    KC_S ,    KC_D ,     KC_F ,    KC_G ,     KC_H ,   KC_J ,     KC_K ,    KC_L ,    KC_SCLN , KC_QUOT  ,
+   KC_TILD , KC_Z ,    KC_X ,    KC_C ,     KC_V ,    KC_B ,     KC_N ,   KC_M ,     KC_COMM , KC_DOT ,  KC_SLSH , KC_PLUS  ,
+   XXXXXXX , XXXXXXX , KC_LALT , LD_LOWER , KC_LSFT , LD_LOWER2, KC_SPC , LD_RAISE , KC_LCTL , XXXXXXX , XXXXXXX , XXXXXXX 
                                ),
 
 [_RAISE] = LAYOUT_planck_grid (
@@ -87,6 +89,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_SPC ,  XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX
                                ), 
 
+[_LOWER2] = LAYOUT_planck_grid (
+   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_CIRC , KC_AMPR , KC_ASTR , KC_LPRN ,  KC_RPRN , XXXXXXX  ,
+   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LEFT , KC_DOWN , KC_UP ,   KC_RIGHT , KC_LBRC , KC_RBRC  ,
+   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX  ,
+   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LALT , KC_SPC ,  XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX
+                               ), 
+
 [_FUN] = LAYOUT_planck_grid(
    KC_F12 ,  KC_F1 ,   KC_F2 ,   KC_F3 ,   KC_F4 ,   KC_F5 ,   KC_F6 ,   KC_F7 ,   KC_F8 ,   KC_F9 ,   KC_F10 ,  KC_F11  ,
    XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
@@ -101,9 +110,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    XXXXXXX , XXXXXXX , XXXXXXX ,  KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
    XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX
  )
-
-
-
 };
 
 
@@ -120,7 +126,8 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){5, LD_LOWER, LD_RAISE, KC_TRNS, SEQ_RAISE },
   (uint16_t[]){4, LD_LOWER, LD_LOWER, SEQ_DOUBLELOWER },
   (uint16_t[]){4, LD_LOWER, KC_TRNS,  SEQ_LOWER },
-
+  //(uint16_t[]){4, LD_LOWER2, LD_LOWER2,  SEQ_ALT },
+  (uint16_t[]){4, LD_LOWER2, KC_TRNS,  SEQ_LOWER2 },
   (uint16_t[]){1}
 };
 
@@ -140,6 +147,33 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
     } else {
       uint16_t kc = keymap_key_to_keycode(_LOWER, record->event.key);
       if (kc != KC_NO) {
+        unregister_code16(kc);
+      }
+      return false;
+    }
+
+  case SEQ_LOWER2:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_LOWER2, record->event.key);
+      switch (kc) {
+      case KC_NO:
+        return false;
+      case KC_LALT:
+        register_code16(kc);
+        return false;
+      default:
+        register_code16(kc);
+      }
+      return false ;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_LOWER2, record->event.key);
+      switch (kc) {
+      case KC_NO:
+        return false;
+      case KC_LALT:
+        unregister_code16(kc);
+        return false;
+      default:
         unregister_code16(kc);
       }
       return false;
@@ -167,9 +201,9 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       case KC_RCTL:
         register_code16(kc);
         return true;
-      /* case KC_RALT: */
-      /*   register_code16(kc); */
-      /*   return true; */
+      case KC_RALT:
+        register_code16(kc);
+        return true;
       /* case KC_RSFT: */
       /*   register_code16(kc); */
       /*   return true; */
@@ -187,10 +221,10 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
         return false;
       case KC_RCTL:
         unregister_code16(kc);
-        return true;
-      /* case KC_RALT: */
-      /*   unregister_code16(kc); */
-      /*   return true; */
+        return false;
+      case KC_RALT:
+        unregister_code16(kc);
+        return false;
       /* case KC_RSFT: */
       /*   unregister_code16(kc); */
       /*   return true; */
