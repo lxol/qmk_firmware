@@ -46,6 +46,7 @@ enum planck_keycodes {
   SEQ_LOWER,
   SEQ_LOWER2,
   SEQ_DOUBLERAISE,
+  SEQ_TRIPLERAISE,
   SEQ_FUN,
   SEQ_DOUBLELOWER,
   SEQ_CBRCPAIR,
@@ -70,9 +71,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_RAISE] = LAYOUT_planck_grid (
    KC_GRV ,  KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    XXXXXXX  ,
-   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_BSPC , KC_EQL ,  KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
-   KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_RCTL , KC_RALT , KC_RSFT , KC_RGUI , XXXXXXX  ,
-   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX
+   XXXXXXX , XXXXXXX , XXXXXXX , KC_LSFT , KC_RGUI , KC_BSPC , KC_EQL ,  KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
+   KC_TILD , KC_EXLM , KC_AT ,   KC_HASH , KC_DLR ,  KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , KC_RSFT , KC_RGUI , XXXXXXX  ,
+   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_RGUI , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX
                                ),
 
 [_DOUBLERAISE] = LAYOUT_planck_grid (
@@ -120,7 +121,8 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){6, LD_RAISE, KC_K,     KC_I,    KC_D, SEQ_PRNPAIR },
   (uint16_t[]){6, LD_RAISE, KC_K,     KC_I,    KC_C, SEQ_BRCPAIR },
   (uint16_t[]){5, LD_RAISE, KC_K,     KC_TRNS, SEQ_SYMBOLS },
-  (uint16_t[]){5, LD_RAISE, KC_F,     KC_TRNS, SEQ_FUN },
+  (uint16_t[]){5, LD_RAISE, KC_A,     KC_TRNS, SEQ_FUN },
+  /* (uint16_t[]){5, LD_RAISE, LD_RAISE, LD_RAISE, SEQ_TRIPLERAISE }, */
   (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
   (uint16_t[]){4, LD_RAISE, KC_TRNS,  SEQ_RAISE },
   (uint16_t[]){5, LD_LOWER, LD_RAISE, KC_TRNS, SEQ_RAISE },
@@ -198,12 +200,12 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       switch (kc) {
       case KC_NO:
         return false;
-      case KC_RCTL:
-        register_code16(kc);
-        return true;
-      case KC_RALT:
-        register_code16(kc);
-        return true;
+      /* case KC_SPC: */
+      /*   register_code16(kc); */
+      /*   return true; */
+      /* case KC_RALT: */
+      /*   register_code16(kc); */
+      /*   return true; */
       /* case KC_RSFT: */
       /*   register_code16(kc); */
       /*   return true; */
@@ -219,12 +221,12 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       switch (kc) {
       case KC_NO:
         return false;
-      case KC_RCTL:
-        unregister_code16(kc);
-        return false;
-      case KC_RALT:
-        unregister_code16(kc);
-        return false;
+      /* case KC_SPC: */
+      /*   unregister_code16(kc); */
+      /*   return false; */
+      /* case KC_RALT: */
+      /*   unregister_code16(kc); */
+      /*   return false; */
       /* case KC_RSFT: */
       /*   unregister_code16(kc); */
       /*   return true; */
