@@ -52,6 +52,8 @@ enum planck_keycodes {
   SEQ_CBRCPAIR,
   SEQ_PRNPAIR,
   SEQ_BRCPAIR,
+  SEQ_QUOTPAIR,
+  SEQ_DQUOTPAIR,
   DYNAMIC_MACRO_RANGE,
 };
 #define _______ KC_TRNS
@@ -60,13 +62,16 @@ enum planck_keycodes {
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
 
+#define KC_XPST LCTL(LSFT(KC_V))  // paste clipboard
+#define KC_XCOP LCTL(LSFT(KC_C))  // copy to clipboard
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = LAYOUT_planck_grid(
    KC_ESC ,  KC_Q ,    KC_W ,     KC_E ,     KC_R ,    KC_T ,     KC_Y ,   KC_U ,     KC_I ,    KC_O ,    KC_P ,    KC_MINS  ,
    KC_TAB ,  KC_A ,    KC_S ,     KC_D ,     KC_F ,    KC_G ,     KC_H ,   KC_J ,     KC_K ,    KC_L ,    KC_SCLN , KC_QUOT  ,
    KC_TILD , KC_Z ,    KC_X ,     KC_C ,     KC_V ,    KC_B ,     KC_N ,   KC_M ,     KC_COMM , KC_DOT ,  KC_SLSH , KC_PLUS  ,
-   XXXXXXX , XXXXXXX , KC_RGUI,   LD_LOWER2 , KC_LSFT , KC_LALT,   KC_SPC , LD_RAISE , KC_LCTL , XXXXXXX , XXXXXXX , XXXXXXX 
+   KC_XPST , KC_ENT ,  KC_RGUI,   LD_LOWER2 , KC_LSFT , KC_LALT,   KC_SPC , LD_RAISE , KC_LCTL , XXXXXXX , XXXXXXX , XXXXXXX 
                                ),
 
 [_RAISE] = LAYOUT_planck_grid (
@@ -107,7 +112,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_SYM] = LAYOUT_planck_grid (
    XXXXXXX , XXXXXXX , XXXXXXX ,  KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
-   XXXXXXX , KC_LEFT , KC_RIGHT , KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
+   XXXXXXX , KC_LBRC , KC_RBRC ,  KC_LPRN , KC_RPRN , KC_BSPC , XXXXXXX , KC_ENT ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
    XXXXXXX , XXXXXXX , XXXXXXX ,  KC_LBRC , KC_RBRC , KC_PIPE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
    XXXXXXX , XXXXXXX , XXXXXXX ,  XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX
  )
@@ -120,6 +125,8 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){6, LD_RAISE, KC_K,     KC_I,    KC_E, SEQ_CBRCPAIR },
   (uint16_t[]){6, LD_RAISE, KC_K,     KC_I,    KC_D, SEQ_PRNPAIR },
   (uint16_t[]){6, LD_RAISE, KC_K,     KC_I,    KC_C, SEQ_BRCPAIR },
+  (uint16_t[]){6, LD_RAISE, KC_K,     KC_I,    KC_QUOT, SEQ_QUOTPAIR },
+  (uint16_t[]){6, LD_RAISE, KC_K,     KC_I,    KC_SCLN, SEQ_DQUOTPAIR },
   (uint16_t[]){5, LD_RAISE, KC_K,     KC_TRNS, SEQ_SYMBOLS },
   (uint16_t[]){5, LD_RAISE, KC_A,     KC_TRNS, SEQ_FUN },
   /* (uint16_t[]){5, LD_RAISE, LD_RAISE, LD_RAISE, SEQ_TRIPLERAISE }, */
@@ -293,6 +300,27 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
   case SEQ_BRCPAIR:
     if (record->event.pressed) {
       SEND_STRING("[]");
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
+      return false;
+    } else {
+      return false;
+    }
+  case SEQ_QUOTPAIR:
+    if (record->event.pressed) {
+      register_code16(KC_QUOT);
+      unregister_code16(KC_QUOT);
+      register_code16(KC_QUOT);
+      unregister_code16(KC_QUOT);
+      register_code16(KC_LEFT);
+      unregister_code16(KC_LEFT);
+      return false;
+    } else {
+      return false;
+    }
+  case SEQ_DQUOTPAIR:
+    if (record->event.pressed) {
+      SEND_STRING("\"\"");
       register_code16(KC_LEFT);
       unregister_code16(KC_LEFT);
       return false;
