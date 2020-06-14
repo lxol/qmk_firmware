@@ -50,6 +50,7 @@ endif
 include common_features.mk
 include $(TMK_PATH)/common.mk
 include $(QUANTUM_PATH)/serial_link/tests/rules.mk
+include $(QUANTUM_PATH)/leaders/tests/rules.mk
 ifneq ($(filter $(FULL_TESTS),$(TEST)),)
 include build_full_test.mk
 endif

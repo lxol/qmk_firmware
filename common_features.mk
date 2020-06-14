@@ -363,6 +363,11 @@ endif
 VALID_CUSTOM_MATRIX_TYPES:= yes lite no
 
 CUSTOM_MATRIX ?= no
+ifeq ($(strip $(LEADERS_ENABLE)), yes)
+    SRC += $(QUANTUM_DIR)/process_keycode/process_leaders.c
+    SRC += $(QUANTUM_DIR)/leaders/press_state.c
+    OPT_DEFS += -DLEADERS_ENABLE
+endif
 
 ifneq ($(strip $(CUSTOM_MATRIX)), yes)
     ifeq ($(filter $(CUSTOM_MATRIX),$(VALID_CUSTOM_MATRIX_TYPES)),)
