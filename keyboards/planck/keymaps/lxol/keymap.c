@@ -133,9 +133,9 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
   (uint16_t[]){4, LD_RAISE, KC_TRNS,  SEQ_RAISE },
   (uint16_t[]){5, LD_LOWER, LD_RAISE, KC_TRNS, SEQ_RAISE },
-  (uint16_t[]){4, LD_LOWER, LD_LOWER, SEQ_DOUBLELOWER },
   (uint16_t[]){4, LD_LOWER, KC_TRNS,  SEQ_LOWER },
   //(uint16_t[]){4, LD_LOWER2, LD_LOWER2,  SEQ_ALT },
+  (uint16_t[]){4, LD_LOWER2, LD_LOWER2, SEQ_DOUBLELOWER },
   (uint16_t[]){4, LD_LOWER2, KC_TRNS,  SEQ_LOWER2 },
   (uint16_t[]){1}
 };
@@ -273,10 +273,18 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
     }
   case SEQ_DOUBLELOWER:
     if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_DOUBLERAISE, record->event.key);
       register_code16(KC_RGUI);
+      register_code16(KC_MINS);
+      unregister_code16(KC_MINS);
+      unregister_code16(KC_RGUI);
+      register_code16(kc);
       return false ;
     } else {
-      unregister_code16(KC_RGUI);
+      uint16_t kc = keymap_key_to_keycode(_DOUBLERAISE, record->event.key);
+      unregister_code16(kc);
+      register_code16(KC_ESC);
+      unregister_code16(KC_ESC);
       return false;
     }
   case SEQ_CBRCPAIR:
