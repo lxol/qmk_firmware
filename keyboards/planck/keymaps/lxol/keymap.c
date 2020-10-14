@@ -27,6 +27,7 @@ enum planck_layers {
   _LOWER2,
   _DOUBLERAISE,
   _FUN,
+  _NUM,
   _SYM
 };
 
@@ -40,6 +41,7 @@ enum planck_keycodes {
   LD_RAISE,
   LD_LOWER,
   LD_LOWER2,
+  LD_NUM,
 
   SEQ_SYMBOLS,
   SEQ_RAISE,
@@ -48,6 +50,7 @@ enum planck_keycodes {
   SEQ_DOUBLERAISE,
   SEQ_TRIPLERAISE,
   SEQ_FUN,
+  SEQ_NUM,
   SEQ_DOUBLELOWER,
   SEQ_CBRCPAIR,
   SEQ_PRNPAIR,
@@ -71,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    KC_ESC ,  KC_Q ,    KC_W ,     KC_E ,     KC_R ,    KC_T ,     KC_Y ,   KC_U ,     KC_I ,    KC_O ,    KC_P ,    KC_MINS  ,
    KC_TAB ,  KC_A ,    KC_S ,     KC_D ,     KC_F ,    KC_G ,     KC_H ,   KC_J ,     KC_K ,    KC_L ,    KC_SCLN , KC_QUOT  ,
    KC_TILD , KC_Z ,    KC_X ,     KC_C ,     KC_V ,    KC_B ,     KC_N ,   KC_M ,     KC_COMM , KC_DOT ,  KC_SLSH , KC_PLUS  ,
-   KC_XPST , KC_ENT ,  KC_RGUI,   LD_LOWER2 , KC_LSFT , KC_LALT,   KC_SPC , LD_RAISE , KC_LCTL , XXXXXXX , XXXXXXX , XXXXXXX 
+   KC_XPST , LD_NUM ,  KC_RGUI,   LD_LOWER2, KC_LSFT,  KC_LALT,   KC_SPC , LD_RAISE , KC_LCTL,  KC_RGUI , LD_NUM ,  KC_ENT 
                                ),
 
 [_RAISE] = LAYOUT_planck_grid (
@@ -109,6 +112,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX
  ) ,
 
+[_NUM] = LAYOUT_planck_grid(
+   XXXXXXX , KC_1 ,    KC_2 ,    KC_3 ,    KC_4 ,    KC_5 ,    XXXXXXX , KC_1 ,    KC_2 ,    KC_3 ,    KC_0 ,    KC_MINS ,
+   XXXXXXX , KC_6 ,    KC_7 ,    KC_8 ,    KC_9 ,    KC_0 ,    XXXXXXX , KC_4 ,    KC_5 ,    KC_6 ,    KC_EQL ,  XXXXXXX ,
+   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_7 ,    KC_8 ,    KC_9 ,    XXXXXXX , KC_PLUS ,
+   XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX
+ ) ,
+
 
 [_SYM] = LAYOUT_planck_grid (
    XXXXXXX , XXXXXXX , XXXXXXX ,  KC_LCBR , KC_RCBR , KC_BSLS , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX  ,
@@ -137,6 +147,7 @@ uint16_t* user_definitions[]  = {
   //(uint16_t[]){4, LD_LOWER2, LD_LOWER2,  SEQ_ALT },
   (uint16_t[]){4, LD_LOWER2, LD_LOWER2, SEQ_DOUBLELOWER },
   (uint16_t[]){4, LD_LOWER2, KC_TRNS,  SEQ_LOWER2 },
+  (uint16_t[]){4, LD_NUM, KC_TRNS,  SEQ_NUM },
   (uint16_t[]){1}
 };
 
@@ -176,6 +187,32 @@ bool keyseq_press_user(uint16_t keycode, keyrecord_t *record) {
       return false ;
     } else {
       uint16_t kc = keymap_key_to_keycode(_LOWER2, record->event.key);
+      switch (kc) {
+      case KC_NO:
+        return false;
+      case KC_LALT:
+        unregister_code16(kc);
+        return false;
+      default:
+        unregister_code16(kc);
+      }
+      return false;
+    }
+  case SEQ_NUM:
+    if (record->event.pressed) {
+      uint16_t kc = keymap_key_to_keycode(_NUM, record->event.key);
+      switch (kc) {
+      case KC_NO:
+        return false;
+      case KC_LALT:
+        register_code16(kc);
+        return false;
+      default:
+        register_code16(kc);
+      }
+      return false ;
+    } else {
+      uint16_t kc = keymap_key_to_keycode(_NUM, record->event.key);
       switch (kc) {
       case KC_NO:
         return false;
