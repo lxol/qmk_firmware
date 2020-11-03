@@ -74,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    KC_ESC ,  KC_Q ,    KC_W ,     KC_E ,     KC_R ,    KC_T ,     KC_Y ,   KC_U ,     KC_I ,    KC_O ,    KC_P ,    KC_MINS  ,
    KC_TAB ,  KC_A ,    KC_S ,     KC_D ,     KC_F ,    KC_G ,     KC_H ,   KC_J ,     KC_K ,    KC_L ,    KC_SCLN , KC_QUOT  ,
    KC_TILD , KC_Z ,    KC_X ,     KC_C ,     KC_V ,    KC_B ,     KC_N ,   KC_M ,     KC_COMM , KC_DOT ,  KC_SLSH , KC_PLUS  ,
-   KC_XPST , LD_NUM ,  KC_RGUI,   LD_LOWER2, KC_LSFT,  KC_LALT,   KC_SPC , LD_RAISE , KC_LCTL,  KC_RGUI , LD_NUM ,  KC_ENT 
+   KC_XPST , LD_NUM ,  LD_LOWER2, KC_RGUI,   KC_LSFT,  KC_LALT,   KC_SPC , LD_RAISE , KC_LCTL,  KC_RGUI , LD_NUM ,  KC_ENT 
                                ),
 
 [_RAISE] = LAYOUT_planck_grid (
@@ -140,7 +140,7 @@ uint16_t* user_definitions[]  = {
   (uint16_t[]){5, LD_RAISE, KC_K,     KC_TRNS, SEQ_SYMBOLS },
   (uint16_t[]){5, LD_RAISE, KC_A,     KC_TRNS, SEQ_FUN },
   /* (uint16_t[]){5, LD_RAISE, LD_RAISE, LD_RAISE, SEQ_TRIPLERAISE }, */
-  (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_DOUBLERAISE },
+  (uint16_t[]){5, LD_RAISE, LD_RAISE, KC_TRNS, SEQ_LOWER2 },
   (uint16_t[]){4, LD_RAISE, KC_TRNS,  SEQ_RAISE },
   (uint16_t[]){5, LD_LOWER, LD_RAISE, KC_TRNS, SEQ_RAISE },
   (uint16_t[]){4, LD_LOWER, KC_TRNS,  SEQ_LOWER },
